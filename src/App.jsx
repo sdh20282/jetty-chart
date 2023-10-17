@@ -20,6 +20,10 @@ const data = [
   {
     value: Math.floor(Math.random() * 1000),
     label: "test5"
+  },
+  {
+    value: Math.floor(Math.random() * 1000),
+    label: "test6"
   }
 ];
 
@@ -31,36 +35,44 @@ const myNormalBar = ({ data }) => {
         width: "500",
         height: "300",
         backgroundColor: "#fff",
-        padding: { top: "30", bottom: "50", left: "60", right: "130" }
+        padding: { top: "30", bottom: "50", left: "80", right: "130" }
       }}
-      categorySettings={{
+      levelSettings={{
         lineVisible: true,
         lineOpacity: "1",
         lineColor: "#c4c4c4",
         lineWidth: "1",
-        categoryLocation: "10",
-        categorySize: "11",
-        categoryWeight: "500",
-        categoryColor: "#777",
-        categoryGap: "3",
-        categoryLineVisible: true,
-        categoryLineWidth: "2",
-        categoryLineColor: "#aaa"
+        levelTextGap: "10",
+        levelTextSize: "11",
+        levelTextWeight: "500",
+        levelTextColor: "#777",
+        levelTextMargin: "4",
+        levelLineVisible: true,
+        levelLineOpacity: "1",
+        levelLineColor: "#aaa",
+        levelLineWidth: "2",
+        showTopLevel: true
       }}
       barSettings={{
-        barGap: "0.1"
+        chartPadding: "10",
+        barColor: "#8EA3BC",
+        barGap: "0.15",
+        categoryTextGap: "14",
+        categoryTextSize: "11",
+        categoryTextWeight: "500",
+        categoryTextColor: "#777",
+        categoryTextMargin: "8",
+        categoryLineVisible: true,
+        categoryLineOpacity: "1",
+        categoryLineColor: "#aaa",
+        categoryLineWidth: "2"
       }}
     />
   );
 };
 
 function App() {
-  return (
-    <div>
-      hello world
-      {myNormalBar({ data })}
-    </div>
-  );
+  return <div>{myNormalBar({ data })}</div>;
 }
 
 export default App;

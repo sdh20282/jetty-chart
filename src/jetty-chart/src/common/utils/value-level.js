@@ -1,4 +1,4 @@
-export const getCategoryLevel = ({ data }) => {
+export const getValueLevel = ({ data }) => {
   const maxValue = data.reduce((acc, cur) => {
     if (cur.value > acc) {
       acc = cur.value;
@@ -8,13 +8,14 @@ export const getCategoryLevel = ({ data }) => {
   }, 0);
 
   const valueLength = String(maxValue).split(".")[0].length;
-  const result = [];
+  const levelResult = [];
+
   let scale = 1;
   let stringValue = "";
 
   if (valueLength > 2) {
-    scale = 10 ** (valueLength - 2);
-    stringValue = String(maxValue / scale);
+    scale = 1 / 10 ** (valueLength - 2);
+    stringValue = String(maxValue * scale);
   } else if (valueLength <= 2 && maxValue >= 1) {
     scale = 10 ** (2 - valueLength);
     stringValue = String(maxValue * scale);
@@ -34,32 +35,26 @@ export const getCategoryLevel = ({ data }) => {
     stringValue = String(maxValue * scale);
   }
 
-  const calculatedValue = stringValue.split(".")[0][0] * 10 + 10;
+  const maxScope = stringValue.split(".")[0][0] * 10 + 10;
   let gap = 1;
 
-  if (calculatedValue > 55) {
+  if (maxScope > 55) {
     gap = 10;
-  } else if (calculatedValue > 25 && calculatedValue < 55) {
+  } else if (maxScope > 25 && maxScope < 55) {
     gap = 5;
   } else {
     gap = 2.5;
   }
 
-  for (let value = 0; value <= calculatedValue; value += gap) {
-    let nowValue = 0;
+  for (let value = 0; value <= maxScope; value += gap) {
+    const nowValue = value / scale;
 
-    if (valueLength > 2) {
-      nowValue = value * scale;
-    } else {
-      nowValue = value / scale;
-    }
-
-    result.push(nowValue);
+    levelResult.push(nowValue);
 
     if (maxValue < nowValue) {
       break;
     }
   }
 
-  return result;
+  return { level: levelResult, scale, maxScope };
 };
