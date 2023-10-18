@@ -1,6 +1,6 @@
 import { BarCommon } from "../bar-common/bar-common";
 
-import { getValueLevel } from "../../common/utils/value-level";
+import { getCalculateLevel } from "../../common/utils/level/calculate-level";
 import { checkPadding } from "../../common/utils/check-exception";
 
 const NormalBar = ({
@@ -26,6 +26,7 @@ const NormalBar = ({
     chartPadding = "5",
     barColor = "#8EA3BC",
     barGap = "0.2",
+    barBorderRadius = "5",
     categoryTextGap = "14",
     categoryTextSize = "11",
     categoryTextWeight = "500",
@@ -39,7 +40,7 @@ const NormalBar = ({
 }) => {
   padding = checkPadding({ padding });
 
-  const levelResult = getValueLevel({ data, height });
+  const levelResult = getCalculateLevel({ data, height });
 
   const chartAreaWidth = width - padding.left - padding.right - chartPadding - chartPadding;
   const chartAreaHeight = height - padding.bottom - padding.top;
@@ -94,7 +95,7 @@ const NormalBar = ({
 
           return (
             <g key={"data-" + d.label + "-" + idx} transform={`translate(${x - halfWidth},${chartAreaHeight - height})`}>
-              <rect width={halfWidth + halfWidth} height={height} fill={barColor}></rect>
+              <rect width={halfWidth + halfWidth} height={height} fill={barColor} rx={`${barBorderRadius}`}></rect>
             </g>
           );
         })}

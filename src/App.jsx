@@ -2,28 +2,24 @@ import { NormalBar } from "./jetty-chart/src";
 
 const data = [
   {
-    value: Math.floor(Math.random() * 1000),
+    value: Math.random(),
     label: "test1"
   },
   {
-    value: Math.floor(Math.random() * 1000),
+    value: Math.random(),
     label: "test2"
   },
   {
-    value: Math.floor(Math.random() * 1000),
+    value: Math.random(),
     label: "test3"
   },
   {
-    value: Math.floor(Math.random() * 1000),
+    value: Math.random(),
     label: "test4"
   },
   {
-    value: Math.floor(Math.random() * 1000),
+    value: Math.random(),
     label: "test5"
-  },
-  {
-    value: Math.floor(Math.random() * 1000),
-    label: "test6"
   }
 ];
 
@@ -57,6 +53,7 @@ const myNormalBar = ({ data }) => {
         chartPadding: "10",
         barColor: "#8EA3BC",
         barGap: "0.15",
+        barBorderRadius: "5",
         categoryTextGap: "14",
         categoryTextSize: "11",
         categoryTextWeight: "500",
