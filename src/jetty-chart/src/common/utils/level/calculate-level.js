@@ -1,4 +1,4 @@
-export const getValueLevel = ({ data }) => {
+export const getCalculateLevel = ({ data }) => {
   const maxValue = data.reduce((acc, cur) => {
     if (cur.value > acc) {
       acc = cur.value;

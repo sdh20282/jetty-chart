@@ -1,3 +1,7 @@
+import { DrawBackgroundLevel } from "../../common/utils/level/draw-background-level";
+import { DrawTextLevel } from "../../common/utils/level/draw-text-level";
+import { DrawTextCategory } from "../../common/utils/category/draw-text-category";
+
 const BarCommon = ({
   data,
   generalSettings: { width, height, backgroundColor, padding },
@@ -42,87 +46,45 @@ const BarCommon = ({
       <svg width={width} height={height}>
         <rect width="100%" height="100%" fill={backgroundColor}></rect>
         <g transform={`translate(${padding.left},${padding.top})`}>
-          <g>
-            {lineVisible &&
-              level.map((c, idx) => {
-                if (idx === level.length - 1 && !showTopLevel) {
-                  return;
-                }
-
-                const y = chartHeight - (chartHeight * c) / level[level.length - 1];
-
-                return (
-                  <line
-                    key={"background-line-" + c + "-" + idx}
-                    opacity={lineOpacity}
-                    x1="0"
-                    x2={chartWidth}
-                    y1={y}
-                    y2={y}
-                    stroke={lineColor}
-                    strokeWidth={lineWidth}
-                  ></line>
-                );
-              })}
-          </g>
-          <g transform={`translate(-${levelTextGap})`}>
-            {level.map((c, idx) => {
-              if (idx === level.length - 1 && !showTopLevel) {
-                return;
-              }
-
-              const y = chartHeight - (chartHeight * c) / level[level.length - 1];
-
-              return (
-                <g key={"level-" + c + "-" + idx} transform={`translate(0,${y})`}>
-                  <text dominantBaseline="central" textAnchor="end" fontSize={levelTextSize} fontWeight={levelTextWeight} fill={levelTextColor}>
-                    {c}
-                  </text>
-                  {levelLineVisible && (
-                    <line
-                      opacity={levelLineOpacity}
-                      x1={levelTextMargin}
-                      x2={levelTextGap}
-                      y1="0"
-                      y2="0"
-                      stroke={levelLineColor}
-                      strokeWidth={levelLineWidth}
-                    ></line>
-                  )}
-                </g>
-              );
-            })}
-          </g>
-          <g transform={`translate(${categoryPadding},${categoryAreaLocation})`}>
-            {data.map((d, idx) => {
-              const x = (categoryAreaWidth / data.length) * idx + categoryAreaWidth / data.length / 2;
-
-              return (
-                <g key={"category-" + d.label + "-" + idx} transform={`translate(${x})`}>
-                  {categoryLineVisible && (
-                    <line
-                      opacity={categoryLineOpacity}
-                      x1="0"
-                      x2="0"
-                      y1={-categoryTextGap}
-                      y2={-categoryTextMargin}
-                      stroke={categoryLineColor}
-                      strokeWidth={categoryLineWidth}
-                    ></line>
-                  )}
-                  <text
-                    dominantBaseline="mathematical"
-                    textAnchor="middle"
-                    fontSize={categoryTextSize}
-                    fontWeight={categoryTextWeight}
-                    fill={categoryTextColor}
-                  >
-                    {d.label}
-                  </text>
-                </g>
-              );
-            })}
-          </g>
+          <DrawBackgroundLevel
+            chartWidth={chartWidth}
+            chartHeight={chartHeight}
+            level={level}
+            lineVisible={lineVisible}
+            lineOpacity={lineOpacity}
+            lineColor={lineColor}
+            lineWidth={lineWidth}
+            showTopLevel={showTopLevel}
+          />
+          <DrawTextLevel
+            chartHeight={chartHeight}
+            level={level}
+            levelTextGap={levelTextGap}
+            levelTextSize={levelTextSize}
+            levelTextWeight={levelTextWeight}
+            levelTextColor={levelTextColor}
+            levelTextMargin={levelTextMargin}
+            levelLineVisible={levelLineVisible}
+            levelLineOpacity={levelLineOpacity}
+            levelLineColor={levelLineColor}
+            levelLineWidth={levelLineWidth}
+            showTopLevel={showTopLevel}
+          />
+          <DrawTextCategory
+            data={data}
+            categoryAreaWidth={categoryAreaWidth}
+            categoryAreaLocation={categoryAreaLocation}
+            categoryPadding={categoryPadding}
+            categoryTextGap={categoryTextGap}
+            categoryTextSize={categoryTextSize}
+            categoryTextWeight={categoryTextWeight}
+            categoryTextColor={categoryTextColor}
+            categoryTextMargin={categoryTextMargin}
+            categoryLineVisible={categoryLineVisible}
+            categoryLineOpacity={categoryLineOpacity}
+            categoryLineColor={categoryLineColor}
+            categoryLineWidth={categoryLineWidth}
+          />
           {children}
         </g>
       </svg>
