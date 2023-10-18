@@ -3,7 +3,7 @@ import { Pie } from "./jetty-chart/src/pies/pie/Pie";
 
 const data = [
   {
-    value: 0.25,
+    value: 1,
     label: "test1",
   },
   {
@@ -11,15 +11,27 @@ const data = [
     label: "test2",
   },
   {
-    value: 0.15,
+    value: 0.1,
     label: "test3",
   },
   {
-    value: 0.3,
+    value: 0.1,
     label: "test4",
   },
   {
-    value: 0.2,
+    value: 0.05,
+    label: "test5",
+  },
+  {
+    value: 0.05,
+    label: "test5",
+  },
+  {
+    value: 0.05,
+    label: "test5",
+  },
+  {
+    value: 0.05,
     label: "test5",
   },
 ];
