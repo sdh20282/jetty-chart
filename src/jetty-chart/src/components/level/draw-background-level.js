@@ -1,9 +1,21 @@
-export const DrawBackgroundLevel = ({ chartWidth, chartHeight, level, lineVisible, lineOpacity, lineColor, lineWidth, showTopLevel }) => {
+export const DrawBackgroundLevel = ({
+  chartWidth,
+  chartHeight,
+  level,
+  lineVisible,
+  lineOpacity,
+  lineColor,
+  lineWidth,
+  lineDash,
+  lineDashWidth,
+  lineDashGap,
+  showTopLevel
+}) => {
   return (
     <g>
       {lineVisible &&
         level.map((c, idx) => {
-          if (idx === level.length - 1 && !showTopLevel) {
+          if (!showTopLevel && (idx === level.length - 1 || idx === 0) && c !== 0) {
             return;
           }
 
@@ -19,6 +31,7 @@ export const DrawBackgroundLevel = ({ chartWidth, chartHeight, level, lineVisibl
               y2={y}
               stroke={lineColor}
               strokeWidth={lineWidth}
+              strokeDasharray={lineDash && c !== 0 ? `${lineDashWidth},${lineDashGap}` : "0"}
             ></line>
           );
         })}

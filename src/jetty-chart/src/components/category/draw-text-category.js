@@ -3,6 +3,7 @@ export const DrawTextCategory = ({
   categoryAreaWidth,
   categoryAreaLocation,
   categoryPadding,
+  categoryTextOnBottom,
   categoryTextGap,
   categoryTextSize,
   categoryTextWeight,
@@ -14,7 +15,7 @@ export const DrawTextCategory = ({
   categoryLineWidth
 }) => {
   return (
-    <g transform={`translate(${categoryPadding},${categoryAreaLocation})`}>
+    <g transform={`translate(${categoryPadding},${categoryTextOnBottom ? categoryAreaLocation : -categoryTextGap})`}>
       {data.map((d, idx) => {
         const x = (categoryAreaWidth / data.length) * idx + categoryAreaWidth / data.length / 2;
 
@@ -25,14 +26,14 @@ export const DrawTextCategory = ({
                 opacity={categoryLineOpacity}
                 x1="0"
                 x2="0"
-                y1={-categoryTextGap}
-                y2={-categoryTextMargin}
+                y1={categoryTextOnBottom ? -categoryTextGap : categoryTextGap}
+                y2={categoryTextOnBottom ? -categoryTextMargin : categoryTextMargin}
                 stroke={categoryLineColor}
                 strokeWidth={categoryLineWidth}
               ></line>
             )}
             <text
-              dominantBaseline="mathematical"
+              dominantBaseline={categoryTextOnBottom ? "mathematical" : "alphabetic"}
               textAnchor="middle"
               fontSize={categoryTextSize}
               fontWeight={categoryTextWeight}

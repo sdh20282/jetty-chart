@@ -11,6 +11,9 @@ const BarCommon = ({
     lineOpacity,
     lineColor,
     lineWidth,
+    lineDash,
+    lineDashWidth,
+    lineDashGap,
     levelTextGap,
     levelTextSize,
     levelTextWeight,
@@ -24,6 +27,7 @@ const BarCommon = ({
   },
   categorySettings: {
     categoryPadding,
+    categoryTextOnBottom,
     categoryTextGap,
     categoryTextSize,
     categoryTextWeight,
@@ -54,6 +58,9 @@ const BarCommon = ({
             lineOpacity={lineOpacity}
             lineColor={lineColor}
             lineWidth={lineWidth}
+            lineDash={lineDash}
+            lineDashWidth={lineDashWidth}
+            lineDashGap={lineDashGap}
             showTopLevel={showTopLevel}
           />
           <DrawTextLevel
@@ -75,6 +82,7 @@ const BarCommon = ({
             categoryAreaWidth={categoryAreaWidth}
             categoryAreaLocation={categoryAreaLocation}
             categoryPadding={categoryPadding}
+            categoryTextOnBottom={categoryTextOnBottom}
             categoryTextGap={categoryTextGap}
             categoryTextSize={categoryTextSize}
             categoryTextWeight={categoryTextWeight}
