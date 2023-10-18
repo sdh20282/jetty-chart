@@ -8,6 +8,11 @@ const Pie = ({
   },
   pieSettings = {
     color: ["red", "blue", "green", "yellow", "orange", "purple"],
+    startAngle: 0,
+    endAngle: 360,
+    padAngle: 0,
+    cornerRadius: 0,
+    strokeWidth: 0.5,
   },
 }) => {
   const getCategoryDataPath = (
@@ -17,25 +22,15 @@ const Pie = ({
   ) => {
     const targetRad = 2 * Math.PI * value;
     const targetRestRad = 2 * Math.PI * (1 - value);
-    const animationDuration = 0.2;
     return (
       <path
         d={`M ${startX} ${startY} A 1 1 0 ${isLargeArcFlag} 1 ${endX} ${endY} L 0 0`}
         fill="none"
         stroke={pieSettings.color[index]}
-        strokeWidth="0.4"
+        strokeWidth={pieSettings.strokeWidth}
         strokeDasharray={`${targetRad} ${targetRestRad}`}
-        strokeDashoffset="0.025"
-      >
-        <animate
-          attributeName="stroke-dashoffset"
-          begin={`${animationDuration * index}`}
-          from={`${targetRad}`}
-          to="0.025"
-          dur={`${animationDuration}`}
-          fill="freeze"
-        />
-      </path>
+        strokeDashoffset={0.025 * pieSettings.padAngle + 0.01}
+      ></path>
     );
   };
 
