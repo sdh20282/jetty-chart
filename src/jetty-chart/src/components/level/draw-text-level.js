@@ -15,7 +15,7 @@ export const DrawTextLevel = ({
   return (
     <g transform={`translate(-${levelTextGap})`}>
       {level.map((c, idx) => {
-        if (idx === level.length - 1 && !showTopLevel) {
+        if (!showTopLevel && (idx === level.length - 1 || idx === 0) && c !== 0) {
           return;
         }
 

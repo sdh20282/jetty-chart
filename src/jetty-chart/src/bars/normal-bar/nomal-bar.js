@@ -6,11 +6,17 @@ import { checkNormalBar } from "../../common/utils/exception/check-bar-exception
 
 const NormalBar = ({ data, generalSettings, levelSettings, barSettings }) => {
   const result = checkNormalBar({ generalSettings, levelSettings, barSettings });
-  const { width, height, padding } = result.generalSettings;
+
+  const { width, height, padding, reverse } = result.generalSettings;
   const { levelAutoScope, levelMaxScope, levelMinScope } = result.levelSettings;
   let { barGap, barBorderRadius, chartPadding, barColor, barOnlyUpperRadus } = result.barSettings;
 
   const levelResult = levelAutoScope ? getLevelAutoScope({ data }) : getLevelCalculatedScope({ maxScope: levelMaxScope, minScope: levelMinScope });
+
+  if (reverse) {
+    levelResult.level.reverse();
+    result.barSettings.categoryTextOnBottom = !result.barSettings.categoryTextOnBottom;
+  }
 
   const chartAreaWidth = width - padding.left - padding.right - chartPadding - chartPadding;
   const chartAreaHeight = height - padding.bottom - padding.top;
@@ -20,14 +26,18 @@ const NormalBar = ({ data, generalSettings, levelSettings, barSettings }) => {
 
   const zeroLocation =
     levelResult.level.reduce((acc, cur) => {
-      if (cur < 0) {
+      if (cur !== 0) {
         acc += 1;
+      }
+
+      if (cur === 0) {
+        acc = 0;
       }
 
       return acc;
     }, 0) * lineGap;
 
-  console.log(data);
+  console.log(result.generalSettings.horizontal);
 
   return (
     <BarCommon
@@ -44,18 +54,24 @@ const NormalBar = ({ data, generalSettings, levelSettings, barSettings }) => {
     >
       <g transform={`translate(${chartPadding})`}>
         {data.map((d, idx) => {
+          const nowData = { ...d };
+
+          if (reverse) {
+            nowData.value = -nowData.value;
+          }
+
           const x = (chartAreaWidth / data.length) * idx + chartAreaWidth / data.length / 2;
-          const height = (Math.abs(d.value) / (levelResult.maxScope - levelResult.minScope)) * chartAreaHeight;
+          const height = (Math.abs(nowData.value) / (levelResult.maxScope - levelResult.minScope)) * chartAreaHeight;
           const realHeight = height >= barBorderRadius ? height - barBorderRadius : 0;
 
           barBorderRadius = checkBarBorderRadius({ halfWidth, borderRadius: barBorderRadius });
 
           return (
-            <g key={"data-" + d.label + "-" + idx} transform={`translate(${x - halfWidth},${chartAreaHeight - height - zeroLocation})`}>
+            <g key={"data-" + nowData.label + "-" + idx} transform={`translate(${x - halfWidth},${chartAreaHeight - height - zeroLocation})`}>
               {barOnlyUpperRadus && barBorderRadius !== "0" ? (
                 <path
                   d={
-                    d.value >= 0
+                    nowData.value >= 0
                       ? `
                   M 0,${height}
                   l 0,-${realHeight}

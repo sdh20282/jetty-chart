@@ -25,8 +25,11 @@ export const checkBarBorderRadius = ({ halfWidth, borderRadius }) => {
 export const checkSize = ({ width, height, padding, chartPadding }) => {
   if (width < 30) {
     width = 30;
-    chartPadding = 0;
     padding = { top: padding.top, bottom: padding.bottom, left: 0, right: 0 };
+
+    if (chartPadding) {
+      chartPadding = 0;
+    }
   }
 
   if (height < 30) {
@@ -34,15 +37,18 @@ export const checkSize = ({ width, height, padding, chartPadding }) => {
     padding = { top: 0, bottom: 0, left: padding.left, right: padding.right };
   }
 
-  if (width - padding.left - padding.right - chartPadding - chartPadding <= 0) {
+  if (width - padding.left - padding.right - (chartPadding ??= 0) - (chartPadding ??= 0) <= 0) {
     const over = (padding.left + padding.right - width + 30) / 2;
 
-    chartPadding = 0;
     padding = {
       ...padding,
       left: padding.left - over,
       right: padding.right - over
     };
+
+    if (chartPadding) {
+      chartPadding = 0;
+    }
   }
 
   if (height - padding.top - padding.bottom <= 0) {
