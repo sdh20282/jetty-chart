@@ -1,41 +1,41 @@
 const Pie = ({
   data,
   generalSettings = {
-    width: "300",
-    height: "300",
+    width: "200",
+    height: "200",
     backgroundColor: "#777",
-    padding: { top: "30", bottom: "50", left: "60", right: "130" },
+    padding: { top: "0", bottom: "0", left: "0", right: "0" },
   },
   pieSettings = {
     color: ["#ffeaa7", "#81ecec", "#fab1a0", "#74b9ff", "#ff7675", "#a29bfe", "#fd79a8", "#55efc4"],
-    startAngle: 0,
-    padSize: 100,
-    padAngle: 0,
+    startAngle: 0, // 시작 위치, default 0
+    padSize: 100, // 조각 크기, default 100
+    padAngle: 100, // 조각 여백 default 0
+    innerWidth: 0, // 내부원 크기, default 50
     cornerRadius: 0,
-    strokeWidth: 1,
   },
 }) => {
-  const ERROR_VALUE = 0.002;
-  const handleStrokeWidth = (strokeWidth) =>
-    strokeWidth > 2 ? 2 : strokeWidth < 0.01 ? 0.01 : strokeWidth;
-  const handlePadAngle = (padAngle) => (padAngle < 0 ? 0 : padAngle);
-  const handlePadSize = (padSize) => (padSize > 100 ? 100 : padSize < 1 ? 1 : padSize);
-  const handleValue = (value) => (value < ERROR_VALUE ? ERROR_VALUE : value);
+  const ERROR_VALUE = 0.01;
+  const checkRangeStrokeWidth = (innerWidth) =>
+    innerWidth >= 100 ? 1 / 50 : innerWidth <= 0 ? 100 / 50 : (100 - innerWidth) / 50;
+  const checkRangePadAngle = (padAngle) => (padAngle < 0 ? 0 : padAngle);
+  const checkRangePadSize = (padSize) => (padSize > 100 ? 100 : padSize < 1 ? 1 : padSize);
+  const checkRangeValue = (value) => (value < ERROR_VALUE ? ERROR_VALUE : value);
   const getCategoryDataPath = (
     { value, label },
     { startX, startY, endX, endY, isLargeArcFlag },
     index
   ) => {
-    const targetRad = 2 * Math.PI * value - 0.003;
+    const targetRad = 2 * Math.PI * value;
     const targetRestRad = 2 * Math.PI * (1 - value) + 1;
     return (
       <path
         d={`M ${startX} ${startY} A 1 1 0 ${isLargeArcFlag} 1 ${endX} ${endY} L 0 0`}
         fill="none"
         stroke={pieSettings.color[index]}
-        strokeWidth={handleStrokeWidth(Math.abs(pieSettings.strokeWidth))}
+        strokeWidth={checkRangeStrokeWidth(Math.abs(pieSettings.innerWidth))}
         strokeDasharray={`${targetRad} ${targetRestRad}`}
-        strokeDashoffset={handlePadAngle(0.025 * pieSettings.padAngle) + ERROR_VALUE}
+        strokeDashoffset={checkRangePadAngle(0.025 * pieSettings.padAngle) + ERROR_VALUE}
         key={index}
       ></path>
     );
@@ -52,9 +52,8 @@ const Pie = ({
 
     return data.map(({ value, label }, index) => {
       const [startX, startY] = getCoordinatesForPercent(accumulatedPercent);
-      value *= handlePadSize(pieSettings.padSize) / 100;
-      console.log(value);
-      value = handleValue(value);
+      value *= checkRangePadSize(pieSettings.padSize) / 100;
+      value = checkRangeValue(value);
       accumulatedPercent += value;
       const [endX, endY] = getCoordinatesForPercent(accumulatedPercent);
       const isLargeArcFlag = value > 0.5 ? "1" : "0";
