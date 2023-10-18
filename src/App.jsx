@@ -2,24 +2,8 @@ import { NormalBar } from "./jetty-chart/src";
 
 const data = [
   {
-    value: Math.random(),
-    label: "test1"
-  },
-  {
-    value: Math.random(),
-    label: "test2"
-  },
-  {
-    value: Math.random(),
-    label: "test3"
-  },
-  {
-    value: Math.random(),
-    label: "test4"
-  },
-  {
-    value: Math.random(),
-    label: "test5"
+    value: 0,
+    label: "test6"
   }
 ];
 
@@ -28,41 +12,43 @@ const myNormalBar = ({ data }) => {
     <NormalBar
       data={data}
       generalSettings={{
-        width: "500",
-        height: "300",
+        width: 500,
+        height: 300,
         backgroundColor: "#fff",
-        padding: { top: "30", bottom: "50", left: "80", right: "130" }
+        padding: { top: 50, bottom: 50, left: 80, right: 130 }
       }}
       levelSettings={{
         lineVisible: true,
-        lineOpacity: "1",
+        lineOpacity: 1,
         lineColor: "#c4c4c4",
-        lineWidth: "1",
-        levelTextGap: "10",
-        levelTextSize: "11",
-        levelTextWeight: "500",
+        lineWidth: 1,
+        levelAutoScope: true,
+        levelTextGap: 10,
+        levelTextSize: 11,
+        levelTextWeight: 500,
         levelTextColor: "#777",
-        levelTextMargin: "4",
+        levelTextMargin: 4,
         levelLineVisible: true,
-        levelLineOpacity: "1",
+        levelLineOpacity: 1,
         levelLineColor: "#aaa",
-        levelLineWidth: "2",
+        levelLineWidth: 2,
         showTopLevel: true
       }}
       barSettings={{
-        chartPadding: "10",
+        chartPadding: 10,
         barColor: "#8EA3BC",
-        barGap: "0.15",
-        barBorderRadius: "5",
-        categoryTextGap: "14",
-        categoryTextSize: "11",
-        categoryTextWeight: "500",
+        barGap: 0.15,
+        barOnlyUpperRadus: true,
+        barBorderRadius: 5,
+        categoryTextGap: 14,
+        categoryTextSize: 11,
+        categoryTextWeight: 500,
         categoryTextColor: "#777",
-        categoryTextMargin: "8",
+        categoryTextMargin: 8,
         categoryLineVisible: true,
-        categoryLineOpacity: "1",
+        categoryLineOpacity: 1,
         categoryLineColor: "#aaa",
-        categoryLineWidth: "2"
+        categoryLineWidth: 2
       }}
     />
   );

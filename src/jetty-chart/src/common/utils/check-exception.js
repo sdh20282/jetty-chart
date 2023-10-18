@@ -17,3 +17,7 @@ export const checkPadding = ({ padding }) => {
 
   return padding;
 };
+
+export const checkBarBorderRadius = ({ halfWidth, borderRadius }) => {
+  return halfWidth < borderRadius ? halfWidth : borderRadius;
+};

@@ -19,7 +19,7 @@ export const DrawTextLevel = ({
           return;
         }
 
-        const y = chartHeight - (chartHeight * c) / level[level.length - 1];
+        const y = (chartHeight / (level.length - 1)) * idx;
 
         return (
           <g key={"level-" + c + "-" + idx} transform={`translate(0,${y})`}>

@@ -7,7 +7,7 @@ export const DrawBackgroundLevel = ({ chartWidth, chartHeight, level, lineVisibl
             return;
           }
 
-          const y = chartHeight - (chartHeight * c) / level[level.length - 1];
+          const y = (chartHeight / (level.length - 1)) * idx;
 
           return (
             <line

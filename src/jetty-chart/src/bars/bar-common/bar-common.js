@@ -1,6 +1,6 @@
-import { DrawBackgroundLevel } from "../../common/utils/level/draw-background-level";
-import { DrawTextLevel } from "../../common/utils/level/draw-text-level";
-import { DrawTextCategory } from "../../common/utils/category/draw-text-category";
+import { DrawBackgroundLevel } from "../../components/level/draw-background-level";
+import { DrawTextLevel } from "../../components/level/draw-text-level";
+import { DrawTextCategory } from "../../components/category/draw-text-category";
 
 const BarCommon = ({
   data,
