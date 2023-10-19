@@ -4,16 +4,10 @@ import { DrawTextCategory } from "../../components/category/draw-text-category";
 
 const BarCommon = ({
   data,
-  generalSettings: { width, height, backgroundColor, padding },
+  generalSettings: { width, height, backgroundColor, padding, chartPadding, horizontal, level },
+  lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap },
   levelSettings: {
-    level,
-    lineVisible,
-    lineOpacity,
-    lineColor,
-    lineWidth,
-    lineDash,
-    lineDashWidth,
-    lineDashGap,
+    levelTextOnLeft,
     levelTextGap,
     levelTextSize,
     levelTextWeight,
@@ -26,7 +20,6 @@ const BarCommon = ({
     showTopLevel
   },
   categorySettings: {
-    categoryPadding,
     categoryTextOnBottom,
     categoryTextGap,
     categoryTextSize,
@@ -40,10 +33,15 @@ const BarCommon = ({
   },
   children
 }) => {
-  const chartWidth = width - padding.left - padding.right;
-  const chartHeight = height - padding.bottom - padding.top;
-  const categoryAreaWidth = width - padding.left - padding.right - categoryPadding - categoryPadding;
-  const categoryAreaLocation = chartHeight + parseInt(categoryTextGap, 10);
+  const chartWidth = horizontal ? height - padding.bottom - padding.top : width - padding.left - padding.right;
+  const chartAreaHeight = horizontal ? width - padding.left - padding.right : height - padding.bottom - padding.top;
+  const levelTextAreaLocation = chartWidth + levelTextGap;
+  const chartAreaWidth = (horizontal ? height - padding.bottom - padding.top : width - padding.left - padding.right) - chartPadding - chartPadding;
+  const categoryAreaLocation = chartAreaHeight + categoryTextGap;
+
+  if (horizontal) {
+    level.reverse();
+  }
 
   return (
     <div style={{ width: `${width}px`, height: `${height}px`, border: "1px solid #ccc" }}>
@@ -51,8 +49,9 @@ const BarCommon = ({
         <rect width="100%" height="100%" fill={backgroundColor}></rect>
         <g transform={`translate(${padding.left},${padding.top})`}>
           <DrawBackgroundLevel
+            horizontal={horizontal}
             chartWidth={chartWidth}
-            chartHeight={chartHeight}
+            chartHeight={chartAreaHeight}
             level={level}
             lineVisible={lineVisible}
             lineOpacity={lineOpacity}
@@ -64,8 +63,11 @@ const BarCommon = ({
             showTopLevel={showTopLevel}
           />
           <DrawTextLevel
-            chartHeight={chartHeight}
+            horizontal={horizontal}
+            chartHeight={chartAreaHeight}
+            levelTextAreaLocation={levelTextAreaLocation}
             level={level}
+            levelTextOnLeft={levelTextOnLeft}
             levelTextGap={levelTextGap}
             levelTextSize={levelTextSize}
             levelTextWeight={levelTextWeight}
@@ -79,9 +81,10 @@ const BarCommon = ({
           />
           <DrawTextCategory
             data={data}
-            categoryAreaWidth={categoryAreaWidth}
+            horizontal={horizontal}
+            categoryAreaWidth={chartAreaWidth}
             categoryAreaLocation={categoryAreaLocation}
-            categoryPadding={categoryPadding}
+            categoryPadding={chartPadding}
             categoryTextOnBottom={categoryTextOnBottom}
             categoryTextGap={categoryTextGap}
             categoryTextSize={categoryTextSize}

@@ -6,7 +6,7 @@ const data = [
     label: "test1"
   },
   {
-    value: 0.8,
+    value: 0.01,
     label: "test1"
   },
   {
@@ -14,7 +14,7 @@ const data = [
     label: "test1"
   },
   {
-    value: 0.6,
+    value: 5,
     label: "test1"
   },
   {
@@ -26,7 +26,7 @@ const data = [
     label: "test1"
   },
   {
-    value: 1.7,
+    value: -1.7,
     label: "test1"
   }
 ];
@@ -36,11 +36,10 @@ const myNormalBar = ({ data }) => {
     <NormalBar
       data={data}
       generalSettings={{
-        reverse: false,
+        reverse: true,
         horizontal: true
       }}
       levelSettings={{
-        lineColor: "#d4d4d4",
         lineDash: true
       }}
     />

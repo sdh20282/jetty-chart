@@ -5,21 +5,25 @@ const normalBarSetting = {
     width: 500,
     height: 300,
     backgroundColor: "#fff",
-    padding: { top: 40, bottom: 40, left: 60, right: 60 },
+    padding: { top: 50, bottom: 40, left: 60, right: 60 },
+    chartPadding: 10,
     reverse: false,
     horizontal: false
   },
-  levelSettings: {
+  lineSettings: {
     lineVisible: true,
     lineOpacity: 1,
     lineColor: "#c4c4c4",
     lineWidth: 1,
     lineDash: false,
     lineDashWidth: 5,
-    lineDashGap: 3,
+    lineDashGap: 3
+  },
+  levelSettings: {
     levelAutoScope: true,
     levelMaxScope: 100,
     levelMinScope: 0,
+    levelTextOnLeft: true,
     levelTextGap: 10,
     levelTextSize: 11,
     levelTextWeight: 500,
@@ -32,11 +36,12 @@ const normalBarSetting = {
     showTopLevel: true
   },
   barSettings: {
-    chartPadding: 5,
     barColor: "#8EA3BC",
     barGap: 0.15,
     barOnlyUpperRadus: true,
-    barBorderRadius: 5,
+    barBorderRadius: 5
+  },
+  categorySettings: {
     categoryTextOnBottom: true,
     categoryTextGap: 14,
     categoryTextSize: 11,
@@ -50,8 +55,8 @@ const normalBarSetting = {
   }
 };
 
-export const checkNormalBar = ({ generalSettings, levelSettings, barSettings }) => {
-  const result = { generalSettings, levelSettings, barSettings };
+export const checkNormalBar = ({ generalSettings, lineSettings, levelSettings, barSettings, categorySettings }) => {
+  const result = { generalSettings, lineSettings, levelSettings, barSettings, categorySettings };
 
   Object.keys(normalBarSetting).forEach((setting) => {
     result[setting] ??= {};
