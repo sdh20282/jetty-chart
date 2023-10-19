@@ -32,18 +32,7 @@ const data = [
 ];
 
 const myNormalBar = ({ data }) => {
-  return (
-    <NormalBar
-      data={data}
-      generalSettings={{
-        reverse: true,
-        horizontal: true
-      }}
-      levelSettings={{
-        lineDash: true
-      }}
-    />
-  );
+  return <NormalBar data={data} />;
 };
 
 function App() {
