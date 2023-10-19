@@ -3,35 +3,35 @@ import { Pie } from "./jetty-chart/src/pies/pie/Pie";
 
 const data = [
   {
-    value: 1,
+    value: 0.3,
     label: "test1",
   },
   {
-    value: 0.1,
+    value: 0.23,
     label: "test2",
   },
   {
-    value: 0.1,
+    value: 0.15,
     label: "test3",
   },
   {
-    value: 0.1,
+    value: 0.12,
     label: "test4",
   },
   {
-    value: 0.05,
+    value: 0.12,
     label: "test5",
   },
   {
-    value: 0.05,
+    value: 0.03,
     label: "test5",
   },
   {
-    value: 0.05,
+    value: 0.01,
     label: "test5",
   },
   {
-    value: 0.05,
+    value: 0.04,
     label: "test5",
   },
 ];
@@ -46,9 +46,9 @@ const MyPie = ({ data }) => {
 
 function App() {
   return (
-    <div>
-      hello world
-      {MyVerticalBar({ data })}
+    <div style={{ "margin-left": 150 }}>
+      {/* hello world
+      {MyVerticalBar({ data })} */}
       {MyPie({ data })}
     </div>
   );
