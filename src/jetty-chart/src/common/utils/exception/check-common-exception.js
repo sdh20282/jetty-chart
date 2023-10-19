@@ -18,8 +18,11 @@ export const checkPadding = ({ padding }) => {
   return padding;
 };
 
-export const checkBarBorderRadius = ({ halfWidth, borderRadius }) => {
-  return halfWidth < borderRadius ? halfWidth : borderRadius;
+export const checkBarBorderRadius = ({ halfWidth, realHeight, borderRadius }) => {
+  borderRadius = halfWidth < borderRadius ? halfWidth : borderRadius;
+  borderRadius = realHeight < borderRadius ? realHeight : borderRadius;
+
+  return borderRadius;
 };
 
 export const checkSize = ({ width, height, padding, chartPadding }) => {

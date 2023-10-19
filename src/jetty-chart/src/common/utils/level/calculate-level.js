@@ -64,12 +64,14 @@ export const getLevelAutoScope = ({ data }) => {
   const maxScope = maxStringValue.split(".")[0][0] * 10 + 10;
   let gap = 1;
 
-  if (maxScope > 55) {
+  if (maxScope > 75) {
+    gap = 20;
+  } else if (maxScope > 55) {
+    gap = 15;
+  } else if (maxScope > 35 && maxScope < 55) {
     gap = 10;
-  } else if (maxScope > 25 && maxScope < 55) {
-    gap = 5;
   } else {
-    gap = 2.5;
+    gap = 5;
   }
 
   if (usingFlag) {
