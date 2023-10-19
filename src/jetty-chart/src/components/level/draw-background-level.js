@@ -10,6 +10,7 @@ export const DrawBackgroundLevel = ({
   lineDash,
   lineDashWidth,
   lineDashGap,
+  lineRound,
   showTopLevel
 }) => {
   return (
@@ -33,6 +34,7 @@ export const DrawBackgroundLevel = ({
               stroke={lineColor}
               strokeWidth={lineWidth}
               strokeDasharray={lineDash && c !== 0 ? `${lineDashWidth},${lineDashGap}` : "0"}
+              strokeLinecap={lineRound ? "round" : ""}
             ></line>
           );
         })}

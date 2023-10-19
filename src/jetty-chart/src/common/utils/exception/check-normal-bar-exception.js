@@ -17,7 +17,8 @@ const normalBarSetting = {
     lineWidth: 1,
     lineDash: false,
     lineDashWidth: 5,
-    lineDashGap: 3
+    lineDashGap: 3,
+    lineRound: false
   },
   levelSettings: {
     levelAutoScope: true,
@@ -39,7 +40,11 @@ const normalBarSetting = {
     barColor: "#8EA3BC",
     barGap: 0.15,
     barOnlyUpperRadus: true,
-    barBorderRadius: 5
+    useBarBorderRadius: true,
+    barBorderRadius: 5,
+    useBarBorder: false,
+    barBorderWidth: 2,
+    barBorderColor: "#c4c4c4"
   },
   categorySettings: {
     categoryTextOnBottom: true,

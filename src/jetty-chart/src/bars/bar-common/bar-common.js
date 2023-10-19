@@ -5,7 +5,7 @@ import { DrawTextCategory } from "../../components/category/draw-text-category";
 const BarCommon = ({
   data,
   generalSettings: { width, height, backgroundColor, padding, chartPadding, horizontal, level },
-  lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap },
+  lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap, lineRound },
   levelSettings: {
     levelTextOnLeft,
     levelTextGap,
@@ -60,6 +60,7 @@ const BarCommon = ({
             lineDash={lineDash}
             lineDashWidth={lineDashWidth}
             lineDashGap={lineDashGap}
+            lineRound={lineRound}
             showTopLevel={showTopLevel}
           />
           <DrawTextLevel
