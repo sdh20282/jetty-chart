@@ -45,12 +45,6 @@ const MyPie = ({ data }) => {
 };
 
 function App() {
-  return (
-    <div style={{ "margin-left": 150 }}>
-      {/* hello world
-      {MyVerticalBar({ data })} */}
-      {MyPie({ data })}
-    </div>
-  );
+  return <div>{MyPie({ data })}</div>;
 }
 export default App;
