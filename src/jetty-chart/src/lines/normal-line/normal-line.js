@@ -79,6 +79,16 @@ const NormalLine = ({ data, generalSettings, levelSettings, lineSettings }) => {
             return (
               <g key={"data-" + nowData.label + "-" + idx} transform={`translate(${x - halfWidth},${chartAreaHeight - height})`}>
                 <circle cx={halfWidth} cy="0" r={pointSize} fill={pointColor} stroke={pointBorderColor} strokeWidth={pointBorderWidth} />
+                <text
+                  transform={`translate(${halfWidth},${-10})`}
+                  dominantBaseline={"alphabetic"}
+                  textAnchor="middle"
+                  fontSize={10}
+                  fontWeight={500}
+                  fill={"#000"}
+                >
+                  {d.value}
+                </text>
               </g>
             );
           }
@@ -99,6 +109,16 @@ const NormalLine = ({ data, generalSettings, levelSettings, lineSettings }) => {
                 <line x1={halfWidth} y1={0} x2={pointGapWidth} y2={differentHeight} stroke={lineColor} strokeWidth={lineWidth} />
               )}
               <circle cx={halfWidth} cy="0" r={pointSize} fill={pointColor} stroke={pointBorderColor} strokeWidth={pointBorderWidth} />
+              <text
+                transform={`translate(${halfWidth},${-10})`}
+                dominantBaseline={"alphabetic"}
+                textAnchor="middle"
+                fontSize={10}
+                fontWeight={500}
+                fill={"#000"}
+              >
+                {d.value}
+              </text>
             </g>
           );
         })}
