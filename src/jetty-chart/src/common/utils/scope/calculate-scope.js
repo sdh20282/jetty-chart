@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-export const getLevelAutoScope = ({ data }) => {
+export const getAutoScope = ({ data }) => {
   const values = data.reduce(
     (acc, cur) => {
       if (cur.value > acc.maxValue) {
@@ -15,7 +15,7 @@ export const getLevelAutoScope = ({ data }) => {
     { maxValue: 0, minValue: 0 }
   );
 
-  const levelResult = [];
+  const scopeResult = [];
   let valueLength = 0;
   let target = 0;
   let maxScale = 1;
@@ -78,19 +78,19 @@ export const getLevelAutoScope = ({ data }) => {
     for (let value = 0; value <= maxScope; value += gap) {
       const nowValue = value / maxScale;
 
-      levelResult.push(nowValue);
+      scopeResult.push(nowValue);
 
       if (values.maxValue < nowValue) {
         break;
       }
     }
 
-    levelResult.reverse();
+    scopeResult.reverse();
 
     for (let value = gap; value <= maxScope; value += gap) {
       const nowValue = value / maxScale;
 
-      levelResult.push(-nowValue);
+      scopeResult.push(-nowValue);
 
       if (-values.minValue < nowValue) {
         break;
@@ -101,9 +101,9 @@ export const getLevelAutoScope = ({ data }) => {
       const nowValue = value / maxScale;
 
       if (values.minValue >= 0) {
-        levelResult.push(nowValue);
+        scopeResult.push(nowValue);
       } else if (values.maxValue <= 0) {
-        levelResult.push(-nowValue);
+        scopeResult.push(-nowValue);
       }
 
       if ((values.minValue >= 0 && values.maxValue < nowValue) || (values.maxValue <= 0 && -values.minValue < nowValue)) {
@@ -116,20 +116,20 @@ export const getLevelAutoScope = ({ data }) => {
   let nowMinScope = 0;
 
   if (values.minValue >= 0) {
-    levelResult.reverse();
-    nowMaxScope = levelResult[0];
+    scopeResult.reverse();
+    nowMaxScope = scopeResult[0];
   } else if (values.maxValue <= 0) {
-    levelResult[0] = 0;
-    nowMaxScope = -levelResult[levelResult.length - 1];
+    scopeResult[0] = 0;
+    nowMaxScope = -scopeResult[scopeResult.length - 1];
   } else {
-    nowMaxScope = levelResult[0];
-    nowMinScope = levelResult[levelResult.length - 1];
+    nowMaxScope = scopeResult[0];
+    nowMinScope = scopeResult[scopeResult.length - 1];
   }
 
-  return { level: levelResult, maxScope: nowMaxScope, minScope: nowMinScope };
+  return { scope: scopeResult, maxScope: nowMaxScope, minScope: nowMinScope };
 };
 /* eslint-enable complexity */
 
-export const getLevelCalculatedScope = ({ maxScope, minScope }) => {
+export const getCalculatedScope = ({ maxScope, minScope }) => {
   console.log(maxScope, minScope);
 };

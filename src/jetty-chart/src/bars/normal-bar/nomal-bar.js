@@ -1,31 +1,56 @@
 import { BarCommon } from "../bar-common/bar-common";
 
-import { getLevelAutoScope, getLevelCalculatedScope } from "../../common/utils/level/calculate-level";
-import { checkBarBorderRadius } from "../../common/utils/exception/check-common-exception";
 import { checkNormalBar } from "../../common/utils/exception/check-normal-bar-exception";
+import { getAutoScope, getCalculatedScope } from "../../common/utils/scope/calculate-scope";
+import { checkBarBorderRadius } from "../../common/utils/exception/check-common-exception";
 
-const NormalBar = ({ data, generalSettings, lineSettings, levelSettings, barSettings, categotySettings }) => {
-  const result = checkNormalBar({ generalSettings, lineSettings, levelSettings, barSettings, categotySettings });
+const NormalBar = ({
+  data,
+  normalSettings,
+  scopeSettings,
+  axisXGridLineSettings,
+  axisYGridLineSettings,
+  leftLabelSettings,
+  rightLabelSettings,
+  bottomLabelSettings,
+  topLabelSettings,
+  barSettings
+}) => {
+  const result = checkNormalBar({
+    normalSettings,
+    scopeSettings,
+    axisXGridLineSettings,
+    axisYGridLineSettings,
+    leftLabelSettings,
+    rightLabelSettings,
+    bottomLabelSettings,
+    topLabelSettings,
+    barSettings
+  });
 
-  const { width, height, padding, reverse, horizontal, chartPadding } = result.generalSettings;
-  const { levelAutoScope, levelMaxScope, levelMinScope } = result.levelSettings;
-  const { barGap, useBarBorderRadius, barBorderRadius, barColor, barOnlyUpperRadus, useBarBorder, barBorderWidth, barBorderColor } =
+  const { width, height, margin, padding, reverse, horizontal } = result.normalSettings;
+  const { autoScope, maxScope, minScope, showTopScope } = result.scopeSettings;
+  const { barColor, barGap, barOnlyUpperRadus, useBarBorderRadius, barBorderRadius, useBarBorder, barBorderWidth, barBorderColor } =
     result.barSettings;
 
-  const levelResult = levelAutoScope ? getLevelAutoScope({ data }) : getLevelCalculatedScope({ maxScope: levelMaxScope, minScope: levelMinScope });
+  const scopeResult = autoScope ? getAutoScope({ data }) : getCalculatedScope({ maxScope, minScope });
 
   if (reverse) {
-    levelResult.level.reverse();
+    scopeResult.scope.reverse();
   }
 
-  const chartAreaWidth = (horizontal ? height - padding.bottom - padding.top : width - padding.left - padding.right) - chartPadding - chartPadding;
-  const chartAreaHeight = horizontal ? width - padding.left - padding.right : height - padding.bottom - padding.top;
-  const halfAreaWidth = chartAreaWidth / data.length / 2;
-  const halfWidth = halfAreaWidth - barGap * halfAreaWidth;
-  const lineGap = chartAreaHeight / (levelResult.level.length - 1);
+  const totalWidth = horizontal ? height - margin.bottom - margin.top : width - margin.left - margin.right;
+  const totalHeight = horizontal ? width - margin.left - margin.right : height - margin.bottom - margin.top;
 
-  const zeroLocation =
-    levelResult.level.reduce((acc, cur) => {
+  const drawWidth = totalWidth - padding - padding;
+  const lineHeight = totalHeight / (scopeResult.scope.length - 1);
+
+  const barWidth = drawWidth / data.length;
+  const halfBarWidth = barWidth / 2;
+  const halfBarRealWidth = halfBarWidth - barGap * halfBarWidth;
+
+  const zeroHeight =
+    scopeResult.scope.reduce((acc, cur) => {
       if (cur !== 0) {
         acc += 1;
       }
@@ -35,17 +60,30 @@ const NormalBar = ({ data, generalSettings, lineSettings, levelSettings, barSett
       }
 
       return acc;
-    }, 0) * lineGap;
+    }, 0) * lineHeight;
 
   return (
     <BarCommon
       data={data}
-      generalSettings={{ ...result.generalSettings, level: levelResult.level }}
-      lineSettings={{ ...result.lineSettings }}
-      levelSettings={{ ...result.levelSettings }}
-      categorySettings={{ ...result.categorySettings }}
+      normalSettings={{
+        ...result.normalSettings,
+        scope: scopeResult.scope,
+        totalWidth,
+        totalHeight,
+        drawWidth,
+        xAxisInitialPosition: halfBarWidth,
+        xAxisWidth: barWidth,
+        yAxisHeight: lineHeight,
+        showTopScope
+      }}
+      axisXGridLineSettings={result.axisXGridLineSettings}
+      axisYGridLineSettings={result.axisYGridLineSettings}
+      leftLabelSettings={result.leftLabelSettings}
+      rightLabelSettings={result.rightLabelSettings}
+      bottomLabelSettings={result.bottomLabelSettings}
+      topLabelSettings={result.topLabelSettings}
     >
-      <g transform={horizontal ? `translate(0,${chartPadding})` : `translate(${chartPadding})`}>
+      <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
         {data.map((d, idx) => {
           const nowData = { ...d };
 
@@ -53,20 +91,24 @@ const NormalBar = ({ data, generalSettings, lineSettings, levelSettings, barSett
             nowData.value = -nowData.value;
           }
 
-          const center = (chartAreaWidth / data.length) * idx + chartAreaWidth / data.length / 2;
-          const height = (Math.abs(nowData.value) / (levelResult.maxScope - levelResult.minScope)) * chartAreaHeight;
-          const realHeight = height >= barBorderRadius ? height - barBorderRadius : height;
-          const borderRadius = useBarBorderRadius ? checkBarBorderRadius({ halfWidth, realHeight, borderRadius: barBorderRadius }) : 0;
-          const totalWidth = halfWidth + halfWidth;
-          const realWidth = halfWidth + halfWidth - borderRadius - borderRadius;
+          const center = (drawWidth / data.length) * idx + drawWidth / data.length / 2;
+          const barHeight = (Math.abs(nowData.value) / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
+          const barHeightWithoutRadius = barHeight >= barBorderRadius ? barHeight - barBorderRadius : barHeight;
+
+          const borderRadius = useBarBorderRadius
+            ? checkBarBorderRadius({ halfWidth: halfBarRealWidth, height: barHeightWithoutRadius, borderRadius: barBorderRadius })
+            : 0;
+
+          const barTotalWidth = halfBarRealWidth + halfBarRealWidth;
+          const barWidthWithoutRadius = barTotalWidth - borderRadius - borderRadius;
 
           return (
             <g
               key={"data-" + nowData.label + "-" + idx}
               transform={
                 horizontal
-                  ? `translate(${zeroLocation},${center - halfWidth})`
-                  : `translate(${center - halfWidth},${chartAreaHeight - height - zeroLocation})`
+                  ? `translate(${zeroHeight},${center - halfBarRealWidth})`
+                  : `translate(${center - halfBarRealWidth},${totalHeight - barHeight - zeroHeight})`
               }
             >
               {barOnlyUpperRadus && useBarBorderRadius ? (
@@ -76,40 +118,40 @@ const NormalBar = ({ data, generalSettings, lineSettings, levelSettings, barSett
                       ? nowData.value >= 0
                         ? `
                           M 0,0
-                          h ${realHeight}
+                          h ${barHeightWithoutRadius}
                           q ${borderRadius},0 ${borderRadius},${borderRadius}
-                          v ${realWidth}
+                          v ${barWidthWithoutRadius}
                           q 0,${borderRadius} -${borderRadius},${borderRadius}
-                          h -${realHeight}
-                          v -${totalWidth}
+                          h -${barHeightWithoutRadius}
+                          v -${barTotalWidth}
                           z`
                         : `
                           M 0,0
-                          h -${realHeight}
+                          h -${barHeightWithoutRadius}
                           q -${borderRadius},0 -${borderRadius},${borderRadius}
-                          v ${realWidth}
+                          v ${barWidthWithoutRadius}
                           q 0,${borderRadius} ${borderRadius},${borderRadius}
-                          h ${realHeight}
-                          v -${totalWidth}
+                          h ${barHeightWithoutRadius}
+                          v -${barTotalWidth}
                           z`
                       : nowData.value >= 0
                       ? `
-                          M 0,${height}
-                          v -${realHeight}
+                          M 0,${barHeight}
+                          v -${barHeightWithoutRadius}
                           q 0,-${borderRadius} ${borderRadius},-${borderRadius}
-                          h ${realWidth}
+                          h ${barWidthWithoutRadius}
                           q ${borderRadius},0 ${borderRadius},${borderRadius}
-                          v ${realHeight}
-                          h -${totalWidth}
+                          v ${barHeightWithoutRadius}
+                          h -${barTotalWidth}
                           z`
                       : `
-                          M 0,${height}
-                          v ${realHeight}
+                          M 0,${barHeight}
+                          v ${barHeightWithoutRadius}
                           q 0,${borderRadius} ${borderRadius},${borderRadius}
-                          h ${realWidth}
+                          h ${barWidthWithoutRadius}
                           q ${borderRadius},0 ${borderRadius},-${borderRadius}
-                          v -${realHeight}
-                          h -${totalWidth}
+                          v -${barHeightWithoutRadius}
+                          h -${barTotalWidth}
                           z`
                   }
                   fill={barColor}
@@ -118,8 +160,8 @@ const NormalBar = ({ data, generalSettings, lineSettings, levelSettings, barSett
                 />
               ) : (
                 <rect
-                  width={horizontal ? height : halfWidth + halfWidth}
-                  height={horizontal ? halfWidth + halfWidth : height}
+                  width={horizontal ? height : halfBarRealWidth + halfBarRealWidth}
+                  height={horizontal ? halfBarRealWidth + halfBarRealWidth : height}
                   transform={horizontal ? `translate(${nowData.value >= 0 ? 0 : -height})` : `translate(0,${nowData.value >= 0 ? 0 : height})`}
                   fill={barColor}
                   rx={borderRadius}

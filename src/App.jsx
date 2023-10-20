@@ -32,7 +32,7 @@ const data = [
 ];
 
 const myNormalBar = ({ data }) => {
-  return <NormalBar data={data} />;
+  return <NormalBar data={data} normalSettings={{ horizontal: false, reverse: false, margin: { right: 10 } }} />;
 };
 
 function App() {

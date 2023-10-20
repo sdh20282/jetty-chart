@@ -1,102 +1,113 @@
-import { DrawBackgroundLevel } from "../../components/level/draw-background-level";
-import { DrawTextLevel } from "../../components/level/draw-text-level";
-import { DrawTextCategory } from "../../components/category/draw-text-category";
+import { DrawYAxisGridLine } from "../../components/y-axis/draw-y-axis-grid-line";
+import { DrawXAxisGridLine } from "../../components/x-axis/draw-x-axis-grid-line";
+import { DrawYAxisLabel } from "../../components/y-axis/draw-y-axis-label";
+import { DrawXAxisLabel } from "../../components/x-axis/draw-x-axis-label";
 
 const BarCommon = ({
   data,
-  generalSettings: { width, height, backgroundColor, padding, chartPadding, horizontal, level },
-  lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap, lineRound },
-  levelSettings: {
-    levelTextOnLeft,
-    levelTextGap,
-    levelTextSize,
-    levelTextWeight,
-    levelTextColor,
-    levelTextMargin,
-    levelLineVisible,
-    levelLineOpacity,
-    levelLineColor,
-    levelLineWidth,
-    showTopLevel
+  normalSettings: {
+    width,
+    height,
+    backgroundColor,
+    margin,
+    padding,
+    horizontal,
+    scope,
+    totalWidth,
+    totalHeight,
+    xAxisInitialPosition,
+    xAxisWidth,
+    yAxisHeight,
+    showTopScope
   },
-  categorySettings: {
-    categoryTextOnBottom,
-    categoryTextGap,
-    categoryTextSize,
-    categoryTextWeight,
-    categoryTextColor,
-    categoryTextMargin,
-    categoryLineVisible,
-    categoryLineOpacity,
-    categoryLineColor,
-    categoryLineWidth
-  },
+  axisXGridLineSettings,
+  axisYGridLineSettings,
+  leftLabelSettings,
+  rightLabelSettings,
+  bottomLabelSettings,
+  topLabelSettings,
   children
 }) => {
-  const chartWidth = horizontal ? height - padding.bottom - padding.top : width - padding.left - padding.right;
-  const chartAreaHeight = horizontal ? width - padding.left - padding.right : height - padding.bottom - padding.top;
-  const levelTextAreaLocation = chartWidth + levelTextGap;
-  const chartAreaWidth = (horizontal ? height - padding.bottom - padding.top : width - padding.left - padding.right) - chartPadding - chartPadding;
-  const categoryAreaLocation = chartAreaHeight + categoryTextGap;
-
   if (horizontal) {
-    level.reverse();
+    scope.reverse();
   }
 
   return (
     <div style={{ width: `${width}px`, height: `${height}px`, border: "1px solid #ccc" }}>
       <svg width={width} height={height}>
         <rect width="100%" height="100%" fill={backgroundColor}></rect>
-        <g transform={`translate(${padding.left},${padding.top})`}>
-          <DrawBackgroundLevel
-            horizontal={horizontal}
-            chartWidth={chartWidth}
-            chartHeight={chartAreaHeight}
-            level={level}
-            lineVisible={lineVisible}
-            lineOpacity={lineOpacity}
-            lineColor={lineColor}
-            lineWidth={lineWidth}
-            lineDash={lineDash}
-            lineDashWidth={lineDashWidth}
-            lineDashGap={lineDashGap}
-            lineRound={lineRound}
-            showTopLevel={showTopLevel}
+        <g transform={`translate(${margin.left},${margin.top})`}>
+          {/* Y축 라인 그리기 */}
+          <DrawYAxisGridLine
+            normalSettings={{
+              horizontal,
+              yAxis: scope,
+              width: totalWidth,
+              yAxisHeight,
+              showTopScope
+            }}
+            lineSettings={axisYGridLineSettings}
           />
-          <DrawTextLevel
-            horizontal={horizontal}
-            chartHeight={chartAreaHeight}
-            levelTextAreaLocation={levelTextAreaLocation}
-            level={level}
-            levelTextOnLeft={levelTextOnLeft}
-            levelTextGap={levelTextGap}
-            levelTextSize={levelTextSize}
-            levelTextWeight={levelTextWeight}
-            levelTextColor={levelTextColor}
-            levelTextMargin={levelTextMargin}
-            levelLineVisible={levelLineVisible}
-            levelLineOpacity={levelLineOpacity}
-            levelLineColor={levelLineColor}
-            levelLineWidth={levelLineWidth}
-            showTopLevel={showTopLevel}
+          {/* X축 라인 그리기 */}
+          <DrawXAxisGridLine
+            normalSettings={{
+              xAxis: data.map((d) => d.value),
+              horizontal,
+              width: totalWidth,
+              height: totalHeight,
+              padding,
+              xAxisInitialPosition,
+              xAxisWidth
+            }}
+            lineSettings={axisXGridLineSettings}
           />
-          <DrawTextCategory
-            data={data}
-            horizontal={horizontal}
-            categoryAreaWidth={chartAreaWidth}
-            categoryAreaLocation={categoryAreaLocation}
-            categoryPadding={chartPadding}
-            categoryTextOnBottom={categoryTextOnBottom}
-            categoryTextGap={categoryTextGap}
-            categoryTextSize={categoryTextSize}
-            categoryTextWeight={categoryTextWeight}
-            categoryTextColor={categoryTextColor}
-            categoryTextMargin={categoryTextMargin}
-            categoryLineVisible={categoryLineVisible}
-            categoryLineOpacity={categoryLineOpacity}
-            categoryLineColor={categoryLineColor}
-            categoryLineWidth={categoryLineWidth}
+          {/* 왼쪽 라벨 그리기 */}
+          <DrawYAxisLabel
+            normalSettings={{
+              horizontal,
+              yAxis: scope,
+              width: totalWidth,
+              yAxisHeight,
+              showTopScope
+            }}
+            labelSettings={leftLabelSettings}
           />
+          {/* 오른쪽 라벨 그리기 */}
+          <DrawYAxisLabel
+            normalSettings={{
+              horizontal,
+              yAxis: scope,
+              width: totalWidth,
+              yAxisHeight,
+              showTopScope
+            }}
+            labelSettings={rightLabelSettings}
+          />
+          {/* 아래쪽 라벨 그리기 */}
+          <DrawXAxisLabel
+            normalSettings={{
+              xAxis: data.map((d) => d.label),
+              horizontal,
+              height: totalHeight,
+              padding,
+              xAxisInitialPosition,
+              xAxisWidth
+            }}
+            labelSettings={bottomLabelSettings}
+          />
+          {/* 오른쪽 라벨 그리기 */}
+          <DrawXAxisLabel
+            normalSettings={{
+              xAxis: data.map((d) => d.label),
+              horizontal,
+              height: totalHeight,
+              padding,
+              xAxisInitialPosition,
+              xAxisWidth
+            }}
+            labelSettings={topLabelSettings}
+          />
+          {/* 전달 받은 자식 요소 그리기 */}
           {children}
         </g>
       </svg>
