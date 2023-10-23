@@ -10,20 +10,23 @@ export const DrawYAxisLabel = ({
     labelColor,
     labelRotate,
     labelMove,
-    sideLineMargin,
+    sideLineSize,
     sideLineVisible,
     sideLineOpacity,
     sideLineColor,
     sideLineWidth
   }
 }) => {
-  const labelLocation = width + labelMargin;
+  const totalLabelMargin = labelMargin + sideLineSize;
+  const labelLocation = width + totalLabelMargin;
 
   return (
     useLabel && (
       <g
         transform={
-          horizontal ? `translate(0,${labelOnLeft ? -labelMargin : labelLocation})` : `translate(${labelOnLeft ? -labelMargin : labelLocation})`
+          horizontal
+            ? `translate(0,${labelOnLeft ? -totalLabelMargin : labelLocation})`
+            : `translate(${labelOnLeft ? -totalLabelMargin : labelLocation})`
         }
       >
         {yAxis.map((c, idx) => {
@@ -65,10 +68,10 @@ export const DrawYAxisLabel = ({
               {sideLineVisible && (
                 <line
                   opacity={sideLineOpacity}
-                  x1={horizontal ? "0" : labelOnLeft ? sideLineMargin : -sideLineMargin}
-                  x2={horizontal ? "0" : labelOnLeft ? labelMargin : -labelMargin}
-                  y1={horizontal ? (labelOnLeft ? labelMargin : -labelMargin) : "0"}
-                  y2={horizontal ? (labelOnLeft ? sideLineMargin : -sideLineMargin) : "0"}
+                  x1={horizontal ? "0" : labelOnLeft ? totalLabelMargin - sideLineSize : -totalLabelMargin + sideLineSize}
+                  x2={horizontal ? "0" : labelOnLeft ? totalLabelMargin : -totalLabelMargin}
+                  y1={horizontal ? (labelOnLeft ? totalLabelMargin - sideLineSize : -totalLabelMargin + sideLineSize) : "0"}
+                  y2={horizontal ? (labelOnLeft ? totalLabelMargin : -totalLabelMargin) : "0"}
                   stroke={sideLineColor}
                   strokeWidth={sideLineWidth}
                 ></line>

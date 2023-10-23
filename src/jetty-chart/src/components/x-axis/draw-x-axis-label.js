@@ -10,14 +10,15 @@ export const DrawXAxisLabel = ({
     labelColor,
     labelRotate,
     labelMove,
-    sideLineMargin,
+    sideLineSize,
     sideLineVisible,
     sideLineOpacity,
     sideLineColor,
     sideLineWidth
   }
 }) => {
-  const labelLocation = height + labelMargin;
+  const totalLabelMargin = labelMargin + sideLineSize;
+  const labelLocation = height + totalLabelMargin;
 
   padding ??= 0;
 
@@ -26,8 +27,8 @@ export const DrawXAxisLabel = ({
       <g
         transform={
           horizontal
-            ? `translate(${labelOnBottom ? -labelMargin : labelLocation},${padding})`
-            : `translate(${padding},${labelOnBottom ? labelLocation : -labelMargin})`
+            ? `translate(${labelOnBottom ? -totalLabelMargin : labelLocation},${padding})`
+            : `translate(${padding},${labelOnBottom ? labelLocation : -totalLabelMargin})`
         }
       >
         {xAxis.map((d, idx) => {
@@ -38,10 +39,10 @@ export const DrawXAxisLabel = ({
               {sideLineVisible && (
                 <line
                   opacity={sideLineOpacity}
-                  x1={horizontal ? (labelOnBottom ? sideLineMargin : -sideLineMargin) : "0"}
-                  x2={horizontal ? (labelOnBottom ? labelMargin : -labelMargin) : "0"}
-                  y1={horizontal ? "0" : labelOnBottom ? -labelMargin : labelMargin}
-                  y2={horizontal ? "0" : labelOnBottom ? -sideLineMargin : sideLineMargin}
+                  x1={horizontal ? (labelOnBottom ? totalLabelMargin - sideLineSize : -totalLabelMargin + sideLineSize) : "0"}
+                  x2={horizontal ? (labelOnBottom ? totalLabelMargin : -totalLabelMargin) : "0"}
+                  y1={horizontal ? "0" : labelOnBottom ? -totalLabelMargin + sideLineSize : totalLabelMargin - sideLineSize}
+                  y2={horizontal ? "0" : labelOnBottom ? -totalLabelMargin : totalLabelMargin}
                   stroke={sideLineColor}
                   strokeWidth={sideLineWidth}
                 ></line>
