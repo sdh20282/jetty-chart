@@ -7,7 +7,7 @@ const normalLineSetting = {
     height: 280,
     backgroundColor: "#fff",
     margin: { top: 50, bottom: 40, left: 60, right: 60 },
-    padding: 10,
+    padding: 0,
     reverse: false,
     horizontal: false
   },
@@ -105,11 +105,14 @@ const normalLineSetting = {
     pointColor: "#8EA3BC",
     pointBorderColor: "#666",
     pointBorderWidth: 2,
-    valueTextColor: "#000",
-    valueTextSize: 8,
-    valueTextOffsetX: 0,
-    valueTextOffsetY: -10,
-    valueTextWeight: 500
+    enablePointLabel: false,
+    pointLabelColor: "#000",
+    pointLabelSize: 8,
+    pointLabelOffsetX: 0,
+    pointLabelOffsetY: -10,
+    pointLabelWeight: 500,
+    enableArea: false,
+    areaOpacity: 0.5
   }
 };
 

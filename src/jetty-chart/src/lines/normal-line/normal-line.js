@@ -37,11 +37,14 @@ const NormalLine = ({
     pointColor,
     pointBorderColor,
     pointBorderWidth,
-    valueTextColor,
-    valueTextSize,
-    valueTextOffsetX,
-    valueTextOffsetY,
-    valueTextWeight
+    enablePointLabel,
+    pointLabelColor,
+    pointLabelSize,
+    pointLabelOffsetX,
+    pointLabelOffsetY,
+    pointLabelWeight,
+    enableArea,
+    areaOpacity
   } = result.lineSettings;
 
   const scopeResult = autoScope ? getAutoScope({ data }) : getCalculatedScope({ maxScope, minScope });
@@ -58,7 +61,7 @@ const NormalLine = ({
 
   const AreaWidth = drawWidth / data.length;
   const halfAreaWidth = AreaWidth / 2;
-  const pointGapWidth = halfAreaWidth * 3;
+  // const pointGapWidth = halfAreaWidth * 3;
 
   const zeroHeight =
     scopeResult.scope.reduce((acc, cur) => {
@@ -72,6 +75,25 @@ const NormalLine = ({
 
       return acc;
     }, 0) * lineHeight;
+  console.log(enableArea);
+  let pathString = `M ${0} ${totalHeight}`;
+  data.forEach((element, idx) => {
+    const nowData = { ...element };
+
+    if (reverse) {
+      nowData.value = -nowData.value;
+    }
+
+    const center = (drawWidth / data.length) * idx + drawWidth / data.length / 2;
+    const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
+
+    if (idx === 0) {
+      pathString += `L ${center} ${totalHeight - height - zeroHeight}`;
+    } else {
+      pathString += `L ${center} ${totalHeight - height - zeroHeight}`;
+    }
+  });
+  pathString += `L ${totalWidth} ${totalHeight}`;
 
   return (
     <BarCommon
@@ -95,6 +117,15 @@ const NormalLine = ({
       topLabelSettings={result.topLabelSettings}
     >
       <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
+        <path
+          d={pathString}
+          fill={lineColor}
+          stroke={lineColor}
+          strokeWidth={lineWidth}
+          strokeLinejoin="miter"
+          strokeLinecap={"butt"}
+          fillOpacity={areaOpacity}
+        />
         {data.map((d, idx) => {
           const nowData = { ...d };
           const nextData = { ...data[idx + 1] };
@@ -109,7 +140,7 @@ const NormalLine = ({
 
           const nextHeight = (nextData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
 
-          const differentHeight = height - nextHeight;
+          // const differentHeight = height - nextHeight;
 
           console.log(idx);
           console.log(center);
@@ -125,7 +156,7 @@ const NormalLine = ({
                   : `translate(${center - halfAreaWidth},${totalHeight - height - zeroHeight})`
               }
             >
-              {!(idx === data.length - 1) && (
+              {/* {!(idx === data.length - 1) && (
                 <line
                   x1={horizontal ? 0 : halfAreaWidth}
                   y1={horizontal ? halfAreaWidth : 0}
@@ -135,7 +166,7 @@ const NormalLine = ({
                   strokeWidth={lineWidth}
                   strokeLinecap={"round"}
                 />
-              )}
+              )} */}
 
               <circle
                 cx={horizontal ? 0 : halfAreaWidth}
@@ -145,20 +176,22 @@ const NormalLine = ({
                 stroke={pointBorderColor}
                 strokeWidth={pointBorderWidth}
               />
-              <text
-                transform={
-                  horizontal
-                    ? `translate(${valueTextOffsetX},${valueTextOffsetY})`
-                    : `translate(${halfAreaWidth + valueTextOffsetX},${valueTextOffsetY})`
-                }
-                dominantBaseline={"alphabetic"}
-                textAnchor="middle"
-                fontSize={valueTextSize}
-                fontWeight={valueTextWeight}
-                fill={valueTextColor}
-              >
-                {d.value}
-              </text>
+              {enablePointLabel && (
+                <text
+                  transform={
+                    horizontal
+                      ? `translate(${pointLabelOffsetX},${pointLabelOffsetY})`
+                      : `translate(${halfAreaWidth + pointLabelOffsetX},${pointLabelOffsetY})`
+                  }
+                  dominantBaseline={"alphabetic"}
+                  textAnchor="middle"
+                  fontSize={pointLabelSize}
+                  fontWeight={pointLabelWeight}
+                  fill={pointLabelColor}
+                >
+                  {d.value}
+                </text>
+              )}
             </g>
           );
         })}
