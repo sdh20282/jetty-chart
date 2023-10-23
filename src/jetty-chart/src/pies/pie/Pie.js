@@ -1,6 +1,7 @@
 import PaintPie from "./PaintPie";
 import { useState } from "react";
 import TestFile from "./testFile/TestFile";
+import PieTest from "./PieTest";
 
 const Pie = ({
   data,
@@ -45,6 +46,7 @@ const Pie = ({
         generalSettings={newGeneralSettings}
         pieSettings={newPieSettings}
       />
+      <PieTest />
     </div>
   );
 };
