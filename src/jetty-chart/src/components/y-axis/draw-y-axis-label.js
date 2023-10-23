@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 export const DrawYAxisLabel = ({
   normalSettings: { horizontal, yAxis, width, yAxisHeight, showTopScope },
   labelSettings: {
@@ -7,6 +8,8 @@ export const DrawYAxisLabel = ({
     labelSize,
     labelWeight,
     labelColor,
+    labelRotate,
+    labelMove,
     sideLineMargin,
     sideLineVisible,
     sideLineOpacity,
@@ -32,16 +35,33 @@ export const DrawYAxisLabel = ({
 
           return (
             <g key={"level-" + c + "-" + idx} transform={horizontal ? `translate(${location})` : `translate(0,${location})`}>
-              <text
-                dominantBaseline={horizontal ? (labelOnLeft ? "ideographic" : "mathematical") : "hanging"}
-                textAnchor={horizontal ? "middle" : labelOnLeft ? "end" : "start"}
-                fontSize={labelSize}
-                fontWeight={labelWeight}
-                fill={labelColor}
-                transform={`translate(0,-${horizontal ? 0 : labelSize / 2})`}
-              >
-                {c}
-              </text>
+              <g transform={`translate(${horizontal ? labelMove : 0},${horizontal ? 0 : -labelMove}) rotate(${labelRotate})`}>
+                <text
+                  dominantBaseline={horizontal ? (labelOnLeft ? "ideographic" : "hanging") : "hanging"}
+                  textAnchor={
+                    horizontal
+                      ? labelRotate === 0
+                        ? "middle"
+                        : labelRotate < 0
+                        ? labelOnLeft
+                          ? "start"
+                          : "end"
+                        : labelOnLeft
+                        ? "end"
+                        : "start"
+                      : labelOnLeft
+                      ? "end"
+                      : "start"
+                  }
+                  fontSize={labelSize}
+                  height={labelSize}
+                  fontWeight={labelWeight}
+                  fill={labelColor}
+                  transform={`translate(0,${horizontal ? 0 : -labelSize / 2})`}
+                >
+                  {c}
+                </text>
+              </g>
               {sideLineVisible && (
                 <line
                   opacity={sideLineOpacity}
@@ -60,3 +80,4 @@ export const DrawYAxisLabel = ({
     )
   );
 };
+/* eslint-enable complexity */

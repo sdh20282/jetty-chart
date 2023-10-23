@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 export const DrawXAxisLabel = ({
   normalSettings: { xAxis, horizontal, height, padding, xAxisInitialPosition, xAxisWidth },
   labelSettings: {
@@ -7,6 +8,8 @@ export const DrawXAxisLabel = ({
     labelSize,
     labelWeight,
     labelColor,
+    labelRotate,
+    labelMove,
     sideLineMargin,
     sideLineVisible,
     sideLineOpacity,
@@ -43,16 +46,33 @@ export const DrawXAxisLabel = ({
                   strokeWidth={sideLineWidth}
                 ></line>
               )}
-              <text
-                dominantBaseline={horizontal ? "hanging" : labelOnBottom ? "mathematical" : "ideographic"}
-                textAnchor={horizontal ? (labelOnBottom ? "end" : "start") : "middle"}
-                fontSize={labelSize}
-                fontWeight={labelWeight}
-                fill={labelColor}
-                transform={`translate(0,-${horizontal ? labelSize / 2 : 0})`}
-              >
-                {d}
-              </text>
+
+              <g transform={`translate(${horizontal ? 0 : labelMove},${horizontal ? -labelMove : 0}) rotate(${labelRotate})`}>
+                <text
+                  dominantBaseline={horizontal ? "hanging" : labelOnBottom ? "hanging" : "ideographic"}
+                  textAnchor={
+                    horizontal
+                      ? labelOnBottom
+                        ? "end"
+                        : "start"
+                      : labelRotate === 0
+                      ? "middle"
+                      : labelRotate < 0
+                      ? labelOnBottom
+                        ? "end"
+                        : "start"
+                      : labelOnBottom
+                      ? "start"
+                      : "end"
+                  }
+                  fontSize={labelSize}
+                  fontWeight={labelWeight}
+                  fill={labelColor}
+                  transform={`translate(0,-${horizontal ? labelSize / 2 : 0})`}
+                >
+                  {d}
+                </text>
+              </g>
             </g>
           );
         })}
