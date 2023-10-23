@@ -7,6 +7,7 @@ import { checkBarBorderRadius } from "../../common/utils/exception/check-common-
 /* eslint-disable complexity */
 const NormalBar = ({
   data,
+  keys,
   normalSettings,
   scopeSettings,
   axisXGridLineSettings,
@@ -15,6 +16,8 @@ const NormalBar = ({
   rightLabelSettings,
   bottomLabelSettings,
   topLabelSettings,
+  leftLegendSettings,
+  rightLegendSettings,
   barSettings
 }) => {
   const result = checkNormalBar({
@@ -26,6 +29,8 @@ const NormalBar = ({
     rightLabelSettings,
     bottomLabelSettings,
     topLabelSettings,
+    leftLegendSettings,
+    rightLegendSettings,
     barSettings
   });
 
@@ -76,6 +81,7 @@ const NormalBar = ({
   return (
     <BarCommon
       data={data}
+      keys={keys}
       normalSettings={{
         ...result.normalSettings,
         scope: scopeResult.scope,
@@ -93,6 +99,10 @@ const NormalBar = ({
       rightLabelSettings={result.rightLabelSettings}
       bottomLabelSettings={result.bottomLabelSettings}
       topLabelSettings={result.topLabelSettings}
+      leftLegendSettings={result.leftLegendSettings}
+      rightLegendSettings={result.rightLegendSettings}
+      bottomLegendSettings={result.bottomLegendSettings}
+      topLegendSettings={result.topLegendSettings}
     >
       <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
         {data.map((d, idx) => {

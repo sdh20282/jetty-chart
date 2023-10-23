@@ -2,9 +2,13 @@ import { DrawYAxisGridLine } from "../../components/y-axis/draw-y-axis-grid-line
 import { DrawXAxisGridLine } from "../../components/x-axis/draw-x-axis-grid-line";
 import { DrawYAxisLabel } from "../../components/y-axis/draw-y-axis-label";
 import { DrawXAxisLabel } from "../../components/x-axis/draw-x-axis-label";
+import { DrawYAxisLegend } from "../../components/y-axis/draw-y-axis-legend";
+import { DrawXAxisLegend } from "../../components/x-axis/draw-x-axis-legend";
+import { DrawLegends } from "../../components/legend/draw-legends";
 
 const BarCommon = ({
   data,
+  keys,
   normalSettings: {
     width,
     height,
@@ -26,6 +30,10 @@ const BarCommon = ({
   rightLabelSettings,
   bottomLabelSettings,
   topLabelSettings,
+  leftLegendSettings,
+  rightLegendSettings,
+  bottomLegendSettings,
+  topLegendSettings,
   children
 }) => {
   if (horizontal) {
@@ -37,6 +45,10 @@ const BarCommon = ({
       <svg width={width} height={height}>
         <rect width="100%" height="100%" fill={backgroundColor}></rect>
         <g transform={`translate(${margin.left},${margin.top})`}>
+          <DrawYAxisLegend normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={leftLegendSettings} />
+          <DrawYAxisLegend normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={rightLegendSettings} />
+          <DrawXAxisLegend normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={bottomLegendSettings} />
+          <DrawXAxisLegend normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={topLegendSettings} />
           {/* Y축 라인 그리기 */}
           <DrawYAxisGridLine
             normalSettings={{
@@ -107,6 +119,7 @@ const BarCommon = ({
             }}
             labelSettings={topLabelSettings}
           />
+          <DrawLegends keys={keys} />
           {/* 전달 받은 자식 요소 그리기 */}
           {children}
         </g>
