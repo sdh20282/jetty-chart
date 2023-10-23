@@ -30,7 +30,7 @@ const NormalBar = ({
 
   const { width, height, margin, padding, reverse, horizontal } = result.normalSettings;
   const { autoScope, maxScope, minScope, showTopScope } = result.scopeSettings;
-  const { barColor, barGap, barOnlyUpperRadus, useBarBorderRadius, barBorderRadius, useBarBorder, barBorderWidth, barBorderColor } =
+  const { barColor, barGap, barOnlyUpperRadius, useBarBorderRadius, barBorderRadius, useBarBorder, barBorderWidth, barBorderColor } =
     result.barSettings;
 
   const scopeResult = autoScope ? getAutoScope({ data }) : getCalculatedScope({ maxScope, minScope });
@@ -111,7 +111,7 @@ const NormalBar = ({
                   : `translate(${center - halfBarRealWidth},${totalHeight - barHeight - zeroHeight})`
               }
             >
-              {barOnlyUpperRadus && useBarBorderRadius ? (
+              {barOnlyUpperRadius && useBarBorderRadius ? (
                 <path
                   d={
                     horizontal
