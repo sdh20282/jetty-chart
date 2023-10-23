@@ -1,8 +1,9 @@
 export const DrawLegends = ({
   keys,
-  normalSettings: { colorPalette },
+  normalSettings: { width, height, margin, colorPalette },
   legendSettings: {
     useLegend,
+    position,
     xLocation,
     yLocation,
     directionColumn,
@@ -17,9 +18,25 @@ export const DrawLegends = ({
     legendOnStart
   }
 }) => {
+  const yAxis = position.split("-")[0];
+  const xAxis = position.split("-")[1];
+  const chartWidth = width - margin.left - margin.right;
+  const chartHeight = height - margin.top - margin.bottom;
+  const legendHeight = symbolSize * keys.length + itemMargin * (keys.length - 1);
+
   return (
     useLegend && (
-      <g transform={`translate(${xLocation},${yLocation})`}>
+      <g
+        transform={`translate(${
+          (xAxis === "left" ? 0 : xAxis === "center" ? margin.left + chartWidth / 2 - itemWidth / 2 : chartWidth + margin.left) + xLocation
+        },${
+          (yAxis === "top"
+            ? margin.top
+            : yAxis === "center"
+            ? margin.top + chartHeight / 2 - legendHeight / 2
+            : chartHeight + margin.top - legendHeight) + yLocation
+        })`}
+      >
         {keys.map((k, idx) => {
           return (
             <g

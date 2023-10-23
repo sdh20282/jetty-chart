@@ -127,7 +127,7 @@ const BarCommon = ({
           {children}
         </g>
         {/* 설명 그리기 */}
-        <DrawLegends keys={keys} normalSettings={{ colorPalette }} legendSettings={legendSettings} />
+        <DrawLegends keys={keys} normalSettings={{ width, height, margin, colorPalette }} legendSettings={legendSettings} />
       </svg>
     </div>
   );
