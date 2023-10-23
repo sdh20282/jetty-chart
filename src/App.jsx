@@ -6,7 +6,7 @@ const data = [
     label: "test1"
   },
   {
-    value: 0.1,
+    value: 0.0001,
     label: "test1"
   },
   {

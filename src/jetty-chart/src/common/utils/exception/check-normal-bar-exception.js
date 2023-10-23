@@ -59,7 +59,7 @@ const normalBarSetting = {
   },
   // 오른쪽 라벨 세팅
   rightLabelSettings: {
-    useLabel: true,
+    useLabel: false,
     labelOnLeft: false,
     labelMargin: 12,
     labelSize: 11,
@@ -91,7 +91,7 @@ const normalBarSetting = {
   },
   // 위쪽 라벨 세팅
   topLabelSettings: {
-    useLabel: true,
+    useLabel: false,
     labelOnBottom: false,
     labelMargin: 10,
     labelSize: 11,
@@ -114,7 +114,9 @@ const normalBarSetting = {
     barBorderRadius: 5,
     useBarBorder: false,
     barBorderWidth: 2,
-    barBorderColor: "#c4c4c4"
+    barBorderColor: "#c4c4c4",
+    useMinHeight: true,
+    minHeight: 2
   }
 };
 
