@@ -9,6 +9,8 @@ import { DrawLegends } from "../../components/legend/draw-legends";
 const BarCommon = ({
   data,
   keys,
+  xLegend,
+  yLegend,
   normalSettings: {
     width,
     height,
@@ -47,10 +49,10 @@ const BarCommon = ({
       <svg width={width} height={height}>
         <rect width="100%" height="100%" fill={backgroundColor}></rect>
         <g transform={`translate(${margin.left},${margin.top})`}>
-          <DrawYAxisLegend normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={leftLegendSettings} />
-          <DrawYAxisLegend normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={rightLegendSettings} />
-          <DrawXAxisLegend normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={bottomLegendSettings} />
-          <DrawXAxisLegend normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={topLegendSettings} />
+          <DrawYAxisLegend yLegend={yLegend} normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={leftLegendSettings} />
+          <DrawYAxisLegend yLegend={yLegend} normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={rightLegendSettings} />
+          <DrawXAxisLegend xLegend={xLegend} normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={bottomLegendSettings} />
+          <DrawXAxisLegend xLegend={xLegend} normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={topLegendSettings} />
           {/* Y축 라인 그리기 */}
           <DrawYAxisGridLine
             normalSettings={{

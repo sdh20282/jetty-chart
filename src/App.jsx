@@ -20,7 +20,7 @@ const data = [
 ];
 
 const myNormalBar = ({ data }) => {
-  return <NormalBar data={data} keys={["target1"]} />;
+  return <NormalBar data={data} keys={["target1"]} xLegend={"types"} yLegend={"values"} />;
 };
 
 function App() {
