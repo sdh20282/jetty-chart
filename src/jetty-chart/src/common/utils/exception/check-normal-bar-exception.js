@@ -7,6 +7,7 @@ const normalBarSetting = {
     height: 280,
     backgroundColor: "#fff",
     margin: { top: 60, bottom: 60, left: 60, right: 100 },
+    colorPalette: ["#669dfe", "#876697"],
     padding: 10,
     reverse: false,
     horizontal: false
@@ -149,6 +150,20 @@ const normalBarSetting = {
     legendReverse: false,
     legendMove: 0
   },
+  legendSettings: {
+    xLocation: 320,
+    yLocation: 190,
+    directionColumn: true,
+    itemWidth: 60,
+    itemMargin: 2,
+    symbolSize: 12,
+    symbolRadius: 2,
+    symbolMargin: 5,
+    legendSize: 10,
+    legendWeight: 400,
+    legendColor: "#aaa",
+    legendOnStart: true
+  },
   // 바 세팅
   barSettings: {
     barColor: "#66d8fe",
@@ -177,6 +192,7 @@ export const checkNormalBar = ({
   rightLegendSettings,
   bottomLegendSettings,
   topLegendSettings,
+  legendSettings,
   barSettings
 }) => {
   const result = {
@@ -192,6 +208,7 @@ export const checkNormalBar = ({
     rightLegendSettings,
     bottomLegendSettings,
     topLegendSettings,
+    legendSettings,
     barSettings
   };
 

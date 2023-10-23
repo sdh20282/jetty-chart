@@ -18,6 +18,7 @@ const NormalBar = ({
   topLabelSettings,
   leftLegendSettings,
   rightLegendSettings,
+  legendSettings,
   barSettings
 }) => {
   const result = checkNormalBar({
@@ -31,23 +32,14 @@ const NormalBar = ({
     topLabelSettings,
     leftLegendSettings,
     rightLegendSettings,
+    legendSettings,
     barSettings
   });
 
-  const { width, height, margin, padding, reverse, horizontal } = result.normalSettings;
+  const { width, height, margin, padding, reverse, horizontal, colorPalette } = result.normalSettings;
   const { autoScope, maxScope, minScope, showTopScope } = result.scopeSettings;
-  const {
-    barColor,
-    barGap,
-    barOnlyUpperRadius,
-    useBarBorderRadius,
-    barBorderRadius,
-    useBarBorder,
-    barBorderWidth,
-    barBorderColor,
-    useMinHeight,
-    minHeight
-  } = result.barSettings;
+  const { barGap, barOnlyUpperRadius, useBarBorderRadius, barBorderRadius, useBarBorder, barBorderWidth, barBorderColor, useMinHeight, minHeight } =
+    result.barSettings;
 
   const scopeResult = autoScope ? getAutoScope({ data }) : getCalculatedScope({ maxScope, minScope });
 
@@ -103,6 +95,7 @@ const NormalBar = ({
       rightLegendSettings={result.rightLegendSettings}
       bottomLegendSettings={result.bottomLegendSettings}
       topLegendSettings={result.topLegendSettings}
+      legendSettings={result.legendSettings}
     >
       <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
         {data.map((d, idx) => {
@@ -180,7 +173,7 @@ const NormalBar = ({
                           h -${barTotalWidth}
                           z`
                   }
-                  fill={barColor}
+                  fill={colorPalette[0]}
                   stroke={useBarBorder ? barBorderColor : ""}
                   strokeWidth={useBarBorder ? barBorderWidth : "0"}
                 />
@@ -189,7 +182,7 @@ const NormalBar = ({
                   width={horizontal ? height : halfBarRealWidth + halfBarRealWidth}
                   height={horizontal ? halfBarRealWidth + halfBarRealWidth : height}
                   transform={horizontal ? `translate(${nowData.value >= 0 ? 0 : -height})` : `translate(0,${nowData.value >= 0 ? 0 : height})`}
-                  fill={barColor}
+                  fill={colorPalette[0]}
                   rx={borderRadius}
                   ry={borderRadius}
                   stroke={useBarBorder ? barBorderColor : ""}
