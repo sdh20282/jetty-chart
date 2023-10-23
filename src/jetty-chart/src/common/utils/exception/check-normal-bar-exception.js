@@ -6,7 +6,7 @@ const normalBarSetting = {
     width: 400,
     height: 280,
     backgroundColor: "#fff",
-    margin: { top: 50, bottom: 40, left: 60, right: 60 },
+    margin: { top: 60, bottom: 60, left: 60, right: 100 },
     padding: 10,
     reverse: false,
     horizontal: false
@@ -59,7 +59,7 @@ const normalBarSetting = {
   },
   // 오른쪽 라벨 세팅
   rightLabelSettings: {
-    useLabel: true,
+    useLabel: false,
     labelOnLeft: false,
     labelMargin: 5,
     labelSize: 11,
@@ -91,7 +91,7 @@ const normalBarSetting = {
   },
   // 위쪽 라벨 세팅
   topLabelSettings: {
-    useLabel: true,
+    useLabel: false,
     labelOnBottom: false,
     labelMargin: 5,
     labelSize: 11,
@@ -104,6 +104,50 @@ const normalBarSetting = {
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
     sideLineWidth: 2
+  },
+  // 왼쪽 설명 세팅
+  leftLegendSettings: {
+    useLegend: true,
+    legendOnLeft: true,
+    legendMargin: 35,
+    legendSize: 11,
+    legendWeight: 700,
+    legendColor: "#333",
+    legendReverse: false,
+    legendMove: 0
+  },
+  // 오른쪽 설명 세팅
+  rightLegendSettings: {
+    useLegend: false,
+    legendOnLeft: false,
+    legendMargin: 35,
+    legendSize: 11,
+    legendWeight: 700,
+    legendColor: "#333",
+    legendReverse: false,
+    legendMove: 0
+  },
+  // 아래쪽 설명 세팅
+  bottomLegendSettings: {
+    useLegend: true,
+    legendOnBottom: true,
+    legendMargin: 35,
+    legendSize: 11,
+    legendWeight: 700,
+    legendColor: "#333",
+    legendReverse: false,
+    legendMove: 0
+  },
+  // 위쪽 설명 세팅
+  topLegendSettings: {
+    useLegend: false,
+    legendOnBottom: false,
+    legendMargin: 35,
+    legendSize: 11,
+    legendWeight: 700,
+    legendColor: "#333",
+    legendReverse: false,
+    legendMove: 0
   },
   // 바 세팅
   barSettings: {
@@ -129,6 +173,10 @@ export const checkNormalBar = ({
   rightLabelSettings,
   bottomLabelSettings,
   topLabelSettings,
+  leftLegendSettings,
+  rightLegendSettings,
+  bottomLegendSettings,
+  topLegendSettings,
   barSettings
 }) => {
   const result = {
@@ -140,6 +188,10 @@ export const checkNormalBar = ({
     rightLabelSettings,
     bottomLabelSettings,
     topLabelSettings,
+    leftLegendSettings,
+    rightLegendSettings,
+    bottomLegendSettings,
+    topLegendSettings,
     barSettings
   };
 

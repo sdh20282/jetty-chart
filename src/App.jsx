@@ -2,32 +2,20 @@ import { NormalBar } from "./jetty-chart/src";
 
 const data = [
   {
-    value: 1,
+    value: 0.7,
     label: "test1"
   },
   {
     value: 0.0001,
-    label: "test1"
+    label: "test2"
   },
   {
-    value: 1.4,
-    label: "test1"
-  },
-  {
-    value: 5,
-    label: "test1"
+    value: 1.2,
+    label: "test3"
   },
   {
     value: 1.9,
-    label: "test1"
-  },
-  {
-    value: 0.9,
-    label: "test1"
-  },
-  {
-    value: 1.7,
-    label: "test1"
+    label: "test4"
   }
 ];
 
