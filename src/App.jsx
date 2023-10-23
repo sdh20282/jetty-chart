@@ -6,7 +6,7 @@ const data = [
     label: "test1"
   },
   {
-    value: 0.0001,
+    value: 0.01,
     label: "test2"
   },
   {
@@ -14,7 +14,7 @@ const data = [
     label: "test3"
   },
   {
-    value: 1.9,
+    value: -1.9,
     label: "test4"
   }
 ];
