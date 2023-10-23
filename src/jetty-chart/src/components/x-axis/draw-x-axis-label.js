@@ -80,3 +80,4 @@ export const DrawXAxisLabel = ({
     )
   );
 };
+/* eslint-enable complexity */

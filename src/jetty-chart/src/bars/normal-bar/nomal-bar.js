@@ -4,6 +4,7 @@ import { checkNormalBar } from "../../common/utils/exception/check-normal-bar-ex
 import { getAutoScope, getCalculatedScope } from "../../common/utils/scope/calculate-scope";
 import { checkBarBorderRadius } from "../../common/utils/exception/check-common-exception";
 
+/* eslint-disable complexity */
 const NormalBar = ({
   data,
   normalSettings,
@@ -30,8 +31,18 @@ const NormalBar = ({
 
   const { width, height, margin, padding, reverse, horizontal } = result.normalSettings;
   const { autoScope, maxScope, minScope, showTopScope } = result.scopeSettings;
-  const { barColor, barGap, barOnlyUpperRadius, useBarBorderRadius, barBorderRadius, useBarBorder, barBorderWidth, barBorderColor } =
-    result.barSettings;
+  const {
+    barColor,
+    barGap,
+    barOnlyUpperRadius,
+    useBarBorderRadius,
+    barBorderRadius,
+    useBarBorder,
+    barBorderWidth,
+    barBorderColor,
+    useMinHeight,
+    minHeight
+  } = result.barSettings;
 
   const scopeResult = autoScope ? getAutoScope({ data }) : getCalculatedScope({ maxScope, minScope });
 
@@ -92,8 +103,13 @@ const NormalBar = ({
           }
 
           const center = (drawWidth / data.length) * idx + drawWidth / data.length / 2;
-          const barHeight = (Math.abs(nowData.value) / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
-          const barHeightWithoutRadius = barHeight >= barBorderRadius ? barHeight - barBorderRadius : barHeight;
+          let barHeight = (Math.abs(nowData.value) / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
+
+          if (useMinHeight && barHeight < minHeight) {
+            barHeight = minHeight;
+          }
+
+          const barHeightWithoutRadius = barHeight > barBorderRadius ? barHeight - barBorderRadius : barHeight;
 
           const borderRadius = useBarBorderRadius
             ? checkBarBorderRadius({ halfWidth: halfBarRealWidth, height: barHeightWithoutRadius, borderRadius: barBorderRadius })
@@ -177,5 +193,6 @@ const NormalBar = ({
     </BarCommon>
   );
 };
+/* eslint-enable complexity */
 
 export { NormalBar };
