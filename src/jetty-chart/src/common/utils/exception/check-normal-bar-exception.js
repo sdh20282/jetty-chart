@@ -152,6 +152,7 @@ const normalBarSetting = {
   },
   // 설명 세팅
   legendSettings: {
+    useLegend: true,
     xLocation: 325,
     yLocation: 190,
     directionColumn: true,
