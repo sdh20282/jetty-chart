@@ -15,12 +15,12 @@ export const DrawYAxisGridLine = ({
           return (
             <line
               key={"background-line-" + c + "-" + idx}
-              opacity={lineOpacity}
               x1={horizontal ? location : "0"}
               x2={horizontal ? location : width}
               y1={horizontal ? "0" : location}
               y2={horizontal ? width : location}
               stroke={lineColor}
+              strokeOpacity={lineOpacity}
               strokeWidth={lineWidth}
               strokeDasharray={lineDash && c !== 0 ? `${lineDashWidth},${lineDashGap}` : "0"}
               strokeLinecap={lineRound ? "round" : ""}

@@ -40,8 +40,19 @@ const NormalBar = ({
 
   const { width, height, margin, padding, reverse, horizontal, colorPalette } = result.normalSettings;
   const { autoScope, maxScope, minScope, showTopScope } = result.scopeSettings;
-  const { barGap, barOnlyUpperRadius, useBarBorderRadius, barBorderRadius, useBarBorder, barBorderWidth, barBorderColor, useMinHeight, minHeight } =
-    result.barSettings;
+  const {
+    barOpacity,
+    barGap,
+    barOnlyUpperRadius,
+    useBarBorderRadius,
+    barBorderRadius,
+    useBarBorder,
+    barBorderWidth,
+    barBorderColor,
+    barBorderOpacity,
+    useMinHeight,
+    minHeight
+  } = result.barSettings;
 
   const scopeResult = autoScope ? getAutoScope({ data }) : getCalculatedScope({ maxScope, minScope });
 
@@ -178,7 +189,9 @@ const NormalBar = ({
                           z`
                   }
                   fill={colorPalette[0]}
+                  opacity={barOpacity}
                   stroke={useBarBorder ? barBorderColor : ""}
+                  strokeOpacity={barBorderOpacity}
                   strokeWidth={useBarBorder ? barBorderWidth : "0"}
                 />
               ) : (
@@ -187,9 +200,11 @@ const NormalBar = ({
                   height={horizontal ? halfBarRealWidth + halfBarRealWidth : height}
                   transform={horizontal ? `translate(${nowData.value >= 0 ? 0 : -height})` : `translate(0,${nowData.value >= 0 ? 0 : height})`}
                   fill={colorPalette[0]}
+                  opacity={barOpacity}
                   rx={borderRadius}
                   ry={borderRadius}
                   stroke={useBarBorder ? barBorderColor : ""}
+                  strokeOpacity={barBorderOpacity}
                   strokeWidth={useBarBorder ? barBorderWidth : "0"}
                 ></rect>
               )}

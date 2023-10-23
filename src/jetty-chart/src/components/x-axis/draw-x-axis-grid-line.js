@@ -11,12 +11,12 @@ export const DrawXAxisGridLine = ({
         <g transform={horizontal ? `translate(0,0)` : `translate(0,0)`}>
           <line
             key={"background-line-" + 0 + "-" + 0}
-            opacity={lineOpacity}
             x1={horizontal ? "0" : 0}
             x2={horizontal ? height : 0}
             y1={horizontal ? 0 : "0"}
             y2={horizontal ? 0 : height}
             stroke={lineColor}
+            strokeOpacity={lineOpacity}
             strokeWidth={lineWidth}
             strokeDasharray={lineDash ? `${lineDashWidth},${lineDashGap}` : 0}
             strokeLinecap={lineRound ? "round" : ""}
@@ -31,12 +31,12 @@ export const DrawXAxisGridLine = ({
             return (
               <line
                 key={"background-line-" + d + "-" + idx}
-                opacity={lineOpacity}
                 x1={horizontal ? "0" : x}
                 x2={horizontal ? height : x}
                 y1={horizontal ? x : "0"}
                 y2={horizontal ? x : height}
                 stroke={lineColor}
+                strokeOpacity={lineOpacity}
                 strokeWidth={lineWidth}
                 strokeDasharray={lineDash && d !== 0 ? `${lineDashWidth},${lineDashGap}` : "0"}
                 strokeLinecap={lineRound ? "round" : ""}
@@ -49,12 +49,12 @@ export const DrawXAxisGridLine = ({
         <g transform={horizontal ? `translate(0,${width})` : `translate(${width},0)`}>
           <line
             key={"background-line-" + 0 + "-" + 0}
-            opacity={lineOpacity}
             x1={horizontal ? "0" : 0}
             x2={horizontal ? height : 0}
             y1={horizontal ? 0 : "0"}
             y2={horizontal ? 0 : height}
             stroke={lineColor}
+            strokeOpacity={lineOpacity}
             strokeWidth={lineWidth}
             strokeDasharray={lineDash ? `${lineDashWidth},${lineDashGap}` : 0}
             strokeLinecap={lineRound ? "round" : ""}

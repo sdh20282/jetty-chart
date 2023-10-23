@@ -7,6 +7,7 @@ export const DrawXAxisLabel = ({
     labelMargin,
     labelSize,
     labelWeight,
+    labelOpacity,
     labelColor,
     labelRotate,
     labelMove,
@@ -38,12 +39,12 @@ export const DrawXAxisLabel = ({
             <g key={"category-" + d + "-" + idx} transform={horizontal ? `translate(0, ${x})` : `translate(${x})`}>
               {sideLineVisible && (
                 <line
-                  opacity={sideLineOpacity}
                   x1={horizontal ? (labelOnBottom ? totalLabelMargin - sideLineSize : -totalLabelMargin + sideLineSize) : "0"}
                   x2={horizontal ? (labelOnBottom ? totalLabelMargin : -totalLabelMargin) : "0"}
                   y1={horizontal ? "0" : labelOnBottom ? -totalLabelMargin + sideLineSize : totalLabelMargin - sideLineSize}
                   y2={horizontal ? "0" : labelOnBottom ? -totalLabelMargin : totalLabelMargin}
                   stroke={sideLineColor}
+                  strokeOpacity={sideLineOpacity}
                   strokeWidth={sideLineWidth}
                 ></line>
               )}
@@ -69,6 +70,7 @@ export const DrawXAxisLabel = ({
                   fontSize={labelSize}
                   fontWeight={labelWeight}
                   fill={labelColor}
+                  opacity={labelOpacity}
                   transform={`translate(0,-${horizontal ? labelSize / 2 : 0})`}
                 >
                   {d}

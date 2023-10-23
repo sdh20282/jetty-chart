@@ -12,8 +12,10 @@ export const DrawLegends = ({
     symbolSize,
     symbolRadius,
     symbolMargin,
+    symbolOpacity,
     legendSize,
     legendWeight,
+    legendOpacity,
     legendColor,
     legendOnStart
   }
@@ -47,6 +49,7 @@ export const DrawLegends = ({
               <rect
                 width={symbolSize}
                 height={symbolSize}
+                opacity={symbolOpacity}
                 fill={colorPalette[idx % colorPalette.length]}
                 rx={symbolRadius}
                 ry={symbolRadius}
@@ -56,6 +59,7 @@ export const DrawLegends = ({
                 fontSize={legendSize}
                 fontWeight={legendWeight}
                 fill={legendColor}
+                opacity={legendOpacity}
                 dominantBaseline="middle"
                 textAnchor={legendOnStart ? "start" : "end"}
                 transform={`translate(${legendOnStart ? symbolSize + symbolMargin : itemWidth},${symbolSize / 2})`}

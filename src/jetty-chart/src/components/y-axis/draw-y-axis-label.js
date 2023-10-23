@@ -7,6 +7,7 @@ export const DrawYAxisLabel = ({
     labelMargin,
     labelSize,
     labelWeight,
+    labelOpacity,
     labelColor,
     labelRotate,
     labelMove,
@@ -56,10 +57,11 @@ export const DrawYAxisLabel = ({
                       ? "end"
                       : "start"
                   }
-                  fontSize={labelSize}
                   height={labelSize}
+                  fontSize={labelSize}
                   fontWeight={labelWeight}
                   fill={labelColor}
+                  opacity={labelOpacity}
                   transform={`translate(0,${horizontal ? 0 : -labelSize / 2})`}
                 >
                   {c}
@@ -67,12 +69,12 @@ export const DrawYAxisLabel = ({
               </g>
               {sideLineVisible && (
                 <line
-                  opacity={sideLineOpacity}
                   x1={horizontal ? "0" : labelOnLeft ? totalLabelMargin - sideLineSize : -totalLabelMargin + sideLineSize}
                   x2={horizontal ? "0" : labelOnLeft ? totalLabelMargin : -totalLabelMargin}
                   y1={horizontal ? (labelOnLeft ? totalLabelMargin - sideLineSize : -totalLabelMargin + sideLineSize) : "0"}
                   y2={horizontal ? (labelOnLeft ? totalLabelMargin : -totalLabelMargin) : "0"}
                   stroke={sideLineColor}
+                  strokeOpacity={sideLineOpacity}
                   strokeWidth={sideLineWidth}
                 ></line>
               )}

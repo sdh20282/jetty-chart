@@ -49,6 +49,7 @@ const normalBarSetting = {
     labelMargin: 5,
     labelSize: 12,
     labelWeight: 500,
+    labelOpacity: 1,
     labelColor: "#777",
     labelRotate: 0,
     labelMove: 0,
@@ -65,6 +66,7 @@ const normalBarSetting = {
     labelMargin: 5,
     labelSize: 12,
     labelWeight: 500,
+    labelOpacity: 1,
     labelColor: "#777",
     labelRotate: 0,
     labelMove: 0,
@@ -81,6 +83,7 @@ const normalBarSetting = {
     labelMargin: 5,
     labelSize: 12,
     labelWeight: 500,
+    labelOpacity: 1,
     labelColor: "#777",
     labelRotate: 0,
     labelMove: 0,
@@ -97,6 +100,7 @@ const normalBarSetting = {
     labelMargin: 5,
     labelSize: 12,
     labelWeight: 500,
+    labelOpacity: 1,
     labelColor: "#777",
     labelRotate: 0,
     labelMove: 0,
@@ -113,6 +117,7 @@ const normalBarSetting = {
     legendMargin: 40,
     legendSize: 14,
     legendWeight: 700,
+    legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
     legendMove: 0
@@ -124,6 +129,7 @@ const normalBarSetting = {
     legendMargin: 40,
     legendSize: 14,
     legendWeight: 700,
+    legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
     legendMove: 0
@@ -135,6 +141,7 @@ const normalBarSetting = {
     legendMargin: 40,
     legendSize: 14,
     legendWeight: 700,
+    legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
     legendMove: 0
@@ -146,6 +153,7 @@ const normalBarSetting = {
     legendMargin: 40,
     legendSize: 14,
     legendWeight: 700,
+    legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
     legendMove: 0
@@ -160,23 +168,26 @@ const normalBarSetting = {
     itemWidth: 80,
     itemMargin: 2,
     symbolSize: 16,
-    symbolRadius: 2,
+    symbolRadius: 3,
     symbolMargin: 5,
+    symbolOpacity: 1,
     legendSize: 14,
     legendWeight: 400,
+    legendOpacity: 1,
     legendColor: "#aaa",
     legendOnStart: true
   },
   // 바 세팅
   barSettings: {
-    barColor: "#66d8fe",
+    barOpacity: 1,
     barGap: 0.2,
     barOnlyUpperRadius: true,
     useBarBorderRadius: true,
     barBorderRadius: 5,
     useBarBorder: false,
     barBorderWidth: 2,
-    barBorderColor: "#c4c4c4",
+    barBorderColor: "#000",
+    barBorderOpacity: 1,
     useMinHeight: true,
     minHeight: 2
   }
