@@ -1,3 +1,3 @@
-import { VerticalBar, HorizontalBar } from "./bars/bars";
+import { NormalBar } from "./bars/bars";
 
-export { VerticalBar, HorizontalBar };
+export { NormalBar };

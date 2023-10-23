@@ -1,38 +1,42 @@
-import { VerticalBar } from "./jetty-chart/src";
+import { NormalBar } from "./jetty-chart/src";
 
 const data = [
   {
-    value: 10,
-    label: "test1",
+    value: 1.1,
+    label: "test1"
   },
   {
-    value: 10,
-    label: "test1",
+    value: 0.01,
+    label: "test1"
   },
   {
-    value: 10,
-    label: "test1",
+    value: 1.4,
+    label: "test1"
   },
   {
-    value: 10,
-    label: "test1",
+    value: 5,
+    label: "test1"
   },
   {
-    value: 10,
-    label: "test1",
+    value: 1.9,
+    label: "test1"
   },
+  {
+    value: 0.9,
+    label: "test1"
+  },
+  {
+    value: -1.7,
+    label: "test1"
+  }
 ];
 
-const MyVerticalBar = ({ data }) => {
-  return <VerticalBar data={data} width="400" height="300" backgroundColor="#c4c4c4" />;
+const myNormalBar = ({ data }) => {
+  return <NormalBar data={data} normalSettings={{ horizontal: false, reverse: false, margin: { right: 10 } }} />;
 };
 
 function App() {
-  return (
-    <div>
-      hello world
-      {MyVerticalBar({ data })}
-    </div>
-  );
+  return <div>{myNormalBar({ data })}</div>;
 }
+
 export default App;
