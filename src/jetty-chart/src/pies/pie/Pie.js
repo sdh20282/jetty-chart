@@ -1,5 +1,5 @@
 import PaintPie from "./PaintPie";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TestFile from "./testFile/TestFile";
 
 const Pie = ({
@@ -22,6 +22,16 @@ const Pie = ({
   const [newGeneralSettings, setNewGeneralSettings] = useState(generalSettings);
   const [newPieSettings, setNewPieSettings] = useState(pieSettings);
 
+  const calcData = () => {
+    let sum = 0;
+    for (let i = 0; i < data.length; i++) {
+      sum += data[i].value;
+    }
+    return data.map((item) => {
+      return { ...item, value: (item.value = item.value / sum) };
+    });
+  };
+
   return (
     <div>
       <TestFile
@@ -30,7 +40,11 @@ const Pie = ({
         changeNewGeneralSettings={setNewGeneralSettings}
         changeNewPieSettings={setNewPieSettings}
       />
-      <PaintPie data={data} generalSettings={newGeneralSettings} pieSettings={newPieSettings} />
+      <PaintPie
+        data={calcData(data)}
+        generalSettings={newGeneralSettings}
+        pieSettings={newPieSettings}
+      />
     </div>
   );
 };

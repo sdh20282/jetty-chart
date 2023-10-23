@@ -31,7 +31,7 @@ const Test = ({ generalSettings, pieSettings, changeNewGeneralSettings, changeNe
       <p>Pie Test</p>
       <div>
         <div>
-          <label>width</label>
+          <label style={{ color: "red" }}>width</label>
           <input
             size={5}
             style={{ margin: "10px" }}
@@ -39,7 +39,7 @@ const Test = ({ generalSettings, pieSettings, changeNewGeneralSettings, changeNe
             value={width}
             onChange={(e) => setWidth(e.target.value)}
           />
-          <label>height</label>
+          <label style={{ color: "red" }}>height</label>
           <input
             size={5}
             style={{ margin: "10px" }}
@@ -47,7 +47,7 @@ const Test = ({ generalSettings, pieSettings, changeNewGeneralSettings, changeNe
             value={height}
             onChange={(e) => setHeight(e.target.value)}
           />
-          <label>backgroundColor</label>
+          <label style={{ color: "red" }}>backgroundColor</label>
           <input
             size={5}
             style={{ margin: "10px" }}
@@ -88,7 +88,7 @@ const Test = ({ generalSettings, pieSettings, changeNewGeneralSettings, changeNe
           />
         </div>
         <div>
-          <label>startAngle</label>
+          <label style={{ color: "red" }}>startAngle</label>
           <input
             size={5}
             style={{ margin: "10px" }}
@@ -122,9 +122,11 @@ const Test = ({ generalSettings, pieSettings, changeNewGeneralSettings, changeNe
           />
         </div>
       </div>
-      <button style={{ margin: "10px" }} onClick={() => setTestToggle(!testToggle)}>
-        Test
-      </button>
+      <div>
+        <button style={{ margin: "10px" }} onClick={() => setTestToggle(!testToggle)}>
+          Test
+        </button>
+      </div>
     </>
   );
 };

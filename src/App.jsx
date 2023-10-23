@@ -1,44 +1,39 @@
-import { VerticalBar } from "./jetty-chart/src";
 import { Pie } from "./jetty-chart/src/pies/pie/Pie";
 
 const data = [
   {
-    value: 0.3,
+    value: 0.2,
     label: "test1",
   },
   {
-    value: 0.23,
+    value: 0.2,
     label: "test2",
   },
   {
-    value: 0.15,
+    value: 0.2,
     label: "test3",
   },
   {
-    value: 0.12,
+    value: 0.2,
     label: "test4",
   },
   {
-    value: 0.12,
+    value: 0.08,
     label: "test5",
   },
   {
-    value: 0.03,
+    value: 0.02,
+    label: "test5",
+  },
+  {
+    value: 0.09,
     label: "test5",
   },
   {
     value: 0.01,
     label: "test5",
   },
-  {
-    value: 0.04,
-    label: "test5",
-  },
 ];
-
-const MyVerticalBar = ({ data }) => {
-  return <VerticalBar data={data} width="400" height="300" backgroundColor="#c4c4c4" />;
-};
 
 const MyPie = ({ data }) => {
   return <Pie data={data} width="400" height="300" backgroundColor="#c4c4c4" />;
