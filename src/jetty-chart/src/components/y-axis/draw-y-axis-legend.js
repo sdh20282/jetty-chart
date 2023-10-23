@@ -1,7 +1,7 @@
 export const DrawYAxisLegend = ({
   yLegend,
   normalSettings: { totalWidth, totalHeight, horizontal },
-  legendSettings: { useLegend, legendOnLeft, legendMargin, legendSize, legendWeight, legendColor, legendReverse, legendMove }
+  legendSettings: { useLegend, legendOnLeft, legendMargin, legendSize, legendWeight, legendOpacity, legendColor, legendReverse, legendMove }
 }) => {
   const height = totalHeight / 2 + (horizontal ? legendMove : -legendMove);
 
@@ -19,6 +19,7 @@ export const DrawYAxisLegend = ({
           fontSize={legendSize}
           fontWeight={legendWeight}
           fill={legendColor}
+          opacity={legendOpacity}
           dominantBaseline="middle"
           textAnchor="middle"
           transform={horizontal ? `rotate(${legendReverse ? 180 : 0})` : `rotate(${legendReverse ? 90 : -90})`}
