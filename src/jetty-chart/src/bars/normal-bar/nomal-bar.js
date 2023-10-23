@@ -51,7 +51,15 @@ const NormalBar = ({
     barBorderColor,
     barBorderOpacity,
     useMinHeight,
-    minHeight
+    minHeight,
+    useLabel,
+    labelPosition,
+    labelMargin,
+    labelSize,
+    labelWeight,
+    labelOpacity,
+    labelColor,
+    labelInvisibleSize
   } = result.barSettings;
 
   const scopeResult = autoScope ? getAutoScope({ data }) : getCalculatedScope({ maxScope, minScope });
@@ -127,7 +135,11 @@ const NormalBar = ({
             barHeight = minHeight;
           }
 
-          const barHeightWithoutRadius = barHeight > barBorderRadius ? barHeight - barBorderRadius : barHeight;
+          let barHeightWithoutRadius = barHeight > barBorderRadius ? barHeight - barBorderRadius : barHeight;
+
+          if (useMinHeight && barHeightWithoutRadius < minHeight) {
+            barHeightWithoutRadius = minHeight;
+          }
 
           const borderRadius = useBarBorderRadius
             ? checkBarBorderRadius({ halfWidth: halfBarRealWidth, height: barHeightWithoutRadius, borderRadius: barBorderRadius })
@@ -135,6 +147,7 @@ const NormalBar = ({
 
           const barTotalWidth = halfBarRealWidth + halfBarRealWidth;
           const barWidthWithoutRadius = barTotalWidth - borderRadius - borderRadius;
+          const realHeight = barHeightWithoutRadius + borderRadius;
 
           return (
             <g
@@ -196,9 +209,17 @@ const NormalBar = ({
                 />
               ) : (
                 <rect
-                  width={horizontal ? height : halfBarRealWidth + halfBarRealWidth}
-                  height={horizontal ? halfBarRealWidth + halfBarRealWidth : height}
-                  transform={horizontal ? `translate(${nowData.value >= 0 ? 0 : -height})` : `translate(0,${nowData.value >= 0 ? 0 : height})`}
+                  width={
+                    horizontal ? (useMinHeight ? (barHeight < minHeight ? minHeight : barHeight) : barHeight) : halfBarRealWidth + halfBarRealWidth
+                  }
+                  height={
+                    horizontal ? halfBarRealWidth + halfBarRealWidth : useMinHeight ? (barHeight < minHeight ? minHeight : barHeight) : barHeight
+                  }
+                  transform={
+                    horizontal
+                      ? `translate(${nowData.value >= 0 ? 0 : -(useMinHeight ? (barHeight < minHeight ? minHeight : barHeight) : barHeight)})`
+                      : `translate(0,${nowData.value >= 0 ? 0 : useMinHeight ? (barHeight < minHeight ? minHeight : barHeight) : barHeight})`
+                  }
                   fill={colorPalette[0]}
                   opacity={barOpacity}
                   rx={borderRadius}
@@ -207,6 +228,45 @@ const NormalBar = ({
                   strokeOpacity={barBorderOpacity}
                   strokeWidth={useBarBorder ? barBorderWidth : "0"}
                 ></rect>
+              )}
+              {useLabel && realHeight > labelInvisibleSize && (
+                <g transform={horizontal ? `translate(${labelMargin})` : `translate(0,${-labelMargin})`}>
+                  <text
+                    fontSize={labelSize}
+                    fontWeight={labelWeight}
+                    fill={labelColor}
+                    opacity={labelOpacity}
+                    dominantBaseline={
+                      horizontal ? "middle" : labelPosition === "over" ? "ideographic" : labelPosition === "under" ? "hanging" : "middle"
+                    }
+                    textAnchor={horizontal ? (labelPosition === "over" ? "start" : labelPosition === "under" ? "end" : "middle") : "middle"}
+                    transform={
+                      horizontal
+                        ? `translate(${
+                            labelPosition === "over"
+                              ? nowData.value < 0
+                                ? 0
+                                : realHeight
+                              : labelPosition === "under"
+                              ? nowData.value >= 0
+                                ? 0
+                                : -realHeight
+                              : nowData.value >= 0
+                              ? realHeight / 2
+                              : -realHeight / 2
+                          },${halfBarRealWidth})`
+                        : `translate(${halfBarRealWidth},${
+                            labelPosition === "over"
+                              ? barHeight - (nowData.value < 0 ? 0 : realHeight)
+                              : labelPosition === "under"
+                              ? barHeight + (nowData.value >= 0 ? 0 : realHeight)
+                              : barHeight + (nowData.value >= 0 ? -realHeight / 2 : realHeight / 2)
+                          })`
+                    }
+                  >
+                    {reverse ? -nowData.value : nowData.value}
+                  </text>
+                </g>
               )}
             </g>
           );

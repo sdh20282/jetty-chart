@@ -161,7 +161,7 @@ const normalBarSetting = {
   // 설명 세팅
   legendSettings: {
     useLegend: true,
-    position: "bottom-right",
+    position: "bottom-right", // bottom center top - left center right
     xLocation: 16,
     yLocation: 0,
     directionColumn: true,
@@ -171,7 +171,7 @@ const normalBarSetting = {
     symbolRadius: 3,
     symbolMargin: 5,
     symbolOpacity: 1,
-    legendSize: 14,
+    legendSize: 12,
     legendWeight: 400,
     legendOpacity: 1,
     legendColor: "#aaa",
@@ -189,7 +189,15 @@ const normalBarSetting = {
     barBorderColor: "#000",
     barBorderOpacity: 1,
     useMinHeight: true,
-    minHeight: 2
+    minHeight: 2,
+    useLabel: true,
+    labelPosition: "under", // over, center, under,
+    labelMargin: 0,
+    labelSize: 11,
+    labelWeight: 500,
+    labelOpacity: 1,
+    labelColor: "#777",
+    labelInvisibleSize: 0
   }
 };
 
