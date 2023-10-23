@@ -15,7 +15,7 @@ const Pie = ({
     color: ["#ffeaa7", "#81ecec", "#fab1a0", "#74b9ff", "#ff7675", "#a29bfe", "#fd79a8", "#55efc4"],
     startAngle: 0, // 시작 위치 각도, default 0
     padSize: 100, // 조각 크기, default 100
-    padAngle: 1, // 조각 여백 default 0
+    padSpace: 1, // 조각 여백 default 0
     innerWidth: 50, // 내부원 크기, default 50
     cornerRadius: 0,
   },

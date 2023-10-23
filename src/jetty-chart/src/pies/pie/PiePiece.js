@@ -1,5 +1,5 @@
 import React from "react";
-import { checkRangePadAngle, checkRangeStrokeWidth } from "../utils/checkValue";
+import { checkRangePadSpace, checkRangeStrokeWidth } from "../utils/checkValue";
 
 const PiePiece = ({
   startX,
@@ -12,8 +12,8 @@ const PiePiece = ({
   value,
   label,
 }) => {
-  const targetRad = 2 * Math.PI * value * (1 - pieSettings.padAngle);
-  const targetSpace = 2 * Math.PI * pieSettings.padAngle;
+  const targetRad = 2 * Math.PI * value * (1 - pieSettings.padSpace / 100);
+  const targetSpace = (2 * Math.PI * value * pieSettings.padSpace) / 100 / 2;
   const targetRestRad = 2 * Math.PI * (1 - value);
   console.log("HI");
   console.log(targetRad, targetRestRad);
@@ -23,9 +23,7 @@ const PiePiece = ({
       fill="none"
       stroke={pieSettings.color[index]}
       strokeWidth={checkRangeStrokeWidth(pieSettings.innerWidth)}
-      strokeDasharray={`${targetSpace} ${targetRad} ${targetSpace} ${targetRestRad}`}
-      // strokeDasharray={`${targetRad} ${targetRestRad}`}
-      strokeDashoffset={checkRangePadAngle(0.025 * pieSettings.padAngle, value)}
+      strokeDasharray={`0 ${targetSpace} ${targetRad} ${targetSpace + targetRestRad}`}
     ></path>
   );
 };

@@ -8,7 +8,7 @@ const Test = ({ generalSettings, pieSettings, changeNewGeneralSettings, changeNe
   const [color, setColor] = useState(pieSettings.color);
   const [startAngle, setStartAngle] = useState(pieSettings.startAngle);
   const [padSize, setPadSize] = useState(pieSettings.padSize);
-  const [padAngle, setPadAngle] = useState(pieSettings.padAngle);
+  const [padSpace, setPadSpace] = useState(pieSettings.padSpace);
   const [innerWidth, setInnerWidth] = useState(pieSettings.innerWidth);
   const [testToggle, setTestToggle] = useState(true);
   useEffect(() => {
@@ -22,7 +22,7 @@ const Test = ({ generalSettings, pieSettings, changeNewGeneralSettings, changeNe
       color,
       startAngle,
       padSize,
-      padAngle,
+      padSpace,
       innerWidth,
     });
   }, [testToggle]);
@@ -104,13 +104,13 @@ const Test = ({ generalSettings, pieSettings, changeNewGeneralSettings, changeNe
             value={padSize}
             onChange={(e) => setPadSize(e.target.value)}
           />
-          <label>padAngle</label>
+          <label>padSpace</label>
           <input
             size={5}
             style={{ margin: "10px" }}
             type="text"
-            value={padAngle}
-            onChange={(e) => setPadAngle(e.target.value)}
+            value={padSpace}
+            onChange={(e) => setPadSpace(e.target.value)}
           />
           <label>innerWidth</label>
           <input
