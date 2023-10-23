@@ -22,7 +22,8 @@ const BarCommon = ({
     xAxisInitialPosition,
     xAxisWidth,
     yAxisHeight,
-    showTopScope
+    showTopScope,
+    colorPalette
   },
   axisXGridLineSettings,
   axisYGridLineSettings,
@@ -34,6 +35,7 @@ const BarCommon = ({
   rightLegendSettings,
   bottomLegendSettings,
   topLegendSettings,
+  legendSettings,
   children
 }) => {
   if (horizontal) {
@@ -119,10 +121,11 @@ const BarCommon = ({
             }}
             labelSettings={topLabelSettings}
           />
-          <DrawLegends keys={keys} />
           {/* 전달 받은 자식 요소 그리기 */}
           {children}
         </g>
+        {/* 설명 그리기 */}
+        <DrawLegends keys={keys} normalSettings={{ colorPalette }} legendSettings={legendSettings} />
       </svg>
     </div>
   );

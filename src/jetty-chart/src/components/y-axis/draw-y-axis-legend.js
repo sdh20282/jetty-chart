@@ -16,7 +16,7 @@ export const DrawYAxisLegend = ({
         <text
           fontSize={legendSize}
           fontWeight={legendWeight}
-          color={legendColor}
+          fill={legendColor}
           dominantBaseline="middle"
           textAnchor="middle"
           transform={horizontal ? `rotate(${legendReverse ? 180 : 0})` : `rotate(${legendReverse ? 90 : -90})`}
