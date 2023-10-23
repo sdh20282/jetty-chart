@@ -1,10 +1,12 @@
 export const DrawYAxisLegend = ({
+  yLegend,
   normalSettings: { totalWidth, totalHeight, horizontal },
   legendSettings: { useLegend, legendOnLeft, legendMargin, legendSize, legendWeight, legendColor, legendReverse, legendMove }
 }) => {
   const height = totalHeight / 2 + (horizontal ? legendMove : -legendMove);
 
   return (
+    yLegend &&
     useLegend && (
       <g
         transform={
@@ -21,7 +23,7 @@ export const DrawYAxisLegend = ({
           textAnchor="middle"
           transform={horizontal ? `rotate(${legendReverse ? 180 : 0})` : `rotate(${legendReverse ? 90 : -90})`}
         >
-          Values
+          {yLegend}
         </text>
       </g>
     )

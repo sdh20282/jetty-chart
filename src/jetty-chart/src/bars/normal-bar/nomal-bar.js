@@ -8,6 +8,8 @@ import { checkBarBorderRadius } from "../../common/utils/exception/check-common-
 const NormalBar = ({
   data,
   keys,
+  xLegend,
+  yLegend,
   normalSettings,
   scopeSettings,
   axisXGridLineSettings,
@@ -74,6 +76,8 @@ const NormalBar = ({
     <BarCommon
       data={data}
       keys={keys}
+      xLegend={xLegend}
+      yLegend={yLegend}
       normalSettings={{
         ...result.normalSettings,
         scope: scopeResult.scope,

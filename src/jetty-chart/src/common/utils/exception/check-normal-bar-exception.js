@@ -150,8 +150,9 @@ const normalBarSetting = {
     legendReverse: false,
     legendMove: 0
   },
+  // 설명 세팅
   legendSettings: {
-    xLocation: 320,
+    xLocation: 325,
     yLocation: 190,
     directionColumn: true,
     itemWidth: 60,

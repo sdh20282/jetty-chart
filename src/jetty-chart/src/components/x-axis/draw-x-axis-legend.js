@@ -1,10 +1,12 @@
 export const DrawXAxisLegend = ({
+  xLegend,
   normalSettings: { totalWidth, totalHeight, horizontal },
   legendSettings: { useLegend, legendOnBottom, legendMargin, legendSize, legendWeight, legendColor, legendReverse, legendMove }
 }) => {
   const width = totalWidth / 2 + (horizontal ? -legendMove : legendMove);
 
   return (
+    xLegend &&
     useLegend && (
       <g
         transform={
@@ -21,7 +23,7 @@ export const DrawXAxisLegend = ({
           textAnchor="middle"
           transform={horizontal ? `rotate(${legendReverse ? 90 : -90})` : `rotate(${legendReverse ? 180 : 0})`}
         >
-          Category
+          {xLegend}
         </text>
       </g>
     )
