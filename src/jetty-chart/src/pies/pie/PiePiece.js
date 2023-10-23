@@ -12,14 +12,12 @@ const PiePiece = ({
   value,
   label,
 }) => {
-  const targetRad = 2 * Math.PI * value * (1 - pieSettings.padSpace / 100);
-  const targetSpace = (2 * Math.PI * value * pieSettings.padSpace) / 100 / 2;
+  const targetRad = 2 * Math.PI * value * (1 - checkRangePadSpace(pieSettings.padSpace) / 100);
+  const targetSpace = (2 * Math.PI * value * checkRangePadSpace(pieSettings.padSpace)) / 100 / 2;
   const targetRestRad = 2 * Math.PI * (1 - value);
-  console.log("HI");
-  console.log(targetRad, targetRestRad);
   return (
     <path
-      d={`M ${startX} ${startY} A 1 1 0 ${isLargeArcFlag} 1 ${endX} ${endY} L 0 0`}
+      d={`M ${startX} ${startY} A 1 1 0 ${isLargeArcFlag} 1 ${endX} ${endY}`}
       fill="none"
       stroke={pieSettings.color[index]}
       strokeWidth={checkRangeStrokeWidth(pieSettings.innerWidth)}
