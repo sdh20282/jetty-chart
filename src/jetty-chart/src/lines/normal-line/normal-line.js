@@ -1,57 +1,100 @@
-import { LineCommon } from "../line-common/line-common";
-
-import { getLevelAutoScope, getLevelCalculatedScope } from "../../common/utils/level/calculate-level";
 import { checkNormalLine } from "../../common/utils/exception/check-line-exception";
+import { BarCommon } from "../../bars/bar-common/bar-common";
+import { getAutoScope, getCalculatedScope } from "../../common/utils/scope/calculate-scope";
 
-const NormalLine = ({ data, generalSettings, levelSettings, lineSettings }) => {
+const NormalLine = ({
+  data,
+  normalSettings,
+  scopeSettings,
+  axisXGridLineSettings,
+  axisYGridLineSettings,
+  leftLabelSettings,
+  rightLabelSettings,
+  bottomLabelSettings,
+  topLabelSettings,
+  lineSettings
+}) => {
   const result = checkNormalLine({
-    generalSettings,
-    levelSettings,
+    normalSettings,
+    scopeSettings,
+    axisXGridLineSettings,
+    axisYGridLineSettings,
+    leftLabelSettings,
+    rightLabelSettings,
+    bottomLabelSettings,
+    topLabelSettings,
     lineSettings
   });
 
-  const { width, height, padding, reverse } = result.generalSettings;
-  const { levelAutoScope, levelMaxScope, levelMinScope } = result.levelSettings;
-  const { chartPadding, lineColor, lineWidth, pointSize, pointColor, pointBorderColor, pointBorderWidth, lineOnlyUpperRadius, lineBorderRadius } =
-    result.lineSettings;
+  const { width, height, margin, padding, reverse, horizontal } = result.normalSettings;
 
-  const levelResult = levelAutoScope
-    ? getLevelAutoScope({ data })
-    : getLevelCalculatedScope({
-        maxScope: levelMaxScope,
-        minScope: levelMinScope
-      });
+  const { autoScope, maxScope, minScope, showTopScope } = result.scopeSettings;
+
+  const {
+    lineColor,
+    lineWidth,
+    pointSize,
+    pointColor,
+    pointBorderColor,
+    pointBorderWidth,
+    valueTextColor,
+    valueTextSize,
+    valueTextOffsetX,
+    valueTextOffsetY,
+    valueTextWeight
+  } = result.lineSettings;
+
+  const scopeResult = autoScope ? getAutoScope({ data }) : getCalculatedScope({ maxScope, minScope });
 
   if (reverse) {
-    levelResult.level.reverse();
-    result.lineSettings.categoryTextOnBottom = !result.lineSettings.categoryTextOnBottom;
+    scopeResult.scope.reverse();
   }
 
-  const chartAreaWidth = width - padding.left - padding.right - chartPadding - chartPadding;
-  const chartAreaHeight = height - padding.bottom - padding.top;
+  const totalWidth = horizontal ? height - margin.bottom - margin.top : width - margin.left - margin.right;
+  const totalHeight = horizontal ? width - margin.left - margin.right : height - margin.bottom - margin.top;
 
-  const fullAreaWidth = chartAreaWidth / data.length;
-  const halfAreaWidth = fullAreaWidth / 2;
+  const drawWidth = totalWidth - padding - padding;
+  const lineHeight = totalHeight / (scopeResult.scope.length - 1);
+
+  const AreaWidth = drawWidth / data.length;
+  const halfAreaWidth = AreaWidth / 2;
   const pointGapWidth = halfAreaWidth * 3;
 
-  const halfWidth = halfAreaWidth;
+  const zeroHeight =
+    scopeResult.scope.reduce((acc, cur) => {
+      if (cur !== 0) {
+        acc += 1;
+      }
 
-  // console.log(result.generalSettings.horizontal);
+      if (cur === 0) {
+        acc = 0;
+      }
+
+      return acc;
+    }, 0) * lineHeight;
 
   return (
-    <LineCommon
+    <BarCommon
       data={data}
-      generalSettings={{ ...result.generalSettings }}
-      levelSettings={{
-        level: levelResult.level,
-        ...result.levelSettings
+      normalSettings={{
+        ...result.normalSettings,
+        scope: scopeResult.scope,
+        totalWidth,
+        totalHeight,
+        drawWidth,
+        xAxisInitialPosition: halfAreaWidth,
+        xAxisWidth: AreaWidth,
+        yAxisHeight: lineHeight,
+        showTopScope
       }}
-      categorySettings={{
-        categoryPadding: chartPadding,
-        ...result.lineSettings
-      }}
+      axisXGridLineSettings={result.axisXGridLineSettings}
+      axisYGridLineSettings={result.axisYGridLineSettings}
+      leftLabelSettings={result.leftLabelSettings}
+      rightLabelSettings={result.rightLabelSettings}
+      bottomLabelSettings={result.bottomLabelSettings}
+      topLabelSettings={result.topLabelSettings}
     >
-      <g transform={`translate(${chartPadding})`}>
+      <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
         {data.map((d, idx) => {
           const nowData = { ...d };
           const nextData = { ...data[idx + 1] };
@@ -61,61 +104,58 @@ const NormalLine = ({ data, generalSettings, levelSettings, lineSettings }) => {
             nextData.value = -nextData.value;
           }
 
-          const x = (chartAreaWidth / data.length) * idx + chartAreaWidth / data.length / 2;
-          const height = (Math.abs(nowData.value) / (levelResult.maxScope - levelResult.minScope)) * chartAreaHeight;
-          const realHeight = height >= lineBorderRadius ? height - lineBorderRadius : 0;
+          const center = (drawWidth / data.length) * idx + drawWidth / data.length / 2;
+          const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
 
-          const nextX = (chartAreaWidth / data.length) * idx + chartAreaWidth / data.length / 2;
-          const nextHeight = (Math.abs(nextData.value) / (levelResult.maxScope - levelResult.minScope)) * chartAreaHeight;
-          const nextRealHeight = nextHeight >= lineBorderRadius ? nextHeight - lineBorderRadius : 0;
+          const nextHeight = (nextData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
 
-          const differentHeight = height - nextRealHeight - lineBorderRadius;
+          const differentHeight = height - nextHeight;
 
           console.log(idx);
-          console.log(pointGapWidth);
-          console.log("now", x, height, realHeight);
-          console.log("next", nextX, nextHeight);
-          if (idx === data.length - 1) {
-            return (
-              <g key={"data-" + nowData.label + "-" + idx} transform={`translate(${x - halfWidth},${chartAreaHeight - height})`}>
-                <circle cx={halfWidth} cy="0" r={pointSize} fill={pointColor} stroke={pointBorderColor} strokeWidth={pointBorderWidth} />
-                <text
-                  transform={`translate(${halfWidth},${-10})`}
-                  dominantBaseline={"alphabetic"}
-                  textAnchor="middle"
-                  fontSize={10}
-                  fontWeight={500}
-                  fill={"#000"}
-                >
-                  {d.value}
-                </text>
-              </g>
-            );
-          }
+          console.log(center);
+          console.log("now", nowData.value, height);
+          console.log("next", nextData.value, nextHeight);
 
           return (
-            <g key={"data-" + nowData.label + "-" + idx} transform={`translate(${x - halfWidth},${chartAreaHeight - height})`}>
-              {lineOnlyUpperRadius && lineBorderRadius !== "0" ? (
+            <g
+              key={"data-" + nowData.label + "-" + idx}
+              transform={
+                horizontal
+                  ? `translate(${zeroHeight + height},${center - halfAreaWidth})`
+                  : `translate(${center - halfAreaWidth},${totalHeight - height - zeroHeight})`
+              }
+            >
+              {!(idx === data.length - 1) && (
                 <line
-                  x1={halfWidth}
-                  y1={0}
-                  x2={pointGapWidth}
-                  y2={differentHeight}
+                  x1={horizontal ? 0 : halfAreaWidth}
+                  y1={horizontal ? halfAreaWidth : 0}
+                  x2={horizontal ? -differentHeight : pointGapWidth}
+                  y2={horizontal ? pointGapWidth : differentHeight}
                   stroke={lineColor}
                   strokeWidth={lineWidth}
-                  strokeLinecap="round"
+                  strokeLinecap={"round"}
                 />
-              ) : (
-                <line x1={halfWidth} y1={0} x2={pointGapWidth} y2={differentHeight} stroke={lineColor} strokeWidth={lineWidth} />
               )}
-              <circle cx={halfWidth} cy="0" r={pointSize} fill={pointColor} stroke={pointBorderColor} strokeWidth={pointBorderWidth} />
+
+              <circle
+                cx={horizontal ? 0 : halfAreaWidth}
+                cy={horizontal ? halfAreaWidth : 0}
+                r={pointSize}
+                fill={pointColor}
+                stroke={pointBorderColor}
+                strokeWidth={pointBorderWidth}
+              />
               <text
-                transform={`translate(${halfWidth},${-10})`}
+                transform={
+                  horizontal
+                    ? `translate(${valueTextOffsetX},${valueTextOffsetY})`
+                    : `translate(${halfAreaWidth + valueTextOffsetX},${valueTextOffsetY})`
+                }
                 dominantBaseline={"alphabetic"}
                 textAnchor="middle"
-                fontSize={10}
-                fontWeight={500}
-                fill={"#000"}
+                fontSize={valueTextSize}
+                fontWeight={valueTextWeight}
+                fill={valueTextColor}
               >
                 {d.value}
               </text>
@@ -123,7 +163,7 @@ const NormalLine = ({ data, generalSettings, levelSettings, lineSettings }) => {
           );
         })}
       </g>
-    </LineCommon>
+    </BarCommon>
   );
 };
 

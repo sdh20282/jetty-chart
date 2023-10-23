@@ -1,15 +1,25 @@
-import { checkPadding, checkSize } from "./check-common-exception";
+import { checkMargin, checkSize } from "./check-common-exception";
 
 const normalLineSetting = {
-  generalSettings: {
-    width: 500,
-    height: 300,
+  // 기본 세팅
+  normalSettings: {
+    width: 400,
+    height: 280,
     backgroundColor: "#fff",
-    padding: { top: 40, bottom: 40, left: 60, right: 60 },
+    margin: { top: 50, bottom: 40, left: 60, right: 60 },
+    padding: 10,
     reverse: false,
     horizontal: false
   },
-  levelSettings: {
+  // 범위 세팅
+  scopeSettings: {
+    autoScope: true,
+    maxScope: 100,
+    minScope: 0,
+    showTopScope: true
+  },
+  // y축 라인 세팅
+  axisYGridLineSettings: {
     lineVisible: true,
     lineOpacity: 1,
     lineColor: "#c4c4c4",
@@ -17,45 +27,114 @@ const normalLineSetting = {
     lineDash: false,
     lineDashWidth: 5,
     lineDashGap: 3,
-    levelAutoScope: true,
-    levelMaxScope: 100,
-    levelMinScope: 0,
-    levelTextGap: 10,
-    levelTextSize: 11,
-    levelTextWeight: 500,
-    levelTextColor: "#777",
-    levelTextMargin: 4,
-    levelLineVisible: true,
-    levelLineOpacity: 1,
-    levelLineColor: "#aaa",
-    levelLineWidth: 2,
-    showTopLevel: true
+    lineRound: false
   },
+  // x축 라인 세팅
+  axisXGridLineSettings: {
+    lineVisible: false,
+    lineOpacity: 1,
+    lineColor: "#c4c4c4",
+    lineWidth: 1,
+    lineDash: false,
+    lineDashWidth: 5,
+    lineDashGap: 3,
+    lineRound: false,
+    showEndLine: false
+  },
+  // 왼쪽 라벨 세팅
+  leftLabelSettings: {
+    useLabel: true,
+    labelOnLeft: true,
+    labelMargin: 12,
+    labelSize: 11,
+    labelWeight: 500,
+    labelColor: "#777",
+    sideLineMargin: 7,
+    sideLineVisible: true,
+    sideLineOpacity: 1,
+    sideLineColor: "#aaa",
+    sideLineWidth: 2
+  },
+  // 오른쪽 라벨 세팅
+  rightLabelSettings: {
+    useLabel: false,
+    labelOnLeft: false,
+    labelMargin: 12,
+    labelSize: 11,
+    labelWeight: 500,
+    labelColor: "#777",
+    sideLineMargin: 7,
+    sideLineVisible: true,
+    sideLineOpacity: 1,
+    sideLineColor: "#aaa",
+    sideLineWidth: 2
+  },
+  // 아래쪽 라벨 세팅
+  bottomLabelSettings: {
+    useLabel: true,
+    labelOnBottom: true,
+    labelMargin: 14,
+    labelSize: 11,
+    labelWeight: 500,
+    labelColor: "#777",
+    sideLineMargin: 8,
+    sideLineVisible: true,
+    sideLineOpacity: 1,
+    sideLineColor: "#aaa",
+    sideLineWidth: 2
+  },
+  // 위쪽 라벨 세팅
+  topLabelSettings: {
+    useLabel: false,
+    labelOnBottom: false,
+    labelMargin: 14,
+    labelSize: 11,
+    labelWeight: 500,
+    labelColor: "#777",
+    sideLineMargin: 8,
+    sideLineVisible: true,
+    sideLineOpacity: 1,
+    sideLineColor: "#aaa",
+    sideLineWidth: 2
+  },
+  // 바 세팅
   lineSettings: {
-    chartPadding: 5,
     lineColor: "#8EA3BC",
     lineWidth: 2,
     pointSize: 2,
     pointColor: "#8EA3BC",
     pointBorderColor: "#666",
     pointBorderWidth: 2,
-    lineOnlyUpperRadius: true,
-    lineBorderRadius: 5,
-    categoryTextOnBottom: true,
-    categoryTextGap: 14,
-    categoryTextSize: 11,
-    categoryTextWeight: 500,
-    categoryTextColor: "#777",
-    categoryTextMargin: 8,
-    categoryLineVisible: true,
-    categoryLineOpacity: 1,
-    categoryLineColor: "#aaa",
-    categoryLineWidth: 2
+    valueTextColor: "#000",
+    valueTextSize: 8,
+    valueTextOffsetX: 0,
+    valueTextOffsetY: -10,
+    valueTextWeight: 500
   }
 };
 
-export const checkNormalLine = ({ generalSettings, levelSettings, lineSettings }) => {
-  const result = { generalSettings, levelSettings, lineSettings };
+export const checkNormalLine = ({
+  normalSettings,
+  scopeSettings,
+  axisXGridLineSettings,
+  axisYGridLineSettings,
+  leftLabelSettings,
+  rightLabelSettings,
+  bottomLabelSettings,
+  topLabelSettings,
+  lineSettings
+}) => {
+  const result = {
+    normalSettings,
+    scopeSettings,
+    axisXGridLineSettings,
+    axisYGridLineSettings,
+    leftLabelSettings,
+    rightLabelSettings,
+    bottomLabelSettings,
+    topLabelSettings,
+    lineSettings
+  };
 
   Object.keys(normalLineSetting).forEach((setting) => {
     result[setting] ??= {};
@@ -65,21 +144,19 @@ export const checkNormalLine = ({ generalSettings, levelSettings, lineSettings }
     });
   });
 
-  result.generalSettings.padding = checkPadding({
-    padding: result.generalSettings.padding
-  });
+  result.normalSettings.margin = checkMargin({ margin: result.normalSettings.margin });
 
   const checkedSize = checkSize({
-    width: result.generalSettings.width,
-    height: result.generalSettings.height,
-    padding: result.generalSettings.padding,
-    chartPadding: result.lineSettings.chartPadding
+    width: result.normalSettings.width,
+    height: result.normalSettings.height,
+    margin: result.normalSettings.margin,
+    padding: result.normalSettings.padding
   });
 
-  result.generalSettings.width = checkedSize.width;
-  result.generalSettings.height = checkedSize.height;
-  result.generalSettings.padding = checkedSize.padding;
-  result.lineSettings.chartPadding = checkedSize.chartPadding;
+  result.normalSettings.width = checkedSize.width;
+  result.normalSettings.height = checkedSize.height;
+  result.normalSettings.margin = checkedSize.margin;
+  result.normalSettings.padding = checkedSize.padding;
 
   return result;
 };
