@@ -97,6 +97,10 @@ const getScope = ({ values }) => {
     }
   }
 
+  if (values.minValue >= 0) {
+    scopeResult.reverse();
+  }
+
   return scopeResult;
 };
 /* eslint-enable complexity */
@@ -123,7 +127,6 @@ export const getAutoScope = ({ data }) => {
   let nowMinScope = 0;
 
   if (values.minValue >= 0) {
-    scopeResult.reverse();
     nowMaxScope = scopeResult[0];
   } else if (values.maxValue <= 0) {
     scopeResult[0] = 0;
@@ -132,8 +135,6 @@ export const getAutoScope = ({ data }) => {
     nowMaxScope = scopeResult[0];
     nowMinScope = scopeResult[scopeResult.length - 1];
   }
-
-  console.log(scopeResult);
 
   return { scope: scopeResult, maxScope: nowMaxScope, minScope: nowMinScope };
 };
@@ -144,10 +145,9 @@ export const getUserScope = ({ maxScope, minScope }) => {
   }
 
   const scopeResult = getScope({ values: { maxValue: maxScope, minValue: minScope } });
-  const topMarginRatio = (scopeResult[0] - maxScope) / (maxScope - minScope);
-  const bottomMarginRatio = (minScope - scopeResult[scopeResult.length - 1]) / (maxScope - minScope);
-
-  console.log(scopeResult, topMarginRatio, bottomMarginRatio);
+  const topMarginRatio = scopeResult[0] === maxScope ? 0 : (maxScope - scopeResult[1]) / (maxScope - minScope);
+  const bottomMarginRatio =
+    scopeResult[scopeResult.length - 1] === minScope ? 0 : (scopeResult[scopeResult.length - 2] - minScope) / (maxScope - minScope);
 
   return {
     scope: scopeResult.slice(
