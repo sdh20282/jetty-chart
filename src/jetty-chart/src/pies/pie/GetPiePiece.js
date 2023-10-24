@@ -12,18 +12,20 @@ const GetPiePiece = ({ data, pieSettings }) => {
     const isLargeArcFlag = value > 0.5 ? "1" : "0";
 
     return (
-      <PiePiece
-        startX={startX}
-        startY={startY}
-        endX={endX}
-        endY={endY}
-        isLargeArcFlag={isLargeArcFlag}
-        pieSettings={pieSettings}
-        index={index}
-        key={index}
-        value={value}
-        label={label}
-      />
+      <g stroke="black" strokeWidth={5}>
+        <PiePiece
+          startX={startX}
+          startY={startY}
+          endX={endX}
+          endY={endY}
+          isLargeArcFlag={isLargeArcFlag}
+          pieSettings={pieSettings}
+          index={index}
+          key={index}
+          value={value}
+          label={label}
+        />
+      </g>
     );
   });
 };
