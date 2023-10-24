@@ -40,10 +40,15 @@ const PiePiece = ({
       ></path> */}
       <path
         d={`M ${startRadiusPos.x1} ${startRadiusPos.y1}
-        A 1 1 0 ${isLargeArcFlag} 0 ${startX} ${startY} 
-        A 0 0 0 ${isLargeArcFlag} 1 ${startRadiusPos.x2} ${startRadiusPos.y2} 
-        A 1 1 0 ${isLargeArcFlag} 0 ${endX} ${endY}
+        A 1 1 0 ${isLargeArcFlag} 1 ${startX} ${startY}
+        A 0 0 0 ${isLargeArcFlag} 0 ${startRadiusPos.x2} ${startRadiusPos.y2}
+        A 1 1 0 ${isLargeArcFlag} 1 ${endX} ${endY}
         `}
+        // d={`M ${startX} ${startY}
+        // A 2 2 0 ${isLargeArcFlag} 1 ${startInnerPos.x1} ${startInnerPos.y1}
+        // A 0 0 0 ${isLargeArcFlag} 0 ${endX} ${endY}
+        // A 2 2 0 ${isLargeArcFlag} 1 ${endInnerPos.x1} ${endInnerPos.y1}
+        // Z`}
         // A ${endRadiusPos.x1} ${endRadiusPos.y1} 0 ${isLargeArcFlag * -1}
         // 1 ${endRadiusPos.x2} ${endRadiusPos.y2}
 
