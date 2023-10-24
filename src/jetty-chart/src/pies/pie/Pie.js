@@ -17,7 +17,7 @@ const Pie = ({
     padSize: 100, // 조각 크기, default 100
     padSpace: 1, // 조각 여백 default 0
     innerWidth: 50, // 내부원 크기, default 50
-    cornerRadius: 0,
+    cornerRadius: 20, // 조각 둥글기, default 0
   },
 }) => {
   const [newGeneralSettings, setNewGeneralSettings] = useState(generalSettings);

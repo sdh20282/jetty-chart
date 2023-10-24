@@ -10,6 +10,7 @@ const Test = ({ generalSettings, pieSettings, changeNewGeneralSettings, changeNe
   const [padSize, setPadSize] = useState(pieSettings.padSize);
   const [padSpace, setPadSpace] = useState(pieSettings.padSpace);
   const [innerWidth, setInnerWidth] = useState(pieSettings.innerWidth);
+  const [cornerRadius, setCornerRadius] = useState(pieSettings.cornerRadius);
   const [testToggle, setTestToggle] = useState(true);
   useEffect(() => {
     changeNewGeneralSettings({
@@ -24,6 +25,7 @@ const Test = ({ generalSettings, pieSettings, changeNewGeneralSettings, changeNe
       padSize,
       padSpace,
       innerWidth,
+      cornerRadius,
     });
   }, [testToggle]);
   return (
