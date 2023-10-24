@@ -16,6 +16,7 @@ const BarCommon = ({
     height,
     backgroundColor,
     margin,
+    innerMargin,
     padding,
     horizontal,
     scope,
@@ -53,76 +54,84 @@ const BarCommon = ({
           <DrawYAxisLegend yLegend={yLegend} normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={rightLegendSettings} />
           <DrawXAxisLegend xLegend={xLegend} normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={bottomLegendSettings} />
           <DrawXAxisLegend xLegend={xLegend} normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={topLegendSettings} />
-          {/* Y축 라인 그리기 */}
-          <DrawYAxisGridLine
-            normalSettings={{
-              horizontal,
-              yAxis: scope,
-              width: totalWidth,
-              yAxisHeight,
-              showTopScope
-            }}
-            lineSettings={axisYGridLineSettings}
-          />
-          {/* X축 라인 그리기 */}
-          <DrawXAxisGridLine
-            normalSettings={{
-              xAxis: data.map((d) => d.value),
-              horizontal,
-              width: totalWidth,
-              height: totalHeight,
-              padding,
-              xAxisInitialPosition,
-              xAxisWidth
-            }}
-            lineSettings={axisXGridLineSettings}
-          />
-          {/* 왼쪽 라벨 그리기 */}
-          <DrawYAxisLabel
-            normalSettings={{
-              horizontal,
-              yAxis: scope,
-              width: totalWidth,
-              yAxisHeight,
-              showTopScope
-            }}
-            labelSettings={leftLabelSettings}
-          />
-          {/* 오른쪽 라벨 그리기 */}
-          <DrawYAxisLabel
-            normalSettings={{
-              horizontal,
-              yAxis: scope,
-              width: totalWidth,
-              yAxisHeight,
-              showTopScope
-            }}
-            labelSettings={rightLabelSettings}
-          />
-          {/* 아래쪽 라벨 그리기 */}
-          <DrawXAxisLabel
-            normalSettings={{
-              xAxis: data.map((d) => d.label),
-              horizontal,
-              height: totalHeight,
-              padding,
-              xAxisInitialPosition,
-              xAxisWidth
-            }}
-            labelSettings={bottomLabelSettings}
-          />
-          {/* 오른쪽 라벨 그리기 */}
-          <DrawXAxisLabel
-            normalSettings={{
-              xAxis: data.map((d) => d.label),
-              horizontal,
-              height: totalHeight,
-              padding,
-              xAxisInitialPosition,
-              xAxisWidth
-            }}
-            labelSettings={topLabelSettings}
-          />
+          <g
+            transform={
+              horizontal ? `translate(${(innerMargin.bottom + innerMargin.top) / 2},0)` : `translate(0,${(innerMargin.bottom + innerMargin.top) / 2})`
+            }
+          >
+            {/* Y축 라인 그리기 */}
+            <DrawYAxisGridLine
+              normalSettings={{
+                horizontal,
+                yAxis: scope,
+                width: totalWidth,
+                yAxisHeight,
+                showTopScope
+              }}
+              lineSettings={axisYGridLineSettings}
+            />
+            {/* 왼쪽 라벨 그리기 */}
+            <DrawYAxisLabel
+              normalSettings={{
+                horizontal,
+                yAxis: scope,
+                width: totalWidth,
+                yAxisHeight,
+                showTopScope
+              }}
+              labelSettings={leftLabelSettings}
+            />
+            {/* 오른쪽 라벨 그리기 */}
+            <DrawYAxisLabel
+              normalSettings={{
+                horizontal,
+                yAxis: scope,
+                width: totalWidth,
+                yAxisHeight,
+                showTopScope
+              }}
+              labelSettings={rightLabelSettings}
+            />
+          </g>
+          <g>
+            {/* X축 라인 그리기 */}
+            <DrawXAxisGridLine
+              normalSettings={{
+                xAxis: data.map((d) => d.value),
+                horizontal,
+                width: totalWidth,
+                height: totalHeight,
+                padding,
+                xAxisInitialPosition,
+                xAxisWidth
+              }}
+              lineSettings={axisXGridLineSettings}
+            />
+            {/* 아래쪽 라벨 그리기 */}
+            <DrawXAxisLabel
+              normalSettings={{
+                xAxis: data.map((d) => d.label),
+                horizontal,
+                height: totalHeight,
+                padding,
+                xAxisInitialPosition,
+                xAxisWidth
+              }}
+              labelSettings={bottomLabelSettings}
+            />
+            {/* 오른쪽 라벨 그리기 */}
+            <DrawXAxisLabel
+              normalSettings={{
+                xAxis: data.map((d) => d.label),
+                horizontal,
+                height: totalHeight,
+                padding,
+                xAxisInitialPosition,
+                xAxisWidth
+              }}
+              labelSettings={topLabelSettings}
+            />
+          </g>
           {/* 전달 받은 자식 요소 그리기 */}
           {children}
         </g>
