@@ -6,7 +6,7 @@ const normalLineSetting = {
     width: 400,
     height: 280,
     backgroundColor: "#fff",
-    margin: { top: 50, bottom: 40, left: 60, right: 60 },
+    margin: { top: 40, bottom: 40, left: 40, right: 40 },
     padding: 0,
     reverse: false,
     horizontal: false
@@ -100,7 +100,9 @@ const normalLineSetting = {
   // 바 세팅
   lineSettings: {
     lineColor: "#8EA3BC",
+    lineOpacity: 1,
     lineWidth: 2,
+    enablePoint: true,
     pointSize: 2,
     pointColor: "#8EA3BC",
     pointBorderColor: "#666",
@@ -112,7 +114,12 @@ const normalLineSetting = {
     pointLabelOffsetY: -10,
     pointLabelWeight: 500,
     enableArea: false,
-    areaOpacity: 0.5
+    areaOpacity: 0.5,
+    enableCurve: false,
+    smoothDegree: 0.2,
+    angleDegree: 1,
+    strokeLinejoin: "miter", // "miter" | "round" | "bevel"
+    strokeLinecap: "butt" // "butt" | "round" | "square"
   }
 };
 
