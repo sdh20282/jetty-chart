@@ -53,8 +53,6 @@ const getScope = ({ values }) => {
     gap = 20;
   } else if (maxScope > 55 || (maxScope > 35 && values.minValue < 0 && values.maxValue > 0)) {
     gap = 10;
-  } else if (maxScope > 35) {
-    gap = 10;
   } else {
     gap = 5;
   }
