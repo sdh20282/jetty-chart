@@ -1,4 +1,20 @@
-import { checkMargin, checkSize } from "./check-common-exception";
+import { checkSize } from "./check-common-exception";
+
+const checkMargin = ({ margin }) => {
+  margin.top ??= 60;
+  margin.bottom ??= 70;
+  margin.left ??= 80;
+  margin.right ??= 120;
+
+  return margin;
+};
+
+const checkInnerMargin = ({ innerMargin }) => {
+  innerMargin.top ??= 0;
+  innerMargin.bottom ??= 0;
+
+  return innerMargin;
+};
 
 const normalBarSetting = {
   // 기본 세팅
@@ -7,23 +23,24 @@ const normalBarSetting = {
     height: 400,
     backgroundColor: "#fff",
     margin: { top: 60, bottom: 70, left: 80, right: 120 },
+    innerMargin: { top: 0, bottom: 0 },
     colorPalette: ["#669dfe", "#876697"],
-    padding: 20,
+    padding: 10,
     reverse: false,
     horizontal: false
   },
   // 범위 세팅
   scopeSettings: {
-    autoScope: true,
-    maxScope: 100,
-    minScope: 0,
+    autoScope: false,
+    maxScope: 1,
+    minScope: -0.5,
     showTopScope: true
   },
   // y축 라인 세팅
   axisYGridLineSettings: {
     lineVisible: true,
     lineOpacity: 1,
-    lineColor: "#c4c4c4",
+    lineColor: "#e4e4e4",
     lineWidth: 1,
     lineDash: false,
     lineDashWidth: 5,
@@ -34,7 +51,7 @@ const normalBarSetting = {
   axisXGridLineSettings: {
     lineVisible: false,
     lineOpacity: 1,
-    lineColor: "#c4c4c4",
+    lineColor: "#e4e4e4",
     lineWidth: 1,
     lineDash: false,
     lineDashWidth: 5,
@@ -180,10 +197,10 @@ const normalBarSetting = {
   // 바 세팅
   barSettings: {
     barOpacity: 1,
-    barGap: 0.2,
+    barGap: 0.1,
     barOnlyUpperRadius: true,
     useBarBorderRadius: true,
-    barBorderRadius: 5,
+    barBorderRadius: 7,
     useBarBorder: false,
     barBorderWidth: 2,
     barBorderColor: "#000",
@@ -191,13 +208,20 @@ const normalBarSetting = {
     useMinHeight: true,
     minHeight: 2,
     useLabel: true,
-    labelPosition: "under", // over, center, under,
-    labelMargin: 0,
+    labelPosition: "over", // over, center, under,
+    labelMargin: 3,
     labelSize: 11,
     labelWeight: 500,
     labelOpacity: 1,
     labelColor: "#777",
-    labelInvisibleSize: 0
+    labelInvisibleHeight: 0
+  }
+};
+
+const normalBarTypes = {
+  scopeSettings: {
+    minScope: "nevative-number",
+    maxScope: "positive-number"
   }
 };
 
@@ -243,6 +267,7 @@ export const checkNormalBar = ({
   });
 
   result.normalSettings.margin = checkMargin({ margin: result.normalSettings.margin });
+  result.normalSettings.innerMargin = checkInnerMargin({ innerMargin: result.normalSettings.innerMargin });
 
   const checkedSize = checkSize({
     width: result.normalSettings.width,
@@ -255,6 +280,29 @@ export const checkNormalBar = ({
   result.normalSettings.height = checkedSize.height;
   result.normalSettings.margin = checkedSize.margin;
   result.normalSettings.padding = checkedSize.padding;
+
+  Object.keys(normalBarTypes).forEach((setting) => {
+    Object.keys(normalBarTypes[setting]).forEach((detail) => {
+      switch (normalBarTypes[setting][detail]) {
+        case "nevative-number":
+          if (result[setting][detail] <= 0) {
+            break;
+          }
+
+          result[setting][detail] = 0;
+
+          break;
+        case "positive-number":
+          if (result[setting][detail] >= 0) {
+            break;
+          }
+
+          result[setting][detail] = 0;
+          break;
+        default:
+      }
+    });
+  });
 
   return result;
 };

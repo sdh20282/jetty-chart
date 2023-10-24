@@ -22,6 +22,7 @@ export const DrawXAxisLabel = ({
   const labelLocation = height + totalLabelMargin;
 
   padding ??= 0;
+  xAxisInitialPosition ??= 0;
 
   return (
     useLabel && (

@@ -4,9 +4,10 @@ export const DrawXAxisGridLine = ({
   lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap, lineRound, showEndLine }
 }) => {
   padding ??= 0;
+  xAxisInitialPosition ??= 0;
 
   return (
-    <>
+    <g>
       {lineVisible && showEndLine && (
         <g transform={horizontal ? `translate(0,0)` : `translate(0,0)`}>
           <line
@@ -61,7 +62,7 @@ export const DrawXAxisGridLine = ({
           ></line>
         </g>
       )}
-    </>
+    </g>
   );
 };
 /* eslint-enable complexity */
