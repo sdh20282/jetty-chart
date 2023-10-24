@@ -18,6 +18,7 @@ const BarCommon = ({
     margin,
     innerMargin,
     padding,
+    reverse,
     horizontal,
     scope,
     totalWidth,
@@ -56,7 +57,9 @@ const BarCommon = ({
           <DrawXAxisLegend xLegend={xLegend} normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={topLegendSettings} />
           <g
             transform={
-              horizontal ? `translate(${(innerMargin.bottom + innerMargin.top) / 2},0)` : `translate(0,${(innerMargin.bottom + innerMargin.top) / 2})`
+              horizontal
+                ? `translate(${reverse ? innerMargin.top : innerMargin.bottom},0)`
+                : `translate(0,${reverse ? innerMargin.bottom : innerMargin.top})`
             }
           >
             {/* Y축 라인 그리기 */}

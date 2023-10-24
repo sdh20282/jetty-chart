@@ -31,9 +31,9 @@ const normalBarSetting = {
   },
   // 범위 세팅
   scopeSettings: {
-    autoScope: false,
-    maxScope: 1,
-    minScope: -0.5,
+    autoScope: true,
+    maxScope: 3,
+    minScope: -10,
     showTopScope: true
   },
   // y축 라인 세팅
