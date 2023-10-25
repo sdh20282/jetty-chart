@@ -21,7 +21,8 @@ const NormalBar = ({
   leftLegendSettings,
   rightLegendSettings,
   legendSettings,
-  barSettings
+  barSettings,
+  animationSettings
 }) => {
   const result = checkNormalBar({
     normalSettings,
@@ -35,7 +36,8 @@ const NormalBar = ({
     leftLegendSettings,
     rightLegendSettings,
     legendSettings,
-    barSettings
+    barSettings,
+    animationSettings
   });
 
   const { width, height, margin, innerMargin, padding, reverse, horizontal, colorPalette } = result.normalSettings;
@@ -132,6 +134,7 @@ const NormalBar = ({
       bottomLegendSettings={result.bottomLegendSettings}
       topLegendSettings={result.topLegendSettings}
       legendSettings={result.legendSettings}
+      animationSettings={result.animationSettings}
     >
       <g
         transform={
