@@ -3,7 +3,7 @@ import styles from "./y-axis-grid-line.module.css";
 export const DrawYAxisGridLine = ({
   normalSettings: { horizontal, yAxis, width, yAxisHeight, showTopScope },
   lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap, lineRound },
-  animationSettings: { useAnimation, duration, startDelay, itemDelay, startFrom }
+  animationSettings: { useAnimation, type, duration, startDelay, itemDelay, startFrom }
 }) => {
   const animationXAxisStart = startFrom.split("-")[0];
   const animationYAxisStart = startFrom.split("-")[1];
@@ -30,7 +30,7 @@ export const DrawYAxisGridLine = ({
               strokeWidth={lineWidth}
               strokeDasharray={lineDash && c !== 0 ? `${lineDashWidth},${lineDashGap}` : "0"}
               strokeLinecap={lineRound ? "round" : ""}
-              className={useAnimation ? styles.drawLine : ""}
+              className={useAnimation ? (type === "draw" ? styles.drawLine : type === "fade" ? styles.fadeLine : "") : ""}
               style={{
                 "--line-width": `${width}px`,
                 "--line-offset": `${animationXAxisStart === "left" ? width : -width}px`,

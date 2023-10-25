@@ -12,6 +12,11 @@
   animation: draw-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
+.fadeLine {
+  opacity: 0;
+  animation: fade-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
 @keyframes draw-line {
   from {
     stroke-dashoffset: var(--line-offset);
@@ -19,5 +24,15 @@
 
   to {
     stroke-dashoffset: 0px;
+  }
+}
+
+@keyframes fade-line {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }

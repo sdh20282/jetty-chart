@@ -4,7 +4,7 @@ import styles from "./x-axis-grid-line.module.css";
 export const DrawXAxisGridLine = ({
   normalSettings: { xAxis, horizontal, width, height, padding, xAxisInitialPosition, xAxisWidth },
   lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap, lineRound, showEndLine },
-  animationSettings: { useAnimation, duration, startDelay, itemDelay, startFrom }
+  animationSettings: { useAnimation, type, duration, startDelay, itemDelay, startFrom }
 }) => {
   const animationXAxisStart = startFrom.split("-")[0];
   const animationYAxisStart = startFrom.split("-")[1];
@@ -29,7 +29,7 @@ export const DrawXAxisGridLine = ({
             strokeWidth={lineWidth}
             strokeDasharray={lineDash ? `${lineDashWidth},${lineDashGap}` : 0}
             strokeLinecap={lineRound ? "round" : ""}
-            className={useAnimation ? styles.drawLine : ""}
+            className={useAnimation ? (type === "draw" ? styles.drawLine : "") : ""}
             style={{
               "--line-width": `${height}px`,
               "--line-offset": `${
@@ -59,7 +59,7 @@ export const DrawXAxisGridLine = ({
                 strokeWidth={lineWidth}
                 strokeDasharray={lineDash && d !== 0 ? `${lineDashWidth},${lineDashGap}` : "0"}
                 strokeLinecap={lineRound ? "round" : ""}
-                className={useAnimation ? styles.drawLine : ""}
+                className={useAnimation ? (type === "draw" ? styles.drawLine : "") : ""}
                 style={{
                   "--line-width": `${height}px`,
                   "--line-offset": `${
@@ -89,7 +89,7 @@ export const DrawXAxisGridLine = ({
             strokeWidth={lineWidth}
             strokeDasharray={lineDash ? `${lineDashWidth},${lineDashGap}` : 0}
             strokeLinecap={lineRound ? "round" : ""}
-            className={useAnimation ? styles.drawLine : ""}
+            className={useAnimation ? (type === "draw" ? styles.drawLine : "") : ""}
             style={{
               "--line-width": `${height}px`,
               "--line-offset": `${
