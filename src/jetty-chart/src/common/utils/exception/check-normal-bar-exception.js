@@ -10,8 +10,8 @@ const checkMargin = ({ margin }) => {
 };
 
 const checkInnerMargin = ({ innerMargin }) => {
-  innerMargin.top ??= 0;
-  innerMargin.bottom ??= 0;
+  innerMargin.top = 0;
+  innerMargin.bottom = 0;
 
   return innerMargin;
 };
@@ -40,7 +40,7 @@ const normalBarSetting = {
   axisYGridLineSettings: {
     lineVisible: true,
     lineOpacity: 1,
-    lineColor: "#e4e4e4",
+    lineColor: "#d4d4d4",
     lineWidth: 1,
     lineDash: false,
     lineDashWidth: 5,
@@ -49,9 +49,9 @@ const normalBarSetting = {
   },
   // x축 라인 세팅
   axisXGridLineSettings: {
-    lineVisible: false,
+    lineVisible: true,
     lineOpacity: 1,
-    lineColor: "#e4e4e4",
+    lineColor: "#d4d4d4",
     lineWidth: 1,
     lineDash: false,
     lineDashWidth: 5,
@@ -197,7 +197,7 @@ const normalBarSetting = {
   // 바 세팅
   barSettings: {
     barOpacity: 1,
-    barGap: 0.1,
+    barGap: 0.15,
     barOnlyUpperRadius: true,
     useBarBorderRadius: true,
     barBorderRadius: 7,
@@ -215,6 +215,22 @@ const normalBarSetting = {
     labelOpacity: 1,
     labelColor: "#777",
     labelInvisibleHeight: 0
+  },
+  animationSettings: {
+    axisYGridLineSettings: {
+      useAnimation: true,
+      duration: 0.3,
+      startDelay: 0,
+      itemDelay: 0.1,
+      startFrom: "left-bottom"
+    },
+    axisXGridLineSettings: {
+      useAnimation: true,
+      duration: 0.3,
+      startDelay: 1,
+      itemDelay: 0.1,
+      startFrom: "left-bottom"
+    }
   }
 };
 
@@ -239,7 +255,8 @@ export const checkNormalBar = ({
   bottomLegendSettings,
   topLegendSettings,
   legendSettings,
-  barSettings
+  barSettings,
+  animationSettings
 }) => {
   const result = {
     normalSettings,
@@ -255,15 +272,26 @@ export const checkNormalBar = ({
     bottomLegendSettings,
     topLegendSettings,
     legendSettings,
-    barSettings
+    barSettings,
+    animationSettings
   };
 
   Object.keys(normalBarSetting).forEach((setting) => {
     result[setting] ??= {};
 
-    Object.keys(normalBarSetting[setting]).forEach((detail) => {
-      result[setting][detail] ??= normalBarSetting[setting][detail];
-    });
+    if (setting === "animationSettings") {
+      Object.keys(normalBarSetting[setting]).forEach((animation) => {
+        result[setting][animation] ??= {};
+
+        Object.keys(normalBarSetting[setting][animation]).forEach((detail) => {
+          result[setting][animation][detail] ??= normalBarSetting[setting][animation][detail];
+        });
+      });
+    } else {
+      Object.keys(normalBarSetting[setting]).forEach((detail) => {
+        result[setting][detail] ??= normalBarSetting[setting][detail];
+      });
+    }
   });
 
   result.normalSettings.margin = checkMargin({ margin: result.normalSettings.margin });

@@ -1,10 +1,18 @@
+import styles from "./x-axis-grid-line.module.css";
+
 /* eslint-disable complexity */
 export const DrawXAxisGridLine = ({
   normalSettings: { xAxis, horizontal, width, height, padding, xAxisInitialPosition, xAxisWidth },
-  lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap, lineRound, showEndLine }
+  lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap, lineRound, showEndLine },
+  animationSettings: { useAnimation, duration, startDelay, itemDelay, startFrom }
 }) => {
+  const animationXAxisStart = startFrom.split("-")[0];
+  const animationYAxisStart = startFrom.split("-")[1];
+
   padding ??= 0;
   xAxisInitialPosition ??= 0;
+
+  console.log(startDelay + itemDelay * (animationXAxisStart === "left" ? xAxis.length + 1 : 0));
 
   return (
     <g>
@@ -21,6 +29,16 @@ export const DrawXAxisGridLine = ({
             strokeWidth={lineWidth}
             strokeDasharray={lineDash ? `${lineDashWidth},${lineDashGap}` : 0}
             strokeLinecap={lineRound ? "round" : ""}
+            className={useAnimation ? styles.drawLine : ""}
+            style={{
+              "--line-width": `${height}px`,
+              "--line-offset": `${
+                (!horizontal && animationYAxisStart === "bottom") || (horizontal && animationYAxisStart !== "bottom") ? -height : height
+              }px`,
+              "--animation-duration": `${duration}s`,
+              "--animation-timing-function": "ease",
+              "--animation-delay": `${startDelay + itemDelay * (animationXAxisStart === "left" ? 0 : xAxis.length + 1)}s`
+            }}
           ></line>
         </g>
       )}
@@ -41,6 +59,18 @@ export const DrawXAxisGridLine = ({
                 strokeWidth={lineWidth}
                 strokeDasharray={lineDash && d !== 0 ? `${lineDashWidth},${lineDashGap}` : "0"}
                 strokeLinecap={lineRound ? "round" : ""}
+                className={useAnimation ? styles.drawLine : ""}
+                style={{
+                  "--line-width": `${height}px`,
+                  "--line-offset": `${
+                    (!horizontal && animationYAxisStart === "bottom") || (horizontal && animationYAxisStart !== "bottom") ? -height : height
+                  }px`,
+                  "--animation-duration": `${duration}s`,
+                  "--animation-timing-function": "ease",
+                  "--animation-delay": `${
+                    startDelay + itemDelay * (animationXAxisStart === "left" ? idx : xAxis.length - 1 - idx) + (showEndLine ? itemDelay : 0)
+                  }s`
+                }}
               ></line>
             );
           })}
@@ -59,6 +89,16 @@ export const DrawXAxisGridLine = ({
             strokeWidth={lineWidth}
             strokeDasharray={lineDash ? `${lineDashWidth},${lineDashGap}` : 0}
             strokeLinecap={lineRound ? "round" : ""}
+            className={useAnimation ? styles.drawLine : ""}
+            style={{
+              "--line-width": `${height}px`,
+              "--line-offset": `${
+                (!horizontal && animationYAxisStart === "bottom") || (horizontal && animationYAxisStart !== "bottom") ? -height : height
+              }px`,
+              "--animation-duration": `${duration}s`,
+              "--animation-timing-function": "ease",
+              "--animation-delay": `${startDelay + itemDelay * (animationXAxisStart === "left" ? xAxis.length + 1 : 0)}s`
+            }}
           ></line>
         </g>
       )}

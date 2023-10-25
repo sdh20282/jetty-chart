@@ -40,6 +40,7 @@ const BarCommon = ({
   bottomLegendSettings,
   topLegendSettings,
   legendSettings,
+  animationSettings,
   children
 }) => {
   if (horizontal) {
@@ -72,6 +73,7 @@ const BarCommon = ({
                 showTopScope
               }}
               lineSettings={axisYGridLineSettings}
+              animationSettings={animationSettings.axisYGridLineSettings}
             />
             {/* 왼쪽 라벨 그리기 */}
             <DrawYAxisLabel
@@ -109,6 +111,7 @@ const BarCommon = ({
                 xAxisWidth
               }}
               lineSettings={axisXGridLineSettings}
+              animationSettings={animationSettings.axisXGridLineSettings}
             />
             {/* 아래쪽 라벨 그리기 */}
             <DrawXAxisLabel
