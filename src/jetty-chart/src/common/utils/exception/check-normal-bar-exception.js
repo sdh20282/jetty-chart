@@ -49,7 +49,7 @@ const normalBarSetting = {
   },
   // x축 라인 세팅
   axisXGridLineSettings: {
-    lineVisible: true,
+    lineVisible: false,
     lineOpacity: 1,
     lineColor: "#d4d4d4",
     lineWidth: 1,
@@ -219,6 +219,7 @@ const normalBarSetting = {
   animationSettings: {
     axisYGridLineSettings: {
       useAnimation: true,
+      type: "fade",
       duration: 0.3,
       startDelay: 0,
       itemDelay: 0.1,
@@ -226,8 +227,9 @@ const normalBarSetting = {
     },
     axisXGridLineSettings: {
       useAnimation: true,
+      type: "draw",
       duration: 0.3,
-      startDelay: 1,
+      startDelay: 0,
       itemDelay: 0.1,
       startFrom: "left-bottom"
     }
