@@ -1,4 +1,4 @@
-import { BarCommon } from "../bar-common/bar-common";
+import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
 
 import { checkNormalBar } from "../../common/utils/exception/check-normal-bar-exception";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
@@ -24,6 +24,10 @@ const NormalBar = ({
   barSettings,
   animationSettings
 }) => {
+  if (!data || data.length === 0) {
+    return;
+  }
+
   const result = checkNormalBar({
     normalSettings,
     scopeSettings,
@@ -65,7 +69,7 @@ const NormalBar = ({
     labelInvisibleHeight
   } = result.barSettings;
 
-  const scopeResult = autoScope ? getAutoScope({ data }) : getUserScope({ maxScope, minScope });
+  const scopeResult = autoScope ? getAutoScope({ data: data.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
   let display = true;
 
   if (reverse) {
@@ -108,14 +112,14 @@ const NormalBar = ({
     }, 0) * lineHeight;
 
   return (
-    <BarCommon
-      data={data}
+    <LabelValueCommon
       keys={keys}
+      xAxis={data.map((d) => d.label)}
+      yAxis={scopeResult.scope}
       xLegend={xLegend}
       yLegend={yLegend}
       normalSettings={{
         ...result.normalSettings,
-        scope: scopeResult.scope,
         totalWidth,
         totalHeight,
         xAxisInitialPosition: halfBarWidth,
@@ -296,7 +300,7 @@ const NormalBar = ({
           );
         })}
       </g>
-    </BarCommon>
+    </LabelValueCommon>
   );
 };
 /* eslint-enable complexity */
