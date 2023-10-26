@@ -219,19 +219,27 @@ const normalLineSetting = {
   animationSettings: {
     axisYGridLineSettings: {
       useAnimation: true,
-      type: "draw",
-      duration: 0.3,
-      startDelay: 0,
-      itemDelay: 0.1,
-      startFrom: "left-bottom"
+      appearType: "draw",
+      appearDuration: 0.2,
+      appearStartDelay: 0,
+      appearItemDelay: 0,
+      appearStartFrom: "left-bottom",
+      moveLine: true,
+      moveDuration: 0.3,
+      moveStartDelay: 0,
+      moveItemDelay: 0
     },
     axisXGridLineSettings: {
       useAnimation: true,
-      type: "draw",
-      duration: 0.3,
-      startDelay: 0,
-      itemDelay: 0.1,
-      startFrom: "left-bottom"
+      appearType: "draw",
+      appearDuration: 0.4,
+      appearStartDelay: 0,
+      appearItemDelay: 0,
+      appearStartFrom: "left-bottom",
+      moveLine: true,
+      moveDuration: 0.1,
+      moveStartDelay: 0,
+      moveItemDelay: 0
     }
   }
 };
