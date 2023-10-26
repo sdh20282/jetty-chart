@@ -71,12 +71,10 @@ const NormalLine = ({
   const { autoScope, maxScope, minScope, showTopScope } = result.scopeSettings;
 
   const {
-    lineColor,
     lineOpacity,
     lineWidth,
     enablePoint,
     pointSize,
-    pointColor,
     pointBorderColor,
     pointBorderWidth,
     enablePointLabel,
@@ -233,7 +231,7 @@ const NormalLine = ({
         <path
           id="myPath"
           d={pathString}
-          stroke={lineColor}
+          stroke={result.normalSettings.colorPalette[0]}
           strokeWidth={lineWidth}
           strokeOpacity={lineOpacity}
           strokeLinejoin={strokeLinejoin}
@@ -243,7 +241,7 @@ const NormalLine = ({
         {enableArea && (
           <path
             d={areaPathString}
-            fill={lineColor}
+            fill={result.normalSettings.colorPalette[0]}
             strokeLinejoin={strokeLinejoin}
             strokeLinecap={strokeLinecap}
             fillOpacity={enableArea ? areaOpacity : 0}
@@ -273,7 +271,7 @@ const NormalLine = ({
                   cx={horizontal ? 0 : halfAreaWidth}
                   cy={horizontal ? halfAreaWidth : 0}
                   r={pointSize}
-                  fill={pointColor}
+                  fill={result.normalSettings.colorPalette[0]}
                   stroke={pointBorderColor}
                   strokeWidth={pointBorderWidth}
                 />
