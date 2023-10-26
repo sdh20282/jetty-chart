@@ -86,11 +86,31 @@ export const DrawYAxisLabel = ({
         return (
           <g
             key={"level-" + ms + "-" + c}
-            transform={
-              horizontal
-                ? `translate(${location - (useMove && useAnimation ? move : 0)})`
-                : `translate(0,${location - (useMove && useAnimation ? move : 0)})`
+            transform={horizontal ? `translate(${location - move})` : `translate(0,${location - move})`}
+            className={
+              useAnimation
+                ? useMove
+                  ? styles.moveLabel
+                  : appearType === "typing"
+                  ? styles.typeLabel
+                  : appearType === "fade"
+                  ? styles.fadeLabel
+                  : ""
+                : ""
             }
+            style={{
+              "--animation-duration": `${useMove ? moveDuration : appearDuration}s`,
+              "--animation-timing-function": useMove ? moveTimingFunction : appearTimingFunction,
+              "--animation-delay": `${
+                (useMove ? moveStartDelay : appearStartDelay) +
+                (useMove
+                  ? 0
+                  : (useMove ? moveItemDelay : appearItemDelay) *
+                    ((!horizontal && appearStartFrom === "bottom") || (horizontal && appearStartFrom !== "bottom") ? yAxis.length - 1 - idx : idx))
+              }s`,
+              "--move-from": horizontal ? `${location - move}px` : `0px,${location - move}px`,
+              "--move-to": horizontal ? `${location}px` : `0px,${location}px`
+            }}
           >
             <g transform={`translate(${horizontal ? labelMove : 0},${horizontal ? 0 : -labelMove}) rotate(${labelRotate})`}>
               <text
@@ -116,31 +136,6 @@ export const DrawYAxisLabel = ({
                 fill={labelColor}
                 opacity={labelOpacity}
                 transform={`translate(0,${horizontal ? 0 : -labelSize / 2})`}
-                className={
-                  useAnimation
-                    ? useMove
-                      ? styles.moveLabel
-                      : appearType === "type"
-                      ? styles.typeLabel
-                      : appearType === "fade"
-                      ? styles.fadeLabel
-                      : ""
-                    : ""
-                }
-                style={{
-                  "--animation-duration": `${useMove ? moveDuration : appearDuration}s`,
-                  "--animation-timing-function": useMove ? moveTimingFunction : appearTimingFunction,
-                  "--animation-delay": `${
-                    (useMove ? moveStartDelay : appearStartDelay) +
-                    (useMove
-                      ? 0
-                      : (useMove ? moveItemDelay : appearItemDelay) *
-                        ((!horizontal && appearStartFrom === "bottom") || (horizontal && appearStartFrom !== "bottom")
-                          ? yAxis.length - 1 - idx
-                          : idx))
-                  }s`,
-                  "--height-offset": horizontal ? `${move}px` : `0px,${move}px`
-                }}
               >
                 {c}
               </text>
