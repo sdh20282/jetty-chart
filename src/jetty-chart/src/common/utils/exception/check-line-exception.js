@@ -1,4 +1,20 @@
-import { checkMargin, checkSize } from "./check-common-exception";
+import { checkSize } from "./check-common-exception";
+
+const checkMargin = ({ margin }) => {
+  margin.top ??= 60;
+  margin.bottom ??= 70;
+  margin.left ??= 80;
+  margin.right ??= 120;
+
+  return margin;
+};
+
+const checkInnerMargin = ({ innerMargin }) => {
+  innerMargin.top ??= 0;
+  innerMargin.bottom ??= 0;
+
+  return innerMargin;
+};
 
 const normalLineSetting = {
   // 기본 세팅
@@ -178,14 +194,12 @@ const normalLineSetting = {
     legendColor: "#aaa",
     legendOnStart: true
   },
-  // 바 세팅
+  // 라인 세팅
   lineSettings: {
-    lineColor: "#8EA3BC",
     lineOpacity: 1,
     lineWidth: 2,
     enablePoint: true,
     pointSize: 2,
-    pointColor: "#8EA3BC",
     pointBorderColor: "#666",
     pointBorderWidth: 2,
     enablePointLabel: false,
@@ -231,7 +245,13 @@ export const checkNormalLine = ({
   rightLabelSettings,
   bottomLabelSettings,
   topLabelSettings,
-  lineSettings
+  leftLegendSettings,
+  rightLegendSettings,
+  bottomLegendSettings,
+  topLegendSettings,
+  legendSettings,
+  lineSettings,
+  animationSettings
 }) => {
   const result = {
     normalSettings,
@@ -242,18 +262,35 @@ export const checkNormalLine = ({
     rightLabelSettings,
     bottomLabelSettings,
     topLabelSettings,
-    lineSettings
+    leftLegendSettings,
+    rightLegendSettings,
+    bottomLegendSettings,
+    topLegendSettings,
+    legendSettings,
+    lineSettings,
+    animationSettings
   };
 
   Object.keys(normalLineSetting).forEach((setting) => {
     result[setting] ??= {};
 
-    Object.keys(normalLineSetting[setting]).forEach((detail) => {
-      result[setting][detail] ??= normalLineSetting[setting][detail];
-    });
+    if (setting === "animationSettings") {
+      Object.keys(normalLineSetting[setting]).forEach((animation) => {
+        result[setting][animation] ??= {};
+
+        Object.keys(normalLineSetting[setting][animation]).forEach((detail) => {
+          result[setting][animation][detail] ??= normalLineSetting[setting][animation][detail];
+        });
+      });
+    } else {
+      Object.keys(normalLineSetting[setting]).forEach((detail) => {
+        result[setting][detail] ??= normalLineSetting[setting][detail];
+      });
+    }
   });
 
   result.normalSettings.margin = checkMargin({ margin: result.normalSettings.margin });
+  result.normalSettings.innerMargin = checkInnerMargin({ innerMargin: result.normalSettings.innerMargin });
 
   const checkedSize = checkSize({
     width: result.normalSettings.width,
