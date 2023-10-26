@@ -1,13 +1,13 @@
 import { checkMargin, checkSize } from "./check-common-exception";
 
-const normalBarSetting = {
+const normalPointSetting = {
   // 기본 세팅
   normalSettings: {
     width: 400,
     height: 280,
     backgroundColor: "#fff",
     margin: { top: 50, bottom: 40, left: 60, right: 60 },
-    padding: 10,
+    padding: 0,
     reverse: false,
     horizontal: false
   },
@@ -20,7 +20,7 @@ const normalBarSetting = {
   },
   // y축 라인 세팅
   axisYGridLineSettings: {
-    lineVisible: false,
+    lineVisible: true,
     lineOpacity: 1,
     lineColor: "#c4c4c4",
     lineWidth: 1,
@@ -31,7 +31,7 @@ const normalBarSetting = {
   },
   // x축 라인 세팅
   axisXGridLineSettings: {
-    lineVisible: false,
+    lineVisible: true,
     lineOpacity: 1,
     lineColor: "#c4c4c4",
     lineWidth: 1,
@@ -98,19 +98,23 @@ const normalBarSetting = {
     sideLineWidth: 2
   },
   // 바 세팅
-  barSettings: {
-    barColor: "#66d8fe",
-    barGap: 0.15,
-    barOnlyUpperRadus: true,
-    useBarBorderRadius: true,
-    barBorderRadius: 5,
-    useBarBorder: false,
-    barBorderWidth: 2,
-    barBorderColor: "#c4c4c4"
+  pointSettings: {
+    pointSize: 1,
+    pointColor: "#8EA3BC",
+    pointBorderColor: "#666",
+    pointBorderWidth: 2,
+    enablePointLabel: true,
+    pointLabelColor: "#666",
+    pointLabelSize: 8,
+    pointLabelOffsetX: 0,
+    pointLabelOffsetY: -10,
+    pointLabelWeight: 500,
+    enableArea: false,
+    areaOpacity: 0.5
   }
 };
 
-export const checkNormalBar = ({
+export const checkNormalPoint = ({
   normalSettings,
   scopeSettings,
   axisXGridLineSettings,
@@ -119,7 +123,7 @@ export const checkNormalBar = ({
   rightLabelSettings,
   bottomLabelSettings,
   topLabelSettings,
-  barSettings
+  pointSettings
 }) => {
   const result = {
     normalSettings,
@@ -130,14 +134,14 @@ export const checkNormalBar = ({
     rightLabelSettings,
     bottomLabelSettings,
     topLabelSettings,
-    barSettings
+    pointSettings
   };
 
-  Object.keys(normalBarSetting).forEach((setting) => {
+  Object.keys(normalPointSetting).forEach((setting) => {
     result[setting] ??= {};
 
-    Object.keys(normalBarSetting[setting]).forEach((detail) => {
-      result[setting][detail] ??= normalBarSetting[setting][detail];
+    Object.keys(normalPointSetting[setting]).forEach((detail) => {
+      result[setting][detail] ??= normalPointSetting[setting][detail];
     });
   });
 
