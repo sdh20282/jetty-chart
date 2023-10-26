@@ -25,15 +25,15 @@ const normalBarSetting = {
     margin: { top: 60, bottom: 70, left: 80, right: 120 },
     innerMargin: { top: 0, bottom: 0 },
     colorPalette: ["#669dfe", "#876697"],
-    padding: 10,
+    padding: 20,
     reverse: false,
     horizontal: false
   },
   // 범위 세팅
   scopeSettings: {
     autoScope: true,
-    maxScope: 8,
-    minScope: -8,
+    maxScope: 700,
+    minScope: -100,
     showTopScope: true
   },
   // y축 라인 세팅
@@ -57,7 +57,7 @@ const normalBarSetting = {
     lineDashWidth: 5,
     lineDashGap: 3,
     lineRound: false,
-    showEndLine: false
+    showEndLine: true
   },
   // 왼쪽 라벨 세팅
   leftLabelSettings: {
@@ -219,19 +219,27 @@ const normalBarSetting = {
   animationSettings: {
     axisYGridLineSettings: {
       useAnimation: true,
-      type: "draw",
-      duration: 0.3,
-      startDelay: 0,
-      itemDelay: 0.1,
-      startFrom: "left-bottom"
+      appearType: "draw",
+      appearDuration: 0.2,
+      appearStartDelay: 0,
+      appearItemDelay: 0,
+      appearStartFrom: "left-bottom",
+      moveLine: true,
+      moveDuration: 0.3,
+      moveStartDelay: 0,
+      moveItemDelay: 0
     },
     axisXGridLineSettings: {
       useAnimation: true,
-      type: "draw",
-      duration: 0.3,
-      startDelay: 0,
-      itemDelay: 0.1,
-      startFrom: "left-bottom"
+      appearType: "draw",
+      appearDuration: 0.4,
+      appearStartDelay: 0,
+      appearItemDelay: 0,
+      appearStartFrom: "left-bottom",
+      moveLine: true,
+      moveDuration: 0.1,
+      moveStartDelay: 0,
+      moveItemDelay: 0
     }
   }
 };
