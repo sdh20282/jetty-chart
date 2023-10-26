@@ -1,12 +1,20 @@
+import { useRef } from "react";
 import styles from "./y-axis-grid-line.module.css";
 
+/* eslint-disable complexity */
 export const DrawYAxisGridLine = ({
   normalSettings: { horizontal, yAxis, width, yAxisHeight, showTopScope },
   lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap, lineRound },
   animationSettings: { useAnimation, type, duration, startDelay, itemDelay, startFrom }
 }) => {
+  const prevYAxis = useRef({});
+  const prevYAxisTemp = useRef({});
   const animationXAxisStart = startFrom.split("-")[0];
   const animationYAxisStart = startFrom.split("-")[1];
+
+  const prevYAxisKeys = Object.keys(prevYAxis.current);
+
+  console.log(prevYAxisKeys);
 
   return (
     lineVisible && (
@@ -16,7 +24,19 @@ export const DrawYAxisGridLine = ({
             return;
           }
 
+          // 현재 위치 계산
           const location = yAxisHeight * idx;
+
+          // 현재 위치 정보 저장
+          prevYAxisTemp.current[c] = location;
+
+          if (idx === yAxis.length - 1) {
+            prevYAxis.current = { ...prevYAxisTemp.current };
+            prevYAxisTemp.current = [];
+          }
+
+          // 이전 위치에 현재 위치가 포함되는지 확인
+          console.log(prevYAxisKeys.includes(String(c)), String(c));
 
           return (
             <line
@@ -51,3 +71,4 @@ export const DrawYAxisGridLine = ({
     )
   );
 };
+/* eslint-enable complexity */

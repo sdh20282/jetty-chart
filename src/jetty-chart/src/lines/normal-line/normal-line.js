@@ -1,6 +1,6 @@
 import { checkNormalLine } from "../../common/utils/exception/check-line-exception";
-import { BarCommon } from "../../bars/bar-common/bar-common";
-import { getAutoScope, getCalculatedScope } from "../../common/utils/scope/calculate-scope";
+import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
+import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
 
 export const getOpposedLine = (pointA, pointB, angleDegree) => {
   const xLength = pointB[0] - pointA[0];
@@ -29,6 +29,9 @@ export const getControlPoint = (prev, curr, next, options, isEndControlPoint = f
 
 const NormalLine = ({
   data,
+  keys,
+  xLegend,
+  yLegend,
   normalSettings,
   scopeSettings,
   axisXGridLineSettings,
@@ -37,8 +40,16 @@ const NormalLine = ({
   rightLabelSettings,
   bottomLabelSettings,
   topLabelSettings,
-  lineSettings
+  leftLegendSettings,
+  rightLegendSettings,
+  legendSettings,
+  lineSettings,
+  animationSettings
 }) => {
+  if (!data || data.length === 0) {
+    return;
+  }
+
   const result = checkNormalLine({
     normalSettings,
     scopeSettings,
@@ -48,7 +59,11 @@ const NormalLine = ({
     rightLabelSettings,
     bottomLabelSettings,
     topLabelSettings,
-    lineSettings
+    leftLegendSettings,
+    rightLegendSettings,
+    legendSettings,
+    lineSettings,
+    animationSettings
   });
 
   const { width, height, margin, padding, reverse, horizontal } = result.normalSettings;
@@ -79,7 +94,12 @@ const NormalLine = ({
     strokeLinecap
   } = result.lineSettings;
 
-  const scopeResult = autoScope ? getAutoScope({ data }) : getCalculatedScope({ maxScope, minScope });
+  const scopeResult = autoScope ? getAutoScope({ data: data.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
+
+  console.log(
+    data.map((d) => d.value),
+    scopeResult
+  );
 
   if (reverse) {
     scopeResult.scope.reverse();
@@ -95,6 +115,8 @@ const NormalLine = ({
   const pointGapWidth = drawWidth / (data.length - 1);
 
   const halfAreaWidth = areaWidth / 2;
+
+  console.log(scopeResult);
 
   const zeroHeight =
     scopeResult.scope.reduce((acc, cur) => {
@@ -163,14 +185,16 @@ const NormalLine = ({
   pathString = "M " + pathString;
 
   return (
-    <BarCommon
-      data={data}
+    <LabelValueCommon
+      keys={keys}
+      xAxis={data.map((d) => d.label)}
+      yAxis={scopeResult.scope}
+      xLegend={xLegend}
+      yLegend={yLegend}
       normalSettings={{
         ...result.normalSettings,
-        scope: scopeResult.scope,
         totalWidth,
         totalHeight,
-        drawWidth,
         xAxisInitialPosition: 0,
         xAxisWidth: pointGapWidth,
         yAxisHeight: lineHeight,
@@ -182,6 +206,12 @@ const NormalLine = ({
       rightLabelSettings={result.rightLabelSettings}
       bottomLabelSettings={result.bottomLabelSettings}
       topLabelSettings={result.topLabelSettings}
+      leftLegendSettings={result.leftLegendSettings}
+      rightLegendSettings={result.rightLegendSettings}
+      bottomLegendSettings={result.bottomLegendSettings}
+      topLegendSettings={result.topLegendSettings}
+      legendSettings={result.legendSettings}
+      animationSettings={result.animationSettings}
     >
       <g
         transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}
@@ -268,7 +298,7 @@ const NormalLine = ({
           );
         })}
       </g>
-    </BarCommon>
+    </LabelValueCommon>
   );
 };
 

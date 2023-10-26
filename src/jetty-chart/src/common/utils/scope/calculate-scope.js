@@ -106,12 +106,12 @@ const getScope = ({ values }) => {
 export const getAutoScope = ({ data }) => {
   const values = data.reduce(
     (acc, cur) => {
-      if (cur.value > acc.maxValue) {
-        acc.maxValue = cur.value;
+      if (cur > acc.maxValue) {
+        acc.maxValue = cur;
       }
 
-      if (cur.value < acc.minValue) {
-        acc.minValue = cur.value;
+      if (cur < acc.minValue) {
+        acc.minValue = cur;
       }
 
       return acc;

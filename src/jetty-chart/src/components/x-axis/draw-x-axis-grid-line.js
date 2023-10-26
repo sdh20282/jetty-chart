@@ -12,8 +12,6 @@ export const DrawXAxisGridLine = ({
   padding ??= 0;
   xAxisInitialPosition ??= 0;
 
-  console.log(startDelay + itemDelay * (animationXAxisStart === "left" ? xAxis.length + 1 : 0));
-
   return (
     <g>
       {lineVisible && showEndLine && (

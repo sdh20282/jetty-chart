@@ -219,7 +219,7 @@ const normalBarSetting = {
   animationSettings: {
     axisYGridLineSettings: {
       useAnimation: true,
-      type: "fade",
+      type: "draw",
       duration: 0.3,
       startDelay: 0,
       itemDelay: 0.1,

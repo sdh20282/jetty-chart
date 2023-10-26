@@ -1,6 +1,6 @@
 import { checkNormalLine } from "../../common/utils/exception/check-line-exception";
-import { BarCommon } from "../../bars/bar-common/bar-common";
-import { getAutoScope, getCalculatedScope } from "../../common/utils/scope/calculate-scope";
+import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
+import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
 import { getControlPoint } from "../normal-line/normal-line";
 
 const colorPallette = [
@@ -13,6 +13,9 @@ const colorPallette = [
 
 const StackedLine = ({
   dataSet,
+  keys,
+  xLegend,
+  yLegend,
   normalSettings,
   scopeSettings,
   axisXGridLineSettings,
@@ -21,8 +24,16 @@ const StackedLine = ({
   rightLabelSettings,
   bottomLabelSettings,
   topLabelSettings,
-  lineSettings
+  leftLegendSettings,
+  rightLegendSettings,
+  legendSettings,
+  lineSettings,
+  animationSettings
 }) => {
+  if (!dataSet || dataSet.length === 0) {
+    return;
+  }
+
   const result = checkNormalLine({
     normalSettings,
     scopeSettings,
@@ -32,7 +43,11 @@ const StackedLine = ({
     rightLabelSettings,
     bottomLabelSettings,
     topLabelSettings,
-    lineSettings
+    leftLegendSettings,
+    rightLegendSettings,
+    legendSettings,
+    lineSettings,
+    animationSettings
   });
 
   const { width, height, margin, padding, reverse, horizontal } = result.normalSettings;
@@ -98,7 +113,7 @@ const StackedLine = ({
     idArray.push(element.id);
   });
 
-  const scopeResult = autoScope ? getAutoScope({ data: combinedData }) : getCalculatedScope({ maxScope, minScope });
+  const scopeResult = autoScope ? getAutoScope({ data: combinedData.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
 
   if (reverse) {
     scopeResult.scope.reverse();
@@ -195,14 +210,16 @@ const StackedLine = ({
   });
 
   return (
-    <BarCommon
-      data={dataSet[0].data}
+    <LabelValueCommon
+      keys={keys}
+      xAxis={dataSet[0].data.map((d) => d.label)}
+      yAxis={scopeResult.scope}
+      xLegend={xLegend}
+      yLegend={yLegend}
       normalSettings={{
         ...result.normalSettings,
-        scope: scopeResult.scope,
         totalWidth,
         totalHeight,
-        drawWidth,
         xAxisInitialPosition: 0,
         xAxisWidth: pointGapWidth,
         yAxisHeight: lineHeight,
@@ -214,6 +231,12 @@ const StackedLine = ({
       rightLabelSettings={result.rightLabelSettings}
       bottomLabelSettings={result.bottomLabelSettings}
       topLabelSettings={result.topLabelSettings}
+      leftLegendSettings={result.leftLegendSettings}
+      rightLegendSettings={result.rightLegendSettings}
+      bottomLegendSettings={result.bottomLegendSettings}
+      topLegendSettings={result.topLegendSettings}
+      legendSettings={result.legendSettings}
+      animationSettings={result.animationSettings}
     >
       <g transform={horizontal ? `translate(${reverse ? "" : "-"}${totalHeight},${padding})` : `translate(${padding})`}>
         {enableArea &&
@@ -302,7 +325,7 @@ const StackedLine = ({
           </g>
         );
       })}
-    </BarCommon>
+    </LabelValueCommon>
   );
 };
 
