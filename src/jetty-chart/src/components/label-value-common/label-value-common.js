@@ -1,14 +1,15 @@
-import { DrawYAxisGridLine } from "../../components/y-axis/draw-y-axis-grid-line";
-import { DrawXAxisGridLine } from "../../components/x-axis/draw-x-axis-grid-line";
-import { DrawYAxisLabel } from "../../components/y-axis/draw-y-axis-label";
-import { DrawXAxisLabel } from "../../components/x-axis/draw-x-axis-label";
-import { DrawYAxisLegend } from "../../components/y-axis/draw-y-axis-legend";
-import { DrawXAxisLegend } from "../../components/x-axis/draw-x-axis-legend";
-import { DrawLegends } from "../../components/legend/draw-legends";
+import { DrawYAxisGridLine } from "../y-axis/draw-y-axis-grid-line";
+import { DrawXAxisGridLine } from "../x-axis/draw-x-axis-grid-line";
+import { DrawYAxisLabel } from "../y-axis/draw-y-axis-label";
+import { DrawXAxisLabel } from "../x-axis/draw-x-axis-label";
+import { DrawYAxisLegend } from "../y-axis/draw-y-axis-legend";
+import { DrawXAxisLegend } from "../x-axis/draw-x-axis-legend";
+import { DrawLegends } from "../legend/draw-legends";
 
-const BarCommon = ({
-  data,
+const LabelValueCommon = ({
   keys,
+  xAxis,
+  yAxis,
   xLegend,
   yLegend,
   normalSettings: {
@@ -20,7 +21,6 @@ const BarCommon = ({
     padding,
     reverse,
     horizontal,
-    scope,
     totalWidth,
     totalHeight,
     xAxisInitialPosition,
@@ -44,8 +44,10 @@ const BarCommon = ({
   children
 }) => {
   if (horizontal) {
-    scope.reverse();
+    yAxis.reverse();
   }
+
+  innerMargin ??= { top: 0, bottom: 0 };
 
   return (
     <div style={{ width: `${width}px`, height: `${height}px`, border: "1px solid #ccc" }}>
@@ -67,7 +69,7 @@ const BarCommon = ({
             <DrawYAxisGridLine
               normalSettings={{
                 horizontal,
-                yAxis: scope,
+                yAxis,
                 width: totalWidth,
                 yAxisHeight,
                 showTopScope
@@ -79,7 +81,7 @@ const BarCommon = ({
             <DrawYAxisLabel
               normalSettings={{
                 horizontal,
-                yAxis: scope,
+                yAxis,
                 width: totalWidth,
                 yAxisHeight,
                 showTopScope
@@ -90,7 +92,7 @@ const BarCommon = ({
             <DrawYAxisLabel
               normalSettings={{
                 horizontal,
-                yAxis: scope,
+                yAxis,
                 width: totalWidth,
                 yAxisHeight,
                 showTopScope
@@ -102,7 +104,7 @@ const BarCommon = ({
             {/* X축 라인 그리기 */}
             <DrawXAxisGridLine
               normalSettings={{
-                xAxis: data.map((d) => d.value),
+                xAxis,
                 horizontal,
                 width: totalWidth,
                 height: totalHeight,
@@ -116,7 +118,7 @@ const BarCommon = ({
             {/* 아래쪽 라벨 그리기 */}
             <DrawXAxisLabel
               normalSettings={{
-                xAxis: data.map((d) => d.label),
+                xAxis,
                 horizontal,
                 height: totalHeight,
                 padding,
@@ -128,7 +130,7 @@ const BarCommon = ({
             {/* 오른쪽 라벨 그리기 */}
             <DrawXAxisLabel
               normalSettings={{
-                xAxis: data.map((d) => d.label),
+                xAxis,
                 horizontal,
                 height: totalHeight,
                 padding,
@@ -148,4 +150,4 @@ const BarCommon = ({
   );
 };
 
-export { BarCommon };
+export { LabelValueCommon };
