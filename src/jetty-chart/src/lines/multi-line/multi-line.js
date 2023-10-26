@@ -1,34 +1,18 @@
 import { checkNormalLine } from "../../common/utils/exception/check-line-exception";
 import { BarCommon } from "../../bars/bar-common/bar-common";
 import { getAutoScope, getCalculatedScope } from "../../common/utils/scope/calculate-scope";
+import { getControlPoint } from "../normal-line/normal-line";
 
-const getOpposedLine = (pointA, pointB, angleDegree) => {
-  const xLength = pointB[0] - pointA[0];
-  const yLength = pointB[1] - pointA[1];
-
-  const zLength = Math.sqrt(xLength ** 2 + yLength ** 2);
-  const angle = Math.atan2(yLength, xLength) * angleDegree;
-
-  return { length: zLength, angle };
-};
-
-const getControlPoint = (prev, curr, next, smoothDegree, angleDegree, isEndControlPoint = false) => {
-  const p = prev || curr;
-  const n = next || curr;
-
-  const o = getOpposedLine(p, n, angleDegree);
-
-  const angle = o.angle + (isEndControlPoint ? Math.PI : 0);
-  const length = o.length * smoothDegree;
-
-  const x = curr[0] + Math.cos(angle) * length;
-  const y = curr[1] + Math.sin(angle) * length;
-
-  return [x, y];
-};
+const colorPallette = [
+  ["#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6"],
+  ["#ffedd5", "#fed7aa", "#fdba74", "#fb923c", "#f97316"],
+  ["#fee2e2", "#fecaca", "#fca5a5", "#f87171", "#ef4444"],
+  ["#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b"],
+  ["#dcfce7", "#bbf7d0", "#86efac", "#4ade80", "#22c55e"]
+];
 
 const MultiLine = ({
-  data,
+  dataSet,
   normalSettings,
   scopeSettings,
   axisXGridLineSettings,
@@ -56,12 +40,11 @@ const MultiLine = ({
   const { autoScope, maxScope, minScope, showTopScope } = result.scopeSettings;
 
   const {
-    lineColor,
     lineOpacity,
     lineWidth,
     enablePoint,
     pointSize,
-    pointColor,
+    // pointColor,
     pointBorderColor,
     pointBorderWidth,
     enablePointLabel,
@@ -79,11 +62,22 @@ const MultiLine = ({
     strokeLinecap
   } = result.lineSettings;
 
-  const scopeResult = autoScope ? getAutoScope({ data }) : getCalculatedScope({ maxScope, minScope });
+  let combinedData = [];
+  const idArray = [];
 
+  dataSet.forEach((element) => {
+    combinedData = combinedData.concat(element.data);
+    idArray.push(element.id);
+  });
+  console.log(autoScope);
+
+  const scopeResult = autoScope ? getAutoScope({ data: combinedData }) : getCalculatedScope({ maxScope, minScope });
+  console.log(scopeResult);
   if (reverse) {
     scopeResult.scope.reverse();
   }
+
+  const dataLength = dataSet[0]?.data.length;
 
   const totalWidth = horizontal ? height - margin.bottom - margin.top : width - margin.left - margin.right;
   const totalHeight = horizontal ? width - margin.left - margin.right : height - margin.bottom - margin.top;
@@ -91,8 +85,8 @@ const MultiLine = ({
   const drawWidth = totalWidth - padding - padding;
   const lineHeight = totalHeight / (scopeResult.scope.length - 1);
 
-  const areaWidth = drawWidth / data.length;
-  const pointGapWidth = drawWidth / (data.length - 1);
+  const areaWidth = drawWidth / dataLength;
+  const pointGapWidth = drawWidth / (dataLength - 1);
 
   const halfAreaWidth = areaWidth / 2;
 
@@ -109,64 +103,75 @@ const MultiLine = ({
       return acc;
     }, 0) * lineHeight;
 
-  const coords = data.map((element, idx) => {
-    const nowData = { ...element };
-
-    if (reverse) {
-      nowData.value = -nowData.value;
-    }
-
-    const center = pointGapWidth * idx;
-    const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
-
-    if (horizontal) {
-      return [totalHeight + height - zeroHeight, center];
-    }
-
-    return [center, totalHeight - height - zeroHeight];
-  });
-
-  let pathString = ``;
-  let areaPathString = "";
-
-  if (enableCurve) {
-    pathString = coords.reduce((acc, curr, idx, arr) => {
-      const isFirstPoint = idx === 0;
-
-      if (isFirstPoint) return acc + `${curr[0]},${curr[1]}`;
-
-      console.log(arr, idx);
-      const [cpsX, cpsY] = getControlPoint(arr[idx - 2], arr[idx - 1], curr, smoothDegree, angleDegree);
-      const [cpeX, cpeY] = getControlPoint(arr[idx - 1], curr, arr[idx + 1], smoothDegree, angleDegree, true);
-      return `${acc} C ${cpsX}, ${cpsY}, ${cpeX}, ${cpeY} ${curr[0]}, ${curr[1]}`;
-    }, "");
-    console.log(pathString);
-  } else {
-    pathString = coords.reduce((acc, curr, idx) => {
-      const isFirstPoint = idx === 0;
-
-      let tempPath = "";
-
-      if (!isFirstPoint) tempPath += ` L`;
-
-      tempPath += ` ${curr[0]} ${curr[1]}`;
-      return acc + tempPath;
-    }, "");
-  }
-
   const zeroHeightFromTop = totalHeight - zeroHeight;
 
-  if (enableArea) {
-    areaPathString = horizontal
-      ? `M ${zeroHeightFromTop} ${0} L` + pathString + `L ${zeroHeightFromTop} ${drawWidth}`
-      : `M ${0} ${zeroHeightFromTop} L` + pathString + `L ${drawWidth} ${zeroHeightFromTop}`;
-  }
+  const dataSetCoords = [];
 
-  pathString = "M " + pathString;
+  dataSet.reverse().forEach((element) => {
+    const coords = element.data.map((element, idx) => {
+      const nowData = { ...element };
+
+      if (reverse) {
+        nowData.value = -nowData.value;
+      }
+
+      const center = pointGapWidth * idx;
+      const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
+
+      if (horizontal) {
+        return [totalHeight + height - zeroHeight, center];
+      }
+
+      return [center, totalHeight - height - zeroHeight];
+    });
+    dataSetCoords.push(coords);
+  });
+
+  const linePathArray = [];
+
+  dataSetCoords.forEach((coords) => {
+    let pathString = ``;
+    let areaPathString = "";
+
+    if (enableCurve) {
+      pathString = coords.reduce((acc, curr, idx, arr) => {
+        const isFirstPoint = idx === 0;
+
+        if (isFirstPoint) return acc + `${curr[0]},${curr[1]}`;
+
+        console.log(arr, idx);
+        const [cpsX, cpsY] = getControlPoint(arr[idx - 2], arr[idx - 1], curr, { smoothDegree, angleDegree });
+        const [cpeX, cpeY] = getControlPoint(arr[idx - 1], curr, arr[idx + 1], { smoothDegree, angleDegree }, true);
+        return `${acc} C ${cpsX}, ${cpsY}, ${cpeX}, ${cpeY} ${curr[0]}, ${curr[1]}`;
+      }, "");
+      console.log(pathString);
+    } else {
+      pathString = coords.reduce((acc, curr, idx) => {
+        const isFirstPoint = idx === 0;
+
+        let tempPath = "";
+
+        if (!isFirstPoint) tempPath += ` L`;
+
+        tempPath += ` ${curr[0]} ${curr[1]}`;
+        return acc + tempPath;
+      }, "");
+    }
+
+    if (enableArea) {
+      areaPathString = horizontal
+        ? `M ${zeroHeightFromTop} ${0} L` + pathString + `L ${zeroHeightFromTop} ${drawWidth}`
+        : `M ${0} ${zeroHeightFromTop} L` + pathString + `L ${drawWidth} ${zeroHeightFromTop}`;
+    }
+
+    pathString = "M " + pathString;
+
+    linePathArray.push([pathString, areaPathString]);
+  });
 
   return (
     <BarCommon
-      data={data}
+      data={dataSet[0].data}
       normalSettings={{
         ...result.normalSettings,
         scope: scopeResult.scope,
@@ -185,91 +190,94 @@ const MultiLine = ({
       bottomLabelSettings={result.bottomLabelSettings}
       topLabelSettings={result.topLabelSettings}
     >
-      <g
-        transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}
-        onClick={() => {
-          const path = document.getElementById("myPath");
-          const length = path.getTotalLength();
-
-          path.style.strokeDasharray = length;
-          path.style.strokeDashoffset = length;
-
-          path.animate([{ strokeDashoffset: length }, { strokeDashoffset: 0 }], {
-            duration: 2000, // 애니메이션 지속 시간 (2초)
-            easing: "ease-in-out",
-            iterations: 1, // 애니메이션을 1번만 실행
-            fill: "forwards" // 애니메이션 종료 후 최종 프레임 유지
-          });
-        }}
-      >
-        <path
-          id="myPath"
-          d={pathString}
-          stroke={lineColor}
-          strokeWidth={lineWidth}
-          strokeOpacity={lineOpacity}
-          strokeLinejoin={strokeLinejoin}
-          strokeLinecap={strokeLinecap}
-          fillOpacity={0}
-        />
-        {enableArea && (
-          <path
-            d={areaPathString}
-            fill={lineColor}
-            strokeLinejoin={strokeLinejoin}
-            strokeLinecap={strokeLinecap}
-            fillOpacity={enableArea ? areaOpacity : 0}
-          />
-        )}
-        {data.map((d, idx) => {
-          const nowData = { ...d };
-
-          if (reverse) {
-            nowData.value = -nowData.value;
-          }
-
-          const center = pointGapWidth * idx;
-          const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
-
+      <g transform={horizontal ? `translate(${reverse ? "" : "-"}${totalHeight},${padding})` : `translate(${padding})`}>
+        {enableArea &&
+          linePathArray.map((d, idx) => {
+            const lineColor = colorPallette[idx][3];
+            return (
+              <path
+                key={`area-${idArray[idx]}-idx`}
+                d={d[1]}
+                fill={lineColor}
+                strokeLinejoin={strokeLinejoin}
+                strokeLinecap={strokeLinecap}
+                fillOpacity={enableArea ? areaOpacity : 0}
+              />
+            );
+          })}
+        {linePathArray.map((d, idx) => {
+          const lineColor = colorPallette[idx][2];
           return (
-            <g
-              key={"data-" + nowData.label + "-" + idx}
-              transform={
-                horizontal
-                  ? `translate(${zeroHeight + height},${center - halfAreaWidth})`
-                  : `translate(${center - halfAreaWidth},${totalHeight - height - zeroHeight})`
-              }
-            >
-              {enablePoint && (
-                <circle
-                  cx={horizontal ? 0 : halfAreaWidth}
-                  cy={horizontal ? halfAreaWidth : 0}
-                  r={pointSize}
-                  fill={pointColor}
-                  stroke={pointBorderColor}
-                  strokeWidth={pointBorderWidth}
-                />
-              )}
-              {enablePointLabel && (
-                <text
-                  transform={
-                    horizontal
-                      ? `translate(${pointLabelOffsetX},${pointLabelOffsetY})`
-                      : `translate(${halfAreaWidth + pointLabelOffsetX},${pointLabelOffsetY})`
-                  }
-                  dominantBaseline={"alphabetic"}
-                  textAnchor="middle"
-                  fontSize={pointLabelSize}
-                  fontWeight={pointLabelWeight}
-                  fill={pointLabelColor}
-                >
-                  {d.value}
-                </text>
-              )}
-            </g>
+            <path
+              key={`line-${idArray[idx]}-idx`}
+              d={d[0]}
+              stroke={lineColor}
+              strokeWidth={lineWidth}
+              strokeOpacity={lineOpacity}
+              strokeLinejoin={strokeLinejoin}
+              strokeLinecap={strokeLinecap}
+              fillOpacity={0}
+            />
           );
         })}
       </g>
+      {dataSet.map((data, index) => {
+        // const [pathString, areaPathString] = linePathArray[index];
+        // console.log(pathString, areaPathString);
+        const lineColor = colorPallette[index][4];
+        return (
+          <g key={`g-${data.id}-${index}`} transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
+            {data.data.map((d, idx) => {
+              const nowData = { ...d };
+
+              if (reverse) {
+                nowData.value = -nowData.value;
+              }
+
+              const center = pointGapWidth * idx;
+              const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
+
+              return (
+                <g
+                  key={"data-" + nowData.label + "-" + idx}
+                  transform={
+                    horizontal
+                      ? `translate(${zeroHeight + height},${center - halfAreaWidth})`
+                      : `translate(${center - halfAreaWidth},${totalHeight - height - zeroHeight})`
+                  }
+                >
+                  {enablePoint && (
+                    <circle
+                      cx={horizontal ? 0 : halfAreaWidth}
+                      cy={horizontal ? halfAreaWidth : 0}
+                      r={pointSize}
+                      fill={lineColor}
+                      stroke={pointBorderColor}
+                      strokeWidth={pointBorderWidth}
+                    />
+                  )}
+                  {enablePointLabel && (
+                    <text
+                      transform={
+                        horizontal
+                          ? `translate(${pointLabelOffsetX},${pointLabelOffsetY})`
+                          : `translate(${halfAreaWidth + pointLabelOffsetX},${pointLabelOffsetY})`
+                      }
+                      dominantBaseline={"alphabetic"}
+                      textAnchor="middle"
+                      fontSize={pointLabelSize}
+                      fontWeight={pointLabelWeight}
+                      fill={pointLabelColor}
+                    >
+                      {d.value}
+                    </text>
+                  )}
+                </g>
+              );
+            })}
+          </g>
+        );
+      })}
     </BarCommon>
   );
 };
