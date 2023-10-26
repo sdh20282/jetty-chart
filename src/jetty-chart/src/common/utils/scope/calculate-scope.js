@@ -1,20 +1,5 @@
 /* eslint-disable complexity */
-export const getAutoScope = ({ data }) => {
-  const values = data.reduce(
-    (acc, cur) => {
-      if (cur.value > acc.maxValue) {
-        acc.maxValue = cur.value;
-      }
-
-      if (cur.value < acc.minValue) {
-        acc.minValue = cur.value;
-      }
-
-      return acc;
-    },
-    { maxValue: 0, minValue: 0 }
-  );
-
+const getScope = ({ values }) => {
   const scopeResult = [];
   let valueLength = 0;
   let target = 0;
@@ -24,7 +9,7 @@ export const getAutoScope = ({ data }) => {
   const flag = values.maxValue > -values.minValue;
 
   if (values.minValue === 0 && values.maxValue === 0) {
-    return { level: [1, 0, -1], maxScope: 1, minScope: -1 };
+    return { scope: [1, 0, -1], maxScope: 1, minScope: -1 };
   }
 
   if (values.minValue >= 0) {
@@ -64,40 +49,38 @@ export const getAutoScope = ({ data }) => {
   const maxScope = maxStringValue.split(".")[0][0] * 10 + 10;
   let gap = 1;
 
-  if (maxScope > 75) {
+  if (maxScope > 75 || (maxScope > 55 && values.minValue < 0 && values.maxValue > 0)) {
     gap = 20;
-  } else if (maxScope > 55) {
-    gap = 15;
-  } else if (maxScope > 35 && maxScope < 55) {
+  } else if (maxScope > 55 || (maxScope > 35 && values.minValue < 0 && values.maxValue > 0)) {
     gap = 10;
   } else {
     gap = 5;
   }
 
   if (usingFlag) {
-    for (let value = 0; value <= maxScope; value += gap) {
+    for (let value = 0; ; value += gap) {
       const nowValue = value / maxScale;
 
       scopeResult.push(nowValue);
 
-      if (values.maxValue < nowValue) {
+      if (values.maxValue <= nowValue) {
         break;
       }
     }
 
     scopeResult.reverse();
 
-    for (let value = gap; value <= maxScope; value += gap) {
+    for (let value = gap; ; value += gap) {
       const nowValue = value / maxScale;
 
       scopeResult.push(-nowValue);
 
-      if (-values.minValue < nowValue) {
+      if (-values.minValue <= nowValue) {
         break;
       }
     }
   } else {
-    for (let value = 0; value <= maxScope; value += gap) {
+    for (let value = 0; ; value += gap) {
       const nowValue = value / maxScale;
 
       if (values.minValue >= 0) {
@@ -106,17 +89,42 @@ export const getAutoScope = ({ data }) => {
         scopeResult.push(-nowValue);
       }
 
-      if ((values.minValue >= 0 && values.maxValue < nowValue) || (values.maxValue <= 0 && -values.minValue < nowValue)) {
+      if ((values.minValue >= 0 && values.maxValue <= nowValue) || (values.maxValue <= 0 && -values.minValue <= nowValue)) {
         break;
       }
     }
   }
 
+  if (values.minValue >= 0) {
+    scopeResult.reverse();
+  }
+
+  return scopeResult;
+};
+/* eslint-enable complexity */
+
+export const getAutoScope = ({ data }) => {
+  const values = data.reduce(
+    (acc, cur) => {
+      if (cur.value > acc.maxValue) {
+        acc.maxValue = cur.value;
+      }
+
+      if (cur.value < acc.minValue) {
+        acc.minValue = cur.value;
+      }
+
+      return acc;
+    },
+    { maxValue: 0, minValue: 0 }
+  );
+
+  const scopeResult = getScope({ values });
+
   let nowMaxScope = 0;
   let nowMinScope = 0;
 
   if (values.minValue >= 0) {
-    scopeResult.reverse();
     nowMaxScope = scopeResult[0];
   } else if (values.maxValue <= 0) {
     scopeResult[0] = 0;
@@ -128,8 +136,26 @@ export const getAutoScope = ({ data }) => {
 
   return { scope: scopeResult, maxScope: nowMaxScope, minScope: nowMinScope };
 };
-/* eslint-enable complexity */
 
-export const getCalculatedScope = ({ maxScope, minScope }) => {
-  console.log(maxScope, minScope);
+export const getUserScope = ({ maxScope, minScope }) => {
+  if (maxScope === 0 && minScope === 0) {
+    return { scope: [1, 0, -1], display: false };
+  }
+
+  const scopeResult = getScope({ values: { maxValue: maxScope, minValue: minScope } });
+  const topMarginRatio = scopeResult[0] === maxScope ? 0 : (maxScope - scopeResult[1]) / (maxScope - minScope);
+  const bottomMarginRatio =
+    scopeResult[scopeResult.length - 1] === minScope ? 0 : (scopeResult[scopeResult.length - 2] - minScope) / (maxScope - minScope);
+
+  return {
+    scope: scopeResult.slice(
+      maxScope === scopeResult[0] ? 0 : 1,
+      minScope === scopeResult[scopeResult.length - 1] ? scopeResult.length : scopeResult.length - 1
+    ),
+    maxScope: maxScope === scopeResult[0] ? maxScope : scopeResult[1],
+    minScope: minScope === scopeResult[scopeResult.length - 1] ? minScope : scopeResult[scopeResult.length - 2],
+    topMarginRatio,
+    bottomMarginRatio,
+    display: true
+  };
 };

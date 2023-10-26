@@ -1,12 +1,30 @@
-import { checkMargin, checkSize } from "./check-common-exception";
+import { checkSize } from "./check-common-exception";
+
+const checkMargin = ({ margin }) => {
+  margin.top ??= 60;
+  margin.bottom ??= 70;
+  margin.left ??= 80;
+  margin.right ??= 120;
+
+  return margin;
+};
+
+const checkInnerMargin = ({ innerMargin }) => {
+  innerMargin.top = 0;
+  innerMargin.bottom = 0;
+
+  return innerMargin;
+};
 
 const normalBarSetting = {
   // 기본 세팅
   normalSettings: {
-    width: 400,
-    height: 280,
+    width: 500,
+    height: 400,
     backgroundColor: "#fff",
-    margin: { top: 50, bottom: 40, left: 60, right: 60 },
+    margin: { top: 60, bottom: 70, left: 80, right: 120 },
+    innerMargin: { top: 0, bottom: 0 },
+    colorPalette: ["#669dfe", "#876697"],
     padding: 10,
     reverse: false,
     horizontal: false
@@ -14,15 +32,15 @@ const normalBarSetting = {
   // 범위 세팅
   scopeSettings: {
     autoScope: true,
-    maxScope: 100,
-    minScope: 0,
+    maxScope: 8,
+    minScope: -8,
     showTopScope: true
   },
   // y축 라인 세팅
   axisYGridLineSettings: {
     lineVisible: true,
     lineOpacity: 1,
-    lineColor: "#c4c4c4",
+    lineColor: "#d4d4d4",
     lineWidth: 1,
     lineDash: false,
     lineDashWidth: 5,
@@ -33,7 +51,7 @@ const normalBarSetting = {
   axisXGridLineSettings: {
     lineVisible: false,
     lineOpacity: 1,
-    lineColor: "#c4c4c4",
+    lineColor: "#d4d4d4",
     lineWidth: 1,
     lineDash: false,
     lineDashWidth: 5,
@@ -45,11 +63,14 @@ const normalBarSetting = {
   leftLabelSettings: {
     useLabel: true,
     labelOnLeft: true,
-    labelMargin: 12,
-    labelSize: 11,
+    labelMargin: 5,
+    labelSize: 12,
     labelWeight: 500,
+    labelOpacity: 1,
     labelColor: "#777",
-    sideLineMargin: 7,
+    labelRotate: 0,
+    labelMove: 0,
+    sideLineSize: 5,
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
@@ -59,11 +80,14 @@ const normalBarSetting = {
   rightLabelSettings: {
     useLabel: false,
     labelOnLeft: false,
-    labelMargin: 12,
-    labelSize: 11,
+    labelMargin: 5,
+    labelSize: 12,
     labelWeight: 500,
+    labelOpacity: 1,
     labelColor: "#777",
-    sideLineMargin: 7,
+    labelRotate: 0,
+    labelMove: 0,
+    sideLineSize: 5,
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
@@ -73,11 +97,14 @@ const normalBarSetting = {
   bottomLabelSettings: {
     useLabel: true,
     labelOnBottom: true,
-    labelMargin: 14,
-    labelSize: 11,
+    labelMargin: 5,
+    labelSize: 12,
     labelWeight: 500,
+    labelOpacity: 1,
     labelColor: "#777",
-    sideLineMargin: 8,
+    labelRotate: 0,
+    labelMove: 0,
+    sideLineSize: 5,
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
@@ -87,26 +114,132 @@ const normalBarSetting = {
   topLabelSettings: {
     useLabel: false,
     labelOnBottom: false,
-    labelMargin: 14,
-    labelSize: 11,
+    labelMargin: 5,
+    labelSize: 12,
     labelWeight: 500,
+    labelOpacity: 1,
     labelColor: "#777",
-    sideLineMargin: 8,
+    labelRotate: 0,
+    labelMove: 0,
+    sideLineSize: 5,
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
     sideLineWidth: 2
   },
+  // 왼쪽 설명 세팅
+  leftLegendSettings: {
+    useLegend: true,
+    legendOnLeft: true,
+    legendMargin: 40,
+    legendSize: 14,
+    legendWeight: 700,
+    legendOpacity: 1,
+    legendColor: "#333",
+    legendReverse: false,
+    legendMove: 0
+  },
+  // 오른쪽 설명 세팅
+  rightLegendSettings: {
+    useLegend: false,
+    legendOnLeft: false,
+    legendMargin: 40,
+    legendSize: 14,
+    legendWeight: 700,
+    legendOpacity: 1,
+    legendColor: "#333",
+    legendReverse: false,
+    legendMove: 0
+  },
+  // 아래쪽 설명 세팅
+  bottomLegendSettings: {
+    useLegend: true,
+    legendOnBottom: true,
+    legendMargin: 40,
+    legendSize: 14,
+    legendWeight: 700,
+    legendOpacity: 1,
+    legendColor: "#333",
+    legendReverse: false,
+    legendMove: 0
+  },
+  // 위쪽 설명 세팅
+  topLegendSettings: {
+    useLegend: false,
+    legendOnBottom: false,
+    legendMargin: 40,
+    legendSize: 14,
+    legendWeight: 700,
+    legendOpacity: 1,
+    legendColor: "#333",
+    legendReverse: false,
+    legendMove: 0
+  },
+  // 설명 세팅
+  legendSettings: {
+    useLegend: true,
+    position: "bottom-right", // bottom center top - left center right
+    xLocation: 16,
+    yLocation: 0,
+    directionColumn: true,
+    itemWidth: 80,
+    itemMargin: 2,
+    symbolSize: 16,
+    symbolRadius: 3,
+    symbolMargin: 5,
+    symbolOpacity: 1,
+    legendSize: 12,
+    legendWeight: 400,
+    legendOpacity: 1,
+    legendColor: "#aaa",
+    legendOnStart: true
+  },
   // 바 세팅
   barSettings: {
-    barColor: "#66d8fe",
+    barOpacity: 1,
     barGap: 0.15,
-    barOnlyUpperRadus: true,
+    barOnlyUpperRadius: true,
     useBarBorderRadius: true,
-    barBorderRadius: 5,
+    barBorderRadius: 7,
     useBarBorder: false,
     barBorderWidth: 2,
-    barBorderColor: "#c4c4c4"
+    barBorderColor: "#000",
+    barBorderOpacity: 1,
+    useMinHeight: true,
+    minHeight: 2,
+    useLabel: true,
+    labelPosition: "over", // over, center, under,
+    labelMargin: 3,
+    labelSize: 11,
+    labelWeight: 500,
+    labelOpacity: 1,
+    labelColor: "#777",
+    labelInvisibleHeight: 0
+  },
+  animationSettings: {
+    axisYGridLineSettings: {
+      useAnimation: true,
+      type: "fade",
+      duration: 0.3,
+      startDelay: 0,
+      itemDelay: 0.1,
+      startFrom: "left-bottom"
+    },
+    axisXGridLineSettings: {
+      useAnimation: true,
+      type: "draw",
+      duration: 0.3,
+      startDelay: 0,
+      itemDelay: 0.1,
+      startFrom: "left-bottom"
+    }
+  }
+};
+
+const normalBarTypes = {
+  scopeSettings: {
+    minScope: "nevative-number",
+    maxScope: "positive-number"
   }
 };
 
@@ -119,7 +252,13 @@ export const checkNormalBar = ({
   rightLabelSettings,
   bottomLabelSettings,
   topLabelSettings,
-  barSettings
+  leftLegendSettings,
+  rightLegendSettings,
+  bottomLegendSettings,
+  topLegendSettings,
+  legendSettings,
+  barSettings,
+  animationSettings
 }) => {
   const result = {
     normalSettings,
@@ -130,18 +269,35 @@ export const checkNormalBar = ({
     rightLabelSettings,
     bottomLabelSettings,
     topLabelSettings,
-    barSettings
+    leftLegendSettings,
+    rightLegendSettings,
+    bottomLegendSettings,
+    topLegendSettings,
+    legendSettings,
+    barSettings,
+    animationSettings
   };
 
   Object.keys(normalBarSetting).forEach((setting) => {
     result[setting] ??= {};
 
-    Object.keys(normalBarSetting[setting]).forEach((detail) => {
-      result[setting][detail] ??= normalBarSetting[setting][detail];
-    });
+    if (setting === "animationSettings") {
+      Object.keys(normalBarSetting[setting]).forEach((animation) => {
+        result[setting][animation] ??= {};
+
+        Object.keys(normalBarSetting[setting][animation]).forEach((detail) => {
+          result[setting][animation][detail] ??= normalBarSetting[setting][animation][detail];
+        });
+      });
+    } else {
+      Object.keys(normalBarSetting[setting]).forEach((detail) => {
+        result[setting][detail] ??= normalBarSetting[setting][detail];
+      });
+    }
   });
 
   result.normalSettings.margin = checkMargin({ margin: result.normalSettings.margin });
+  result.normalSettings.innerMargin = checkInnerMargin({ innerMargin: result.normalSettings.innerMargin });
 
   const checkedSize = checkSize({
     width: result.normalSettings.width,
@@ -154,6 +310,29 @@ export const checkNormalBar = ({
   result.normalSettings.height = checkedSize.height;
   result.normalSettings.margin = checkedSize.margin;
   result.normalSettings.padding = checkedSize.padding;
+
+  Object.keys(normalBarTypes).forEach((setting) => {
+    Object.keys(normalBarTypes[setting]).forEach((detail) => {
+      switch (normalBarTypes[setting][detail]) {
+        case "nevative-number":
+          if (result[setting][detail] <= 0) {
+            break;
+          }
+
+          result[setting][detail] = 0;
+
+          break;
+        case "positive-number":
+          if (result[setting][detail] >= 0) {
+            break;
+          }
+
+          result[setting][detail] = 0;
+          break;
+        default:
+      }
+    });
+  });
 
   return result;
 };
