@@ -3,14 +3,6 @@ import { LabelValueCommon } from "../../components/label-value-common/label-valu
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
 import { getControlPoint } from "../normal-line/normal-line";
 
-const colorPallette = [
-  ["#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6"],
-  ["#ffedd5", "#fed7aa", "#fdba74", "#fb923c", "#f97316"],
-  ["#fee2e2", "#fecaca", "#fca5a5", "#f87171", "#ef4444"],
-  ["#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b"],
-  ["#dcfce7", "#bbf7d0", "#86efac", "#4ade80", "#22c55e"]
-];
-
 const StackedLine = ({
   dataSet,
   keys,
@@ -59,7 +51,6 @@ const StackedLine = ({
     lineWidth,
     enablePoint,
     pointSize,
-    // pointColor,
     pointBorderColor,
     pointBorderWidth,
     enablePointLabel,
@@ -77,20 +68,8 @@ const StackedLine = ({
     strokeLinecap
   } = result.lineSettings;
 
-  // /*데이터 셋마다 순회하는데
-  //   - 첫번째 데이터셋은 그냥 자기값
-  //   - 두번째 데이터셋은 처음값 + 자기값
-  //   - 세번째 데이터셋은 두번째값 + 자기값
+  const colorPalette = [...result.normalSettings.colorPalette];
 
-  //   새로 나온 데이터 셋을 기준으로 범위 정하고 그리기 시작
-
-  //   물어볼 것 - 데이터 셋마다 데이터 개수, 점 찍기를 인덱스 기준으로 하고 있는데 이름 기준으로 해야하나
-
-  //   쌓이는 순서는 사용자 영역인지
-
-  //   라벨이 같은 데이터는 더해서 합쳐야 하는지
-
-  // */
   const stackedData = [];
 
   dataSet.forEach((element, idx) => {
@@ -161,7 +140,7 @@ const StackedLine = ({
       const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
 
       if (horizontal) {
-        return [totalHeight + height - zeroHeight, center];
+        return [zeroHeight + height, center];
       }
 
       return [center, totalHeight - height - zeroHeight];
@@ -238,10 +217,10 @@ const StackedLine = ({
       legendSettings={result.legendSettings}
       animationSettings={result.animationSettings}
     >
-      <g transform={horizontal ? `translate(${reverse ? "" : "-"}${totalHeight},${padding})` : `translate(${padding})`}>
+      <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
         {enableArea &&
           linePathArray.map((d, idx) => {
-            const lineColor = colorPallette[idx][2];
+            const lineColor = colorPalette[idx % colorPalette.length];
             return (
               <path
                 key={`area-${idArray[idx]}-idx`}
@@ -254,7 +233,7 @@ const StackedLine = ({
             );
           })}
         {linePathArray.map((d, idx) => {
-          const lineColor = colorPallette[idx][4];
+          const lineColor = colorPalette[idx % colorPalette.length];
           return (
             <path
               key={`line-${idArray[idx]}-idx`}
@@ -271,7 +250,7 @@ const StackedLine = ({
       </g>
 
       {stackedData.map((data, index) => {
-        const lineColor = colorPallette[index][4];
+        const lineColor = colorPalette[index % colorPalette.length];
         return (
           <g key={`g-${data.id}-${index}`} transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
             {data.data.map((d, idx) => {
