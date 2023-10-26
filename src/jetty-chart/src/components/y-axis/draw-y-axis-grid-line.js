@@ -12,11 +12,13 @@ export const DrawYAxisGridLine = ({
     appearDuration,
     appearStartDelay,
     appearItemDelay,
+    appearTimingFunction,
     appearStartFrom,
     moveLine,
     moveDuration,
     moveStartDelay,
-    moveItemDelay
+    moveItemDelay,
+    moveTimingFunction
   }
 }) => {
   const prevYAxis = useRef({});
@@ -80,7 +82,7 @@ export const DrawYAxisGridLine = ({
               "--line-width": `${width}px`,
               "--line-offset": `${animationXAxisStart === "left" ? width : -width}px`,
               "--animation-duration": `${useMove ? moveDuration : appearDuration}s`,
-              "--animation-timing-function": "ease",
+              "--animation-timing-function": useMove ? moveTimingFunction : appearTimingFunction,
               "--animation-delay": `${
                 (useMove ? moveStartDelay : appearStartDelay) +
                 (useMove

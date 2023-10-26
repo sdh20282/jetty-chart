@@ -87,6 +87,7 @@ const LabelValueCommon = ({
                 showTopScope
               }}
               labelSettings={leftLabelSettings}
+              animationSettings={animationSettings.axisYLabelSettings}
             />
             {/* 오른쪽 라벨 그리기 */}
             <DrawYAxisLabel
@@ -98,6 +99,7 @@ const LabelValueCommon = ({
                 showTopScope
               }}
               labelSettings={rightLabelSettings}
+              animationSettings={animationSettings.axisYLabelSettings}
             />
           </g>
           <g>
