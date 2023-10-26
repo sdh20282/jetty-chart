@@ -3,14 +3,6 @@ import { LabelValueCommon } from "../../components/label-value-common/label-valu
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
 import { getControlPoint } from "../normal-line/normal-line";
 
-const colorPallette = [
-  ["#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6"],
-  ["#ffedd5", "#fed7aa", "#fdba74", "#fb923c", "#f97316"],
-  ["#fee2e2", "#fecaca", "#fca5a5", "#f87171", "#ef4444"],
-  ["#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b"],
-  ["#dcfce7", "#bbf7d0", "#86efac", "#4ade80", "#22c55e"]
-];
-
 const MultiLine = ({
   dataSet,
   keys,
@@ -77,6 +69,8 @@ const MultiLine = ({
     strokeLinecap
   } = result.lineSettings;
 
+  const colorPalette = [...result.normalSettings.colorPalette];
+
   let combinedData = [];
   const idArray = [];
 
@@ -84,7 +78,6 @@ const MultiLine = ({
     combinedData = combinedData.concat(element.data);
     idArray.push(element.id);
   });
-  console.log(combinedData);
 
   const scopeResult = autoScope ? getAutoScope({ data: combinedData.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
   console.log(scopeResult);
@@ -132,9 +125,8 @@ const MultiLine = ({
 
       const center = pointGapWidth * idx;
       const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
-
       if (horizontal) {
-        return [totalHeight + height - zeroHeight, center];
+        return [zeroHeight + height, center];
       }
 
       return [center, totalHeight - height - zeroHeight];
@@ -154,12 +146,10 @@ const MultiLine = ({
 
         if (isFirstPoint) return acc + `${curr[0]},${curr[1]}`;
 
-        console.log(arr, idx);
         const [cpsX, cpsY] = getControlPoint(arr[idx - 2], arr[idx - 1], curr, { smoothDegree, angleDegree });
         const [cpeX, cpeY] = getControlPoint(arr[idx - 1], curr, arr[idx + 1], { smoothDegree, angleDegree }, true);
         return `${acc} C ${cpsX}, ${cpsY}, ${cpeX}, ${cpeY} ${curr[0]}, ${curr[1]}`;
       }, "");
-      console.log(pathString);
     } else {
       pathString = coords.reduce((acc, curr, idx) => {
         const isFirstPoint = idx === 0;
@@ -213,10 +203,10 @@ const MultiLine = ({
       legendSettings={result.legendSettings}
       animationSettings={result.animationSettings}
     >
-      <g transform={horizontal ? `translate(${reverse ? "" : "-"}${totalHeight},${padding})` : `translate(${padding})`}>
+      <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
         {enableArea &&
           linePathArray.map((d, idx) => {
-            const lineColor = colorPallette[idx][3];
+            const lineColor = colorPalette[idx % colorPalette.length];
             return (
               <path
                 key={`area-${idArray[idx]}-idx`}
@@ -229,7 +219,7 @@ const MultiLine = ({
             );
           })}
         {linePathArray.map((d, idx) => {
-          const lineColor = colorPallette[idx][2];
+          const lineColor = colorPalette[idx % colorPalette.length];
           return (
             <path
               key={`line-${idArray[idx]}-idx`}
@@ -245,9 +235,7 @@ const MultiLine = ({
         })}
       </g>
       {dataSet.map((data, index) => {
-        // const [pathString, areaPathString] = linePathArray[index];
-        // console.log(pathString, areaPathString);
-        const lineColor = colorPallette[index][4];
+        const lineColor = colorPalette[index % colorPalette.length];
         return (
           <g key={`g-${data.id}-${index}`} transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
             {data.data.map((d, idx) => {
