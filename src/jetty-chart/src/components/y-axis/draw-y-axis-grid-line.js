@@ -85,12 +85,10 @@ export const DrawYAxisGridLine = ({
               "--animation-timing-function": useMove ? moveTimingFunction : appearTimingFunction,
               "--animation-delay": `${
                 (useMove ? moveStartDelay : appearStartDelay) +
-                (useMove
-                  ? 0
-                  : (useMove ? moveItemDelay : appearItemDelay) *
-                    ((!horizontal && animationYAxisStart === "bottom") || (horizontal && animationYAxisStart !== "bottom")
-                      ? yAxis.length - 1 - idx
-                      : idx))
+                (useMove ? moveItemDelay : appearItemDelay) *
+                  ((!horizontal && animationYAxisStart === "bottom") || (horizontal && animationYAxisStart !== "bottom")
+                    ? yAxis.length - 1 - idx
+                    : idx)
               }s`,
               "--height-offset": horizontal ? `${move}px` : `0px,${move}px`
             }}

@@ -121,10 +121,8 @@ export const DrawXAxisGridLine = ({
                   "--animation-timing-function": useMove ? moveTimingFunction : appearTimingFunction,
                   "--animation-delay": `${
                     (useMove ? moveStartDelay : appearStartDelay) +
-                    (useMove
-                      ? 0
-                      : (useMove ? moveItemDelay : appearItemDelay) * (animationXAxisStart === "left" ? idx : xAxis.length - 1 - idx) +
-                        (showEndLine && !useMove ? appearItemDelay : 0))
+                    (useMove ? moveItemDelay : appearItemDelay) * (animationXAxisStart === "left" ? idx : xAxis.length - 1 - idx) +
+                    (showEndLine && !useMove ? appearItemDelay : 0)
                   }s`,
                   "--width-offset": horizontal ? `0px,${move}px` : `${move}px`
                 }}

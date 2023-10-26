@@ -2,7 +2,8 @@
   --animation-duration: 0;
   --animation-timing-function: "linear";
   --animation-delay: "0s";
-  --height-offset: "0px";
+  --move-from: "0px";
+  --move-to: "0px";
 }
 
 @keyframes typing {
@@ -14,16 +15,18 @@
   /* overflow: hidden;
   white-space: nowrap;
   width: 0;
-  animation: type-label var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards; */
+  animation: type-label var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 
-  display: block;
-  width: 0;
+  width: 0; */
+
+
+  background-color: rebeccapurple;
 
   /* display: inline-block;
   overflow: hidden;
   white-space: nowrap;
   width: 0;
-  animation: typing;
+  animation: type-label;
   animation-duration: 1.5s;
   animation-timing-function: steps(30, end);
   animation-fill-mode: forwards; */
@@ -60,10 +63,10 @@
 
 @keyframes move-label {
   0% {
-    transform: translate(0px, 0px);
+    transform: translate(var(--move-from));
   }
 
   100% {
-    transform: translate(var(--height-offset));
+    transform: translate(var(--move-to));
   }
 }
