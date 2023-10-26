@@ -4,6 +4,7 @@
   --animation-duration: 0;
   --animation-timing-function: "linear";
   --animation-delay: "0s";
+  --height-offset: "0px";
 }
 
 .drawLine {
@@ -15,6 +16,10 @@
 .fadeLine {
   opacity: 0;
   animation: fade-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
+.moveLine {
+  animation: move-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
 @keyframes draw-line {
@@ -34,5 +39,15 @@
 
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes move-line {
+  0% {
+    transform: translate(0px, 0px);
+  }
+
+  100% {
+    transform: translate(var(--height-offset));
   }
 }

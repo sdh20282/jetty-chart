@@ -20,6 +20,10 @@ export const DrawLegends = ({
     legendOnStart
   }
 }) => {
+  if (!keys || keys.length === 0) {
+    return;
+  }
+
   const yAxis = position.split("-")[0];
   const xAxis = position.split("-")[1];
   const chartWidth = width - margin.left - margin.right;
