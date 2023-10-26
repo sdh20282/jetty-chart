@@ -2,7 +2,7 @@ import { checkNormalLine } from "../../common/utils/exception/check-line-excepti
 import { BarCommon } from "../../bars/bar-common/bar-common";
 import { getAutoScope, getCalculatedScope } from "../../common/utils/scope/calculate-scope";
 
-const getOpposedLine = (pointA, pointB, angleDegree) => {
+export const getOpposedLine = (pointA, pointB, angleDegree) => {
   const xLength = pointB[0] - pointA[0];
   const yLength = pointB[1] - pointA[1];
 
@@ -12,14 +12,14 @@ const getOpposedLine = (pointA, pointB, angleDegree) => {
   return { length: zLength, angle };
 };
 
-const getControlPoint = (prev, curr, next, smoothDegree, angleDegree, isEndControlPoint = false) => {
+export const getControlPoint = (prev, curr, next, options, isEndControlPoint = false) => {
   const p = prev || curr;
   const n = next || curr;
 
-  const o = getOpposedLine(p, n, angleDegree);
+  const o = getOpposedLine(p, n, options.angleDegree);
 
   const angle = o.angle + (isEndControlPoint ? Math.PI : 0);
-  const length = o.length * smoothDegree;
+  const length = o.length * options.smoothDegree;
 
   const x = curr[0] + Math.cos(angle) * length;
   const y = curr[1] + Math.sin(angle) * length;
@@ -135,12 +135,10 @@ const NormalLine = ({
 
       if (isFirstPoint) return acc + `${curr[0]},${curr[1]}`;
 
-      console.log(arr, idx);
-      const [cpsX, cpsY] = getControlPoint(arr[idx - 2], arr[idx - 1], curr, smoothDegree, angleDegree);
-      const [cpeX, cpeY] = getControlPoint(arr[idx - 1], curr, arr[idx + 1], smoothDegree, angleDegree, true);
+      const [cpsX, cpsY] = getControlPoint(arr[idx - 2], arr[idx - 1], curr, { smoothDegree, angleDegree });
+      const [cpeX, cpeY] = getControlPoint(arr[idx - 1], curr, arr[idx + 1], { smoothDegree, angleDegree }, true);
       return `${acc} C ${cpsX}, ${cpsY}, ${cpeX}, ${cpeY} ${curr[0]}, ${curr[1]}`;
     }, "");
-    console.log(pathString);
   } else {
     pathString = coords.reduce((acc, curr, idx) => {
       const isFirstPoint = idx === 0;
