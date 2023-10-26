@@ -223,11 +223,13 @@ const normalBarSetting = {
       appearDuration: 0.2,
       appearStartDelay: 0,
       appearItemDelay: 0,
+      appearTimingFunction: "ease",
       appearStartFrom: "left-bottom",
       moveLine: true,
       moveDuration: 0.3,
       moveStartDelay: 0,
-      moveItemDelay: 0
+      moveItemDelay: 0,
+      moveTimingFunction: "ease"
     },
     axisXGridLineSettings: {
       useAnimation: true,
@@ -235,11 +237,27 @@ const normalBarSetting = {
       appearDuration: 0.4,
       appearStartDelay: 0,
       appearItemDelay: 0,
+      appearTimingFunction: "ease",
       appearStartFrom: "left-bottom",
       moveLine: true,
       moveDuration: 0.1,
       moveStartDelay: 0,
-      moveItemDelay: 0
+      moveItemDelay: 0,
+      moveTimingFunction: "ease"
+    },
+    axisYLabelSettings: {
+      useAnimation: true,
+      appearType: "type",
+      appearDuration: 1,
+      appearStartDelay: 0,
+      appearItemDelay: 0,
+      appearTimingFunction: "ease",
+      appearStartFrom: "bottom",
+      moveLable: false,
+      moveDuration: 0.3,
+      moveStartDelay: 0,
+      moveItemDelay: 0,
+      moveTimingFunction: "ease"
     }
   }
 };
