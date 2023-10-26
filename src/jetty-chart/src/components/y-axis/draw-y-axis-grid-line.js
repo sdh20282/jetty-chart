@@ -1,20 +1,36 @@
 import { useRef } from "react";
+
 import styles from "./y-axis-grid-line.module.css";
 
 /* eslint-disable complexity */
 export const DrawYAxisGridLine = ({
   normalSettings: { horizontal, yAxis, width, yAxisHeight, showTopScope },
   lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap, lineRound },
-  animationSettings: { useAnimation, type, duration, startDelay, itemDelay, startFrom }
+  animationSettings: {
+    useAnimation,
+    appearType,
+    appearDuration,
+    appearStartDelay,
+    appearItemDelay,
+    appearStartFrom,
+    moveLine,
+    moveDuration,
+    moveStartDelay,
+    moveItemDelay
+  }
 }) => {
   const prevYAxis = useRef({});
   const prevYAxisTemp = useRef({});
-  const animationXAxisStart = startFrom.split("-")[0];
-  const animationYAxisStart = startFrom.split("-")[1];
 
+  const animationXAxisStart = appearStartFrom.split("-")[0];
+  const animationYAxisStart = appearStartFrom.split("-")[1];
   const prevYAxisKeys = Object.keys(prevYAxis.current);
+  const ms = new Date().valueOf();
 
-  console.log(prevYAxisKeys);
+  if (moveLine) {
+    prevYAxis.current = { ...prevYAxisTemp.current };
+    prevYAxisTemp.current = [];
+  }
 
   return (
     lineVisible && (
@@ -30,39 +46,56 @@ export const DrawYAxisGridLine = ({
           // 현재 위치 정보 저장
           prevYAxisTemp.current[c] = location;
 
-          if (idx === yAxis.length - 1) {
-            prevYAxis.current = { ...prevYAxisTemp.current };
-            prevYAxisTemp.current = [];
-          }
+          // 라인 리렌더링을 안할 경우
+          let useMove = false;
+          let move = 0;
 
-          // 이전 위치에 현재 위치가 포함되는지 확인
-          console.log(prevYAxisKeys.includes(String(c)), String(c));
+          if (moveLine) {
+            // 이전 위치에 현재 위치가 포함되는지 확인
+            if (prevYAxisKeys.includes(String(c))) {
+              move = location - prevYAxis.current[c];
+              useMove = true;
+            }
+          }
 
           return (
             <line
-              key={"background-line-" + c + "-" + idx}
-              x1={horizontal ? location : "0"}
-              x2={horizontal ? location : width}
-              y1={horizontal ? "0" : location}
-              y2={horizontal ? width : location}
+              key={"background-line-y-" + ms + "-" + c}
+              x1={horizontal ? location - (useMove && useAnimation ? move : 0) : "0"}
+              x2={horizontal ? location - (useMove && useAnimation ? move : 0) : width}
+              y1={horizontal ? "0" : location - (useMove && useAnimation ? move : 0)}
+              y2={horizontal ? width : location - (useMove && useAnimation ? move : 0)}
               stroke={lineColor}
               strokeOpacity={lineOpacity}
               strokeWidth={lineWidth}
               strokeDasharray={lineDash && c !== 0 ? `${lineDashWidth},${lineDashGap}` : "0"}
               strokeLinecap={lineRound ? "round" : ""}
-              className={useAnimation ? (type === "draw" ? styles.drawLine : type === "fade" ? styles.fadeLine : "") : ""}
+              className={
+                useAnimation
+                  ? useMove
+                    ? styles.moveLine
+                    : appearType === "draw"
+                    ? styles.drawLine
+                    : appearType === "fade"
+                    ? styles.fadeLine
+                    : ""
+                  : ""
+              }
               style={{
                 "--line-width": `${width}px`,
                 "--line-offset": `${animationXAxisStart === "left" ? width : -width}px`,
-                "--animation-duration": `${duration}s`,
+                "--animation-duration": `${useMove ? moveDuration : appearDuration}s`,
                 "--animation-timing-function": "ease",
                 "--animation-delay": `${
-                  startDelay +
-                  itemDelay *
-                    ((!horizontal && animationYAxisStart === "bottom") || (horizontal && animationYAxisStart !== "bottom")
-                      ? yAxis.length - 1 - idx
-                      : idx)
-                }s`
+                  (useMove ? moveStartDelay : appearStartDelay) +
+                  (useMove
+                    ? 0
+                    : (useMove ? moveItemDelay : appearItemDelay) *
+                      ((!horizontal && animationYAxisStart === "bottom") || (horizontal && animationYAxisStart !== "bottom")
+                        ? yAxis.length - 1 - idx
+                        : idx))
+                }s`,
+                "--height-offset": horizontal ? `${move}px` : `0px,${move}px`
               }}
             ></line>
           );
