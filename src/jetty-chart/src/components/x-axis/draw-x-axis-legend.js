@@ -3,30 +3,31 @@ export const DrawXAxisLegend = ({
   normalSettings: { totalWidth, totalHeight, horizontal },
   legendSettings: { useLegend, legendOnBottom, legendMargin, legendSize, legendWeight, legendOpacity, legendColor, legendReverse, legendMove }
 }) => {
+  if (!xLegend || !useLegend) {
+    return;
+  }
+
   const width = totalWidth / 2 + (horizontal ? -legendMove : legendMove);
 
   return (
-    xLegend &&
-    useLegend && (
-      <g
-        transform={
-          horizontal
-            ? `translate(${legendOnBottom ? -legendMargin : totalHeight + legendMargin},${width})`
-            : `translate(${width},${legendOnBottom ? totalHeight + legendMargin : -legendMargin})`
-        }
+    <g
+      transform={
+        horizontal
+          ? `translate(${legendOnBottom ? -legendMargin : totalHeight + legendMargin},${width})`
+          : `translate(${width},${legendOnBottom ? totalHeight + legendMargin : -legendMargin})`
+      }
+    >
+      <text
+        fontSize={legendSize}
+        fontWeight={legendWeight}
+        fill={legendColor}
+        opacity={legendOpacity}
+        dominantBaseline="middle"
+        textAnchor="middle"
+        transform={horizontal ? `rotate(${legendReverse ? 90 : -90})` : `rotate(${legendReverse ? 180 : 0})`}
       >
-        <text
-          fontSize={legendSize}
-          fontWeight={legendWeight}
-          fill={legendColor}
-          opacity={legendOpacity}
-          dominantBaseline="middle"
-          textAnchor="middle"
-          transform={horizontal ? `rotate(${legendReverse ? 90 : -90})` : `rotate(${legendReverse ? 180 : 0})`}
-        >
-          {xLegend}
-        </text>
-      </g>
-    )
+        {xLegend}
+      </text>
+    </g>
   );
 };

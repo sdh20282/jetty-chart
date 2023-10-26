@@ -22,6 +22,10 @@ export const DrawXAxisGridLine = ({
   const prevXAxis = useRef({});
   const prevXAxisTemp = useRef({});
 
+  if (!lineVisible) {
+    return;
+  }
+
   const animationXAxisStart = appearStartFrom.split("-")[0];
   const animationYAxisStart = appearStartFrom.split("-")[1];
   const prevXAxisKeys = Object.keys(prevXAxis.current);
@@ -37,7 +41,7 @@ export const DrawXAxisGridLine = ({
 
   return (
     <g>
-      {lineVisible && showEndLine && (
+      {showEndLine && (
         <g transform={horizontal ? `translate(0,0)` : `translate(0,0)`}>
           <line
             key={"background-line-x-" + 0 + "-" + 0}
@@ -63,7 +67,7 @@ export const DrawXAxisGridLine = ({
           ></line>
         </g>
       )}
-      {lineVisible && (
+      {
         <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding},0)`}>
           {xAxis.map((d, idx) => {
             const x = xAxisWidth * idx + xAxisInitialPosition;
@@ -126,8 +130,8 @@ export const DrawXAxisGridLine = ({
             );
           })}
         </g>
-      )}
-      {lineVisible && showEndLine && (
+      }
+      {showEndLine && (
         <g transform={horizontal ? `translate(0,${width})` : `translate(${width},0)`}>
           <line
             key={"background-line-x-" + 0 + "-" + 0}
