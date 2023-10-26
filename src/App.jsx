@@ -17,139 +17,108 @@ function App() {
   const [state, setState] = useState(1);
 
   useEffect(() => {
-    setData([
-      {
-        value: Math.floor(Math.random() * 100) / 100,
-        label: "test1"
-      },
-      {
-        value: Math.floor(Math.random() * 100) / 100,
-        label: "test2"
-      },
-      {
-        value: Math.floor(Math.random() * 100) / 100,
-        label: "test3"
-      },
-      {
-        value: Math.floor(Math.random() * 100) / 100,
-        label: "test4"
-      },
-      {
-        value: Math.floor(Math.random() * 100) / 100,
-        label: "test5"
-      },
-      {
-        value: Math.floor(Math.random() * 100) / 100,
-        label: "test6"
-      },
-      {
-        value: Math.floor(Math.random() * 100) / 100,
-        label: "test7"
-      }
-    ]);
-    setMultiDataSet([
-      {
-        id: "label1",
-        data: [
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test1"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test2"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test3"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test4"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test5"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test6"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test7"
-          }
-        ]
-      },
-      {
-        id: "label2",
-        data: [
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test1"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test2"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test3"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test4"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test5"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test6"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test7"
-          }
-        ]
-      },
-      {
-        id: "label3",
-        data: [
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test1"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test2"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test3"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test4"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test5"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test6"
-          },
-          {
-            value: Math.floor(Math.random() * 100),
-            label: "test7"
-          }
-        ]
-      }
-    ]);
+    // setMultiDataSet([
+    //   {
+    //     id: "label1",
+    //     data: [
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test1"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test2"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test3"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test4"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test5"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test6"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test7"
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     id: "label2",
+    //     data: [
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test1"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test2"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test3"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test4"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test5"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test6"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test7"
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     id: "label3",
+    //     data: [
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test1"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test2"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test3"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test4"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test5"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test6"
+    //       },
+    //       {
+    //         value: Math.floor(Math.random() * 100),
+    //         label: "test7"
+    //       }
+    //     ]
+    //   }
+    // ]);
     const arr = [];
-
     for (let index = 0; index < counts[Math.floor(Math.random() * counts.length)]; index++) {
       arr.push({
         value: Math.floor(Math.random() * 100),
@@ -158,6 +127,25 @@ function App() {
     }
 
     setData(arr);
+
+    const multiArr = [];
+    const count = counts[Math.floor(Math.random() * counts.length)];
+    for (let i = 0; i < [2, 3, 4][Math.floor(Math.random() * 3)]; i++) {
+      const d = {};
+      d.id = `label${i + 1}`;
+      d.data = [];
+      for (let index = 0; index < count; index++) {
+        d.data.push({
+          value: Math.floor(Math.random() * 1000),
+          label: "test" + (index + 1)
+        });
+      }
+
+      console.log(d);
+      multiArr.push(d);
+    }
+
+    setMultiDataSet(multiArr);
   }, [state]);
 
   return (
@@ -190,7 +178,7 @@ function App() {
       />
       <MultiLine
         dataSet={multiDataSet}
-        keys={["target1"]}
+        keys={multiDataSet.map((data) => data.id)}
         xLegend={"types"}
         yLegend={"values"}
         // 기본 세팅
@@ -200,8 +188,8 @@ function App() {
           backgroundColor: "#fff",
           margin: { top: 40, bottom: 40, left: 60, right: 60 },
           padding: 10,
-          reverse: true,
-          horizontal: true
+          reverse: false,
+          horizontal: false
         }}
         // 범위 세팅{
         scopeSettings={{
@@ -316,7 +304,7 @@ function App() {
       />
       <StackedLine
         dataSet={multiDataSet}
-        keys={["target1"]}
+        keys={multiDataSet.map((data) => data.id)}
         xLegend={"types"}
         yLegend={"values"}
         // 기본 세팅
@@ -326,8 +314,8 @@ function App() {
           backgroundColor: "#fff",
           margin: { top: 40, bottom: 40, left: 60, right: 60 },
           padding: 10,
-          reverse: true,
-          horizontal: true
+          reverse: false,
+          horizontal: false
         }}
         // 범위 세팅{
         scopeSettings={{
