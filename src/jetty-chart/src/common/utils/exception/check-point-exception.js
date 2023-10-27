@@ -8,7 +8,8 @@ const normalPointSetting = {
     backgroundColor: "#fff",
     margin: { top: 50, bottom: 40, left: 60, right: 60 },
     padding: 0,
-    reverse: false,
+    xReverse: false,
+    yReverse: false,
     horizontal: false
   },
   // 범위 세팅

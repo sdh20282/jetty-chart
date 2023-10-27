@@ -1039,7 +1039,7 @@ function App() {
       {/* {myNormalBar({ data })} */}
       <NormalScatter
         data={data}
-        normalSettings={{ reverse: false }}
+        normalSettings={{ xReverse: false, yReverse: false }}
         lineSettings={{
           // lineColor: "#8EA3BC",
           // lineWidth: 3,

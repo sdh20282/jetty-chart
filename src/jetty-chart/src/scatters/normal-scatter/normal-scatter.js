@@ -1,17 +1,34 @@
 import { checkNormalPoint } from "../../common/utils/exception/check-point-exception";
 import { ScatterCommon } from "../scatter-common/scatter-common";
-import { getAutoScope, getCalculatedScope } from "../scope/calculate-scope";
+import { getAutoScope, getUserScope } from "../scope/calculate-scope";
 
 // x 값의 스케일을 계산하는 함수
-function calculateXPosition(value, scopeResult, totalWidth) {
+// function calculateXPosition(value, scopeResult, totalWidth) {
+//   const { minScope, maxScope } = scopeResult;
+//   return ((value - minScope) / (maxScope - minScope)) * totalWidth;
+// }
+// y 값의 스케일을 계산하는 함수
+// function calculateYPosition(value, scopeResult, totalHeight) {
+//   const { minScope, maxScope } = scopeResult;
+//   return totalHeight - ((value - minScope) / (maxScope - minScope)) * totalHeight; // SVG의 y 축은 위에서 아래로 증가하므로 height에서 빼줍니다.
+// }
+
+function calculateXPosition(value, scopeResult, totalWidth, xReverse) {
   const { minScope, maxScope } = scopeResult;
+  if (xReverse) {
+    return totalWidth - ((value - minScope) / (maxScope - minScope)) * totalWidth;
+  }
+
   return ((value - minScope) / (maxScope - minScope)) * totalWidth;
 }
 
-// y 값의 스케일을 계산하는 함수
-function calculateYPosition(value, scopeResult, totalHeight) {
+function calculateYPosition(value, scopeResult, totalHeight, yReverse) {
   const { minScope, maxScope } = scopeResult;
-  return totalHeight - ((value - minScope) / (maxScope - minScope)) * totalHeight; // SVG의 y 축은 위에서 아래로 증가하므로 height에서 빼줍니다.
+  if (yReverse) {
+    return ((value - minScope) / (maxScope - minScope)) * totalHeight;
+  }
+
+  return totalHeight - ((value - minScope) / (maxScope - minScope)) * totalHeight;
 }
 
 const NormalScatter = ({
@@ -38,14 +55,13 @@ const NormalScatter = ({
     pointSettings
   });
 
-  const { width, height, margin, padding, reverse, horizontal } = result.normalSettings;
+  const { width, height, margin, padding, xReverse, yReverse, horizontal } = result.normalSettings;
 
   const { autoScope, maxScope, minScope, showTopScope } = result.scopeSettings;
 
   const {
     pointSize,
-    pointColor,
-    pointBorderColor,
+    // pointBorderColor,
     pointBorderWidth,
     enablePointLabel,
     pointLabelColor,
@@ -56,56 +72,44 @@ const NormalScatter = ({
     // enableArea
   } = result.pointSettings;
 
-  const scopeResult = autoScope ? getAutoScope({ data }) : getCalculatedScope({ maxScope, minScope });
+  // const scopeResult = autoScope ? getAutoScope({ data: data.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
 
-  if (reverse) {
-    scopeResult.scope.reverse();
+  const xScopeResult = autoScope
+    ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.x)) })
+    : getUserScope({ maxScope, minScope });
+  const yScopeResult = autoScope
+    ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.y)) })
+    : getUserScope({ maxScope, minScope });
+
+  if (!xReverse) {
+    xScopeResult.scope.reverse();
+  }
+
+  if (yReverse) {
+    yScopeResult.scope.reverse();
   }
 
   const totalWidth = horizontal ? height - margin.bottom - margin.top : width - margin.left - margin.right;
   const totalHeight = horizontal ? width - margin.left - margin.right : height - margin.bottom - margin.top;
 
   const drawWidth = totalWidth - padding - padding;
-  // const drawHeight = totalHeight - padding - padding;
-  const lineHeight = totalHeight / (scopeResult.scope.length - 1);
+  const lineHeight = totalHeight / (yScopeResult.scope.length - 1);
 
-  const AreaWidth = drawWidth / data.length;
-  const halfAreaWidth = AreaWidth / 2;
-  // const AreaHeight = drawHeight / data.length;
-  // const halfAreaHeight = AreaHeight / 2;
+  const AreaWidth = drawWidth / (xScopeResult.scope.length - 1);
 
-  // const pointGapWidth = halfAreaWidth * 3;
-
-  // const zeroHeight =
-  //   scopeResult.scope.reduce((acc, cur) => {
-  //     if (cur !== 0) {
-  //       acc += 1;
-  //     }
-
-  //     if (cur === 0) {
-  //       acc = 0;
-  //     }
-
-  //     return acc;
-  //   }, 0) * lineHeight;
-  // console.log(enableArea);
+  const availableColors = ["#93c5fd", "#fdba74", "#fca5a5", "#cbd5e1", "#86efac"];
 
   return (
     <ScatterCommon
       data={data}
       normalSettings={{
         ...result.normalSettings,
-        scope: scopeResult.scope,
+        xScope: xScopeResult.scope,
+        yScope: yScopeResult.scope,
         totalWidth,
         totalHeight,
-        xAxisInitialPosition: halfAreaWidth,
-        xAxisWidth: lineHeight,
-        // xAxisWidth: halfAreahHeight,
-
-        // xAxisInitialPosition: halfAreaWidth,
-        // xAxisWidth: AreaWidth,
+        xAxisWidth: AreaWidth,
         yAxisHeight: lineHeight,
-        // yAxisHeight: halfAreaHeight,
         showTopScope
       }}
       axisXGridLineSettings={result.axisXGridLineSettings}
@@ -116,33 +120,63 @@ const NormalScatter = ({
       topLabelSettings={result.topLabelSettings}
     >
       <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
-        {data.map((d, idx) => {
-          // x와 y의 위치를 계산합니다.
-          const xPos = calculateXPosition(d.value, scopeResult, totalWidth);
-          const yPos = calculateYPosition(d.value, scopeResult, totalHeight);
+        {data.flatMap((group, groupIdx) => {
+          // 그룹에 색상 할당
+          const groupColor = availableColors[groupIdx % availableColors.length];
 
-          return (
-            <g key={"data-" + idx} transform={`translate(${xPos},${yPos})`}>
-              <circle cx={0} cy={0} r={pointSize} fill={pointColor} stroke={pointBorderColor} strokeWidth={pointBorderWidth} />
-              {enablePointLabel && (
-                <text
-                  transform={`translate(${pointLabelOffsetX},${pointLabelOffsetY})`}
-                  dominantBaseline={"alphabetic"}
-                  textAnchor="middle"
-                  fontSize={pointLabelSize}
-                  fontWeight={pointLabelWeight}
-                  fill={pointLabelColor}
-                >
-                  {`(${d.value}, ${d.value})`}
-                  {/* x, y 값을 라벨로 표시 */}
-                </text>
-              )}
-            </g>
-          );
+          return group.data.map((item, idx) => {
+            const xPos = calculateXPosition(item.x, xScopeResult, totalWidth, xReverse);
+            const yPos = calculateYPosition(item.y, yScopeResult, totalHeight, yReverse);
+            return (
+              <g key={"data-" + groupIdx + idx} transform={`translate(${xPos},${yPos})`}>
+                <circle cx={0} cy={0} r={pointSize} fill={groupColor} stroke={groupColor} strokeWidth={pointBorderWidth} />
+                {enablePointLabel && (
+                  <text
+                    transform={`translate(${pointLabelOffsetX},${pointLabelOffsetY})`}
+                    dominantBaseline={"alphabetic"}
+                    textAnchor="middle"
+                    fontSize={pointLabelSize}
+                    fontWeight={pointLabelWeight}
+                    fill={pointLabelColor}
+                  >
+                    {/* {`(${item.x}, ${item.y})`} */}
+                    {/* x, y 값을 라벨로 표시 */}
+                  </text>
+                )}
+              </g>
+            );
+          });
         })}
       </g>
+      {/* {scopeResult.scope.map((scope) => console.log(scope))} */}
     </ScatterCommon>
   );
 };
 
 export { NormalScatter };
+
+// {data.map((d, idx) => {
+//   // x와 y의 위치를 계산합니다.
+//   const xPos = calculateXPosition(d.value, scopeResult, totalWidth);
+//   const yPos = calculateYPosition(d.value, scopeResult, totalHeight);
+//   console.log(xPos, yPos);
+
+//   return (
+//     <g key={"data-" + idx} transform={`translate(${xPos},${yPos})`}>
+//       <circle cx={0} cy={0} r={pointSize} fill={pointColor} stroke={pointBorderColor} strokeWidth={pointBorderWidth} />
+//       {enablePointLabel && (
+//         <text
+//           transform={`translate(${pointLabelOffsetX},${pointLabelOffsetY})`}
+//           dominantBaseline={"alphabetic"}
+//           textAnchor="middle"
+//           fontSize={pointLabelSize}
+//           fontWeight={pointLabelWeight}
+//           fill={pointLabelColor}
+//         >
+//           {`(${d.value}, ${d.value})`}
+//           {/* x, y 값을 라벨로 표시 */}
+//         </text>
+//       )}
+//     </g>
+//   );
+// })}

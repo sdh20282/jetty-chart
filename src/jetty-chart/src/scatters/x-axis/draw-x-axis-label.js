@@ -1,5 +1,5 @@
 export const DrawXAxisLabel = ({
-  normalSettings: { xAxis, horizontal, height, padding, xAxisInitialPosition, xAxisWidth },
+  normalSettings: { xAxis, horizontal, height, padding, xAxisWidth },
   labelSettings: {
     useLabel,
     labelOnBottom,
@@ -28,7 +28,7 @@ export const DrawXAxisLabel = ({
         }
       >
         {xAxis.map((d, idx) => {
-          const x = xAxisWidth * idx + xAxisInitialPosition;
+          const x = xAxisWidth * idx;
 
           return (
             <g key={"category-" + d + "-" + idx} transform={horizontal ? `translate(0, ${x})` : `translate(${x})`}>

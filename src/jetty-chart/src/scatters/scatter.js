@@ -1,3 +1,3 @@
-import { NormalScatter } from "./normal-scatter/normal-scatter copy";
+import { NormalScatter } from "./normal-scatter/normal-scatter";
 
 export { NormalScatter };

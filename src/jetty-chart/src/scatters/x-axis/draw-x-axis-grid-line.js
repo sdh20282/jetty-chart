@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 export const DrawXAxisGridLine = ({
-  normalSettings: { xAxis, horizontal, width, height, padding, xAxisInitialPosition, xAxisWidth },
+  normalSettings: { horizontal, xAxis, width, height, padding, xAxisWidth },
   lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap, lineRound, showEndLine }
 }) => {
   padding ??= 0;
@@ -26,7 +26,7 @@ export const DrawXAxisGridLine = ({
       {lineVisible && (
         <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding},0)`}>
           {xAxis.map((d, idx) => {
-            const x = xAxisWidth * idx + xAxisInitialPosition;
+            const x = xAxisWidth * idx;
 
             return (
               <line

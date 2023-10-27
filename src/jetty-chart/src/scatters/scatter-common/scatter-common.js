@@ -12,10 +12,10 @@ const ScatterCommon = ({
     margin,
     padding,
     horizontal,
-    scope,
+    xScope,
+    yScope,
     totalWidth,
     totalHeight,
-    xAxisInitialPosition,
     xAxisWidth,
     yAxisHeight,
     showTopScope
@@ -29,7 +29,9 @@ const ScatterCommon = ({
   children
 }) => {
   if (horizontal) {
-    scope.reverse();
+    yScope.reverse();
+    xScope.reverse();
+    console.log(data);
   }
 
   return (
@@ -41,7 +43,7 @@ const ScatterCommon = ({
           <DrawYAxisGridLine
             normalSettings={{
               horizontal,
-              yAxis: scope,
+              yAxis: yScope,
               width: totalWidth,
               yAxisHeight,
               showTopScope
@@ -52,14 +54,10 @@ const ScatterCommon = ({
           <DrawXAxisGridLine
             normalSettings={{
               horizontal,
-              xAxis: scope,
-              // xAxis: data.map((d) => d.value),
-              // width: totalWidth,
+              xAxis: xScope,
               height: totalHeight,
               xAxisWidth,
-              showTopScope,
-              // padding,
-              xAxisInitialPosition
+              showTopScope
             }}
             lineSettings={axisXGridLineSettings}
           />
@@ -67,7 +65,7 @@ const ScatterCommon = ({
           <DrawYAxisLabel
             normalSettings={{
               horizontal,
-              yAxis: scope,
+              yAxis: yScope,
               width: totalWidth,
               yAxisHeight,
               showTopScope
@@ -78,7 +76,7 @@ const ScatterCommon = ({
           <DrawYAxisLabel
             normalSettings={{
               horizontal,
-              yAxis: scope,
+              yAxis: yScope,
               width: totalWidth,
               yAxisHeight,
               showTopScope
@@ -88,11 +86,10 @@ const ScatterCommon = ({
           {/* 아래쪽 라벨 그리기 */}
           <DrawXAxisLabel
             normalSettings={{
-              xAxis: data.map((d) => d.label),
+              xAxis: xScope,
               horizontal,
               height: totalHeight,
               padding,
-              xAxisInitialPosition,
               xAxisWidth
             }}
             labelSettings={bottomLabelSettings}
@@ -100,11 +97,10 @@ const ScatterCommon = ({
           {/* 위쪽 라벨 그리기 */}
           <DrawXAxisLabel
             normalSettings={{
-              xAxis: data.map((d) => d.label),
+              xAxis: xScope,
               horizontal,
               height: totalHeight,
               padding,
-              xAxisInitialPosition,
               xAxisWidth
             }}
             labelSettings={topLabelSettings}
