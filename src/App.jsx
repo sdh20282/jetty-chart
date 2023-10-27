@@ -17,107 +17,6 @@ function App() {
   const [state, setState] = useState(1);
 
   useEffect(() => {
-    // setMultiDataSet([
-    //   {
-    //     id: "label1",
-    //     data: [
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test1"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test2"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test3"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test4"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test5"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test6"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test7"
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     id: "label2",
-    //     data: [
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test1"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test2"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test3"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test4"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test5"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test6"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test7"
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     id: "label3",
-    //     data: [
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test1"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test2"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test3"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test4"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test5"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test6"
-    //       },
-    //       {
-    //         value: Math.floor(Math.random() * 100),
-    //         label: "test7"
-    //       }
-    //     ]
-    //   }
-    // ]);
     const arr = [];
     for (let index = 0; index < counts[Math.floor(Math.random() * counts.length)]; index++) {
       arr.push({
@@ -186,7 +85,7 @@ function App() {
           width: 500,
           height: 400,
           backgroundColor: "#fff",
-          margin: { top: 40, bottom: 40, left: 60, right: 60 },
+          margin: { top: 40, bottom: 40, left: 60, right: 100 },
           padding: 10,
           reverse: false,
           horizontal: false
@@ -312,7 +211,7 @@ function App() {
           width: 500,
           height: 400,
           backgroundColor: "#fff",
-          margin: { top: 40, bottom: 40, left: 60, right: 60 },
+          margin: { top: 40, bottom: 40, left: 60, right: 100 },
           padding: 10,
           reverse: false,
           horizontal: false
