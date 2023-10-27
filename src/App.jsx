@@ -1,4 +1,3 @@
-// import { NormalBar } from "./jetty-chart/src";
 import { NormalScatter } from "./jetty-chart/src/scatters/scatter";
 
 const data = [
@@ -1029,26 +1028,30 @@ const data = [
   }
 ];
 
-// const myNormalBar = ({ data }) => {
-//   return <NormalBar data={data} normalSettings={{ horizontal: false, reverse: false, margin: { right: 10 } }} />;
-// };
-
 function App() {
   return (
     <div>
-      {/* {myNormalBar({ data })} */}
       <NormalScatter
         data={data}
         normalSettings={{ xReverse: false, yReverse: false }}
-        lineSettings={{
-          // lineColor: "#8EA3BC",
-          // lineWidth: 3,
+        pointSettings={{
           pointSize: 2,
           pointColor: "#fff",
           pointBorderColor: "#333",
           pointBorderWidth: 1,
           areaOpacity: 0.15
         }}
+        scopeSettings={{
+          xAutoScope: false,
+          yAutoScope: false,
+          xMaxScope: 100,
+          xMinScope: 0,
+          yMaxScope: 150,
+          yMinScope: 0
+        }}
+        xLegend={"x 좌표"}
+        yLegend={"y 좌표"}
+        keys={data.map((d) => d.id)}
       />
     </div>
   );

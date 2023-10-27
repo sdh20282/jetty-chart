@@ -1,5 +1,5 @@
 export const DrawXAxisLabel = ({
-  normalSettings: { xAxis, horizontal, height, padding, xAxisWidth },
+  normalSettings: { xAxis, height, padding, xAxisWidth },
   labelSettings: {
     useLabel,
     labelOnBottom,
@@ -20,36 +20,30 @@ export const DrawXAxisLabel = ({
 
   return (
     useLabel && (
-      <g
-        transform={
-          horizontal
-            ? `translate(${labelOnBottom ? -labelMargin : labelLocation},${padding})`
-            : `translate(${padding},${labelOnBottom ? labelLocation : -labelMargin})`
-        }
-      >
+      <g transform={`translate(${padding},${labelOnBottom ? labelLocation : -labelMargin})`}>
         {xAxis.map((d, idx) => {
           const x = xAxisWidth * idx;
 
           return (
-            <g key={"category-" + d + "-" + idx} transform={horizontal ? `translate(0, ${x})` : `translate(${x})`}>
+            <g key={"category-" + d + "-" + idx} transform={`translate(${x})`}>
               {sideLineVisible && (
                 <line
                   opacity={sideLineOpacity}
-                  x1={horizontal ? (labelOnBottom ? sideLineMargin : -sideLineMargin) : "0"}
-                  x2={horizontal ? (labelOnBottom ? labelMargin : -labelMargin) : "0"}
-                  y1={horizontal ? "0" : labelOnBottom ? -labelMargin : labelMargin}
-                  y2={horizontal ? "0" : labelOnBottom ? -sideLineMargin : sideLineMargin}
+                  x1={"0"}
+                  x2={"0"}
+                  y1={labelOnBottom ? -labelMargin : labelMargin}
+                  y2={labelOnBottom ? -sideLineMargin : sideLineMargin}
                   stroke={sideLineColor}
                   strokeWidth={sideLineWidth}
                 ></line>
               )}
               <text
-                dominantBaseline={horizontal ? "hanging" : labelOnBottom ? "mathematical" : "ideographic"}
-                textAnchor={horizontal ? (labelOnBottom ? "end" : "start") : "middle"}
+                dominantBaseline={labelOnBottom ? "mathematical" : "ideographic"}
+                textAnchor={"middle"}
                 fontSize={labelSize}
                 fontWeight={labelWeight}
                 fill={labelColor}
-                transform={`translate(0,-${horizontal ? labelSize / 2 : 0})`}
+                transform={`translate(0,-${0})`}
               >
                 {d}
               </text>

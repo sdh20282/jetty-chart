@@ -2,24 +2,34 @@ import { DrawYAxisGridLine } from "../y-axis/draw-y-axis-grid-line";
 import { DrawXAxisGridLine } from "../x-axis/draw-x-axis-grid-line";
 import { DrawYAxisLabel } from "../y-axis/draw-y-axis-label";
 import { DrawXAxisLabel } from "../x-axis/draw-x-axis-label";
+import { DrawXAxisLegend } from "../x-axis/draw-x-axis-legend";
+import { DrawYAxisLegend } from "../y-axis/draw-y-axis-legend";
+import { DrawLegends } from "../legend/draw-legends";
 
 const ScatterCommon = ({
-  data,
   normalSettings: {
     width,
     height,
     backgroundColor,
     margin,
     padding,
-    horizontal,
     xScope,
     yScope,
     totalWidth,
     totalHeight,
     xAxisWidth,
     yAxisHeight,
-    showTopScope
+    showTopScope,
+    colorPalette
   },
+  xLegend,
+  yLegend,
+  keys,
+  legendSettings,
+  leftLegendSettings,
+  rightLegendSettings,
+  bottomLegendSettings,
+  topLegendSettings,
   axisXGridLineSettings,
   axisYGridLineSettings,
   leftLabelSettings,
@@ -28,21 +38,18 @@ const ScatterCommon = ({
   topLabelSettings,
   children
 }) => {
-  if (horizontal) {
-    yScope.reverse();
-    xScope.reverse();
-    console.log(data);
-  }
-
   return (
     <div style={{ width: `${width}px`, height: `${height}px`, border: "1px solid #ccc" }}>
       <svg width={width} height={height}>
         <rect width="100%" height="100%" fill={backgroundColor}></rect>
         <g transform={`translate(${margin.left},${margin.top})`}>
+          <DrawYAxisLegend yLegend={yLegend} normalSettings={{ totalWidth, totalHeight }} legendSettings={leftLegendSettings} />
+          <DrawYAxisLegend yLegend={yLegend} normalSettings={{ totalWidth, totalHeight }} legendSettings={rightLegendSettings} />
+          <DrawXAxisLegend xLegend={xLegend} normalSettings={{ totalWidth, totalHeight }} legendSettings={bottomLegendSettings} />
+          <DrawXAxisLegend xLegend={xLegend} normalSettings={{ totalWidth, totalHeight }} legendSettings={topLegendSettings} />
           {/* Y축 라인 그리기 */}
           <DrawYAxisGridLine
             normalSettings={{
-              horizontal,
               yAxis: yScope,
               width: totalWidth,
               yAxisHeight,
@@ -53,7 +60,6 @@ const ScatterCommon = ({
           {/* X축 라인 그리기 */}
           <DrawXAxisGridLine
             normalSettings={{
-              horizontal,
               xAxis: xScope,
               height: totalHeight,
               xAxisWidth,
@@ -64,7 +70,6 @@ const ScatterCommon = ({
           {/* 왼쪽 라벨 그리기 */}
           <DrawYAxisLabel
             normalSettings={{
-              horizontal,
               yAxis: yScope,
               width: totalWidth,
               yAxisHeight,
@@ -75,7 +80,6 @@ const ScatterCommon = ({
           {/* 오른쪽 라벨 그리기 */}
           <DrawYAxisLabel
             normalSettings={{
-              horizontal,
               yAxis: yScope,
               width: totalWidth,
               yAxisHeight,
@@ -87,7 +91,6 @@ const ScatterCommon = ({
           <DrawXAxisLabel
             normalSettings={{
               xAxis: xScope,
-              horizontal,
               height: totalHeight,
               padding,
               xAxisWidth
@@ -98,7 +101,6 @@ const ScatterCommon = ({
           <DrawXAxisLabel
             normalSettings={{
               xAxis: xScope,
-              horizontal,
               height: totalHeight,
               padding,
               xAxisWidth
@@ -107,6 +109,8 @@ const ScatterCommon = ({
           />
           {/* 전달 받은 자식 요소 그리기 */}
           {children}
+          {/* 설명 그리기 */}
+          <DrawLegends keys={keys} normalSettings={{ width, height, margin, colorPalette }} legendSettings={legendSettings} />
         </g>
       </svg>
     </div>

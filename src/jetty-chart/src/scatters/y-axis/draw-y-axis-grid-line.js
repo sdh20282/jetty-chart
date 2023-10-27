@@ -1,5 +1,5 @@
 export const DrawYAxisGridLine = ({
-  normalSettings: { horizontal, yAxis, width, yAxisHeight, showTopScope },
+  normalSettings: { yAxis, width, yAxisHeight, showTopScope },
   lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap, lineRound }
 }) => {
   return (
@@ -16,10 +16,10 @@ export const DrawYAxisGridLine = ({
             <line
               key={"background-line-" + c + "-" + idx}
               opacity={lineOpacity}
-              x1={horizontal ? location : "0"}
-              x2={horizontal ? location : width}
-              y1={horizontal ? "0" : location}
-              y2={horizontal ? width : location}
+              x1={"0"}
+              x2={width}
+              y1={location}
+              y2={location}
               stroke={lineColor}
               strokeWidth={lineWidth}
               strokeDasharray={lineDash && c !== 0 ? `${lineDashWidth},${lineDashGap}` : "0"}

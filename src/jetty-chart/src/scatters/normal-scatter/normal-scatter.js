@@ -1,17 +1,7 @@
 import { checkNormalPoint } from "../../common/utils/exception/check-point-exception";
 import { ScatterCommon } from "../scatter-common/scatter-common";
 import { getAutoScope, getUserScope } from "../scope/calculate-scope";
-
-// x 값의 스케일을 계산하는 함수
-// function calculateXPosition(value, scopeResult, totalWidth) {
-//   const { minScope, maxScope } = scopeResult;
-//   return ((value - minScope) / (maxScope - minScope)) * totalWidth;
-// }
-// y 값의 스케일을 계산하는 함수
-// function calculateYPosition(value, scopeResult, totalHeight) {
-//   const { minScope, maxScope } = scopeResult;
-//   return totalHeight - ((value - minScope) / (maxScope - minScope)) * totalHeight; // SVG의 y 축은 위에서 아래로 증가하므로 height에서 빼줍니다.
-// }
+import { useState } from "react";
 
 function calculateXPosition(value, scopeResult, totalWidth, xReverse) {
   const { minScope, maxScope } = scopeResult;
@@ -31,10 +21,48 @@ function calculateYPosition(value, scopeResult, totalHeight, yReverse) {
   return totalHeight - ((value - minScope) / (maxScope - minScope)) * totalHeight;
 }
 
+function CircleWithTooltip({ x, y, group, pointSize, groupColor, pointBorderWidth }) {
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  const handleMouseEnter = () => {
+    setShowTooltip(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowTooltip(false);
+  };
+
+  const tooltipStyle = {
+    fontSize: "10px", // 원하는 글씨 크기로 조절하세요
+    backgroundColor: "blue",
+    color: "black",
+    padding: "5px",
+    borderRadius: "5px",
+    position: "absolute",
+    top: `${y}px`,
+    left: `${x}px`
+  };
+
+  return (
+    <g transform={`translate(${x},${y})`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <circle cx={0} cy={0} r={pointSize} fill={groupColor} stroke={groupColor} strokeWidth={pointBorderWidth} />
+      {showTooltip && <text style={tooltipStyle}>{`${group.id}, x: ${x.toFixed(1)}, y: ${y.toFixed(1)}`}</text>}
+    </g>
+  );
+}
+
 const NormalScatter = ({
   data,
   normalSettings,
   scopeSettings,
+  xLegend,
+  yLegend,
+  keys,
+  legendSettings,
+  leftLegendSettings,
+  rightLegendSettings,
+  bottomLegendSettings,
+  topLegendSettings,
   axisXGridLineSettings,
   axisYGridLineSettings,
   leftLabelSettings,
@@ -46,6 +74,13 @@ const NormalScatter = ({
   const result = checkNormalPoint({
     normalSettings,
     scopeSettings,
+    xLegend,
+    yLegend,
+    legendSettings,
+    leftLegendSettings,
+    rightLegendSettings,
+    bottomLegendSettings,
+    topLegendSettings,
     axisXGridLineSettings,
     axisYGridLineSettings,
     leftLabelSettings,
@@ -55,31 +90,19 @@ const NormalScatter = ({
     pointSettings
   });
 
-  const { width, height, margin, padding, xReverse, yReverse, horizontal } = result.normalSettings;
+  const { width, height, margin, padding, xReverse, yReverse } = result.normalSettings;
+  const { xAutoScope, yAutoScope, xMaxScope, xMinScope, yMaxScope, yMinScope } = result.scopeSettings;
+  // let { showTopScope } = result.scopeSettings;
 
-  const { autoScope, maxScope, minScope, showTopScope } = result.scopeSettings;
-
-  const {
-    pointSize,
-    // pointBorderColor,
-    pointBorderWidth,
-    enablePointLabel,
-    pointLabelColor,
-    pointLabelSize,
-    pointLabelOffsetX,
-    pointLabelOffsetY,
-    pointLabelWeight
-    // enableArea
-  } = result.pointSettings;
-
-  // const scopeResult = autoScope ? getAutoScope({ data: data.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
-
-  const xScopeResult = autoScope
+  const xScopeResult = xAutoScope
     ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.x)) })
-    : getUserScope({ maxScope, minScope });
-  const yScopeResult = autoScope
+    : getUserScope({ maxScope: xMaxScope, minScope: xMinScope });
+  const yScopeResult = yAutoScope
     ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.y)) })
-    : getUserScope({ maxScope, minScope });
+    : getUserScope({ maxScope: yMaxScope, minScope: yMinScope });
+
+  const { pointSize, pointBorderWidth } = result.pointSettings;
+  // let display = true;
 
   if (!xReverse) {
     xScopeResult.scope.reverse();
@@ -89,8 +112,13 @@ const NormalScatter = ({
     yScopeResult.scope.reverse();
   }
 
-  const totalWidth = horizontal ? height - margin.bottom - margin.top : width - margin.left - margin.right;
-  const totalHeight = horizontal ? width - margin.left - margin.right : height - margin.bottom - margin.top;
+  // if (!yAutoScope && !yScopeResult.display) {
+  //   display = false;
+  //   showTopScope = false;
+  // }
+
+  const totalWidth = width - margin.left - margin.right;
+  const totalHeight = height - margin.bottom - margin.top;
 
   const drawWidth = totalWidth - padding - padding;
   const lineHeight = totalHeight / (yScopeResult.scope.length - 1);
@@ -102,6 +130,9 @@ const NormalScatter = ({
   return (
     <ScatterCommon
       data={data}
+      xLegend={xLegend}
+      yLegend={yLegend}
+      keys={keys}
       normalSettings={{
         ...result.normalSettings,
         xScope: xScopeResult.scope,
@@ -109,8 +140,8 @@ const NormalScatter = ({
         totalWidth,
         totalHeight,
         xAxisWidth: AreaWidth,
-        yAxisHeight: lineHeight,
-        showTopScope
+        yAxisHeight: lineHeight
+        // showTopScope
       }}
       axisXGridLineSettings={result.axisXGridLineSettings}
       axisYGridLineSettings={result.axisYGridLineSettings}
@@ -118,8 +149,13 @@ const NormalScatter = ({
       rightLabelSettings={result.rightLabelSettings}
       bottomLabelSettings={result.bottomLabelSettings}
       topLabelSettings={result.topLabelSettings}
+      legendSettings={result.legendSettings}
+      leftLegendSettings={result.leftLegendSettings}
+      rightLegendSettings={result.rightLegendSettings}
+      bottomLegendSettings={result.bottomLegendSettings}
+      topLegendSettings={result.topLegendSettings}
     >
-      <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
+      <g transform={`translate(${padding})`}>
         {data.flatMap((group, groupIdx) => {
           // 그룹에 색상 할당
           const groupColor = availableColors[groupIdx % availableColors.length];
@@ -127,56 +163,23 @@ const NormalScatter = ({
           return group.data.map((item, idx) => {
             const xPos = calculateXPosition(item.x, xScopeResult, totalWidth, xReverse);
             const yPos = calculateYPosition(item.y, yScopeResult, totalHeight, yReverse);
+
             return (
-              <g key={"data-" + groupIdx + idx} transform={`translate(${xPos},${yPos})`}>
-                <circle cx={0} cy={0} r={pointSize} fill={groupColor} stroke={groupColor} strokeWidth={pointBorderWidth} />
-                {enablePointLabel && (
-                  <text
-                    transform={`translate(${pointLabelOffsetX},${pointLabelOffsetY})`}
-                    dominantBaseline={"alphabetic"}
-                    textAnchor="middle"
-                    fontSize={pointLabelSize}
-                    fontWeight={pointLabelWeight}
-                    fill={pointLabelColor}
-                  >
-                    {/* {`(${item.x}, ${item.y})`} */}
-                    {/* x, y 값을 라벨로 표시 */}
-                  </text>
-                )}
-              </g>
+              <CircleWithTooltip
+                key={"data-" + groupIdx + idx}
+                x={xPos}
+                y={yPos}
+                group={{ id: group.id }}
+                pointSize={pointSize}
+                groupColor={groupColor}
+                pointBorderWidth={pointBorderWidth}
+              />
             );
           });
         })}
       </g>
-      {/* {scopeResult.scope.map((scope) => console.log(scope))} */}
     </ScatterCommon>
   );
 };
 
 export { NormalScatter };
-
-// {data.map((d, idx) => {
-//   // x와 y의 위치를 계산합니다.
-//   const xPos = calculateXPosition(d.value, scopeResult, totalWidth);
-//   const yPos = calculateYPosition(d.value, scopeResult, totalHeight);
-//   console.log(xPos, yPos);
-
-//   return (
-//     <g key={"data-" + idx} transform={`translate(${xPos},${yPos})`}>
-//       <circle cx={0} cy={0} r={pointSize} fill={pointColor} stroke={pointBorderColor} strokeWidth={pointBorderWidth} />
-//       {enablePointLabel && (
-//         <text
-//           transform={`translate(${pointLabelOffsetX},${pointLabelOffsetY})`}
-//           dominantBaseline={"alphabetic"}
-//           textAnchor="middle"
-//           fontSize={pointLabelSize}
-//           fontWeight={pointLabelWeight}
-//           fill={pointLabelColor}
-//         >
-//           {`(${d.value}, ${d.value})`}
-//           {/* x, y 값을 라벨로 표시 */}
-//         </text>
-//       )}
-//     </g>
-//   );
-// })}

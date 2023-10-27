@@ -3,20 +3,24 @@ import { checkMargin, checkSize } from "./check-common-exception";
 const normalPointSetting = {
   // 기본 세팅
   normalSettings: {
-    width: 400,
-    height: 280,
+    width: 500,
+    height: 400,
     backgroundColor: "#fff",
-    margin: { top: 50, bottom: 40, left: 60, right: 60 },
+    margin: { top: 60, bottom: 60, left: 60, right: 120 },
+    innerMargin: { top: 0, bottom: 0 },
+    colorPalette: ["#93c5fd", "#fdba74", "#fca5a5", "#cbd5e1", "#86efac"],
     padding: 0,
     xReverse: false,
-    yReverse: false,
-    horizontal: false
+    yReverse: false
   },
   // 범위 세팅
   scopeSettings: {
-    autoScope: true,
-    maxScope: 100,
-    minScope: 0,
+    xAutoScope: false,
+    yAutoScope: false,
+    xMaxScope: 100,
+    xMinScope: 0,
+    yMaxScope: 100,
+    yMinScope: 0,
     showTopScope: true
   },
   // y축 라인 세팅
@@ -97,6 +101,73 @@ const normalPointSetting = {
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
     sideLineWidth: 2
+  },
+  // 왼쪽 설명 세팅
+  leftLegendSettings: {
+    useLegend: true,
+    legendOnLeft: true,
+    legendMargin: 40,
+    legendSize: 14,
+    legendWeight: 700,
+    legendOpacity: 1,
+    legendColor: "#333",
+    legendReverse: false,
+    legendMove: 0
+  },
+  // 오른쪽 설명 세팅
+  rightLegendSettings: {
+    useLegend: false,
+    legendOnLeft: false,
+    legendMargin: 40,
+    legendSize: 14,
+    legendWeight: 700,
+    legendOpacity: 1,
+    legendColor: "#333",
+    legendReverse: false,
+    legendMove: 0
+  },
+  // 아래쪽 설명 세팅
+  bottomLegendSettings: {
+    useLegend: true,
+    legendOnBottom: true,
+    legendMargin: 40,
+    legendSize: 14,
+    legendWeight: 700,
+    legendOpacity: 1,
+    legendColor: "#333",
+    legendReverse: false,
+    legendMove: 0
+  },
+  // 위쪽 설명 세팅
+  topLegendSettings: {
+    useLegend: false,
+    legendOnBottom: false,
+    legendMargin: 40,
+    legendSize: 14,
+    legendWeight: 700,
+    legendOpacity: 1,
+    legendColor: "#333",
+    legendReverse: false,
+    legendMove: 0
+  },
+  // 설명 세팅
+  legendSettings: {
+    useLegend: true,
+    position: "bottom-right", // bottom center top - left center right
+    xLocation: -30,
+    yLocation: -12,
+    directionColumn: true,
+    itemWidth: 80,
+    itemMargin: 2,
+    symbolSize: 16,
+    symbolRadius: 3,
+    symbolMargin: 5,
+    symbolOpacity: 1,
+    legendSize: 12,
+    legendWeight: 400,
+    legendOpacity: 1,
+    legendColor: "#aaa",
+    legendOnStart: true
   },
   // 바 세팅
   pointSettings: {
