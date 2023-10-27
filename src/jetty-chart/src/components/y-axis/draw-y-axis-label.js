@@ -87,26 +87,14 @@ export const DrawYAxisLabel = ({
           <g
             key={"level-" + ms + "-" + c}
             transform={horizontal ? `translate(${location - move})` : `translate(0,${location - move})`}
-            className={
-              useAnimation
-                ? useMove
-                  ? styles.moveLabel
-                  : appearType === "typing"
-                  ? styles.typeLabel
-                  : appearType === "fade"
-                  ? styles.fadeLabel
-                  : ""
-                : ""
-            }
+            className={useAnimation ? (useMove ? styles.moveLabel : appearType === "fade" ? styles.fadeLabel : "") : ""}
             style={{
               "--animation-duration": `${useMove ? moveDuration : appearDuration}s`,
-              "--animation-timing-function": useMove ? moveTimingFunction : appearTimingFunction,
+              "--animation-timing-function": useMove ? moveTimingFunction : appearType === "typing" ? "steps(3, end)" : appearTimingFunction,
               "--animation-delay": `${
                 (useMove ? moveStartDelay : appearStartDelay) +
-                (useMove
-                  ? 0
-                  : (useMove ? moveItemDelay : appearItemDelay) *
-                    ((!horizontal && appearStartFrom === "bottom") || (horizontal && appearStartFrom !== "bottom") ? yAxis.length - 1 - idx : idx))
+                (useMove ? moveItemDelay : appearItemDelay) *
+                  ((!horizontal && appearStartFrom === "bottom") || (horizontal && appearStartFrom !== "bottom") ? yAxis.length - 1 - idx : idx)
               }s`,
               "--move-from": horizontal ? `${location - move}px` : `0px,${location - move}px`,
               "--move-to": horizontal ? `${location}px` : `0px,${location}px`

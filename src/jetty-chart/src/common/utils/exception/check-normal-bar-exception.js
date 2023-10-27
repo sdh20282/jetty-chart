@@ -57,7 +57,7 @@ const normalBarSetting = {
     lineDashWidth: 5,
     lineDashGap: 3,
     lineRound: false,
-    showEndLine: true
+    showEndLine: false
   },
   // 왼쪽 라벨 세팅
   leftLabelSettings: {
@@ -200,7 +200,7 @@ const normalBarSetting = {
     barGap: 0.15,
     barOnlyUpperRadius: true,
     useBarBorderRadius: true,
-    barBorderRadius: 7,
+    barBorderRadius: 5,
     useBarBorder: false,
     barBorderWidth: 2,
     barBorderColor: "#000",
@@ -222,7 +222,7 @@ const normalBarSetting = {
       appearType: "draw",
       appearDuration: 0.4,
       appearStartDelay: 0,
-      appearItemDelay: 0.1,
+      appearItemDelay: 0,
       appearTimingFunction: "ease",
       appearStartFrom: "left-bottom",
       moveLine: true,
@@ -233,28 +233,42 @@ const normalBarSetting = {
     },
     axisXGridLineSettings: {
       useAnimation: true,
-      appearType: "draw",
-      appearDuration: 0.4,
+      appearType: "draw", // draw, fade
+      appearDuration: 0.2,
       appearStartDelay: 0,
       appearItemDelay: 0,
       appearTimingFunction: "ease",
       appearStartFrom: "left-bottom",
       moveLine: true,
-      moveDuration: 0.1,
+      moveDuration: 0.2,
       moveStartDelay: 0,
       moveItemDelay: 0,
       moveTimingFunction: "ease"
     },
     axisYLabelSettings: {
       useAnimation: true,
-      appearType: "typing",
+      appearType: "fade", // fade
       appearDuration: 0.4,
       appearStartDelay: 0,
-      appearItemDelay: 0.1,
+      appearItemDelay: 0,
       appearTimingFunction: "ease",
       appearStartFrom: "bottom",
       moveLable: true,
       moveDuration: 0.3,
+      moveStartDelay: 0,
+      moveItemDelay: 0,
+      moveTimingFunction: "ease"
+    },
+    axisXLabelSettings: {
+      useAnimation: true,
+      appearType: "fade", // fade
+      appearDuration: 0.2,
+      appearStartDelay: 0,
+      appearItemDelay: 0,
+      appearTimingFunction: "ease",
+      appearStartFrom: "left",
+      moveLable: true,
+      moveDuration: 0.2,
       moveStartDelay: 0,
       moveItemDelay: 0,
       moveTimingFunction: "ease"
