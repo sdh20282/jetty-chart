@@ -24,7 +24,7 @@ const normalLineSetting = {
     backgroundColor: "#fff",
     margin: { top: 60, bottom: 70, left: 80, right: 120 },
     innerMargin: { top: 0, bottom: 0 },
-    colorPalette: ["#669dfe", "#876697"],
+    colorPalette: ["#5DADE2", "#F1948A", "#82E0AA", "#D7BDE2"],
     padding: 10,
     reverse: false,
     horizontal: false
@@ -220,26 +220,71 @@ const normalLineSetting = {
     axisYGridLineSettings: {
       useAnimation: true,
       appearType: "draw",
-      appearDuration: 0.2,
+      appearDuration: 0.4,
       appearStartDelay: 0,
       appearItemDelay: 0,
+      appearTimingFunction: "ease",
       appearStartFrom: "left-bottom",
       moveLine: true,
       moveDuration: 0.3,
       moveStartDelay: 0,
-      moveItemDelay: 0
+      moveItemDelay: 0,
+      moveTimingFunction: "ease"
     },
     axisXGridLineSettings: {
       useAnimation: true,
-      appearType: "draw",
+      appearType: "draw", // draw, fade
+      appearDuration: 0.2,
+      appearStartDelay: 0,
+      appearItemDelay: 0,
+      appearTimingFunction: "ease",
+      appearStartFrom: "left-bottom",
+      moveLine: true,
+      moveDuration: 0.2,
+      moveStartDelay: 0,
+      moveItemDelay: 0,
+      moveTimingFunction: "ease"
+    },
+    axisYLabelSettings: {
+      useAnimation: true,
+      appearType: "fade", // fade
       appearDuration: 0.4,
       appearStartDelay: 0,
       appearItemDelay: 0,
-      appearStartFrom: "left-bottom",
-      moveLine: true,
-      moveDuration: 0.1,
+      appearTimingFunction: "ease",
+      appearStartFrom: "bottom",
+      moveLable: true,
+      moveDuration: 0.3,
       moveStartDelay: 0,
-      moveItemDelay: 0
+      moveItemDelay: 0,
+      moveTimingFunction: "ease"
+    },
+    axisXLabelSettings: {
+      useAnimation: true,
+      appearType: "fade", // fade
+      appearDuration: 0.2,
+      appearStartDelay: 0,
+      appearItemDelay: 0,
+      appearTimingFunction: "ease",
+      appearStartFrom: "left",
+      moveLable: true,
+      moveDuration: 0.2,
+      moveStartDelay: 0,
+      moveItemDelay: 0,
+      moveTimingFunction: "ease"
+    },
+    lineSettings: {
+      useAnimation: true,
+      appearType: "draw",
+      appearDuration: 1,
+      appearStartDelay: 0.1,
+      appearItemDelay: 0,
+      appearTimingFunction: "ease",
+      moveLine: true,
+      moveDuration: 2,
+      moveStartDelay: 0,
+      moveItemDelay: 0,
+      moveTimingFunction: "ease"
     }
   }
 };

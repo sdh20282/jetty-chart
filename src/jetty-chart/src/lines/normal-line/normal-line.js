@@ -1,6 +1,7 @@
 import { checkNormalLine } from "../../common/utils/exception/check-line-exception";
 import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
+import styles from "../line.module.css";
 
 export const getOpposedLine = (pointA, pointB, angleDegree) => {
   const xLength = pointB[0] - pointA[0];
@@ -12,13 +13,13 @@ export const getOpposedLine = (pointA, pointB, angleDegree) => {
   return { length: zLength, angle };
 };
 
-export const getControlPoint = (prev, curr, next, options, isEndControlPoint = false) => {
+export const getControlPoint = (prev, curr, next, options) => {
   const p = prev || curr;
   const n = next || curr;
 
   const o = getOpposedLine(p, n, options.angleDegree);
 
-  const angle = o.angle + (isEndControlPoint ? Math.PI : 0);
+  const angle = o.angle + (options.isEndControlPoint ? Math.PI : 0);
   const length = o.length * options.smoothDegree;
 
   const x = curr[0] + Math.cos(angle) * length;
@@ -155,8 +156,8 @@ const NormalLine = ({
 
       if (isFirstPoint) return acc + `${curr[0]},${curr[1]}`;
 
-      const [cpsX, cpsY] = getControlPoint(arr[idx - 2], arr[idx - 1], curr, { smoothDegree, angleDegree });
-      const [cpeX, cpeY] = getControlPoint(arr[idx - 1], curr, arr[idx + 1], { smoothDegree, angleDegree }, true);
+      const [cpsX, cpsY] = getControlPoint(arr[idx - 2], arr[idx - 1], curr, { smoothDegree, angleDegree, isEndControlPoint: false });
+      const [cpeX, cpeY] = getControlPoint(arr[idx - 1], curr, arr[idx + 1], { smoothDegree, angleDegree, isEndControlPoint: true });
       return `${acc} C ${cpsX}, ${cpsY}, ${cpeX}, ${cpeY} ${curr[0]}, ${curr[1]}`;
     }, "");
   } else {
@@ -181,6 +182,10 @@ const NormalLine = ({
   }
 
   pathString = "M " + pathString;
+
+  console.log(result.animationSettings.lineSettings);
+
+  const { useAnimation, appearType, appearDuration, appearStartDelay, appearTimingFunction } = result.animationSettings.lineSettings;
 
   return (
     <LabelValueCommon
@@ -213,23 +218,24 @@ const NormalLine = ({
     >
       <g
         transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}
-        onClick={() => {
-          const path = document.getElementById("myPath");
-          const length = path.getTotalLength();
+        // onClick={() => {
+        //   const path = document.getElementById("myPath");
+        //   const length = path.getTotalLength();
 
-          path.style.strokeDasharray = length;
-          path.style.strokeDashoffset = length;
+        //   path.style.strokeDasharray = length;
+        //   path.style.strokeDashoffset = length;
 
-          path.animate([{ strokeDashoffset: length }, { strokeDashoffset: 0 }], {
-            duration: 2000, // 애니메이션 지속 시간 (2초)
-            easing: "ease-in-out",
-            iterations: 1, // 애니메이션을 1번만 실행
-            fill: "forwards" // 애니메이션 종료 후 최종 프레임 유지
-          });
-        }}
+        //   path.animate([{ strokeDashoffset: length }, { strokeDashoffset: 0 }], {
+        //     duration: 2000, // 애니메이션 지속 시간 (2초)
+        //     easing: "ease-in-out",
+        //     iterations: 1, // 애니메이션을 1번만 실행
+        //     fill: "forwards" // 애니메이션 종료 후 최종 프레임 유지
+        //   });
+        // }}
       >
         <path
-          id="myPath"
+          // id="myPath"
+          className={useAnimation ? (appearType === "draw" ? styles.drawLine : appearType === "fade" ? styles.fadeLine : "") : ""}
           d={pathString}
           stroke={result.normalSettings.colorPalette[0]}
           strokeWidth={lineWidth}
@@ -237,6 +243,13 @@ const NormalLine = ({
           strokeLinejoin={strokeLinejoin}
           strokeLinecap={strokeLinecap}
           fillOpacity={0}
+          style={{
+            "--line-length": `${1000}px`,
+            "--line-offset": `${200}px`,
+            "--animation-duration": `${appearDuration}s`,
+            "--animation-timing-function": appearTimingFunction,
+            "--animation-delay": `${appearStartDelay}s`
+          }}
         />
         {enableArea && (
           <path
