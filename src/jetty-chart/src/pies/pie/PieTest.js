@@ -4,10 +4,21 @@ import { calculateIntersection } from "../utils/calculateIntersection";
 const PieTest = () => {
   const cornerRadius = 1;
   const pathData = `M1.1976181439965927,-118.63665445743161A${cornerRadius},${cornerRadius},0,0,1,6.385046341273871,-122.63236514874113A122.75,122.75,0,0,1,104.4049095437183,64.56965228532815A${cornerRadius},${cornerRadius},0,0,1,98.7420444314387,65.76603281607452L54.5436867163979,35.681203849466294A${cornerRadius},${cornerRadius},0,0,1,53.32472587787223,30.38744872413381A61.375,61.375,0,0,0,4.889175217325921,-61.18056392194806A${cornerRadius},${cornerRadius},0,0,1,1.1976181439965838,-65.17181432713036Z`;
-  const pos1 = calculateIntersection(0, -200, 200, 20);
-  const pos2 = calculateIntersection(200, 0, 200, 20);
-  const pos3 = calculateIntersection(0, -100, 20, 100);
-  const pos4 = calculateIntersection(100, 0, 20, 100);
+  const x1 = 0;
+  const y1 = -100;
+  const x2 = 100;
+  const y2 = 0;
+  const x3 = 0;
+  const y3 = -50;
+  const x4 = 50;
+  const y4 = 0;
+  const pieRadius = 100;
+  const innerRadius = 50;
+  const borderRadius = 10;
+  const pos1 = calculateIntersection(x1, y1, pieRadius, borderRadius);
+  const pos2 = calculateIntersection(x2, y2, pieRadius, borderRadius);
+  const pos3 = calculateIntersection(x3, y3, innerRadius, borderRadius);
+  const pos4 = calculateIntersection(x4, y4, innerRadius, borderRadius);
 
   return (
     <>
@@ -20,19 +31,30 @@ const PieTest = () => {
           fill="yellow"
         />
       </svg> */}
-      <svg width="200" height="200" viewBox="-40 -40 80 80">
+      <svg width="200" height="200" viewBox="-100 -100 200 200">
         <path
+          //   d={`
+          //     M ${pos1.x1},${pos1.y1}
+          //     A 10,10,0,0,1,${pos1.x2},${pos1.y2}
+          //     A 100,100,0,0,1,${pos2.x1},${pos2.y1}
+          //     A 10,10,0,0,1,${pos2.x2},${pos2.y2}
+          //     L ${pos4.x2},${pos4.y2}
+          //     A 10,10,0,0,1,${pos4.x1},${pos4.y1}
+          //     A 50,50,0,0,0,${pos3.x2},${pos3.y2}
+          //     A 10,10,0,0,1,${pos3.x1},${pos3.y1}
+          //     Z
+          // `}
           d={`
-            M ${pos1.x1},${pos1.y1}
-            A 20,20,0,0,1,${pos1.x2},${pos1.y2}
-            A 200,200,0,0,1,${pos2.x1},${pos2.y1}
-            A 20,20,0,0,1,${pos2.x2},${pos2.y2}
-            L ${pos2.x2},${pos2.y2}
-            A 20,20,0,0,1,${pos3.x1},${pos3.y1}
-            A 100,100,0,0,0,${pos4.x2},${pos4.y2}
-            A 20,20,0,0,1,${pos4.x1},${pos4.y1}
+            M ${x1},${y1 + borderRadius}
+            A ${borderRadius},${borderRadius},0,0,1,${pos1.x1},${pos1.y1}
+            A ${pieRadius},${pieRadius},0,0,1,${pos2.x2},${pos2.y2}
+            A ${borderRadius},${borderRadius},0,0,1,${x2 - borderRadius},${y2}
+            L ${innerRadius + borderRadius},${y4}
+            A ${borderRadius},${borderRadius},0,0,1,${pos4.x2},${pos4.y2}
+            A ${innerRadius},${innerRadius},0,0,0,${pos3.x1},${pos3.y1}
+            A ${borderRadius},${borderRadius},0,0,1,${x3},${-(innerRadius + borderRadius)}
             Z
-        `}
+            `}
           fill="red"
         />
       </svg>
