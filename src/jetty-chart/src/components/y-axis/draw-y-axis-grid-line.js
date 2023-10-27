@@ -66,10 +66,10 @@ export const DrawYAxisGridLine = ({
         return (
           <line
             key={"background-line-y-" + ms + "-" + c}
-            x1={horizontal ? location - (useMove && useAnimation ? move : 0) : "0"}
-            x2={horizontal ? location - (useMove && useAnimation ? move : 0) : width}
-            y1={horizontal ? "0" : location - (useMove && useAnimation ? move : 0)}
-            y2={horizontal ? width : location - (useMove && useAnimation ? move : 0)}
+            x1={horizontal ? location - move : "0"}
+            x2={horizontal ? location - move : width}
+            y1={horizontal ? "0" : location - move}
+            y2={horizontal ? width : location - move}
             stroke={lineColor}
             strokeOpacity={lineOpacity}
             strokeWidth={lineWidth}
