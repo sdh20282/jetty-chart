@@ -8,10 +8,10 @@ const GetPiePiece = ({ data, pieSettings }) => {
   let accumulatedPercent = 0;
   return data.map(({ value, label }, index) => {
     const [startX, startY] = getCoordinatesForPercent(accumulatedPercent, pieSettings.startAngle);
-    const startRadiusPos = getCoordinatesForPosition(
+    const startRoundPos = getCoordinatesForPosition(
       accumulatedPercent,
       pieSettings.startAngle,
-      pieSettings.cornerRadius
+      pieSettings.cornerRound
     );
     const startInnerPos = getCoordinatesForPosition(
       accumulatedPercent,
@@ -21,10 +21,10 @@ const GetPiePiece = ({ data, pieSettings }) => {
     value *= checkRangePadSize(pieSettings.padSize) / 100;
     accumulatedPercent += value;
     const [endX, endY] = getCoordinatesForPercent(accumulatedPercent, pieSettings.startAngle);
-    const endRadiusPos = getCoordinatesForPosition(
+    const endRoundPos = getCoordinatesForPosition(
       accumulatedPercent,
       pieSettings.startAngle,
-      pieSettings.cornerRadius
+      pieSettings.cornerRound
     );
     const endInnerPos = getCoordinatesForPosition(
       accumulatedPercent,
@@ -36,8 +36,8 @@ const GetPiePiece = ({ data, pieSettings }) => {
       <PiePiece
         startX={startX}
         startY={startY}
-        startRadiusPos={startRadiusPos}
-        endRadiusPos={endRadiusPos}
+        startRoundPos={startRoundPos}
+        endRoundPos={endRoundPos}
         startInnerPos={startInnerPos}
         endInnerPos={endInnerPos}
         endX={endX}

@@ -4,8 +4,8 @@ import { checkRangePadSpace, checkRangeStrokeWidth } from "../utils/checkValue";
 const PiePiece = ({
   startX,
   startY,
-  startRadiusPos,
-  endRadiusPos,
+  startRoundPos,
+  endRoundPos,
   startInnerPos,
   endInnerPos,
   isLargeArcFlag,
@@ -20,8 +20,6 @@ const PiePiece = ({
   const targetRad = 2 * Math.PI * value * (1 - checkRangePadSpace(pieSettings.padSpace) / 100);
   const targetSpace = (2 * Math.PI * value * checkRangePadSpace(pieSettings.padSpace)) / 100 / 2;
   const targetRestRad = 2 * Math.PI * (1 - value);
-  console.log("HH");
-  console.log(startRadiusPos);
   return (
     <>
       {/* <path
@@ -39,12 +37,14 @@ const PiePiece = ({
         strokeDasharray={`0 ${targetSpace} ${targetRad} ${targetSpace + targetRestRad}`}
       ></path> */}
       <path
-        d={`M ${startRadiusPos.x1} ${startRadiusPos.y1}
-        A 1 1 0 ${isLargeArcFlag} 1 ${startX} ${startY}
-        A 0 0 0 ${isLargeArcFlag} 0 ${startRadiusPos.x2} ${startRadiusPos.y2}
-        A 1 1 0 ${isLargeArcFlag} 1 ${endX} ${endY}
-        `}
-        // d={`M ${startX} ${startY}
+        d={`M ${startX} ${startY}
+        A 0 0 0 1 1 ${endX} ${endY}`}
+        // d={`M ${startRadiusPos.x} ${startRadiusPos.y}
+        // A 1 1 0 0 1 ${startX} ${startY}
+        // A 0 0 0 1 1 ${endX} ${endY}
+        // A 1 1 0 0 1 ${endRadiusPos.x} ${endRadiusPos.y2}
+
+        // d={`M ${startX} ${startY}`}
         // A 2 2 0 ${isLargeArcFlag} 1 ${startInnerPos.x1} ${startInnerPos.y1}
         // A 0 0 0 ${isLargeArcFlag} 0 ${endX} ${endY}
         // A 2 2 0 ${isLargeArcFlag} 1 ${endInnerPos.x1} ${endInnerPos.y1}
