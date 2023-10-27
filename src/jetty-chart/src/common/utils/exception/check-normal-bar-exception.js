@@ -42,7 +42,7 @@ const normalBarSetting = {
     lineOpacity: 1,
     lineColor: "#d4d4d4",
     lineWidth: 1,
-    lineDash: false,
+    lineDash: true,
     lineDashWidth: 5,
     lineDashGap: 3,
     lineRound: false
@@ -220,9 +220,9 @@ const normalBarSetting = {
     axisYGridLineSettings: {
       useAnimation: true,
       appearType: "draw",
-      appearDuration: 0.4,
+      appearDuration: 2,
       appearStartDelay: 0,
-      appearItemDelay: 0,
+      appearItemDelay: 0.2,
       appearTimingFunction: "ease",
       appearStartFrom: "left-bottom",
       moveLine: true,
