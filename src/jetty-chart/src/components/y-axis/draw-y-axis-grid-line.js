@@ -12,15 +12,21 @@ export const DrawYAxisGridLine = ({
     appearDuration,
     appearStartDelay,
     appearItemDelay,
+    appearTimingFunction,
     appearStartFrom,
     moveLine,
     moveDuration,
     moveStartDelay,
-    moveItemDelay
+    moveItemDelay,
+    moveTimingFunction
   }
 }) => {
   const prevYAxis = useRef({});
   const prevYAxisTemp = useRef({});
+
+  if (!lineVisible) {
+    return;
+  }
 
   const animationXAxisStart = appearStartFrom.split("-")[0];
   const animationYAxisStart = appearStartFrom.split("-")[1];
@@ -33,75 +39,63 @@ export const DrawYAxisGridLine = ({
   }
 
   return (
-    lineVisible && (
-      <g>
-        {yAxis.map((c, idx) => {
-          if (!showTopScope && (idx === 0 || idx === yAxis.length - 1) && c !== 0) {
-            return;
+    <g>
+      {yAxis.map((c, idx) => {
+        if (!showTopScope && (idx === 0 || idx === yAxis.length - 1) && c !== 0) {
+          return;
+        }
+
+        // 현재 위치 계산
+        const location = yAxisHeight * idx;
+
+        // 현재 위치 정보 저장
+        prevYAxisTemp.current[c] = location;
+
+        // 라인 리렌더링을 안할 경우
+        let useMove = false;
+        let move = 0;
+
+        if (moveLine) {
+          // 이전 위치에 현재 위치가 포함되는지 확인
+          if (prevYAxisKeys.includes(String(c))) {
+            move = location - prevYAxis.current[c];
+            useMove = true;
           }
+        }
 
-          // 현재 위치 계산
-          const location = yAxisHeight * idx;
-
-          // 현재 위치 정보 저장
-          prevYAxisTemp.current[c] = location;
-
-          // 라인 리렌더링을 안할 경우
-          let useMove = false;
-          let move = 0;
-
-          if (moveLine) {
-            // 이전 위치에 현재 위치가 포함되는지 확인
-            if (prevYAxisKeys.includes(String(c))) {
-              move = location - prevYAxis.current[c];
-              useMove = true;
+        return (
+          <line
+            key={"background-line-y-" + ms + "-" + c}
+            x1={horizontal ? location - move : "0"}
+            x2={horizontal ? location - move : width}
+            y1={horizontal ? "0" : location - move}
+            y2={horizontal ? width : location - move}
+            stroke={lineColor}
+            strokeOpacity={lineOpacity}
+            strokeWidth={lineWidth}
+            strokeDasharray={lineDash && c !== 0 ? `${lineDashWidth},${lineDashGap}` : "0"}
+            strokeLinecap={lineRound ? "round" : ""}
+            className={
+              useAnimation ? (useMove ? styles.moveLine : appearType === "draw" ? styles.drawLine : appearType === "fade" ? styles.fadeLine : "") : ""
             }
-          }
-
-          return (
-            <line
-              key={"background-line-y-" + ms + "-" + c}
-              x1={horizontal ? location - (useMove && useAnimation ? move : 0) : "0"}
-              x2={horizontal ? location - (useMove && useAnimation ? move : 0) : width}
-              y1={horizontal ? "0" : location - (useMove && useAnimation ? move : 0)}
-              y2={horizontal ? width : location - (useMove && useAnimation ? move : 0)}
-              stroke={lineColor}
-              strokeOpacity={lineOpacity}
-              strokeWidth={lineWidth}
-              strokeDasharray={lineDash && c !== 0 ? `${lineDashWidth},${lineDashGap}` : "0"}
-              strokeLinecap={lineRound ? "round" : ""}
-              className={
-                useAnimation
-                  ? useMove
-                    ? styles.moveLine
-                    : appearType === "draw"
-                    ? styles.drawLine
-                    : appearType === "fade"
-                    ? styles.fadeLine
-                    : ""
-                  : ""
-              }
-              style={{
-                "--line-width": `${width}px`,
-                "--line-offset": `${animationXAxisStart === "left" ? width : -width}px`,
-                "--animation-duration": `${useMove ? moveDuration : appearDuration}s`,
-                "--animation-timing-function": "ease",
-                "--animation-delay": `${
-                  (useMove ? moveStartDelay : appearStartDelay) +
-                  (useMove
-                    ? 0
-                    : (useMove ? moveItemDelay : appearItemDelay) *
-                      ((!horizontal && animationYAxisStart === "bottom") || (horizontal && animationYAxisStart !== "bottom")
-                        ? yAxis.length - 1 - idx
-                        : idx))
-                }s`,
-                "--height-offset": horizontal ? `${move}px` : `0px,${move}px`
-              }}
-            ></line>
-          );
-        })}
-      </g>
-    )
+            style={{
+              "--line-width": `${width}px`,
+              "--line-offset": `${animationXAxisStart === "left" ? width : -width}px`,
+              "--animation-duration": `${useMove ? moveDuration : appearDuration}s`,
+              "--animation-timing-function": useMove ? moveTimingFunction : appearTimingFunction,
+              "--animation-delay": `${
+                (useMove ? moveStartDelay : appearStartDelay) +
+                (useMove ? moveItemDelay : appearItemDelay) *
+                  ((!horizontal && animationYAxisStart === "bottom") || (horizontal && animationYAxisStart !== "bottom")
+                    ? yAxis.length - 1 - idx
+                    : idx)
+              }s`,
+              "--height-offset": horizontal ? `${move}px` : `0px,${move}px`
+            }}
+          ></line>
+        );
+      })}
+    </g>
   );
 };
 /* eslint-enable complexity */

@@ -12,15 +12,21 @@ export const DrawXAxisGridLine = ({
     appearDuration,
     appearStartDelay,
     appearItemDelay,
+    appearTimingFunction,
     appearStartFrom,
     moveLine,
     moveDuration,
     moveStartDelay,
-    moveItemDelay
+    moveItemDelay,
+    moveTimingFunction
   }
 }) => {
   const prevXAxis = useRef({});
   const prevXAxisTemp = useRef({});
+
+  if (!lineVisible) {
+    return;
+  }
 
   const animationXAxisStart = appearStartFrom.split("-")[0];
   const animationYAxisStart = appearStartFrom.split("-")[1];
@@ -37,7 +43,7 @@ export const DrawXAxisGridLine = ({
 
   return (
     <g>
-      {lineVisible && showEndLine && (
+      {showEndLine && (
         <g transform={horizontal ? `translate(0,0)` : `translate(0,0)`}>
           <line
             key={"background-line-x-" + 0 + "-" + 0}
@@ -63,7 +69,7 @@ export const DrawXAxisGridLine = ({
           ></line>
         </g>
       )}
-      {lineVisible && (
+      {
         <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding},0)`}>
           {xAxis.map((d, idx) => {
             const x = xAxisWidth * idx + xAxisInitialPosition;
@@ -86,10 +92,10 @@ export const DrawXAxisGridLine = ({
             return (
               <line
                 key={"background-line-x-" + ms + "-" + d}
-                x1={horizontal ? "0" : x - (useMove && useAnimation ? move : 0)}
-                x2={horizontal ? height : x - (useMove && useAnimation ? move : 0)}
-                y1={horizontal ? x - (useMove && useAnimation ? move : 0) : "0"}
-                y2={horizontal ? x - (useMove && useAnimation ? move : 0) : height}
+                x1={horizontal ? "0" : x - move}
+                x2={horizontal ? height : x - move}
+                y1={horizontal ? x - move : "0"}
+                y2={horizontal ? x - move : height}
                 stroke={lineColor}
                 strokeOpacity={lineOpacity}
                 strokeWidth={lineWidth}
@@ -112,13 +118,11 @@ export const DrawXAxisGridLine = ({
                     (!horizontal && animationYAxisStart === "bottom") || (horizontal && animationYAxisStart !== "bottom") ? -height : height
                   }px`,
                   "--animation-duration": `${useMove ? moveDuration : appearDuration}s`,
-                  "--animation-timing-function": "ease",
+                  "--animation-timing-function": useMove ? moveTimingFunction : appearTimingFunction,
                   "--animation-delay": `${
                     (useMove ? moveStartDelay : appearStartDelay) +
-                    (useMove
-                      ? 0
-                      : (useMove ? moveItemDelay : appearItemDelay) * (animationXAxisStart === "left" ? idx : xAxis.length - 1 - idx) +
-                        (showEndLine && !useMove ? appearItemDelay : 0))
+                    (useMove ? moveItemDelay : appearItemDelay) * (animationXAxisStart === "left" ? idx : xAxis.length - 1 - idx) +
+                    (showEndLine && !useMove ? appearItemDelay : 0)
                   }s`,
                   "--width-offset": horizontal ? `0px,${move}px` : `${move}px`
                 }}
@@ -126,8 +130,8 @@ export const DrawXAxisGridLine = ({
             );
           })}
         </g>
-      )}
-      {lineVisible && showEndLine && (
+      }
+      {showEndLine && (
         <g transform={horizontal ? `translate(0,${width})` : `translate(${width},0)`}>
           <line
             key={"background-line-x-" + 0 + "-" + 0}
