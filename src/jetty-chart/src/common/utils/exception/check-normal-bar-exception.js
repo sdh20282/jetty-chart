@@ -42,18 +42,18 @@ const normalBarSetting = {
     lineOpacity: 1,
     lineColor: "#d4d4d4",
     lineWidth: 1,
-    lineDash: true,
+    lineDash: false,
     lineDashWidth: 5,
     lineDashGap: 3,
     lineRound: false
   },
   // x축 라인 세팅
   axisXGridLineSettings: {
-    lineVisible: false,
+    lineVisible: true,
     lineOpacity: 1,
     lineColor: "#d4d4d4",
     lineWidth: 1,
-    lineDash: false,
+    lineDash: true,
     lineDashWidth: 5,
     lineDashGap: 3,
     lineRound: false,
@@ -220,9 +220,9 @@ const normalBarSetting = {
     axisYGridLineSettings: {
       useAnimation: true,
       appearType: "draw",
-      appearDuration: 2,
+      appearDuration: 0.4,
       appearStartDelay: 0,
-      appearItemDelay: 0.2,
+      appearItemDelay: 0.1,
       appearTimingFunction: "ease",
       appearStartFrom: "left-bottom",
       moveLine: true,
