@@ -9,11 +9,11 @@ const PieTest = () => {
   const x2 = 100;
   const y2 = 0;
   const x3 = 0;
-  const y3 = -50;
-  const x4 = 50;
+  const y3 = -60;
+  const x4 = 60;
   const y4 = 0;
   const pieRadius = 100;
-  const innerRadius = 50;
+  const innerRadius = 60;
   const borderRadius = 10;
   const pos1 = calculateIntersection(x1, y1, pieRadius, borderRadius);
   const pos2 = calculateIntersection(x2, y2, pieRadius, borderRadius);
