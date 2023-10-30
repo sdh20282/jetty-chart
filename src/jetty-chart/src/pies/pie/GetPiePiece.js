@@ -1,8 +1,5 @@
 import { checkRangePadSize } from "../utils/checkValue";
-import {
-  getCoordinatesForPercent,
-  getCoordinatesForPosition,
-} from "../utils/getCoordinatesForPercent";
+import { getCoordinatesForPercent, getCoordinatesForPosition } from "../utils/getCoordinates";
 import PiePiece from "./PiePiece";
 
 const GetPiePiece = ({ data, pieSettings }) => {

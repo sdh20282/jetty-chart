@@ -1,3 +1,4 @@
+// 두 원 사이에 교점 구하기
 const calculateIntersection = ({ x, y, radius, borderRadius, dir }) => {
   const d = Math.sqrt(x ** 2 + y ** 2);
 
@@ -16,6 +17,7 @@ const calculateIntersection = ({ x, y, radius, borderRadius, dir }) => {
   return dir === 0 ? { x: x1, y: y1 } : { x: x2, y: y2 };
 };
 
+// 두 원 사이에 교점 구하기, 데이터 입력
 export const calculateInputData = ({ vertex, pieRadius, innerRadius, borderRadius }) => {
   const calcPos = {
     pos1: calculateIntersection({

@@ -1,3 +1,4 @@
+// startAngle과 percent에 따라 좌표 구하는 함수, radius = 크기
 export const getCoordinatesForPercent = ({ percent, startAngle, radius }) => {
   const x = Math.cos(2 * Math.PI * percent + (Math.PI * startAngle) / 180) * radius;
   const y = Math.sin(2 * Math.PI * percent + (Math.PI * startAngle) / 180) * radius;
@@ -18,4 +19,18 @@ export const getCoordinatesForPosition = (percent, startAngle, range) => {
     100;
 
   return { x1, x2, y1, y2 };
+};
+
+// vertex 데이터 받아서 좌표 구하는 함수
+export const getCoordinatesForVertex = ({ percent, startAngle, pieRadius, innerRadius }) => {
+  return {
+    pos1: getCoordinatesForPercent({ percent: 0, startAngle: startAngle, radius: pieRadius }),
+    pos2: getCoordinatesForPercent({ percent: percent, startAngle: startAngle, radius: pieRadius }),
+    pos3: getCoordinatesForPercent({
+      percent: percent,
+      startAngle: startAngle,
+      radius: innerRadius,
+    }),
+    pos4: getCoordinatesForPercent({ percent: 0, startAngle: startAngle, radius: innerRadius }),
+  };
 };
