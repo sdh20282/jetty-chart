@@ -2,8 +2,8 @@
   --animation-duration: 0;
   --animation-timing-function: "linear";
   --animation-delay: "0s";
-  --move-from: "0px";
-  --move-to: "0px";
+  --translate-from: "0px";
+  --translate-to: "0px";
 }
 
 .fadeLabel {
@@ -11,8 +11,8 @@
   animation: fade-label var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
-.moveLabel {
-  animation: move-label var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+.translateLabel {
+  animation: translate-label var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
 /* @keyframes type-label {
@@ -35,12 +35,12 @@
   }
 }
 
-@keyframes move-label {
+@keyframes translate-label {
   0% {
-    transform: translate(var(--move-from));
+    transform: translate(var(--translate-from));
   }
 
   100% {
-    transform: translate(var(--move-to));
+    transform: translate(var(--translate-to));
   }
 }

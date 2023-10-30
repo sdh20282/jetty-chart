@@ -22,6 +22,16 @@ function App() {
       });
     }
 
+    arr.push({
+      value: 0,
+      label: "asdf"
+    });
+
+    arr.push({
+      value: -2,
+      label: "asdasdff"
+    });
+
     setData(arr);
   }, [state]);
 
