@@ -23,17 +23,17 @@ export const DrawXAxisLabel = ({
   },
   animationSettings: {
     useAnimation,
-    appearType,
-    appearDuration,
-    appearStartDelay,
-    appearItemDelay,
-    appearTimingFunction,
-    appearStartFrom,
-    moveLable,
-    moveDuration,
-    moveStartDelay,
-    moveItemDelay,
-    moveTimingFunction
+    renderType,
+    renderDuration,
+    renderStartDelay,
+    renderItemDelay,
+    renderTimingFunction,
+    renderStartFrom,
+    translateLabel,
+    translateDuration,
+    translateStartDelay,
+    translateItemDelay,
+    translateTimingFunction
   }
 }) => {
   const prevXAxis = useRef({});
@@ -51,7 +51,7 @@ export const DrawXAxisLabel = ({
   padding ??= 0;
   xAxisInitialPosition ??= 0;
 
-  if (moveLable) {
+  if (translateLabel) {
     prevXAxis.current = { ...prevXAxisTemp.current };
     prevXAxisTemp.current = [];
   }
@@ -71,14 +71,14 @@ export const DrawXAxisLabel = ({
         prevXAxisTemp.current[d] = x;
 
         // 라인 리렌더링을 안할 경우
-        let useMove = false;
-        let move = 0;
+        let useTranlate = false;
+        let translate = 0;
 
-        if (moveLable) {
+        if (translateLabel) {
           // 이전 위치에 현재 위치가 포함되는지 확인
           if (prevXAxisKeys.includes(String(d))) {
-            move = x - prevXAxis.current[d];
-            useMove = true;
+            translate = x - prevXAxis.current[d];
+            useTranlate = true;
           }
         }
 
@@ -86,16 +86,16 @@ export const DrawXAxisLabel = ({
           <g
             key={"category-" + ms + "-" + d}
             transform={horizontal ? `translate(0, ${x})` : `translate(${x})`}
-            className={useAnimation ? (useMove ? styles.moveLabel : appearType === "fade" ? styles.fadeLabel : "") : ""}
+            className={useAnimation ? (useTranlate ? styles.translateLabel : renderType === "fade" ? styles.fadeLabel : "") : ""}
             style={{
-              "--animation-duration": `${useMove ? moveDuration : appearDuration}s`,
-              "--animation-timing-function": useMove ? moveTimingFunction : appearType === "typing" ? "steps(3, end)" : appearTimingFunction,
+              "--animation-duration": `${useTranlate ? translateDuration : renderDuration}s`,
+              "--animation-timing-function": useTranlate ? translateTimingFunction : renderType === "typing" ? "steps(3, end)" : renderTimingFunction,
               "--animation-delay": `${
-                (useMove ? moveStartDelay : appearStartDelay) +
-                (useMove ? moveItemDelay : appearItemDelay) * (appearStartFrom === "left" ? idx : xAxis.length - 1 - idx)
+                (useTranlate ? translateStartDelay : renderStartDelay) +
+                (useTranlate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? idx : xAxis.length - 1 - idx)
               }s`,
-              "--move-from": horizontal ? `0px,${x - move}px` : `${x - move}px`,
-              "--move-to": horizontal ? `0px,${x}px` : `${x}px`
+              "--translate-from": horizontal ? `0px,${x - translate}px` : `${x - translate}px`,
+              "--translate-to": horizontal ? `0px,${x}px` : `${x}px`
             }}
           >
             {sideLineVisible && (

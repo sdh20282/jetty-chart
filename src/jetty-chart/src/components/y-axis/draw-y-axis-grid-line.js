@@ -8,17 +8,17 @@ export const DrawYAxisGridLine = ({
   lineSettings: { lineVisible, lineOpacity, lineColor, lineWidth, lineDash, lineDashWidth, lineDashGap, lineRound },
   animationSettings: {
     useAnimation,
-    appearType,
-    appearDuration,
-    appearStartDelay,
-    appearItemDelay,
-    appearTimingFunction,
-    appearStartFrom,
-    moveLine,
-    moveDuration,
-    moveStartDelay,
-    moveItemDelay,
-    moveTimingFunction
+    renderType,
+    renderDuration,
+    renderStartDelay,
+    renderItemDelay,
+    renderTimingFunction,
+    renderStartFrom,
+    translateLine,
+    translateDuration,
+    translateStartDelay,
+    translateItemDelay,
+    translateTimingFunction
   }
 }) => {
   const prevYAxis = useRef({});
@@ -28,12 +28,12 @@ export const DrawYAxisGridLine = ({
     return;
   }
 
-  const animationXAxisStart = appearStartFrom.split("-")[0];
-  const animationYAxisStart = appearStartFrom.split("-")[1];
+  const animationXAxisStart = renderStartFrom.split("-")[0];
+  const animationYAxisStart = renderStartFrom.split("-")[1];
   const prevYAxisKeys = Object.keys(prevYAxis.current);
   const ms = new Date().valueOf();
 
-  if (moveLine) {
+  if (translateLine) {
     prevYAxis.current = { ...prevYAxisTemp.current };
     prevYAxisTemp.current = [];
   }
@@ -52,21 +52,21 @@ export const DrawYAxisGridLine = ({
         prevYAxisTemp.current[c] = location;
 
         // 라인 리렌더링을 안할 경우
-        let useMove = false;
-        let move = 0;
+        let useTranslate = false;
+        let translate = 0;
 
-        if (moveLine) {
+        if (translateLine) {
           // 이전 위치에 현재 위치가 포함되는지 확인
           if (prevYAxisKeys.includes(String(c))) {
-            move = location - prevYAxis.current[c];
-            useMove = true;
+            translate = location - prevYAxis.current[c];
+            useTranslate = true;
           }
         }
 
         let linePath = "";
 
         if (lineDash) {
-          let path = horizontal ? `M ${location - move},0 ` : `M 0,${location - move} `;
+          let path = horizontal ? `M ${location - translate},0 ` : `M 0,${location - translate} `;
           let pathLength = 0;
 
           while (pathLength < width) {
@@ -85,11 +85,11 @@ export const DrawYAxisGridLine = ({
         } else {
           linePath = horizontal
             ? `
-            M ${location - move},0
+            M ${location - translate},0
             v ${width}
           `
             : `
-            M 0,${location - move}
+            M 0,${location - translate}
             h ${width}
           `;
         }
@@ -103,21 +103,29 @@ export const DrawYAxisGridLine = ({
             strokeWidth={lineWidth}
             strokeLinecap={lineRound ? "round" : ""}
             className={
-              useAnimation ? (useMove ? styles.moveLine : appearType === "draw" ? styles.drawLine : appearType === "fade" ? styles.fadeLine : "") : ""
+              useAnimation
+                ? useTranslate
+                  ? styles.translateLine
+                  : renderType === "draw"
+                  ? styles.drawLine
+                  : renderType === "fade"
+                  ? styles.fadeLine
+                  : ""
+                : ""
             }
             style={{
               "--line-width": `${width}px`,
               "--line-offset": `${lineDash ? -lineDashWidth : animationXAxisStart === "left" ? width : -width}px`,
-              "--animation-duration": `${useMove ? moveDuration : appearDuration}s`,
-              "--animation-timing-function": useMove ? moveTimingFunction : appearTimingFunction,
+              "--animation-duration": `${useTranslate ? translateDuration : renderDuration}s`,
+              "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction,
               "--animation-delay": `${
-                (useMove ? moveStartDelay : appearStartDelay) +
-                (useMove ? moveItemDelay : appearItemDelay) *
+                (useTranslate ? translateStartDelay : renderStartDelay) +
+                (useTranslate ? translateItemDelay : renderItemDelay) *
                   ((!horizontal && animationYAxisStart === "bottom") || (horizontal && animationYAxisStart !== "bottom")
                     ? yAxis.length - 1 - idx
                     : idx)
               }s`,
-              "--height-offset": horizontal ? `${move}px` : `0px,${move}px`
+              "--height-offset": horizontal ? `${translate}px` : `0px,${translate}px`
             }}
           ></path>
         );
