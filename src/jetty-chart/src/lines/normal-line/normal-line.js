@@ -1,7 +1,9 @@
+/* eslint-disable complexity */
 import { checkNormalLine } from "../../common/utils/exception/check-line-exception";
 import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
-import styles from "../line.module.css";
+import styles from "./normal-line.module.css";
+import { useEffect } from "react";
 
 export const getOpposedLine = (pointA, pointB, angleDegree) => {
   const xLength = pointB[0] - pointA[0];
@@ -95,11 +97,6 @@ const NormalLine = ({
 
   const scopeResult = autoScope ? getAutoScope({ data: data.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
 
-  console.log(
-    data.map((d) => d.value),
-    scopeResult
-  );
-
   if (reverse) {
     scopeResult.scope.reverse();
   }
@@ -114,8 +111,6 @@ const NormalLine = ({
   const pointGapWidth = drawWidth / (data.length - 1);
 
   const halfAreaWidth = areaWidth / 2;
-
-  console.log(scopeResult);
 
   const zeroHeight =
     scopeResult.scope.reduce((acc, cur) => {
@@ -141,7 +136,7 @@ const NormalLine = ({
     const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
 
     if (horizontal) {
-      return [totalHeight + height - zeroHeight, center];
+      return [zeroHeight + height, center];
     }
 
     return [center, totalHeight - height - zeroHeight];
@@ -149,7 +144,7 @@ const NormalLine = ({
 
   let pathString = ``;
   let areaPathString = "";
-
+  console.log(coords);
   if (enableCurve) {
     pathString = coords.reduce((acc, curr, idx, arr) => {
       const isFirstPoint = idx === 0;
@@ -177,15 +172,22 @@ const NormalLine = ({
 
   if (enableArea) {
     areaPathString = horizontal
-      ? `M ${zeroHeightFromTop} ${0} L` + pathString + `L ${zeroHeightFromTop} ${drawWidth}`
+      ? `M ${zeroHeight} ${0} L` + pathString + `L ${zeroHeight} ${drawWidth}`
       : `M ${0} ${zeroHeightFromTop} L` + pathString + `L ${drawWidth} ${zeroHeightFromTop}`;
   }
 
   pathString = "M " + pathString;
 
-  console.log(result.animationSettings.lineSettings);
-
   const { useAnimation, appearType, appearDuration, appearStartDelay, appearTimingFunction } = result.animationSettings.lineSettings;
+
+  useEffect(() => {
+    const pathElement = document.getElementById(`line-path`);
+    const pathLength = pathElement?.getTotalLength();
+    pathElement?.style.setProperty(`--line-length`, `${pathLength}px`);
+    pathElement?.style.setProperty(`--line-offset`, `${pathLength}px`);
+  }, [pathString]);
+
+  const ms = new Date().valueOf();
 
   return (
     <LabelValueCommon
@@ -216,25 +218,53 @@ const NormalLine = ({
       legendSettings={result.legendSettings}
       animationSettings={result.animationSettings}
     >
-      <g
-        transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}
-        // onClick={() => {
-        //   const path = document.getElementById("myPath");
-        //   const length = path.getTotalLength();
-
-        //   path.style.strokeDasharray = length;
-        //   path.style.strokeDashoffset = length;
-
-        //   path.animate([{ strokeDashoffset: length }, { strokeDashoffset: 0 }], {
-        //     duration: 2000, // 애니메이션 지속 시간 (2초)
-        //     easing: "ease-in-out",
-        //     iterations: 1, // 애니메이션을 1번만 실행
-        //     fill: "forwards" // 애니메이션 종료 후 최종 프레임 유지
-        //   });
-        // }}
-      >
+      <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
+        {enableArea && (
+          <g>
+            <defs>
+              <mask id={`mask-normal-${ms}`}>
+                <path
+                  d={areaPathString}
+                  fill={result.normalSettings.colorPalette[0]}
+                  strokeLinejoin={strokeLinejoin}
+                  strokeLinecap={strokeLinecap}
+                  fillOpacity={enableArea ? areaOpacity : 0}
+                />
+              </mask>
+            </defs>
+            <rect
+              mask={`url(#mask-normal-${ms}`}
+              x={horizontal ? 0 : totalWidth}
+              y={horizontal ? 0 : totalHeight}
+              rx="0"
+              ry="0"
+              width={totalHeight}
+              height={totalHeight}
+              className={
+                useAnimation
+                  ? appearType === "draw"
+                    ? horizontal
+                      ? styles.drawAreaHoriziontal
+                      : styles.drawArea
+                    : appearType === "fade"
+                    ? styles.fadeArea
+                    : ""
+                  : ""
+              }
+              fill={result.normalSettings.colorPalette[0]}
+              fillOpacity={enableArea ? areaOpacity : 0}
+              style={{
+                "--line-width": `${drawWidth}px`,
+                "--line-heght": `${totalHeight}px`,
+                "--animation-duration": `${appearDuration}s`,
+                "--animation-timing-function": appearTimingFunction,
+                "--animation-delay": `${appearStartDelay}s`
+              }}
+            />
+          </g>
+        )}
         <path
-          // id="myPath"
+          id="line-path"
           className={useAnimation ? (appearType === "draw" ? styles.drawLine : appearType === "fade" ? styles.fadeLine : "") : ""}
           d={pathString}
           stroke={result.normalSettings.colorPalette[0]}
@@ -244,22 +274,11 @@ const NormalLine = ({
           strokeLinecap={strokeLinecap}
           fillOpacity={0}
           style={{
-            "--line-length": `${1000}px`,
-            "--line-offset": `${200}px`,
             "--animation-duration": `${appearDuration}s`,
             "--animation-timing-function": appearTimingFunction,
             "--animation-delay": `${appearStartDelay}s`
           }}
         />
-        {enableArea && (
-          <path
-            d={areaPathString}
-            fill={result.normalSettings.colorPalette[0]}
-            strokeLinejoin={strokeLinejoin}
-            strokeLinecap={strokeLinecap}
-            fillOpacity={enableArea ? areaOpacity : 0}
-          />
-        )}
         {data.map((d, idx) => {
           const nowData = { ...d };
 

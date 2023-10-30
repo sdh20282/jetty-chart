@@ -1,5 +1,6 @@
 :root {
   --line-width: "0px";
+  --line-height: "0px";
   --line-length: "0px";
   --line-offset: "0px";
   --animation-duration: 0;
@@ -14,7 +15,19 @@
   animation: draw-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
+.drawArea {
+  animation: draw-area var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+.drawAreaHoriziontal {
+  animation: draw-area-horiziontal var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
 .fadeLine {
+  opacity: 0;
+  animation: fade-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
+.fadeArea {
   opacity: 0;
   animation: fade-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
@@ -53,14 +66,31 @@
   }
 }
 
-.line-path {
-  stroke-dasharray: var(--line-length); /* 선의 총 길이 */
-  stroke-dashoffset: var(--line-length); /* 처음에는 전체 길이만큼 숨김 */
-  animation: draw 2s ease forwards; /* 애니메이션 이름, 시간, 타이밍 함수, 최종 값 유지 */
+@keyframes draw-area {
+  0% {
+    width: 0px;
+  }
+
+  100% {
+    width: var(--line-width);
+  }
+}
+@keyframes draw-area-horiziontal {
+  0% {
+    height: 0px;
+  }
+
+  100% {
+    height: var(--line-heght);
+  }
 }
 
-@keyframes draw {
-  to {
-    stroke-dashoffset: 0; /* 선이 그려짐 */
+@keyframes fade-area {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }

@@ -2,6 +2,8 @@ import { checkNormalLine } from "../../common/utils/exception/check-line-excepti
 import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
 import { getControlPoint } from "../normal-line/normal-line";
+import styles from "./multi-line.module.css";
+import { useEffect } from "react";
 
 const MultiLine = ({
   dataSet,
@@ -80,12 +82,11 @@ const MultiLine = ({
   });
 
   const scopeResult = autoScope ? getAutoScope({ data: combinedData.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
-  console.log(scopeResult);
   if (reverse) {
     scopeResult.scope.reverse();
   }
 
-  const dataLength = dataSet[0]?.data.length;
+  const dataLength = dataSet[0]?.data?.length;
 
   const totalWidth = horizontal ? height - margin.bottom - margin.top : width - margin.left - margin.right;
   const totalHeight = horizontal ? width - margin.left - margin.right : height - margin.bottom - margin.top;
@@ -135,6 +136,7 @@ const MultiLine = ({
   });
 
   const linePathArray = [];
+  const areaPathArray = [];
 
   dataSetCoords.forEach((coords) => {
     let pathString = ``;
@@ -165,15 +167,33 @@ const MultiLine = ({
 
     if (enableArea) {
       areaPathString = horizontal
-        ? `M ${zeroHeightFromTop} ${0} L` + pathString + `L ${zeroHeightFromTop} ${drawWidth}`
+        ? `M ${zeroHeight} ${0} L` + pathString + `L ${zeroHeight} ${drawWidth}`
         : `M ${0} ${zeroHeightFromTop} L` + pathString + `L ${drawWidth} ${zeroHeightFromTop}`;
     }
 
     pathString = "M " + pathString;
 
-    linePathArray.push([pathString, areaPathString]);
+    linePathArray.push(pathString);
+    areaPathArray.push(areaPathString);
   });
 
+  const { useAnimation, appearType, appearDuration, appearStartDelay, appearItemDelay, appearTimingFunction } = result.animationSettings.lineSettings;
+
+  useEffect(() => {
+    if (idArray.length === 0) {
+      return;
+    }
+
+    idArray.forEach((id, idx) => {
+      const pathElement = document.getElementById(`line-multi-${id}-${idx}`);
+      const pathLength = pathElement?.getTotalLength();
+      pathElement?.style.setProperty(`--line-length`, `${pathLength}px`);
+      pathElement?.style.setProperty(`--line-offset`, `${pathLength}px`);
+    });
+    return () => {
+      console.log("cleanup");
+    };
+  }, [idArray]);
   return (
     <LabelValueCommon
       keys={keys}
@@ -205,31 +225,70 @@ const MultiLine = ({
     >
       <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
         {enableArea &&
-          linePathArray.map((d, idx) => {
+          areaPathArray.map((d, idx) => {
             const lineColor = colorPalette[idx % colorPalette.length];
             return (
-              <path
-                key={`area-${idArray[idx]}-idx`}
-                d={d[1]}
-                fill={lineColor}
-                strokeLinejoin={strokeLinejoin}
-                strokeLinecap={strokeLinecap}
-                fillOpacity={enableArea ? areaOpacity : 0}
-              />
+              <g key={`area-multi-${idArray[idx]}-${idx}`}>
+                <defs>
+                  <mask id={`mask-multi-${idArray[idx]}-${idx}`}>
+                    <path
+                      d={d}
+                      fill={lineColor}
+                      // fillOpacity={enableArea ? areaOpacity : 0}
+                    />
+                  </mask>
+                </defs>
+                <rect
+                  mask={`url(#mask-multi-${idArray[idx]}-${idx})`}
+                  x={0}
+                  y="0"
+                  rx="0"
+                  ry="0"
+                  width={horizontal ? totalHeight : 0}
+                  height={horizontal ? 0 : totalHeight}
+                  className={
+                    useAnimation
+                      ? appearType === "draw"
+                        ? horizontal
+                          ? styles.drawAreaHoriziontal
+                          : styles.drawArea
+                        : appearType === "fade"
+                        ? styles.fadeArea
+                        : ""
+                      : ""
+                  }
+                  fill={lineColor}
+                  fillOpacity={enableArea ? areaOpacity : 0}
+                  style={{
+                    "--line-width": `${drawWidth}px`,
+                    "--line-heght": `${totalHeight}px`,
+                    "--animation-duration": `${appearDuration}s`,
+                    "--animation-timing-function": appearTimingFunction,
+                    "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`
+                  }}
+                />
+              </g>
             );
           })}
         {linePathArray.map((d, idx) => {
           const lineColor = colorPalette[idx % colorPalette.length];
           return (
             <path
-              key={`line-${idArray[idx]}-idx`}
-              d={d[0]}
+              id={`line-multi-${idArray[idx]}-${idx}`}
+              key={`line-multi-${idArray[idx]}-${idx}`}
+              d={d}
+              className={useAnimation ? (appearType === "draw" ? styles.drawLine : appearType === "fade" ? styles.fadeLine : "") : ""}
               stroke={lineColor}
               strokeWidth={lineWidth}
               strokeOpacity={lineOpacity}
               strokeLinejoin={strokeLinejoin}
               strokeLinecap={strokeLinecap}
               fillOpacity={0}
+              style={{
+                "--animation-duration": `${appearDuration}s`,
+                "--animation-timing-function": appearTimingFunction,
+                "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`
+              }}
             />
           );
         })}
