@@ -16,7 +16,6 @@ const PiePiece = ({
   value,
   label,
 }) => {
-  console.log(startInnerPos, endInnerPos);
   const targetRad = 2 * Math.PI * value * (1 - checkRangePadSpace(pieSettings.padSpace) / 100);
   const targetSpace = (2 * Math.PI * value * checkRangePadSpace(pieSettings.padSpace)) / 100 / 2;
   const targetRestRad = 2 * Math.PI * (1 - value);

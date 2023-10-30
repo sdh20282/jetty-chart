@@ -1,8 +1,8 @@
-const getCoordinatesForPercent = (percent, startAngle) => {
-  const x = Math.cos(2 * Math.PI * percent + (Math.PI * startAngle) / 180);
-  const y = Math.sin(2 * Math.PI * percent + (Math.PI * startAngle) / 180);
+export const getCoordinatesForPercent = ({ percent, startAngle, radius }) => {
+  const x = Math.cos(2 * Math.PI * percent + (Math.PI * startAngle) / 180) * radius;
+  const y = Math.sin(2 * Math.PI * percent + (Math.PI * startAngle) / 180) * radius;
 
-  return [x, y];
+  return { x, y };
 };
 
 export const getCoordinatesForPosition = (percent, startAngle, range) => {
@@ -19,5 +19,3 @@ export const getCoordinatesForPosition = (percent, startAngle, range) => {
 
   return { x1, x2, y1, y2 };
 };
-
-export default getCoordinatesForPercent;

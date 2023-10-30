@@ -41,11 +41,11 @@ const Pie = ({
         changeNewGeneralSettings={setNewGeneralSettings}
         changeNewPieSettings={setNewPieSettings}
       />
-      <PaintPie
+      {/* <PaintPie
         data={calcData(data)}
         generalSettings={newGeneralSettings}
         pieSettings={newPieSettings}
-      />
+      /> */}
       <PieTest />
     </div>
   );

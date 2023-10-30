@@ -1,5 +1,6 @@
 import { checkRangePadSize } from "../utils/checkValue";
-import getCoordinatesForPercent, {
+import {
+  getCoordinatesForPercent,
   getCoordinatesForPosition,
 } from "../utils/getCoordinatesForPercent";
 import PiePiece from "./PiePiece";

@@ -1,84 +1,107 @@
 import React from "react";
 import { calculateInputData } from "../utils/calculateIntersection";
+import { getCoordinatesForPercent } from "../utils/getCoordinatesForPercent";
 
 const PieTest = () => {
-  const pos = {
-    x1: 0,
-    y1: -100,
-    x2: 100,
-    y2: 0,
-    x3: 0,
-    y3: -60,
-    x4: 60,
-    y4: 0,
+  const vertex = {
+    pos1: getCoordinatesForPercent({ percent: 0, startAngle: 270, radius: 1 }),
+    pos2: getCoordinatesForPercent({ percent: 0.25, startAngle: 270, radius: 1 }),
+    pos3: getCoordinatesForPercent({ percent: 0.25, startAngle: 270, radius: 0.6 }),
+    pos4: getCoordinatesForPercent({ percent: 0, startAngle: 270, radius: 0.6 }),
+    // x1: 0,
+    // y1: -1,
+    // x2: 1,
+    // y2: 0,
+    // x3: 0,
+    // y3: -0.6,
+    // x4: 0.6,
+    // y4: 0,
   };
-  const pos2 = {
-    x1: 100,
-    y1: 0,
-    x2: 0,
-    y2: 100,
-    x3: 60,
-    y3: 0,
-    x4: 0,
-    y4: 60,
-  };
-  const pos3 = {
-    x1: 0,
-    y1: 100,
-    x2: -100,
-    y2: 0,
-    x3: 0,
-    y3: 60,
-    x4: -60,
-    y4: 0,
-  };
-  const pos4 = {
-    x1: -100,
-    y1: 0,
-    x2: 0,
-    y2: -100,
-    x3: -60,
-    y3: 0,
-    x4: 0,
-    y4: -60,
-  };
-  const pos5 = {
-    x1: 0,
-    y1: -100,
-    x2: 0,
-    y2: 100,
-    x3: 0,
-    y3: -60,
-    x4: 0,
-    y4: 60,
-  };
-  const pieRadius = 100;
-  const innerRadius = 60;
-  const borderRadius = 10;
-  const calcPos = calculateInputData(pos, pieRadius, innerRadius, borderRadius);
-  const calcPos2 = calculateInputData(pos2, pieRadius, innerRadius, borderRadius);
-  const calcPos3 = calculateInputData(pos3, pieRadius, innerRadius, borderRadius);
-  const calcPos4 = calculateInputData(pos4, pieRadius, innerRadius, borderRadius);
-  const calcPos5 = calculateInputData(pos5, pieRadius, innerRadius, borderRadius);
-
+  // const pos2 = {
+  //   x1: 1,
+  //   y1: 0,
+  //   x2: 0,
+  //   y2: 1,
+  //   x3: 0.6,
+  //   y3: 0,
+  //   x4: 0,
+  //   y4: 0.6,
+  // };
+  // const pos3 = {
+  //   x1: 0,
+  //   y1: 1,
+  //   x2: -1,
+  //   y2: 0,
+  //   x3: 0,
+  //   y3: 0.6,
+  //   x4: -0.6,
+  //   y4: 0,
+  // };
+  // const pos4 = {
+  //   x1: -1,
+  //   y1: 0,
+  //   x2: 0,
+  //   y2: -1,
+  //   x3: -0.6,
+  //   y3: 0,
+  //   x4: 0,
+  //   y4: -0.6,
+  // };
+  // const pos5 = {
+  //   x1: 0,
+  //   y1: -1,
+  //   x2: 0,
+  //   y2: 1,
+  //   x3: 0,
+  //   y3: -0.6,
+  //   x4: 0,
+  //   y4: 0.6,
+  // };
+  const pieRadius = 1;
+  const innerRadius = 0.6;
+  const borderRadius = 0.1;
+  const calcPos = calculateInputData({ vertex, pieRadius, innerRadius, borderRadius });
+  // const calcPos2 = calculateInputData(pos2, pieRadius, innerRadius, borderRadius);
+  // const calcPos3 = calculateInputData(pos3, pieRadius, innerRadius, borderRadius);
+  // const calcPos4 = calculateInputData(pos4, pieRadius, innerRadius, borderRadius);
+  // const calcPos5 = calculateInputData(pos5, pieRadius, innerRadius, borderRadius);
+  console.log(vertex);
   return (
     <>
-      <svg width="200" height="200" viewBox="-100 -100 200 200">
-        <path
+      <svg width="200" height="200" viewBox="-1 -1 2 2" style={{ backgroundColor: "lightgrey" }}>
+        {/* <path
           d={`
-            M ${pos.x1},${pos.y1 + borderRadius}
+            M ${vertex.pos1.x},${vertex.pos1.y + borderRadius}
             A ${borderRadius},${borderRadius},0,0,1,${calcPos.pos1.x1},${calcPos.pos1.y1}
             A ${pieRadius},${pieRadius},0,0,1,${calcPos.pos2.x2},${calcPos.pos2.y2}
-            A ${borderRadius},${borderRadius},0,0,1,${pos.x2 - borderRadius},${pos.y2}
-            L ${innerRadius + borderRadius},${pos.y4}
+            A ${borderRadius},${borderRadius},0,0,1,${vertex.pos2.x - borderRadius},${vertex.pos2.y}
+            L ${innerRadius + borderRadius},${vertex.pos4.y}
             A ${borderRadius},${borderRadius},0,0,1,${calcPos.pos4.x2},${calcPos.pos4.y2}
             A ${innerRadius},${innerRadius},0,0,0,${calcPos.pos3.x1},${calcPos.pos3.y1}
-            A ${borderRadius},${borderRadius},0,0,1,${pos.x3},${-(innerRadius + borderRadius)}
+            A ${borderRadius},${borderRadius},0,0,1,${vertex.pos3.x},${-(
+            innerRadius + borderRadius
+          )}
+            Z
+            `}
+          fill="red"
+        /> */}
+        <path
+          d={`
+            M ${vertex.pos1.x},${vertex.pos1.y + borderRadius}
+            A ${borderRadius},${borderRadius},0,0,1,${calcPos.pos1.x},${calcPos.pos1.y}
+            A ${pieRadius},${pieRadius},0,0,1,${calcPos.pos2.x},${calcPos.pos2.y}
+            A ${borderRadius},${borderRadius},0,0,1,${vertex.pos2.x - borderRadius},${vertex.pos2.y}
+            L ${innerRadius + borderRadius},${vertex.pos3.y}
+            A ${borderRadius},${borderRadius},0,0,1,${calcPos.pos3.x},${calcPos.pos3.y}
+            A ${innerRadius},${innerRadius},0,0,0,${calcPos.pos4.x},${calcPos.pos4.y}
+            A ${borderRadius},${borderRadius},0,0,1,${vertex.pos4.x},${-(
+            innerRadius + borderRadius
+          )}
             Z
             `}
           fill="red"
         />
-        <path
+        {/* <path
           d={`
             M ${pos2.x1 - borderRadius},${pos2.y1}
             A ${borderRadius},${borderRadius},0,0,1,${calcPos2.pos1.x1},${calcPos2.pos1.y1}
@@ -119,9 +142,9 @@ const PieTest = () => {
             Z
             `}
           fill="green"
-        />
+        /> */}
       </svg>
-      <svg width="200" height="200" viewBox="-100 -100 200 200">
+      {/* <svg width="200" height="200" viewBox="-1 -1 2 2">
         <path
           d={`
             M ${pos5.x1},${pos5.y1 + borderRadius}
@@ -136,7 +159,7 @@ const PieTest = () => {
             `}
           fill="red"
         />
-      </svg>
+      </svg> */}
       <svg width="200" height="200" viewBox="-200 -200 400 400">
         <path
           d="
