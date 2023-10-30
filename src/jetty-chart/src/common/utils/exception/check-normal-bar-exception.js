@@ -26,8 +26,8 @@ const normalBarSetting = {
     innerMargin: { top: 0, bottom: 0 },
     colorPalette: ["#669dfe", "#876697"],
     padding: 20,
-    reverse: true,
-    horizontal: true
+    reverse: false,
+    horizontal: false
   },
   // 범위 세팅
   scopeSettings: {
@@ -206,7 +206,7 @@ const normalBarSetting = {
     barBorderColor: "#000",
     barBorderOpacity: 1,
     useMinHeight: true,
-    minHeight: 2,
+    minHeight: 1,
     useLabel: true,
     labelPosition: "over", // over, center, under,
     labelMargin: 3,
@@ -275,8 +275,8 @@ const normalBarSetting = {
     },
     barSettings: {
       useAnimation: true,
-      renderType: "grow", // fade, grow, grow-async
-      renderDuration: 5,
+      renderType: "fade", // fade, grow, grow-async
+      renderDuration: 2,
       renderStartDelay: 0,
       renderItemDelay: 0.1,
       renderTimingFunction: "ease",

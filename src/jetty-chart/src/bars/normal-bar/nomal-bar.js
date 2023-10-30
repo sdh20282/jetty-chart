@@ -217,6 +217,8 @@ const NormalBar = ({
 
           console.log(translate, useTranslate);
 
+          console.log(barHeightWithoutRadius, borderRadius);
+
           return (
             display && (
               <g
@@ -253,7 +255,7 @@ const NormalBar = ({
                   <path
                     d={
                       horizontal
-                        ? nowData.value >= 0
+                        ? nowData.value > 0 || (!reverse && nowData.value === 0)
                           ? `
                           M 0,0
                           h ${barHeightWithoutRadius}
@@ -272,7 +274,7 @@ const NormalBar = ({
                           h ${barHeightWithoutRadius}
                           v -${barTotalWidth}
                           z`
-                        : nowData.value >= 0
+                        : nowData.value > 0 || (!reverse && nowData.value === 0)
                         ? `
                           M 0,${barHeight}
                           v -${barHeightWithoutRadius}
@@ -283,7 +285,7 @@ const NormalBar = ({
                           h -${barTotalWidth}
                           z`
                         : `
-                          M 0,0
+                          M 0,${barHeight}
                           v ${barHeightWithoutRadius}
                           q 0,${borderRadius} ${borderRadius},${borderRadius}
                           h ${barWidthWithoutRadius}
@@ -325,7 +327,7 @@ const NormalBar = ({
                   ></rect>
                 )}
                 {useLabel && realHeight > labelInvisibleHeight && (
-                  <g transform={horizontal ? `translate(${labelMargin})` : `translate(0,${-labelMargin})`}>
+                  <g>
                     <text
                       fontSize={labelSize}
                       fontWeight={labelWeight}
@@ -339,23 +341,17 @@ const NormalBar = ({
                         horizontal
                           ? `translate(${
                               labelPosition === "over"
-                                ? nowData.value < 0
-                                  ? 0
-                                  : realHeight
+                                ? (nowData.value > 0 || (!reverse && nowData.value === 0) ? realHeight : 0) + labelMargin
                                 : labelPosition === "under"
-                                ? nowData.value >= 0
-                                  ? 0
-                                  : -realHeight
-                                : nowData.value >= 0
-                                ? realHeight / 2
-                                : -realHeight / 2
+                                ? (nowData.value > 0 || (!reverse && nowData.value === 0) ? 0 : -realHeight) - labelMargin
+                                : (nowData.value > 0 || (!reverse && nowData.value === 0) ? realHeight / 2 : -realHeight / 2) + 0
                             },${halfBarRealWidth})`
                           : `translate(${halfBarRealWidth},${
                               labelPosition === "over"
-                                ? barHeight - (nowData.value < 0 ? barHeight : realHeight)
+                                ? barHeight - (nowData.value > 0 || (!reverse && nowData.value === 0) ? realHeight : 0) - labelMargin
                                 : labelPosition === "under"
-                                ? barHeight + (nowData.value >= -barHeight ? 0 : realHeight)
-                                : barHeight + (nowData.value >= 0 ? -realHeight / 2 : realHeight / 2)
+                                ? barHeight + (nowData.value > 0 || (!reverse && nowData.value === 0) ? 0 : realHeight) + labelMargin
+                                : barHeight + (nowData.value > 0 || (!reverse && nowData.value === 0) ? -realHeight / 2 : realHeight / 2)
                             })`
                       }
                     >
