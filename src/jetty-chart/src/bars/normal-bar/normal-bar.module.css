@@ -12,7 +12,8 @@
 }
 
 .growBar {
-  /* transform-origin: center center; */
+  /* transform: scaleY(0.2); */
+  /* transform-origin: center bottom; */
   animation: grow-bar var(--animation-duration) linear forwards;
 }
 
@@ -32,11 +33,11 @@
 
 @keyframes grow-bar {
   0% {
-    transform: var(--scale-from);
+    transform: var(--scale-from) scaleZ(0);
   }
 
   100% {
-    transform: var(--scale-to);
+    transform: var(--scale-to) scaleZ(0);
   }
 }
 
