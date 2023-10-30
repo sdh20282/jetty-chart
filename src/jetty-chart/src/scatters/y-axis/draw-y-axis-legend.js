@@ -8,13 +8,7 @@ export const DrawYAxisLegend = ({
   return (
     yLegend &&
     useLegend && (
-      <g
-        transform={
-          horizontal
-            ? `translate(${height},${legendOnLeft ? -legendMargin : totalWidth + legendMargin})`
-            : `translate(${legendOnLeft ? -legendMargin : totalWidth + legendMargin}, ${height})`
-        }
-      >
+      <g transform={`translate(${legendOnLeft ? -legendMargin : totalWidth + legendMargin}, ${height})`}>
         <text
           fontSize={legendSize}
           fontWeight={legendWeight}

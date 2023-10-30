@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+
 export const DrawLegends = ({
   keys,
   normalSettings: { width, height, margin, colorPalette },
@@ -26,6 +28,17 @@ export const DrawLegends = ({
   const chartHeight = height - margin.top - margin.bottom;
   const legendHeight = symbolSize * keys.length + itemMargin * (keys.length - 1);
 
+  const [renderedKeys, setRenderedKeys] = useState([]);
+
+  useEffect(() => {
+    if (renderedKeys.length < keys.length) {
+      const timer = setTimeout(() => {
+        setRenderedKeys((prevKeys) => [...prevKeys, keys[prevKeys.length]]);
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [renderedKeys, keys]);
+
   return (
     useLegend && (
       <g
@@ -39,7 +52,7 @@ export const DrawLegends = ({
             : chartHeight + margin.top - legendHeight) + yLocation
         })`}
       >
-        {keys.map((k, idx) => {
+        {renderedKeys.map((k, idx) => {
           return (
             <g
               key={k + String(idx)}

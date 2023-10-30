@@ -1,7 +1,7 @@
 import { checkNormalPoint } from "../../common/utils/exception/check-point-exception";
 import { ScatterCommon } from "../scatter-common/scatter-common";
 import { getAutoScope, getUserScope } from "../scope/calculate-scope";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function calculateXPosition(value, scopeResult, totalWidth, xReverse) {
   const { minScope, maxScope } = scopeResult;
@@ -112,11 +112,6 @@ const NormalScatter = ({
     yScopeResult.scope.reverse();
   }
 
-  // if (!yAutoScope && !yScopeResult.display) {
-  //   display = false;
-  //   showTopScope = false;
-  // }
-
   const totalWidth = width - margin.left - margin.right;
   const totalHeight = height - margin.bottom - margin.top;
 
@@ -126,6 +121,17 @@ const NormalScatter = ({
   const AreaWidth = drawWidth / (xScopeResult.scope.length - 1);
 
   const availableColors = ["#93c5fd", "#fdba74", "#fca5a5", "#cbd5e1", "#86efac"];
+
+  const [renderedData, setRenderedData] = useState([]);
+
+  useEffect(() => {
+    if (renderedData.length < data.length) {
+      const timer = setTimeout(() => {
+        setRenderedData((prevData) => [...prevData, data[prevData.length]]);
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [renderedData, data]);
 
   return (
     <ScatterCommon
@@ -156,7 +162,7 @@ const NormalScatter = ({
       topLegendSettings={result.topLegendSettings}
     >
       <g transform={`translate(${padding})`}>
-        {data.flatMap((group, groupIdx) => {
+        {renderedData.flatMap((group, groupIdx) => {
           // 그룹에 색상 할당
           const groupColor = availableColors[groupIdx % availableColors.length];
 

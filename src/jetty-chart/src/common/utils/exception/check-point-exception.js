@@ -155,7 +155,7 @@ const normalPointSetting = {
     useLegend: true,
     position: "bottom-right", // bottom center top - left center right
     xLocation: -30,
-    yLocation: -12,
+    yLocation: -50,
     directionColumn: true,
     itemWidth: 80,
     itemMargin: 2,

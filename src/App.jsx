@@ -5,204 +5,128 @@ const data = [
     id: "group A",
     data: [
       {
-        x: 49,
-        y: 43
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 100,
-        y: 85
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 72,
-        y: 1
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 33,
-        y: 39
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 87,
-        y: 113
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 63,
-        y: 6
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 13,
-        y: 89
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 17,
-        y: 111
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 75,
-        y: 64
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 46,
-        y: 34
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 26,
-        y: 26
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 26,
-        y: 109
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 81,
-        y: 91
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 95,
-        y: 12
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 9,
-        y: 51
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 2,
-        y: 18
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 63,
-        y: 68
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 66,
-        y: 70
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 59,
-        y: 114
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 52,
-        y: 108
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 83,
-        y: 27
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 76,
-        y: 62
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 1,
-        y: 120
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 84,
-        y: 13
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 61,
-        y: 114
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 73,
-        y: 16
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 13,
-        y: 13
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 67,
-        y: 30
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 81,
-        y: 0
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 66,
-        y: 94
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 59,
-        y: 106
-      },
-      {
-        x: 68,
-        y: 112
-      },
-      {
-        x: 47,
-        y: 75
-      },
-      {
-        x: 38,
-        y: 63
-      },
-      {
-        x: 44,
-        y: 109
-      },
-      {
-        x: 1,
-        y: 107
-      },
-      {
-        x: 66,
-        y: 75
-      },
-      {
-        x: 72,
-        y: 3
-      },
-      {
-        x: 84,
-        y: 31
-      },
-      {
-        x: 86,
-        y: 11
-      },
-      {
-        x: 78,
-        y: 101
-      },
-      {
-        x: 97,
-        y: 95
-      },
-      {
-        x: 82,
-        y: 30
-      },
-      {
-        x: 81,
-        y: 49
-      },
-      {
-        x: 47,
-        y: 93
-      },
-      {
-        x: 44,
-        y: 56
-      },
-      {
-        x: 4,
-        y: 28
-      },
-      {
-        x: 15,
-        y: 110
-      },
-      {
-        x: 1,
-        y: 13
-      },
-      {
-        x: 15,
-        y: 3
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       }
     ]
   },
@@ -210,204 +134,128 @@ const data = [
     id: "group B",
     data: [
       {
-        x: 58,
-        y: 10
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 43,
-        y: 31
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 100,
-        y: 98
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 84,
-        y: 83
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 17,
-        y: 37
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 63,
-        y: 91
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 75,
-        y: 116
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 59,
-        y: 30
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 11,
-        y: 58
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 60,
-        y: 101
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 99,
-        y: 57
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 25,
-        y: 47
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 82,
-        y: 40
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 74,
-        y: 88
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 89,
-        y: 36
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 31,
-        y: 70
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 13,
-        y: 62
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 37,
-        y: 29
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 89,
-        y: 55
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 72,
-        y: 86
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 83,
-        y: 84
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 53,
-        y: 77
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 84,
-        y: 35
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 57,
-        y: 63
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 58,
-        y: 5
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 80,
-        y: 101
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 24,
-        y: 41
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 43,
-        y: 66
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 79,
-        y: 76
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 82,
-        y: 87
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 72,
-        y: 40
-      },
-      {
-        x: 19,
-        y: 90
-      },
-      {
-        x: 70,
-        y: 29
-      },
-      {
-        x: 5,
-        y: 13
-      },
-      {
-        x: 48,
-        y: 3
-      },
-      {
-        x: 32,
-        y: 116
-      },
-      {
-        x: 63,
-        y: 87
-      },
-      {
-        x: 64,
-        y: 26
-      },
-      {
-        x: 82,
-        y: 61
-      },
-      {
-        x: 4,
-        y: 66
-      },
-      {
-        x: 99,
-        y: 112
-      },
-      {
-        x: 15,
-        y: 79
-      },
-      {
-        x: 77,
-        y: 64
-      },
-      {
-        x: 73,
-        y: 41
-      },
-      {
-        x: 52,
-        y: 97
-      },
-      {
-        x: 17,
-        y: 93
-      },
-      {
-        x: 20,
-        y: 47
-      },
-      {
-        x: 46,
-        y: 6
-      },
-      {
-        x: 12,
-        y: 28
-      },
-      {
-        x: 21,
-        y: 54
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       }
     ]
   },
@@ -415,204 +263,128 @@ const data = [
     id: "group C",
     data: [
       {
-        x: 97,
-        y: 45
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 79,
-        y: 86
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 98,
-        y: 59
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 56,
-        y: 76
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 73,
-        y: 59
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 100,
-        y: 113
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 32,
-        y: 31
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 100,
-        y: 108
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 88,
-        y: 83
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 99,
-        y: 76
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 61,
-        y: 115
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 58,
-        y: 104
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 79,
-        y: 56
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 40,
-        y: 63
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 26,
-        y: 41
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 34,
-        y: 24
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 94,
-        y: 25
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 92,
-        y: 76
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 9,
-        y: 7
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 52,
-        y: 57
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 45,
-        y: 90
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 92,
-        y: 26
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 23,
-        y: 67
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 91,
-        y: 63
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 98,
-        y: 64
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 62,
-        y: 56
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 15,
-        y: 70
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 89,
-        y: 52
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 98,
-        y: 87
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 60,
-        y: 24
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 51,
-        y: 110
-      },
-      {
-        x: 59,
-        y: 19
-      },
-      {
-        x: 81,
-        y: 16
-      },
-      {
-        x: 95,
-        y: 94
-      },
-      {
-        x: 60,
-        y: 94
-      },
-      {
-        x: 54,
-        y: 68
-      },
-      {
-        x: 22,
-        y: 36
-      },
-      {
-        x: 53,
-        y: 86
-      },
-      {
-        x: 28,
-        y: 72
-      },
-      {
-        x: 37,
-        y: 1
-      },
-      {
-        x: 41,
-        y: 25
-      },
-      {
-        x: 20,
-        y: 23
-      },
-      {
-        x: 59,
-        y: 25
-      },
-      {
-        x: 38,
-        y: 69
-      },
-      {
-        x: 73,
-        y: 29
-      },
-      {
-        x: 58,
-        y: 44
-      },
-      {
-        x: 71,
-        y: 104
-      },
-      {
-        x: 20,
-        y: 91
-      },
-      {
-        x: 59,
-        y: 120
-      },
-      {
-        x: 33,
-        y: 84
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       }
     ]
   },
@@ -620,204 +392,128 @@ const data = [
     id: "group D",
     data: [
       {
-        x: 26,
-        y: 101
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 56,
-        y: 80
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 99,
-        y: 73
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 44,
-        y: 45
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 8,
-        y: 34
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 69,
-        y: 5
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 69,
-        y: 90
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 10,
-        y: 24
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 36,
-        y: 110
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 6,
-        y: 61
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 66,
-        y: 31
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 68,
-        y: 21
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 75,
-        y: 91
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 9,
-        y: 10
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 25,
-        y: 118
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 26,
-        y: 41
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 37,
-        y: 7
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 27,
-        y: 54
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 11,
-        y: 97
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 94,
-        y: 44
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 5,
-        y: 20
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 8,
-        y: 92
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 90,
-        y: 56
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 43,
-        y: 66
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 60,
-        y: 23
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 12,
-        y: 76
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 64,
-        y: 40
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 46,
-        y: 63
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 75,
-        y: 15
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 31,
-        y: 16
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 57,
-        y: 11
-      },
-      {
-        x: 80,
-        y: 103
-      },
-      {
-        x: 12,
-        y: 63
-      },
-      {
-        x: 72,
-        y: 71
-      },
-      {
-        x: 91,
-        y: 30
-      },
-      {
-        x: 33,
-        y: 73
-      },
-      {
-        x: 89,
-        y: 103
-      },
-      {
-        x: 56,
-        y: 82
-      },
-      {
-        x: 25,
-        y: 9
-      },
-      {
-        x: 84,
-        y: 1
-      },
-      {
-        x: 81,
-        y: 94
-      },
-      {
-        x: 65,
-        y: 85
-      },
-      {
-        x: 53,
-        y: 35
-      },
-      {
-        x: 43,
-        y: 20
-      },
-      {
-        x: 57,
-        y: 66
-      },
-      {
-        x: 96,
-        y: 53
-      },
-      {
-        x: 89,
-        y: 72
-      },
-      {
-        x: 80,
-        y: 106
-      },
-      {
-        x: 87,
-        y: 74
-      },
-      {
-        x: 23,
-        y: 45
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       }
     ]
   },
@@ -825,204 +521,128 @@ const data = [
     id: "group E",
     data: [
       {
-        x: 5,
-        y: 52
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 9,
-        y: 30
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 85,
-        y: 16
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 73,
-        y: 94
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 55,
-        y: 24
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 58,
-        y: 95
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 59,
-        y: 20
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 54,
-        y: 12
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 36,
-        y: 94
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 12,
-        y: 56
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 90,
-        y: 107
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 34,
-        y: 32
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 27,
-        y: 116
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 92,
-        y: 77
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 98,
-        y: 116
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 26,
-        y: 56
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 94,
-        y: 38
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 60,
-        y: 65
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 35,
-        y: 69
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 33,
-        y: 78
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 47,
-        y: 51
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 32,
-        y: 62
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 14,
-        y: 21
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 67,
-        y: 70
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 65,
-        y: 47
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 59,
-        y: 117
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 59,
-        y: 99
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 79,
-        y: 43
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 76,
-        y: 36
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 5,
-        y: 13
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       },
       {
-        x: 34,
-        y: 28
-      },
-      {
-        x: 52,
-        y: 89
-      },
-      {
-        x: 71,
-        y: 113
-      },
-      {
-        x: 25,
-        y: 16
-      },
-      {
-        x: 83,
-        y: 26
-      },
-      {
-        x: 84,
-        y: 23
-      },
-      {
-        x: 89,
-        y: 92
-      },
-      {
-        x: 26,
-        y: 108
-      },
-      {
-        x: 57,
-        y: 103
-      },
-      {
-        x: 59,
-        y: 118
-      },
-      {
-        x: 35,
-        y: 64
-      },
-      {
-        x: 51,
-        y: 92
-      },
-      {
-        x: 21,
-        y: 63
-      },
-      {
-        x: 48,
-        y: 82
-      },
-      {
-        x: 45,
-        y: 100
-      },
-      {
-        x: 44,
-        y: 98
-      },
-      {
-        x: 24,
-        y: 54
-      },
-      {
-        x: 48,
-        y: 91
-      },
-      {
-        x: 45,
-        y: 30
-      },
-      {
-        x: 77,
-        y: 66
+        x: Math.floor(Math.random() * 101),
+        y: Math.floor(Math.random() * 101)
       }
     ]
   }
@@ -1035,7 +655,7 @@ function App() {
         data={data}
         normalSettings={{ xReverse: false, yReverse: false }}
         pointSettings={{
-          pointSize: 2,
+          pointSize: 1.5,
           pointColor: "#fff",
           pointBorderColor: "#333",
           pointBorderWidth: 1,
