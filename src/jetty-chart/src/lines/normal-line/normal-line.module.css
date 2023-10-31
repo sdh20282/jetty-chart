@@ -12,12 +12,14 @@
 }
 
 .drawLine {
+  opacity: 0;
   stroke-dasharray: var(--line-length);
   stroke-dashoffset: var(--line-length);
   animation: draw-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
 .drawArea {
+  opacity: 0;
   animation: draw-area var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
@@ -27,6 +29,7 @@
 }
 
 .drawAreaHoriziontal {
+  opacity: 0;
   animation: draw-area-horiziontal var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
@@ -51,6 +54,7 @@
 
   to {
     stroke-dashoffset: 0px;
+    opacity: 1;
   }
 }
 
@@ -71,6 +75,7 @@
 
   100% {
     transform: translate(var(--height-offset));
+    opacity: 1;
   }
 }
 
@@ -81,6 +86,7 @@
 
   100% {
     width: var(--line-width);
+    opacity: 1;
   }
 }
 
@@ -108,6 +114,7 @@
 
   100% {
     height: var(--line-heght);
+    opacity: 1;
   }
 }
 
