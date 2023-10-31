@@ -287,7 +287,11 @@ const normalBarSetting = {
       textRenderItemDelay: 0.1,
       textRenderTimingFunction: "ease",
       textRenderStartFrom: "left",
-      translateBar: true
+      translateBar: true,
+      translateDuration: 0.2,
+      translateStartDelay: 0,
+      translateItemDelay: 0,
+      translateTimingFunction: "ease"
     }
   }
 };
