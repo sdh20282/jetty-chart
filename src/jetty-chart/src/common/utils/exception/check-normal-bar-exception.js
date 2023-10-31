@@ -49,7 +49,7 @@ const normalBarSetting = {
   },
   // x축 라인 세팅
   axisXGridLineSettings: {
-    lineVisible: false,
+    lineVisible: true,
     lineOpacity: 1,
     lineColor: "#d4d4d4",
     lineWidth: 1,
@@ -207,7 +207,7 @@ const normalBarSetting = {
     useMinHeight: true,
     minHeight: 1,
     useLabel: true,
-    labelPosition: "over", // over, center, under,
+    labelPosition: "under", // over, center, under,
     labelMargin: 5,
     labelSize: 11,
     labelWeight: 500,
@@ -288,7 +288,7 @@ const normalBarSetting = {
       textRenderTimingFunction: "ease",
       textRenderStartFrom: "left",
       translateBar: true,
-      translateDuration: 0.2,
+      translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
       translateTimingFunction: "ease"
