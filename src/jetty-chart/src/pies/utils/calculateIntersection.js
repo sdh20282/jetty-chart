@@ -2,7 +2,8 @@
 const calculateIntersection = ({ x, y, radius, borderRadius, dir }) => {
   const d = Math.sqrt(x ** 2 + y ** 2);
 
-  const a = (radius ** 2 - borderRadius ** 2 + d ** 2) / (2 * d);
+  // 쓰레기 값 예외처리
+  const a = Math.round(((radius ** 2 - borderRadius ** 2 + d ** 2) / (2 * d)) * 10000) / 10000;
   const h = Math.sqrt(radius ** 2 - a ** 2);
 
   const rx = -h * (y / d);

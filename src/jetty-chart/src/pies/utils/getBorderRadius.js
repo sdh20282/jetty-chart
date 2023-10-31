@@ -5,6 +5,7 @@ const distanceBetweenTwoPoints = ({ x1, y1, x2, y2 }) => {
 };
 
 export const getBorderRadius = ({ x1, y1, x2, y2 }) => {
+  console.log(x1, y1, x2, y2);
   const borderRadius = distanceBetweenTwoPoints({ x1, y1, x2, y2 });
   console.log(borderRadius);
   return borderRadius + "," + borderRadius;
