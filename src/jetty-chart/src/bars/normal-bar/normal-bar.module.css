@@ -1,0 +1,52 @@
+:root {
+  --bar-from: 0,0;
+  --bar-to: 0,0;
+  --scale-from: "";
+  --scale-to: "";
+  --animation-duration: 0s;
+}
+
+.translateGroup {
+  transform: translate(var(--bar-from));
+  animation: translate-group var(--animation-duration) linear forwards;
+}
+
+.growBar {
+  /* transform: scaleY(0.2); */
+  /* transform-origin: center bottom; */
+  animation: grow-bar var(--animation-duration) linear forwards;
+}
+
+.fadeBar {
+  animation: fade-bar var(--animation-duration) linear forwards;
+}
+
+@keyframes translate-group{
+  0% {
+    transform: translate(var(--bar-from));
+  }
+
+  100% {
+    transform: translate(var(--bar-to));
+  }
+}
+
+@keyframes grow-bar {
+  0% {
+    transform: var(--scale-from) scaleZ(0);
+  }
+
+  100% {
+    transform: var(--scale-to) scaleZ(0);
+  }
+}
+
+@keyframes fade-bar {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

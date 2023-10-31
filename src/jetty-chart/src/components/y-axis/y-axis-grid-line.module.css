@@ -10,7 +10,7 @@
 .drawLine {
   stroke-dasharray: var(--line-width);
   stroke-dashoffset: var(--line-offset);
-  animation: draw-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+  animation: draw-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards; 
 }
 
 .fadeLine {
@@ -18,8 +18,8 @@
   animation: fade-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
-.moveLine {
-  animation: move-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+.translateLine {
+  animation: translate-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
 @keyframes draw-line {
@@ -42,7 +42,7 @@
   }
 }
 
-@keyframes move-line {
+@keyframes translate-line {
   0% {
     transform: translate(0px, 0px);
   }
