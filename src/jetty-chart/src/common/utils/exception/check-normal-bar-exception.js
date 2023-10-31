@@ -199,7 +199,6 @@ const normalBarSetting = {
     barOpacity: 1,
     barGap: 0.15,
     barOnlyUpperRadius: true,
-    useBarBorderRadius: true,
     barBorderRadius: 5,
     useBarBorder: false,
     barBorderWidth: 2,
@@ -209,7 +208,7 @@ const normalBarSetting = {
     minHeight: 1,
     useLabel: true,
     labelPosition: "over", // over, center, under,
-    labelMargin: 3,
+    labelMargin: 5,
     labelSize: 11,
     labelWeight: 500,
     labelOpacity: 1,
@@ -275,12 +274,19 @@ const normalBarSetting = {
     },
     barSettings: {
       useAnimation: true,
-      renderType: "fade", // fade, grow, grow-async
+      renderType: "grow", // fade, grow, grow-async
       renderDuration: 2,
       renderStartDelay: 0,
       renderItemDelay: 0.1,
       renderTimingFunction: "ease",
       renderStartFrom: "left",
+      textRender: true,
+      textRenderType: "grow", // fade, grow, grow-async
+      textRenderDuration: 2,
+      textRenderStartDelay: 0,
+      textRenderItemDelay: 0.1,
+      textRenderTimingFunction: "ease",
+      textRenderStartFrom: "left",
       translateBar: true
     }
   }

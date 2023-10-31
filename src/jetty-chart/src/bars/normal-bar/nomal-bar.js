@@ -58,7 +58,6 @@ const NormalBar = ({
     barOpacity,
     barGap,
     barOnlyUpperRadius,
-    useBarBorderRadius,
     barBorderRadius,
     useBarBorder,
     barBorderWidth,
@@ -76,13 +75,26 @@ const NormalBar = ({
     labelInvisibleHeight
   } = result.barSettings;
 
-  const { useAnimation, renderType, renderDuration, renderStartDelay, renderItemDelay, renderTimingFunction, renderStartFrom, translateBar } =
-    result.animationSettings.barSettings;
+  const {
+    useAnimation,
+    renderType,
+    renderDuration,
+    renderStartDelay,
+    renderItemDelay,
+    renderTimingFunction,
+    renderStartFrom,
+    textRender,
+    textRenderType,
+    textRenderDuration,
+    textRenderStartDelay,
+    textRenderItemDelay,
+    textRenderTimingFunction,
+    textRenderStartFrom,
+    translateBar
+  } = result.animationSettings.barSettings;
 
   const scopeResult = autoScope ? getAutoScope({ data: data.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
   let display = true;
-
-  console.log(renderDuration, renderStartDelay, renderItemDelay, renderTimingFunction, renderStartFrom);
 
   if (reverse) {
     scopeResult.scope.reverse();
@@ -132,7 +144,6 @@ const NormalBar = ({
   }
 
   console.log(prevBars, prevBarsKeys);
-  console.log(scopeResult.scope, zeroHeight);
 
   return (
     <LabelValueCommon
@@ -191,12 +202,8 @@ const NormalBar = ({
             barHeightWithoutRadius = minHeight;
           }
 
-          const borderRadius = useBarBorderRadius
-            ? checkBarBorderRadius({ halfWidth: halfBarRealWidth, height: barHeightWithoutRadius, borderRadius: barBorderRadius })
-            : 0;
-
+          const borderRadius = checkBarBorderRadius({ halfWidth: halfBarRealWidth, height: barHeightWithoutRadius, borderRadius: barBorderRadius });
           const barTotalWidth = halfBarRealWidth + halfBarRealWidth;
-          const barWidthWithoutRadius = barTotalWidth - borderRadius - borderRadius;
           const realHeight = barHeightWithoutRadius + borderRadius;
 
           prevBarsTemp.current[nowData.label] = { center, halfWidth: halfBarRealWidth, height: barHeightWithoutRadius };
@@ -217,7 +224,25 @@ const NormalBar = ({
 
           console.log(translate, useTranslate);
 
-          console.log(barHeightWithoutRadius, borderRadius);
+          const rectWidth = horizontal ? barHeight + (barOnlyUpperRadius ? borderRadius : 0) : barTotalWidth;
+          const rectHeight = horizontal ? barTotalWidth : barHeight + (barOnlyUpperRadius ? borderRadius : 0);
+          const checkPositive = nowData.value > 0 || (!reverse && nowData.value === 0);
+          const horizontalLabelLocation =
+            labelPosition === "over"
+              ? (checkPositive ? realHeight : 0) + labelMargin
+              : labelPosition === "under"
+              ? (checkPositive ? 0 : -realHeight) - labelMargin
+              : checkPositive
+              ? realHeight / 2
+              : -realHeight / 2;
+          const verticalLabelLocation =
+            labelPosition === "over"
+              ? barHeight - (checkPositive ? realHeight : 0) - labelMargin
+              : labelPosition === "under"
+              ? barHeight + (checkPositive ? 0 : realHeight) + labelMargin
+              : barHeight + (checkPositive ? -realHeight / 2 : realHeight / 2);
+
+          console.log(barOnlyUpperRadius ? (checkPositive ? borderRadius : -borderRadius) : 0);
 
           return (
             display && (
@@ -225,109 +250,69 @@ const NormalBar = ({
                 key={"data-" + ms + "-" + nowData.label}
                 transform={
                   useAnimation && renderType.includes("grow")
-                    ? ""
+                    ? horizontal
+                      ? `translate(${zeroHeight},${center - halfBarRealWidth})`
+                      : `translate(${center - halfBarRealWidth})`
                     : horizontal
                     ? `translate(${zeroHeight},${center - halfBarRealWidth})`
                     : `translate(${center - halfBarRealWidth},${drawHeight - barHeight - zeroHeight})`
                 }
-                className={useAnimation && renderType.includes("grow") ? styles.translateGroup : ""}
-                style={{
-                  "--bar-from": horizontal
-                    ? nowData.value >= 0
-                      ? `${zeroHeight}px,${center - halfBarRealWidth}px`
-                      : `${zeroHeight}px,${center - halfBarRealWidth}px`
-                    : nowData.value >= 0
-                    ? `${center - halfBarRealWidth}px,${drawHeight - zeroHeight}px`
-                    : `${center - halfBarRealWidth}px,${drawHeight - zeroHeight}px`,
-                  "--bar-to": horizontal
-                    ? nowData.value >= 0
-                      ? `${zeroHeight}px,${center - halfBarRealWidth}px`
-                      : `${zeroHeight}px,${center - halfBarRealWidth}px`
-                    : nowData.value >= 0
-                    ? `${center - halfBarRealWidth}px,${drawHeight - barHeight - zeroHeight}px`
-                    : `${center - halfBarRealWidth}px,${drawHeight - zeroHeight}px`,
-                  "--scale-from": horizontal ? "scaleX(0)" : "scaleY(0)",
-                  "--scale-to": horizontal ? "scaleX(1)" : "scaleY(1)",
-                  "--animation-duration": `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`
-                }}
               >
-                {barOnlyUpperRadius && useBarBorderRadius ? (
-                  <path
-                    d={
-                      horizontal
-                        ? nowData.value > 0 || (!reverse && nowData.value === 0)
-                          ? `
-                          M 0,0
-                          h ${barHeightWithoutRadius}
-                          q ${borderRadius},0 ${borderRadius},${borderRadius}
-                          v ${barWidthWithoutRadius}
-                          q 0,${borderRadius} -${borderRadius},${borderRadius}
-                          h -${barHeightWithoutRadius}
-                          v -${barTotalWidth}
-                          z`
-                          : `
-                          M 0,0
-                          h -${barHeightWithoutRadius}
-                          q -${borderRadius},0 -${borderRadius},${borderRadius}
-                          v ${barWidthWithoutRadius}
-                          q 0,${borderRadius} ${borderRadius},${borderRadius}
-                          h ${barHeightWithoutRadius}
-                          v -${barTotalWidth}
-                          z`
-                        : nowData.value > 0 || (!reverse && nowData.value === 0)
-                        ? `
-                          M 0,${barHeight}
-                          v -${barHeightWithoutRadius}
-                          q 0,-${borderRadius} ${borderRadius},-${borderRadius}
-                          h ${barWidthWithoutRadius}
-                          q ${borderRadius},0 ${borderRadius},${borderRadius}
-                          v ${barHeightWithoutRadius}
-                          h -${barTotalWidth}
-                          z`
-                        : `
-                          M 0,${barHeight}
-                          v ${barHeightWithoutRadius}
-                          q 0,${borderRadius} ${borderRadius},${borderRadius}
-                          h ${barWidthWithoutRadius}
-                          q ${borderRadius},0 ${borderRadius},-${borderRadius}
-                          v -${barHeightWithoutRadius}
-                          h -${barTotalWidth}
-                          z`
-                    }
-                    fill={colorPalette[0]}
-                    opacity={barOpacity}
-                    stroke={useBarBorder ? barBorderColor : ""}
-                    strokeOpacity={barBorderOpacity}
-                    strokeWidth={useBarBorder ? barBorderWidth : "0"}
-                    className={useAnimation ? (renderType.includes("grow") ? styles.growBar : renderType === "fade" ? styles.fadeBar : "") : ""}
-                    style={{
-                      "--animation-duration": `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`
-                    }}
-                  />
-                ) : (
-                  <rect
-                    width={
-                      horizontal ? (useMinHeight ? (barHeight < minHeight ? minHeight : barHeight) : barHeight) : halfBarRealWidth + halfBarRealWidth
-                    }
-                    height={
-                      horizontal ? halfBarRealWidth + halfBarRealWidth : useMinHeight ? (barHeight < minHeight ? minHeight : barHeight) : barHeight
-                    }
+                <rect
+                  width={rectWidth}
+                  height={rectHeight}
+                  clipPath={
+                    barOnlyUpperRadius
+                      ? horizontal
+                        ? checkPositive
+                          ? `inset(0px 0px 0px ${borderRadius}px)`
+                          : `inset(0px ${borderRadius}px 0px 0px)`
+                        : checkPositive
+                        ? `inset(0px 0px ${borderRadius}px 0px)`
+                        : `inset(${borderRadius}px 0px 0px 0px)`
+                      : ""
+                  }
+                  transform={
+                    useAnimation && renderType.includes("grow")
+                      ? ""
+                      : horizontal
+                      ? `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight})`
+                      : `translate(0,${checkPositive ? 0 : barHeight - (barOnlyUpperRadius ? borderRadius : 0)})`
+                  }
+                  fill={colorPalette[0]}
+                  opacity={barOpacity}
+                  rx={borderRadius}
+                  ry={borderRadius}
+                  stroke={useBarBorder ? barBorderColor : ""}
+                  strokeOpacity={barBorderOpacity}
+                  strokeWidth={useBarBorder ? barBorderWidth : "0"}
+                  className={useAnimation ? (renderType.includes("grow") ? styles.growBar : renderType === "fade" ? styles.fadeBar : "") : ""}
+                  style={{
+                    "--bar-from": horizontal
+                      ? `${barOnlyUpperRadius ? (checkPositive ? -borderRadius : borderRadius) : 0}px,0px`
+                      : `0px,${drawHeight - zeroHeight + (barOnlyUpperRadius ? (checkPositive ? borderRadius : -borderRadius) : 0)}px`,
+                    "--bar-to": horizontal
+                      ? `${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight}px,0px`
+                      : `0px,${drawHeight - zeroHeight - (checkPositive ? barHeight : barOnlyUpperRadius ? borderRadius : 0)}px`,
+                    "--width-from": horizontal ? `0px` : `${rectWidth}px`,
+                    "--width-to": horizontal ? `${rectWidth}px` : `${rectWidth}px`,
+                    "--height-from": horizontal ? `${rectHeight}px` : `0px`,
+                    "--height-to": horizontal ? `${rectHeight}px` : `${rectHeight}px`,
+                    "--animation-duration": `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`,
+                    "--animation-delay": `${renderStartDelay + renderItemDelay * (renderStartFrom === "left" ? idx : data.length - 1 - idx)}s`,
+                    "--animation-timing-function": renderTimingFunction
+                  }}
+                ></rect>
+                {useLabel && realHeight > labelInvisibleHeight && (
+                  <g
                     transform={
                       horizontal
-                        ? `translate(${nowData.value >= 0 ? 0 : -(useMinHeight ? (barHeight < minHeight ? minHeight : barHeight) : barHeight)})`
-                        : `translate(0,${nowData.value >= 0 ? 0 : useMinHeight ? (barHeight < minHeight ? minHeight : barHeight) : 0})`
+                        ? `translate(${horizontalLabelLocation},${halfBarRealWidth})`
+                        : `translate(${halfBarRealWidth},${
+                            verticalLabelLocation + (useAnimation && renderType.includes("grow") ? drawHeight - barHeight - zeroHeight : 0)
+                          })`
                     }
-                    fill={colorPalette[0]}
-                    opacity={barOpacity}
-                    rx={borderRadius}
-                    ry={borderRadius}
-                    stroke={useBarBorder ? barBorderColor : ""}
-                    strokeOpacity={barBorderOpacity}
-                    strokeWidth={useBarBorder ? barBorderWidth : "0"}
-                  ></rect>
-                )}
-                {useLabel && realHeight > labelInvisibleHeight && (
-                  <g>
+                  >
                     <text
                       fontSize={labelSize}
                       fontWeight={labelWeight}
@@ -337,23 +322,28 @@ const NormalBar = ({
                         horizontal ? "middle" : labelPosition === "over" ? "ideographic" : labelPosition === "under" ? "hanging" : "middle"
                       }
                       textAnchor={horizontal ? (labelPosition === "over" ? "start" : labelPosition === "under" ? "end" : "middle") : "middle"}
-                      transform={
-                        horizontal
-                          ? `translate(${
-                              labelPosition === "over"
-                                ? (nowData.value > 0 || (!reverse && nowData.value === 0) ? realHeight : 0) + labelMargin
-                                : labelPosition === "under"
-                                ? (nowData.value > 0 || (!reverse && nowData.value === 0) ? 0 : -realHeight) - labelMargin
-                                : (nowData.value > 0 || (!reverse && nowData.value === 0) ? realHeight / 2 : -realHeight / 2) + 0
-                            },${halfBarRealWidth})`
-                          : `translate(${halfBarRealWidth},${
-                              labelPosition === "over"
-                                ? barHeight - (nowData.value > 0 || (!reverse && nowData.value === 0) ? realHeight : 0) - labelMargin
-                                : labelPosition === "under"
-                                ? barHeight + (nowData.value > 0 || (!reverse && nowData.value === 0) ? 0 : realHeight) + labelMargin
-                                : barHeight + (nowData.value > 0 || (!reverse && nowData.value === 0) ? -realHeight / 2 : realHeight / 2)
-                            })`
+                      className={
+                        textRender ? (textRenderType.includes("grow") ? styles.growText : textRenderType === "fade" ? styles.fadeText : "") : ""
                       }
+                      style={{
+                        "--text-from": horizontal
+                          ? labelPosition === "over"
+                            ? `${checkPositive ? -barHeight : 0}px,0px`
+                            : labelPosition === "under"
+                            ? `${checkPositive ? 0 : barHeight}px,0px`
+                            : `${checkPositive ? -barHeight / 2 : barHeight / 2}px,0px`
+                          : labelPosition === "over"
+                          ? `0px,${checkPositive ? barHeight : 0}px`
+                          : labelPosition === "under"
+                          ? `0px,${checkPositive ? 0 : -barHeight}px`
+                          : `0px,${checkPositive ? barHeight / 2 : -barHeight / 2}px`,
+                        "--text-to": `0px,0px`,
+                        "--animation-duration": `${renderType === "grow" ? textRenderDuration * valueRatio : textRenderDuration}s`,
+                        "--animation-delay": `${
+                          textRenderStartDelay + textRenderItemDelay * (textRenderStartFrom === "left" ? idx : data.length - 1 - idx)
+                        }s`,
+                        "--animation-timing-function": textRenderTimingFunction
+                      }}
                     >
                       {reverse ? -nowData.value : nowData.value}
                     </text>
