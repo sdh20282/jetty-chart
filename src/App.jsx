@@ -5,128 +5,44 @@ const data = [
     id: "group A",
     data: [
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       }
     ]
   },
@@ -134,128 +50,44 @@ const data = [
     id: "group B",
     data: [
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       }
     ]
   },
@@ -263,128 +95,44 @@ const data = [
     id: "group C",
     data: [
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       }
     ]
   },
@@ -392,128 +140,44 @@ const data = [
     id: "group D",
     data: [
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       }
     ]
   },
@@ -521,128 +185,134 @@ const data = [
     id: "group E",
     data: [
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
+      }
+    ]
+  },
+  {
+    id: "group F",
+    data: [
+      {
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
+      }
+    ]
+  },
+  {
+    id: "group G",
+    data: [
+      {
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       },
       {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
-      },
-      {
-        x: Math.floor(Math.random() * 101),
-        y: Math.floor(Math.random() * 101)
+        x: Math.floor(Math.random() * 10001),
+        y: Math.floor(Math.random() * 10001)
       }
     ]
   }
@@ -662,16 +332,15 @@ function App() {
           areaOpacity: 0.15
         }}
         scopeSettings={{
-          xAutoScope: false,
-          yAutoScope: false,
-          xMaxScope: 100,
+          xAutoScope: true,
+          yAutoScope: true,
+          xMaxScope: 150,
           xMinScope: 0,
           yMaxScope: 150,
-          yMinScope: 0
+          yMinScope: 0,
+          xScopeMul: 1,
+          yScopeMul: 1
         }}
-        xLegend={"x 좌표"}
-        yLegend={"y 좌표"}
-        keys={data.map((d) => d.id)}
       />
     </div>
   );

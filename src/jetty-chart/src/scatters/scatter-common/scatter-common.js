@@ -22,9 +22,7 @@ const ScatterCommon = ({
     showTopScope,
     colorPalette
   },
-  xLegend,
-  yLegend,
-  keys,
+  data,
   legendSettings,
   leftLegendSettings,
   rightLegendSettings,
@@ -43,10 +41,10 @@ const ScatterCommon = ({
       <svg width={width} height={height}>
         <rect width="100%" height="100%" fill={backgroundColor}></rect>
         <g transform={`translate(${margin.left},${margin.top})`}>
-          <DrawYAxisLegend yLegend={yLegend} normalSettings={{ totalWidth, totalHeight }} legendSettings={leftLegendSettings} />
-          <DrawYAxisLegend yLegend={yLegend} normalSettings={{ totalWidth, totalHeight }} legendSettings={rightLegendSettings} />
-          <DrawXAxisLegend xLegend={xLegend} normalSettings={{ totalWidth, totalHeight }} legendSettings={bottomLegendSettings} />
-          <DrawXAxisLegend xLegend={xLegend} normalSettings={{ totalWidth, totalHeight }} legendSettings={topLegendSettings} />
+          <DrawYAxisLegend yLegend={"y좌표"} normalSettings={{ totalWidth, totalHeight }} legendSettings={leftLegendSettings} />
+          <DrawYAxisLegend yLegend={"y좌표"} normalSettings={{ totalWidth, totalHeight }} legendSettings={rightLegendSettings} />
+          <DrawXAxisLegend xLegend={"x좌표"} normalSettings={{ totalWidth, totalHeight }} legendSettings={bottomLegendSettings} />
+          <DrawXAxisLegend xLegend={"x좌표"} normalSettings={{ totalWidth, totalHeight }} legendSettings={topLegendSettings} />
           {/* Y축 라인 그리기 */}
           <DrawYAxisGridLine
             normalSettings={{
@@ -110,7 +108,7 @@ const ScatterCommon = ({
           {/* 전달 받은 자식 요소 그리기 */}
           {children}
           {/* 설명 그리기 */}
-          <DrawLegends keys={keys} normalSettings={{ width, height, margin, colorPalette }} legendSettings={legendSettings} />
+          <DrawLegends keys={data.map((d) => d.id)} normalSettings={{ width, height, margin, colorPalette }} legendSettings={legendSettings} />
         </g>
       </svg>
     </div>

@@ -21,7 +21,7 @@ function calculateYPosition(value, scopeResult, totalHeight, yReverse) {
   return totalHeight - ((value - minScope) / (maxScope - minScope)) * totalHeight;
 }
 
-function CircleWithTooltip({ x, y, group, pointSize, groupColor, pointBorderWidth }) {
+function CircleWithTooltip({ x, y, xPos, yPos, group, pointSize, groupColor, pointBorderWidth }) {
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleMouseEnter = () => {
@@ -39,12 +39,12 @@ function CircleWithTooltip({ x, y, group, pointSize, groupColor, pointBorderWidt
     padding: "5px",
     borderRadius: "5px",
     position: "absolute",
-    top: `${y}px`,
-    left: `${x}px`
+    top: `${yPos}px`,
+    left: `${xPos}px`
   };
 
   return (
-    <g transform={`translate(${x},${y})`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <g transform={`translate(${xPos},${yPos})`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <circle cx={0} cy={0} r={pointSize} fill={groupColor} stroke={groupColor} strokeWidth={pointBorderWidth} />
       {showTooltip && <text style={tooltipStyle}>{`${group.id}, x: ${x.toFixed(1)}, y: ${y.toFixed(1)}`}</text>}
     </g>
@@ -55,9 +55,6 @@ const NormalScatter = ({
   data,
   normalSettings,
   scopeSettings,
-  xLegend,
-  yLegend,
-  keys,
   legendSettings,
   leftLegendSettings,
   rightLegendSettings,
@@ -74,8 +71,6 @@ const NormalScatter = ({
   const result = checkNormalPoint({
     normalSettings,
     scopeSettings,
-    xLegend,
-    yLegend,
     legendSettings,
     leftLegendSettings,
     rightLegendSettings,
@@ -91,14 +86,14 @@ const NormalScatter = ({
   });
 
   const { width, height, margin, padding, xReverse, yReverse } = result.normalSettings;
-  const { xAutoScope, yAutoScope, xMaxScope, xMinScope, yMaxScope, yMinScope } = result.scopeSettings;
+  const { xAutoScope, yAutoScope, xMaxScope, xMinScope, yMaxScope, yMinScope, xScopeMul, yScopeMul } = result.scopeSettings;
   // let { showTopScope } = result.scopeSettings;
 
   const xScopeResult = xAutoScope
-    ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.x)) })
+    ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.x)), scopeMul: xScopeMul })
     : getUserScope({ maxScope: xMaxScope, minScope: xMinScope });
   const yScopeResult = yAutoScope
-    ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.y)) })
+    ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.y)), scopeMul: yScopeMul })
     : getUserScope({ maxScope: yMaxScope, minScope: yMinScope });
 
   const { pointSize, pointBorderWidth } = result.pointSettings;
@@ -136,9 +131,6 @@ const NormalScatter = ({
   return (
     <ScatterCommon
       data={data}
-      xLegend={xLegend}
-      yLegend={yLegend}
-      keys={keys}
       normalSettings={{
         ...result.normalSettings,
         xScope: xScopeResult.scope,
@@ -173,8 +165,10 @@ const NormalScatter = ({
             return (
               <CircleWithTooltip
                 key={"data-" + groupIdx + idx}
-                x={xPos}
-                y={yPos}
+                xPos={xPos}
+                yPos={yPos}
+                x={item.x}
+                y={item.y}
                 group={{ id: group.id }}
                 pointSize={pointSize}
                 groupColor={groupColor}

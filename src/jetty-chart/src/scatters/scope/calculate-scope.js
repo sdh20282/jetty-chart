@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-const getScope = ({ values }) => {
+const getScope = ({ values, scopeMul }) => {
   const scopeResult = [];
   let valueLength = 0;
   let target = 0;
@@ -81,7 +81,7 @@ const getScope = ({ values }) => {
     }
   } else {
     for (let value = 0; ; value += gap) {
-      const nowValue = value / maxScale;
+      const nowValue = value / maxScale / scopeMul;
 
       if (values.minValue >= 0) {
         scopeResult.push(nowValue);
@@ -103,7 +103,7 @@ const getScope = ({ values }) => {
 };
 /* eslint-enable complexity */
 
-export const getAutoScope = ({ data }) => {
+export const getAutoScope = ({ data, scopeMul }) => {
   const values = data.reduce(
     (acc, cur) => {
       if (cur > acc.maxValue) {
@@ -119,7 +119,7 @@ export const getAutoScope = ({ data }) => {
     { maxValue: 0, minValue: 0 }
   );
 
-  const scopeResult = getScope({ values });
+  const scopeResult = getScope({ values, scopeMul });
 
   let nowMaxScope = 0;
   let nowMinScope = 0;

@@ -6,12 +6,13 @@ const normalPointSetting = {
     width: 500,
     height: 400,
     backgroundColor: "#fff",
-    margin: { top: 60, bottom: 60, left: 60, right: 120 },
+    margin: { top: 60, bottom: 60, left: 70, right: 120 },
     innerMargin: { top: 0, bottom: 0 },
     colorPalette: ["#93c5fd", "#fdba74", "#fca5a5", "#cbd5e1", "#86efac"],
     padding: 0,
     xReverse: false,
-    yReverse: false
+    yReverse: false,
+    showTopScope: true
   },
   // 범위 세팅
   scopeSettings: {
@@ -20,6 +21,8 @@ const normalPointSetting = {
     xMaxScope: 100,
     xMinScope: 0,
     yMaxScope: 100,
+    xScopeMul: 1,
+    yScopeMul: 1,
     yMinScope: 0,
     showTopScope: true
   },
