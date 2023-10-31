@@ -255,8 +255,8 @@ const StackedLine = ({
                   mask={`url(#mask-stacked-${idArray[idx]}-${idx})`}
                   x={0}
                   y={0}
-                  rx="0"
-                  ry="0"
+                  rx={0}
+                  ry={0}
                   width={horizontal ? totalHeight : 0}
                   height={horizontal ? 0 : totalHeight}
                   className={
@@ -274,6 +274,7 @@ const StackedLine = ({
                   fillOpacity={enableArea ? areaOpacity : 0}
                   style={{
                     "--line-width": `${drawWidth}px`,
+                    "--line-heght": `${totalHeight}px`,
                     "--animation-duration": `${appearDuration}s`,
                     "--animation-timing-function": appearTimingFunction,
                     "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`
@@ -323,11 +324,21 @@ const StackedLine = ({
               return (
                 <g
                   key={"data-" + nowData.label + "-" + idx}
+                  className={useAnimation ? (appearType === "draw" ? styles.drawPoint : appearType === "fade" ? styles.fadeLine : "") : ""}
                   transform={
                     horizontal
                       ? `translate(${zeroHeight + height},${center - halfAreaWidth})`
                       : `translate(${center - halfAreaWidth},${totalHeight - height - zeroHeight})`
                   }
+                  style={{
+                    "--pos-x": `${horizontal ? zeroHeight + height : center - halfAreaWidth}px`,
+                    "--pos-y": `${horizontal ? center - halfAreaWidth : totalHeight - height - zeroHeight}px`,
+                    "--start-x-offset": `${horizontal ? zeroHeight + height - 10 : center - halfAreaWidth}px`,
+                    "--start-y-offset": `${horizontal ? center - halfAreaWidth : totalHeight - height - zeroHeight - 10}px`,
+                    "--animation-duration": `${appearDuration}s`,
+                    "--animation-timing-function": appearTimingFunction,
+                    "--animation-delay": `${appearStartDelay + index * appearItemDelay + (idx * appearItemDelay) / dataLength}s`
+                  }}
                 >
                   {enablePoint && (
                     <circle

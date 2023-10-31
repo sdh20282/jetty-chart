@@ -7,6 +7,8 @@
   --animation-timing-function: "linear";
   --animation-delay: "0s";
   --height-offset: "0px";
+  --pos-x: "0px";
+  --pos-y: "0px";
 }
 
 .drawLine {
@@ -18,6 +20,12 @@
 .drawArea {
   animation: draw-area var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
+
+.drawPoint {
+  opacity: 0;
+  animation: draw-point var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
 .drawAreaHoriziontal {
   animation: draw-area-horiziontal var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
@@ -75,6 +83,24 @@
     width: var(--line-width);
   }
 }
+
+@keyframes draw-point {
+  0% {
+    transform: translate(var(--start-x-offset), var(--start-y-offset));
+    opacity: 0;
+  }
+
+  50% {
+    transform: translate(var(--pos-x), var(--pos-y));
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(var(--pos-x), var(--pos-y));
+    opacity: 1;
+  }
+}
+
 @keyframes draw-area-horiziontal {
   0% {
     height: 0px;

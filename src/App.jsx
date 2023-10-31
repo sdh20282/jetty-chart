@@ -66,7 +66,7 @@ function App() {
           keys={["target1"]}
           xLegend={"types"}
           yLegend={"values"}
-          normalSettings={{ reverse: true, horizontal: true, padding: 0 }}
+          normalSettings={{ reverse: false, horizontal: false, padding: 0 }}
           lineSettings={{
             lineColor: "#004",
             lineWidth: 4,
@@ -109,7 +109,7 @@ function App() {
             margin: { top: 40, bottom: 40, left: 60, right: 100 },
             padding: 10,
             reverse: false,
-            horizontal: true
+            horizontal: false
           }}
           // 범위 세팅{
           scopeSettings={{
@@ -227,7 +227,7 @@ function App() {
               appearType: "draw",
               appearDuration: 1.5,
               appearStartDelay: 0.2,
-              appearItemDelay: 0.3,
+              appearItemDelay: 1,
               appearTimingFunction: "ease-in-out",
               moveLine: true,
               moveDuration: 2,
@@ -252,7 +252,7 @@ function App() {
             margin: { top: 40, bottom: 40, left: 60, right: 100 },
             padding: 10,
             reverse: false,
-            horizontal: false
+            horizontal: true
           }}
           // 범위 세팅{
           scopeSettings={{

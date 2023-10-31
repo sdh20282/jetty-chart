@@ -178,7 +178,7 @@ const NormalLine = ({
 
   pathString = "M " + pathString;
 
-  const { useAnimation, appearType, appearDuration, appearStartDelay, appearTimingFunction } = result.animationSettings.lineSettings;
+  const { useAnimation, appearType, appearDuration, appearStartDelay, appearItemDelay, appearTimingFunction } = result.animationSettings.lineSettings;
 
   useEffect(() => {
     const pathElement = document.getElementById(`line-path`);
@@ -234,12 +234,12 @@ const NormalLine = ({
             </defs>
             <rect
               mask={`url(#mask-normal-${ms}`}
-              x={horizontal ? 0 : totalWidth}
-              y={horizontal ? 0 : totalHeight}
-              rx="0"
-              ry="0"
-              width={totalHeight}
-              height={totalHeight}
+              x={0}
+              y={0}
+              rx={0}
+              ry={0}
+              width={horizontal ? totalHeight : 0}
+              height={horizontal ? 0 : totalHeight}
               className={
                 useAnimation
                   ? appearType === "draw"
@@ -292,11 +292,21 @@ const NormalLine = ({
           return (
             <g
               key={"data-" + nowData.label + "-" + idx}
+              className={useAnimation ? (appearType === "draw" ? styles.drawPoint : appearType === "fade" ? styles.fadeLine : "") : ""}
               transform={
                 horizontal
                   ? `translate(${zeroHeight + height},${center - halfAreaWidth})`
                   : `translate(${center - halfAreaWidth},${totalHeight - height - zeroHeight})`
               }
+              style={{
+                "--pos-x": `${horizontal ? zeroHeight + height : center - halfAreaWidth}px`,
+                "--pos-y": `${horizontal ? center - halfAreaWidth : totalHeight - height - zeroHeight}px`,
+                "--start-x-offset": `${horizontal ? zeroHeight + height - 10 : center - halfAreaWidth}px`,
+                "--start-y-offset": `${horizontal ? center - halfAreaWidth : totalHeight - height - zeroHeight - 10}px`,
+                "--animation-duration": `${appearDuration}s`,
+                "--animation-timing-function": appearTimingFunction,
+                "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`
+              }}
             >
               {enablePoint && (
                 <circle
