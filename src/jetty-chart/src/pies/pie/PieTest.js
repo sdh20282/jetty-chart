@@ -1,10 +1,11 @@
-import React from "react";
 import { calculateInputData } from "../utils/calculateIntersection";
 import { getCoordinatesForVertex } from "../utils/getCoordinates";
+import { getBorderRatio } from "../utils/getBorderRatio";
+import { getBorderRadius } from "../utils/getBorderRadius";
 
 const PieTest = () => {
   const percent = 0.4;
-  const startAngle = 270;
+  const startAngle = 1;
   const pieRadius = 1;
   const innerRadius = 0.6;
   const borderRadius = 0.1;
@@ -18,7 +19,7 @@ const PieTest = () => {
   console.log(vertex);
   return (
     <>
-      <svg width="200" height="200" viewBox="-1 -1 2 2" style={{ backgroundColor: "lightgrey" }}>
+      <svg width="500" height="500" viewBox="-1 -1 2 2" style={{ backgroundColor: "black" }}>
         {/* <path
           d={`
             M ${vertex.pos1.x},${vertex.pos1.y + borderRadius}
@@ -37,24 +38,84 @@ const PieTest = () => {
         /> */}
         <path
           d={`
-            M ${vertex.pos1.x},${vertex.pos1.y + borderRadius}
-            A ${borderRadius},${borderRadius},0,0,1,${calcPos.pos1.x},${calcPos.pos1.y}
+            M ${getBorderRatio({
+              x: vertex.pos1.x,
+              y: vertex.pos1.y,
+              borderRadius,
+              percent: (startAngle % 90) / 90,
+              order: 1,
+            })}
+            A ${getBorderRadius({
+              x1: vertex.pos1.x,
+              y1: vertex.pos1.y,
+              x2: calcPos.pos1.x,
+              y2: calcPos.pos1.y,
+            })},0,0,1,${calcPos.pos1.x},${calcPos.pos1.y}
             A ${pieRadius},${pieRadius},0,0,1,${calcPos.pos2.x},${calcPos.pos2.y}
-            A ${borderRadius},${borderRadius},0,0,1,${
-            vertex.pos2.x - borderRadius * ((percent * 4) % 1)
-          },${vertex.pos2.y - borderRadius * (1 - ((percent * 4) % 1))}
-            L ${vertex.pos3.x + borderRadius * ((percent * 4) % 1)},${
-            vertex.pos3.y + borderRadius * (1 - ((percent * 4) % 1))
-          }
-            A ${borderRadius},${borderRadius},0,0,1,${calcPos.pos3.x},${calcPos.pos3.y}
+            A ${getBorderRadius({
+              x1: calcPos.pos2.x,
+              y1: calcPos.pos2.y,
+              x2: vertex.pos2.x,
+              y2: vertex.pos2.y,
+            })},0,0,1,${getBorderRatio({
+            x: vertex.pos2.x,
+            y: vertex.pos2.y,
+            borderRadius,
+            percent,
+            order: 1,
+          })}
+            L ${getBorderRatio({
+              x: vertex.pos3.x,
+              y: vertex.pos3.y,
+              borderRadius,
+              percent,
+              order: 2,
+            })}
+            A ${getBorderRadius({
+              x1: vertex.pos3.x,
+              y1: vertex.pos3.y,
+              x2: calcPos.pos3.x,
+              y2: calcPos.pos3.y,
+            })},0,0,1,${calcPos.pos3.x},${calcPos.pos3.y}
             A ${innerRadius},${innerRadius},0,0,0,${calcPos.pos4.x},${calcPos.pos4.y}
-            A ${borderRadius},${borderRadius},0,0,1,${vertex.pos4.x},${-(
-            innerRadius + borderRadius
-          )}
+            A ${getBorderRadius({
+              x1: calcPos.pos4.x,
+              y1: calcPos.pos4.y,
+              x2: vertex.pos4.x,
+              y2: vertex.pos4.y,
+            })},0,0,1,${getBorderRatio({
+            x: vertex.pos4.x,
+            y: vertex.pos4.y,
+            borderRadius,
+            percent: (startAngle % 90) / 90,
+            order: 2,
+          })}
             Z
             `}
+          fill="#bae7ff"
+        />
+        <circle cx={vertex.pos1.x} cy={vertex.pos1.y} r="0.02" fill="yellow" />
+        <circle cx={vertex.pos2.x} cy={vertex.pos2.y} r="0.02" fill="yellow" />
+        <circle cx={vertex.pos3.x} cy={vertex.pos3.y} r="0.02" fill="yellow" />
+        <circle cx={vertex.pos4.x} cy={vertex.pos4.y} r="0.02" fill="yellow" />
+        <circle cx={calcPos.pos1.x} cy={calcPos.pos1.y} r="0.02" fill="green" />
+        <circle cx={calcPos.pos2.x} cy={calcPos.pos2.y} r="0.02" fill="green" />
+        <circle cx={calcPos.pos3.x} cy={calcPos.pos3.y} r="0.02" fill="green" />
+        <circle cx={calcPos.pos4.x} cy={calcPos.pos4.y} r="0.02" fill="green" />
+        <circle cx={vertex.pos1.x} cy={vertex.pos1.y + borderRadius} r="0.02" fill="red" />
+        <circle
+          cx={vertex.pos2.x - borderRadius * (1 - ((percent * 4) % 1))}
+          cy={vertex.pos2.y + borderRadius * ((percent * 4) % 1)}
+          r="0.02"
           fill="red"
         />
+        <circle
+          cx={vertex.pos3.x - borderRadius * (1 - ((percent * 4) % 1))}
+          cy={vertex.pos3.y + borderRadius * ((percent * 4) % 1)}
+          r="0.02"
+          fill="red"
+        />
+        <circle cx={vertex.pos4.x} cy={vertex.pos4.y - borderRadius} r="0.02" fill="red" />
       </svg>
       {/* <svg width="200" height="200" viewBox="-1 -1 2 2">
         <path
