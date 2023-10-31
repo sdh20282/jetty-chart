@@ -7,6 +7,8 @@
   --width-to: 0;
   --height-from: 0;
   --height-to: 0;
+  --group-from: 0,0;
+  --group-to: 0,0;
   --animation-duration: 0s;
   --animation-delay: 0s;
   --animation-timing-function: linear;
@@ -35,6 +37,20 @@
 .fadeText {
   fill-opacity: 0;
   animation: fade-text var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
+.translateGroup {
+  transform: translate(var(--group-from));
+  animation: translate-group var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
+.translateBar {
+  width: var(--width-from);
+  height: var(--height-from);
+  
+  transform-origin: bottom;
+
+  animation: translate-bar var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
 @keyframes grow-bar {
@@ -80,5 +96,29 @@
 
   100% {
     fill-opacity: 1;
+  }
+}
+
+@keyframes translate-group {
+  0% {
+    transform: translate(var(--group-from));
+  }
+
+  100% {
+    transform: translate(var(--group-to));
+  }
+}
+
+@keyframes translate-bar {
+  0% {
+    width: var(--width-from);
+    height: var(--height-from);
+    transform: translate(var(--bar-from));
+  }
+
+  100% {
+    width: var(--width-to);
+    height: var(--height-to);
+    transform: translate(var(--bar-to));
   }
 }

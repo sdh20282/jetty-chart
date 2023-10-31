@@ -90,7 +90,11 @@ const NormalBar = ({
     textRenderItemDelay,
     textRenderTimingFunction,
     textRenderStartFrom,
-    translateBar
+    translateBar,
+    translateDuration,
+    translateStartDelay,
+    translateItemDelay,
+    translateTimingFunction
   } = result.animationSettings.barSettings;
 
   const scopeResult = autoScope ? getAutoScope({ data: data.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
@@ -206,7 +210,7 @@ const NormalBar = ({
           const barTotalWidth = halfBarRealWidth + halfBarRealWidth;
           const realHeight = barHeightWithoutRadius + borderRadius;
 
-          prevBarsTemp.current[nowData.label] = { center, halfWidth: halfBarRealWidth, height: barHeightWithoutRadius };
+          prevBarsTemp.current[nowData.label] = { center, halfWidth: halfBarRealWidth, height: barHeightWithoutRadius, zeroHeight };
 
           let useTranslate = false;
           let translate = { center: 0, halfWidth: 0, height: 0 };
@@ -215,14 +219,17 @@ const NormalBar = ({
             if (prevBarsKeys.includes(String(nowData.label))) {
               translate = {
                 center: center - prevBars.current[nowData.label].center,
-                halfWidth: halfBarRealWidth - prevBars.current[nowData.label].halfWidth,
-                height: barHeightWithoutRadius - prevBars.current[nowData.label].height
+                halfWidth: prevBars.current[nowData.label].halfWidth,
+                height: prevBars.current[nowData.label].height,
+                zeroHeight: zeroHeight - prevBars.current[nowData.label].zeroHeight
               };
               useTranslate = true;
             }
           }
 
-          console.log(translate, useTranslate);
+          if (useTranslate) {
+            console.log(translate, prevBars.current[nowData.label]);
+          }
 
           const rectWidth = horizontal ? barHeight + (barOnlyUpperRadius ? borderRadius : 0) : barTotalWidth;
           const rectHeight = horizontal ? barTotalWidth : barHeight + (barOnlyUpperRadius ? borderRadius : 0);
@@ -242,14 +249,14 @@ const NormalBar = ({
               ? barHeight + (checkPositive ? 0 : realHeight) + labelMargin
               : barHeight + (checkPositive ? -realHeight / 2 : realHeight / 2);
 
-          console.log(barOnlyUpperRadius ? (checkPositive ? borderRadius : -borderRadius) : 0);
-
           return (
             display && (
               <g
                 key={"data-" + ms + "-" + nowData.label}
                 transform={
-                  useAnimation && renderType.includes("grow")
+                  useAnimation && useTranslate
+                    ? ""
+                    : useAnimation && renderType.includes("grow")
                     ? horizontal
                       ? `translate(${zeroHeight},${center - halfBarRealWidth})`
                       : `translate(${center - halfBarRealWidth})`
@@ -257,6 +264,18 @@ const NormalBar = ({
                     ? `translate(${zeroHeight},${center - halfBarRealWidth})`
                     : `translate(${center - halfBarRealWidth},${drawHeight - barHeight - zeroHeight})`
                 }
+                className={useAnimation && useTranslate ? styles.translateGroup : ""}
+                style={{
+                  "--group-from": horizontal
+                    ? `${zeroHeight - translate.zeroHeight}px,${center - translate.center - halfBarRealWidth}px`
+                    : `${center - translate.center - halfBarRealWidth}px,${drawHeight - barHeight - zeroHeight - translate.zeroHeight}px`,
+                  "--group-to": horizontal
+                    ? `${zeroHeight}px,${center - halfBarRealWidth}px`
+                    : `${center - halfBarRealWidth}px,${drawHeight - barHeight - zeroHeight}px`,
+                  "--animation-duration": `${translateDuration}s`,
+                  "--animation-timing-function": translateTimingFunction,
+                  "--animation-delay": `${translateStartDelay + translateItemDelay * (renderStartFrom === "left" ? idx : data.length - 1 - idx)}s`
+                }}
               >
                 <rect
                   width={rectWidth}
@@ -286,7 +305,17 @@ const NormalBar = ({
                   stroke={useBarBorder ? barBorderColor : ""}
                   strokeOpacity={barBorderOpacity}
                   strokeWidth={useBarBorder ? barBorderWidth : "0"}
-                  className={useAnimation ? (renderType.includes("grow") ? styles.growBar : renderType === "fade" ? styles.fadeBar : "") : ""}
+                  className={
+                    useAnimation
+                      ? useTranslate
+                        ? styles.translateBar
+                        : renderType.includes("grow")
+                        ? styles.growBar
+                        : renderType === "fade"
+                        ? styles.fadeBar
+                        : ""
+                      : ""
+                  }
                   style={{
                     "--bar-from": horizontal
                       ? `${barOnlyUpperRadius ? (checkPositive ? -borderRadius : borderRadius) : 0}px,0px`
@@ -294,9 +323,9 @@ const NormalBar = ({
                     "--bar-to": horizontal
                       ? `${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight}px,0px`
                       : `0px,${drawHeight - zeroHeight - (checkPositive ? barHeight : barOnlyUpperRadius ? borderRadius : 0)}px`,
-                    "--width-from": horizontal ? `0px` : `${rectWidth}px`,
+                    "--width-from": useTranslate ? `${translate.halfWidth + translate.halfWidth}px` : horizontal ? `0px` : `${rectWidth}px`,
                     "--width-to": horizontal ? `${rectWidth}px` : `${rectWidth}px`,
-                    "--height-from": horizontal ? `${rectHeight}px` : `0px`,
+                    "--height-from": useTranslate ? `${translate.height}px` : horizontal ? `${rectHeight}px` : `0px`,
                     "--height-to": horizontal ? `${rectHeight}px` : `${rectHeight}px`,
                     "--animation-duration": `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`,
                     "--animation-delay": `${renderStartDelay + renderItemDelay * (renderStartFrom === "left" ? idx : data.length - 1 - idx)}s`,
@@ -323,7 +352,15 @@ const NormalBar = ({
                       }
                       textAnchor={horizontal ? (labelPosition === "over" ? "start" : labelPosition === "under" ? "end" : "middle") : "middle"}
                       className={
-                        textRender ? (textRenderType.includes("grow") ? styles.growText : textRenderType === "fade" ? styles.fadeText : "") : ""
+                        textRender
+                          ? useTranslate
+                            ? ""
+                            : textRenderType.includes("grow")
+                            ? styles.growText
+                            : textRenderType === "fade"
+                            ? styles.fadeText
+                            : ""
+                          : ""
                       }
                       style={{
                         "--text-from": horizontal
