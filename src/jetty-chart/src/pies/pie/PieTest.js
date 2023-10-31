@@ -1,15 +1,15 @@
 import { calculateInputData } from "../utils/calculateIntersection";
 import { getCoordinatesForVertex } from "../utils/getCoordinates";
-import {} from "../utils/getBorderRatio";
 import { pointBetweenTwoPoints } from "../utils/pointBetweenTwoPoints";
 import PieTestPoint from "./PieTestPoint";
 
 const PieTest = () => {
-  const percent = 0.44;
+  const percent = 0.5;
   const startAngle = 0;
   const pieRadius = 1;
-  const innerRadius = 0.2;
-  const borderRadius = 0.1;
+  const innerRadius = 0.14;
+  const borderRadius = 0.05;
+  const debugPointView = !!true;
   const vertex = getCoordinatesForVertex({
     percent,
     startAngle,
@@ -59,7 +59,9 @@ const PieTest = () => {
             `}
           fill="#bae7ff"
         />
-        <PieTestPoint vertex={vertex} calcPos={calcPos} borderRadius={borderRadius} />
+        {debugPointView && (
+          <PieTestPoint vertex={vertex} calcPos={calcPos} borderRadius={borderRadius} />
+        )}
       </svg>
     </>
   );
