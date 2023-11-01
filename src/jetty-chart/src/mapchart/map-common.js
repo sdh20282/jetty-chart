@@ -165,6 +165,15 @@ const MapChart = ({
   const [tooltipDescription, settooltipDescription] = useState("");
   const [tooltipCity, setTooltipCity] = useState("");
   const [tooltipValue, setTooltipValue] = useState("");
+  const [scale,setScale] = useState(1);
+  const[firstX,setFirstX] = useState();
+
+  let ToolW = tooltipWidth/scale;
+  let ToolH = tooltipHeight/scale;
+
+  let cityFontS =  cityNameFontSize/scale; 
+  let cityValueFontS = cityValueFontSize/scale;
+  let decripFontS = descriptionFontSize/scale;
 
   function pathEvent(e) {
     const pathId = e.target.id;
@@ -196,7 +205,8 @@ const MapChart = ({
     if (!data) {
       return;
     }
-
+    const mySVG = document.getElementsByClassName("mapsvg")
+    setFirstX(mySVG[0].getBoundingClientRect().x);
     const mapSvg = document.querySelectorAll(".mapsvg > #map > *");
     mapSvg.forEach((path) => {
       path.addEventListener("mouseover", pathEvent);
@@ -215,35 +225,73 @@ const MapChart = ({
       // 선택된 svg 태그의 절대 위치를 가져옵니다.
       const rectTooltip = tooltipObject.getBoundingClientRect();
       // 선택된 tooltip 태그의 절대 위치를 가져옵니다.
-
       // 좌표값을 구하는데 오른쪽과 왼쪽을 나눠서 구해줍니다. 툴팁이 뜨는방향을 정하기 위함.
 
-      const xRight = 20 + (e.clientX - rect.x) * (1048 / width);
+      const xRight = 20/scale + (e.clientX - rect.x) * (1048 /scale / width);
       // svg 의 실제 width 와 viewBox 의 비율을 맞춰줍니다. 1048 << 뷰박스 크기 , width 사용자가 입력한 width 크기
-      const xLeft = -10 + (e.clientX - rect.x) * (1048 / width) - rectTooltip.width * (1048 / width);
-      const yTop = 30 + (e.clientY - rect.y) * (1064 / rect.height);
-      const yBottom = (e.clientY - rect.y) * (1064 / rect.height) - rectTooltip.height * (1064 / rect.height);
+      const xLeft = -10/scale + (e.clientX - rect.x) * (1048 /scale / width) - rectTooltip.width * (1048 /scale / width);
+      const yTop = 30/scale + (e.clientY - rect.y) * (1064/ rect.height);
+      const yBottom = 10/scale + (e.clientY - rect.y) * (1064 / rect.height ) - rectTooltip.height * (1064 / rect.height);
       // svg 의 실제 height 와 viewBox 의 비율을 맞춰줍니다. 1064 << 뷰박스 크기 , height 사용자가 입력한 width 크기
-      if (e.clientX < rect.x + rect.width / 2 && e.clientY < rect.y + rect.height / 2) {
-        tooltipObject.style.transform = `translate(${xRight}px,${yTop}px)`;
+      if(scale == 1){
+        if (e.clientX < rect.x + rect.width / 2 && e.clientY < rect.y + rect.height / 2) {
+          tooltipObject.style.transform = `translate(${xRight}px,${yTop}px)`;
+        }
+  
+        if (e.clientX < rect.x + rect.width / 2 && e.clientY > rect.y + rect.height / 2) {
+          tooltipObject.style.transform = `translate(${xRight}px,${yBottom}px)`;
+        }
+  
+        if (e.clientX > rect.x + rect.width / 2 && e.clientY < rect.y + rect.height / 2) {
+          tooltipObject.style.transform = `translate(${xLeft}px,${yTop}px)`;
+        }
+  
+        if (e.clientX > rect.x + rect.width / 2 && e.clientY > rect.y + rect.height / 2) {
+          tooltipObject.style.transform = `translate(${xLeft}px,${yBottom}px)`;
+        }
+      }else{
+        if(e.clientX < firstX + width / 2){
+          tooltipObject.style.transform = `translate(${xRight}px,${yBottom}px)`;
+        }
+        if(e.clientX > firstX + width / 2){
+          tooltipObject.style.transform = `translate(${xLeft}px,${yBottom}px)`;
+        }
+        
       }
-      // 툴팁.style.transform =  `translate(${xRight}px,${yTop}px)` 이동할 위치
-
-      if (e.clientX < rect.x + rect.width / 2 && e.clientY > rect.y + rect.height / 2) {
-        tooltipObject.style.transform = `translate(${xRight}px,${yBottom}px)`;
-      }
-
-      if (e.clientX > rect.x + rect.width / 2 && e.clientY < rect.y + rect.height / 2) {
-        tooltipObject.style.transform = `translate(${xLeft}px,${yTop}px)`;
-      }
-
-      if (e.clientX > rect.x + rect.width / 2 && e.clientY > rect.y + rect.height / 2) {
-        tooltipObject.style.transform = `translate(${xLeft}px,${yBottom}px)`;
-      }
+      
       // 위치조정
     });
-  }, [tooltipOn]);
+  }, [tooltipOn,scale]);
 
+  useEffect(()=>{
+    const mapSvg = document.querySelectorAll(".mapsvg");
+    let onZoom = true
+    function zoomin (e) {
+      
+        let svg = document.querySelector(".mapsvg");
+        let scale = onZoom ? 1.8 : 1;
+    
+        let pt = svg.createSVGPoint();
+        pt.x = e.clientX;
+        pt.y = e.clientY;
+        let svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+    
+        let width = 1048 / scale;
+        let height = 1064 / scale;
+        let x = svgP.x - (width / 2);
+        let y = svgP.y - (height / 2);
+        svg.setAttribute('viewBox', onZoom ?  `${x} ${y} ${width} ${height}` : '0 0 1048 1064');
+        onZoom = !onZoom
+        setScale(scale)
+        
+    };
+    mapSvg.forEach((path) => {
+      path.addEventListener("click", zoomin);
+    });
+  },[])
+
+    
+  
   return (
     // width 랑 height 데이타 값으로 받기
     <div style={{ width: `${width}px`, height: `${height}%`, backgroundColor: `${backgroundColor}` }}>
@@ -351,7 +399,6 @@ const MapChart = ({
           />
           <path
             id="jeju"
-            className={styles.jeju}
             fill={usePersentageColor ? color[citycolor[14].colorCode] : citycolor[14].color}
             stroke="white"
             strokeLinecap="round"
@@ -360,18 +407,21 @@ const MapChart = ({
             fillOpacity="0.5"
             d="m351 994 2 3 2 2 8 3 2 2 1 6 2 2 2-1v-1l1 2v1l-2 1-1 1v1l1 2v2l-2 2-3 4-5 4-2 3-2 5-1 1-1 3h-3l-2 1h-4l-6 4-16 3-6 5-6 1h-7l-8 1-7-2h-15l-5 3-2 5h-3l-2-1-4-6-5-2-4-5-2-5 3-8 2-5 2-2 6-3 4-8 5-1 2-5 7-2 16-5 4-3 16-2 10-4h3l12-2h13Z"
           />
-          <g fillOpacity="0.5" stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" id="kyeongBook">
+          <g className="kyeongbook-group" fillOpacity="0.5" stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" id="kyeongBook">
             <path
+              className ="kyeongbook"
               id="kyeongBook"
               fill={usePersentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
               d="m762 403 1 8 2 8 1 8-1 17-1 3-5 6-2 4-1 3v27l1 2 1 1 1 1 1 7 1 5 1 1 1 1v3l-2 1-1 1-2 1-2 2-1 3 4 3 2 2 3 4h3l4-3 10-11 2-3 3 2v3l1 4 1 3-2 4-6 12-1 5-1 13-4 12v7l-4 13-3 6-2 3 2 3 1 2-13-3-15 2h-2l-2-2-1-2v-3l-1-3-6-2-5-1-6 1-6 2-6 4 1 3 2 2-1 2h-3l-4 3-4 3-4 1-5-2-6-1-5 2-2 2-2 2-3 1h-2l-5 4h-6l-5-2-5-2-6 1-6 1-5-3-4-5-1-11-4 3-4 5h-4l-8 4-5-1-4-3-4-2-5-1-5 1-9-1-3-9 2-4v-5l-2-2-2-2-1-1-1-2-3-3-2-4-3-3-5-1h-4l-5-1-2-1-2-2h-5l-3-1v-4l-3-2-3-2-2-4 1-13-6-11 3-2 4-1 3-5 1-5 1-2 2-2v-6l-1-5 4-3h4l3 1-2-11-3-2-8 2-3-2-5-3-4-2-6 2-1-10 4-3 2-4-2-3-1-4 1-4 1-11 1-5 3-2-8-12-6-1-2-4 3-1 2-1 2-2 4-5 1-2v-4l5-4 6-2 3-5 6 2 11 2-2-4-3-4 1-4 2-5 2-3 2 2h4l2-4 3-2 2 2 5 2h5l1-3 1-3 1-3 3-2 2 2 2 2 4 3 2 5 6 2 13-5 3-8-3-2-1-2 2-4 2-4 3-5 5-3 2-3 2-1 3-1 3-3 4-3 3-4 2-1 2 1 2-2 2-2 4 2 4 2 4 1h5v-4l1-4-1-5 3-4 4-2 4 1 3 4h3l2 2v7l5-2 5-4 2 1 1 2h2l2-1 6 1 6 3 4-1 4-2 6 1 5 3 1 4-4 3-4-2-3 1-3 2-1 5 1 7 3 5 5 2 1 4 2 4 3 2 4 2h11v5l1 1 1 2-1 5-2 5v5l1 5 1 5-2 4 11 5 5-3 5 1 2 1ZM657 551l1-3-1-4v-3l-2-1-1-2v-5l1-1v-2l-2-3-6-5h-9l-10 2-7 6 1 9-3 3-2 4h2l1 1v1l-1 2-2 1h-3l-2 3 1 3 3 1 2 3 2 3 2 3 2 1 2 1 1-1 2-4 3-2 5 1 9 2 3-2 1-2v-1l1-4 1-2v-1h2l3-2Zm338-316-3 1-4-1-4-2-2-3-1-4 1-3 3-2 6-1 3-2h2l3 2v5l-2 6-2 4Z"
             />
             <path
+              className ="kyeongbook"
               id="kyeongBook"
               fill={usePersentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
               d="M1026 239c2 1-4 5-6 5-1 0-3-2-3-4-2 0 3-5 5-5s4 3 4 4Z"
             />
             <path
+              className ="kyeongbook"
               id="kyeongBook"
               fill={usePersentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
               d="M1016 231v2a24 24 0 0 1-4 7l-1 1-3-2-2-2 2-3 3-2h2l1-1a30 30 0 0 1 2 0Z"
@@ -428,8 +478,8 @@ const MapChart = ({
             d="m368 669 8 3 4 9-7 8-9-1-9-6-4-9 3-3 6 1 4-1 4-1Z"
           />
         </g>
-        <g>
-          {useGagueBar ? (
+        <g className="nohover">
+          {useGagueBar&&scale==1 ? (
             <>
               {zMap.map((e, index) => (
                 <path
@@ -469,13 +519,13 @@ const MapChart = ({
         </g>
 
         <g id="tooltipBox">
-          <foreignObject id="foreingObject" x="0" y="0" width={tooltipWidth} height={tooltipHeight}>
+          <foreignObject id="foreingObject" x="0" y="0" width={ToolW} height={ToolH} >
             <div
               xmlns="http://www.w3.org/1999/xhtml"
               style={
                 tooltipOn
                   ? {
-                      width: { tooltipWidth },
+                      width: {ToolW},
                       height: "100%",
                       display: "flex",
                       flexDirection: "column",
@@ -499,12 +549,12 @@ const MapChart = ({
                   marginTop: "5px",
                   marginBottom: "5px",
                   color: `${cityNameColor}`,
-                  fontSize: `${cityNameFontSize}`,
+                  fontSize: `${cityFontS}px`,
                   fontWeight: `${cityNameFontWeight}`
                 }}
               >
                 {tooltipCity} :{" "}
-                <span style={{ color: `${cityValueColor}`, fontSize: `${cityValueFontSize}`, fontWeight: `${cityValueFontWeight}` }}>
+                <span style={{ color: `${cityValueColor}`, fontSize: `${cityValueFontS}px`, fontWeight: `${cityValueFontWeight}` }}>
                   {tooltipValue}
                 </span>
               </p>
@@ -513,7 +563,7 @@ const MapChart = ({
                   margin: "0",
                   marginBottom: "10px",
                   color: `${descriptionColor}`,
-                  fontSize: `${descriptionFontSize}`,
+                  fontSize: `${decripFontS}px`,
                   fontWeight: `${descriptionFontWeight}`
                 }}
               >

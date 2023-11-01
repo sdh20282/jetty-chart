@@ -34,7 +34,7 @@ import { MapChart } from "./jetty-chart/src/mapchart/map-common";
 const data1 = [
   {
     name: "northChungcheong",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "black",
     colorCode: 0,
     description: "",
@@ -42,7 +42,7 @@ const data1 = [
   },
   {
     name: "incheon",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "blue",
     colorCode: 0,
     description: "",
@@ -50,7 +50,7 @@ const data1 = [
   },
   {
     name: "kangwon",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "red",
     colorCode: 0,
     description: "",
@@ -58,7 +58,7 @@ const data1 = [
   },
   {
     name: "seoul",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "red",
     colorCode: 0,
     description: "",
@@ -66,7 +66,7 @@ const data1 = [
   },
   {
     name: "gyeonggi",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "blue",
     colorCode: 0,
     description: "",
@@ -74,7 +74,7 @@ const data1 = [
   },
   {
     name: "northJeolla",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "blue",
     colorCode: 0,
     description: "",
@@ -82,7 +82,7 @@ const data1 = [
   },
   {
     name: "gwangju",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "blue",
     colorCode: 0,
     description: "",
@@ -90,7 +90,7 @@ const data1 = [
   },
   {
     name: "southChungcheong",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "blue",
     colorCode: 0,
     description: "",
@@ -98,7 +98,7 @@ const data1 = [
   },
   {
     name: "daejeon",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "black",
     colorCode: 0,
     description: "",
@@ -106,7 +106,7 @@ const data1 = [
   },
   {
     name: "deagu",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "red",
     colorCode: 0,
     description: "",
@@ -114,7 +114,7 @@ const data1 = [
   },
   {
     name: "southgyeongsang",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "red",
     colorCode: 0,
     description: "",
@@ -122,7 +122,7 @@ const data1 = [
   },
   {
     name: "southJeolla",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "blue",
     colorCode: 0,
     description: "",
@@ -130,7 +130,7 @@ const data1 = [
   },
   {
     name: "busan",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "red",
     colorCode: 0,
     description: "",
@@ -138,7 +138,7 @@ const data1 = [
   },
   {
     name: "ulsan",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "red",
     colorCode: 0,
     description: "",
@@ -146,7 +146,7 @@ const data1 = [
   },
   {
     name: "jeju",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "blue",
     colorCode: 0,
     description: "zz",
@@ -154,7 +154,7 @@ const data1 = [
   },
   {
     name: "kyeongBook",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "red",
     colorCode: 0,
     description: "",
@@ -162,7 +162,7 @@ const data1 = [
   },
   {
     name: "sejong",
-    value: Math.floor(Math.random() * 12983471847),
+    value: Math.floor(Math.random() * 1001),
     color: "blue",
     colorCode: 0,
     description: "",
@@ -179,7 +179,7 @@ const myMap = ({ data1 }) => {
     <MapChart
       data={data1}
       nomalSetting={{
-        backgroundColor: "#fff",
+        backgroundColor: "#ddd",
         divide: 5,
         colorCode: 2,
         width: 300,
@@ -200,14 +200,14 @@ const myMap = ({ data1 }) => {
         tooltipBorderRadius: "10",
         tooltipBorder: "0.5px solid #ddd",
         tooltipBoxShadow: "none",
-        cityNameFontSize: "30px",
+        cityNameFontSize: 30,
         cityNameColor: "black",
         cityNameFontWeight: "bold",
         cityValueColor: "black",
         cityValueFontWeight: "bold",
-        cityValueFontSize: "30px",
+        cityValueFontSize: 30,
         descriptionColor: "black",
-        descriptionFontSize: "30px",
+        descriptionFontSize: 30,
         descriptionFontWeight: "bold",
         gagueValueFontSize: "35px",
         valueLavel: "원"
