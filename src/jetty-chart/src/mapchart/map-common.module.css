@@ -1,0 +1,22 @@
+path:hover{
+    transform: scale(1.0005);
+    transform-origin: 50% 50%;
+    stroke: white;
+    stroke-width: 2;
+    fill-opacity: 1;
+}
+
+g:hover{
+    transform: scale(1.0005);
+    transform-origin: 50% 50%;
+    stroke: white;
+    stroke-width: 2;
+    fill-opacity: 1;
+}
+.tooltip{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ddd;
+}
