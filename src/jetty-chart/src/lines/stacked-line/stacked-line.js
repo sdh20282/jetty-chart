@@ -1,9 +1,9 @@
 import { checkNormalLine } from "../../common/utils/exception/check-line-exception";
 import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
-import { getControlPoint } from "../normal-line/normal-line";
+import { getControlPoint } from "../../common/utils/curve/calulate-curve";
 import styles from "../multi-line/multi-line.module.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const StackedLine = ({
   dataSet,
@@ -56,6 +56,7 @@ const StackedLine = ({
     pointBorderColor,
     pointBorderWidth,
     enablePointLabel,
+    showLabelOnHover,
     pointLabelColor,
     pointLabelSize,
     pointLabelOffsetX,
@@ -130,7 +131,7 @@ const StackedLine = ({
 
   const dataSetCoords = [];
 
-  stackedData.reverse().forEach((element) => {
+  stackedData.forEach((element) => {
     const coords = element.data.map((element, idx) => {
       const nowData = { ...element };
 
@@ -194,18 +195,49 @@ const StackedLine = ({
 
   const { useAnimation, appearType, appearDuration, appearStartDelay, appearItemDelay, appearTimingFunction } = result.animationSettings.lineSettings;
 
+  const pathRefs = dataSet.map(() => useRef());
+
   useEffect(() => {
-    if (idArray.length === 0) {
+    if (!pathRefs[0].current) {
       return;
     }
 
-    idArray.forEach((id, idx) => {
-      const pathElement = document.getElementById(`line-stacked-${id}-${idx}`);
+    pathRefs.forEach((pathRef) => {
+      const pathElement = pathRef?.current;
       const pathLength = pathElement?.getTotalLength();
       pathElement?.style.setProperty(`--line-length`, `${pathLength}px`);
       pathElement?.style.setProperty(`--line-offset`, `${pathLength}px`);
     });
-  }, [idArray]);
+  }, [dataSet]);
+
+  const debugRef = dataSet[0].data.map(() => useRef());
+
+  const textRefs = dataSet[0].data.map(() => {
+    return dataSet.map(() => useRef());
+  });
+
+  useEffect(() => {
+    if (!debugRef[0].current || !enablePointLabel || !showLabelOnHover) {
+      return;
+    }
+
+    debugRef.forEach((dd, idx) => {
+      dd.current.addEventListener("mouseover", () => {
+        textRefs[idx].forEach((el) => {
+          el.current.classList.add(styles.hovered);
+          el.current.style.opacity = 1;
+        });
+      });
+      dd.current.addEventListener("mouseout", () => {
+        textRefs[idx].forEach((el) => {
+          el.current.classList.remove(styles.hovered);
+          el.current.style.opacity = 0;
+        });
+      });
+    });
+  }, [dataSet]);
+
+  const lineColors = [...Array(dataSet.length).keys()].map((idx) => colorPalette[idx % colorPalette.length]);
 
   return (
     <LabelValueCommon
@@ -238,17 +270,12 @@ const StackedLine = ({
     >
       <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
         {enableArea &&
-          areaPathArray.map((d, idx) => {
-            const lineColor = colorPalette[idx % colorPalette.length];
+          areaPathArray.reverse().map((d, idx) => {
             return (
               <g key={`area-${idArray[idx]}-${idx}`}>
                 <defs>
                   <mask id={`mask-stacked-${idArray[idx]}-${idx}`}>
-                    <path
-                      d={d}
-                      fill={lineColor}
-                      // fillOpacity={enableArea ? areaOpacity : 0}
-                    />
+                    <path d={d} fill={lineColors[(dataSet.length - 1 - idx) % colorPalette.length]} />
                   </mask>
                 </defs>
                 <rect
@@ -270,28 +297,28 @@ const StackedLine = ({
                         : ""
                       : ""
                   }
-                  fill={lineColor}
+                  fill={lineColors[dataSet.length - 1 - idx]}
                   fillOpacity={enableArea ? areaOpacity : 0}
                   style={{
                     "--line-width": `${drawWidth}px`,
                     "--line-heght": `${totalHeight}px`,
                     "--animation-duration": `${appearDuration}s`,
                     "--animation-timing-function": appearTimingFunction,
-                    "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`
+                    "--animation-delay": `${appearStartDelay + (dataSet.length - 1 - idx) * appearItemDelay}s`
                   }}
                 />
               </g>
             );
           })}
         {linePathArray.map((d, idx) => {
-          const lineColor = colorPalette[idx % colorPalette.length];
           return (
             <path
               id={`line-stacked-${idArray[idx]}-${idx}`}
               key={`line-stacked-${idArray[idx]}-${idx}`}
+              ref={pathRefs[idx]}
               d={d}
               className={useAnimation ? (appearType === "draw" ? styles.drawLine : appearType === "fade" ? styles.fadeLine : "") : ""}
-              stroke={lineColor}
+              stroke={lineColors[idx % colorPalette.length]}
               strokeWidth={lineWidth}
               strokeOpacity={lineOpacity}
               strokeLinejoin={strokeLinejoin}
@@ -308,7 +335,6 @@ const StackedLine = ({
       </g>
 
       {stackedData.map((data, index) => {
-        const lineColor = colorPalette[index % colorPalette.length];
         return (
           <g key={`g-${data.id}-${index}`} transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
             {data.data.map((d, idx) => {
@@ -345,23 +371,26 @@ const StackedLine = ({
                       cx={horizontal ? 0 : halfAreaWidth}
                       cy={horizontal ? halfAreaWidth : 0}
                       r={pointSize}
-                      fill={lineColor}
+                      fill={lineColors[index % colorPalette.length]}
                       stroke={pointBorderColor}
                       strokeWidth={pointBorderWidth}
                     />
                   )}
                   {enablePointLabel && (
                     <text
+                      ref={textRefs[idx][index]}
                       transform={
                         horizontal
-                          ? `translate(${pointLabelOffsetX},${pointLabelOffsetY})`
+                          ? `translate(${pointLabelOffsetX},${halfAreaWidth + pointLabelOffsetY})`
                           : `translate(${halfAreaWidth + pointLabelOffsetX},${pointLabelOffsetY})`
                       }
+                      opacity={0}
                       dominantBaseline={"alphabetic"}
                       textAnchor="middle"
                       fontSize={pointLabelSize}
                       fontWeight={pointLabelWeight}
                       fill={pointLabelColor}
+                      className={`${styles.pointLabel}`}
                     >
                       {d.value}
                     </text>
@@ -370,6 +399,27 @@ const StackedLine = ({
               );
             })}
           </g>
+        );
+      })}
+      {stackedData[0]?.data?.map((d, idx) => {
+        return (
+          <rect
+            key={`debug-${d.label}-${idx}`}
+            className={styles.debug}
+            ref={debugRef[idx]}
+            x={0}
+            y={0}
+            width={horizontal ? totalHeight : pointGapWidth}
+            height={horizontal ? pointGapWidth : totalHeight}
+            opacity={0.1}
+            fill={"#f0f"}
+            strokeWidth={0}
+            transform={
+              horizontal
+                ? `translate(${0},${pointGapWidth * idx - pointGapWidth / 2 + padding})`
+                : `translate(${pointGapWidth * idx - pointGapWidth / 2 + padding},${0})`
+            }
+          />
         );
       })}
     </LabelValueCommon>

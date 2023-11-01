@@ -3,32 +3,8 @@ import { checkNormalLine } from "../../common/utils/exception/check-line-excepti
 import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
 import styles from "./normal-line.module.css";
-import { useEffect } from "react";
-
-export const getOpposedLine = (pointA, pointB, angleDegree) => {
-  const xLength = pointB[0] - pointA[0];
-  const yLength = pointB[1] - pointA[1];
-
-  const zLength = Math.sqrt(xLength ** 2 + yLength ** 2);
-  const angle = Math.atan2(yLength, xLength) * angleDegree;
-
-  return { length: zLength, angle };
-};
-
-export const getControlPoint = (prev, curr, next, options) => {
-  const p = prev || curr;
-  const n = next || curr;
-
-  const o = getOpposedLine(p, n, options.angleDegree);
-
-  const angle = o.angle + (options.isEndControlPoint ? Math.PI : 0);
-  const length = o.length * options.smoothDegree;
-
-  const x = curr[0] + Math.cos(angle) * length;
-  const y = curr[1] + Math.sin(angle) * length;
-
-  return [x, y];
-};
+import { useEffect, useRef } from "react";
+import { getControlPoint } from "../../common/utils/curve/calulate-curve";
 
 const NormalLine = ({
   data,
@@ -74,19 +50,23 @@ const NormalLine = ({
   const { autoScope, maxScope, minScope, showTopScope } = result.scopeSettings;
 
   const {
+    lineColor,
     lineOpacity,
     lineWidth,
     enablePoint,
+    pointColor,
     pointSize,
     pointBorderColor,
     pointBorderWidth,
     enablePointLabel,
+    showLabelOnHover,
     pointLabelColor,
     pointLabelSize,
     pointLabelOffsetX,
     pointLabelOffsetY,
     pointLabelWeight,
     enableArea,
+    areaColor,
     areaOpacity,
     enableCurve,
     smoothDegree,
@@ -144,7 +124,7 @@ const NormalLine = ({
 
   let pathString = ``;
   let areaPathString = "";
-  console.log(coords);
+
   if (enableCurve) {
     pathString = coords.reduce((acc, curr, idx, arr) => {
       const isFirstPoint = idx === 0;
@@ -153,6 +133,12 @@ const NormalLine = ({
 
       const [cpsX, cpsY] = getControlPoint(arr[idx - 2], arr[idx - 1], curr, { smoothDegree, angleDegree, isEndControlPoint: false });
       const [cpeX, cpeY] = getControlPoint(arr[idx - 1], curr, arr[idx + 1], { smoothDegree, angleDegree, isEndControlPoint: true });
+
+      // const midX = (arr[idx - 1][0] + curr[0]) / 2;
+
+      // const [cpsX, cpsY] = [midX, arr[idx - 1][1]];
+      // const [cpeX, cpeY] = [midX, curr[1]];
+
       return `${acc} C ${cpsX}, ${cpsY}, ${cpeX}, ${cpeY} ${curr[0]}, ${curr[1]}`;
     }, "");
   } else {
@@ -170,22 +156,47 @@ const NormalLine = ({
 
   const zeroHeightFromTop = totalHeight - zeroHeight;
 
-  if (enableArea) {
-    areaPathString = horizontal
-      ? `M ${zeroHeight} ${0} L` + pathString + `L ${zeroHeight} ${drawWidth}`
-      : `M ${0} ${zeroHeightFromTop} L` + pathString + `L ${drawWidth} ${zeroHeightFromTop}`;
-  }
+  areaPathString = horizontal
+    ? `M ${zeroHeight} ${0} L` + pathString + `L ${zeroHeight} ${drawWidth}`
+    : `M ${0} ${zeroHeightFromTop} L` + pathString + `L ${drawWidth} ${zeroHeightFromTop}`;
 
   pathString = "M " + pathString;
 
   const { useAnimation, appearType, appearDuration, appearStartDelay, appearItemDelay, appearTimingFunction } = result.animationSettings.lineSettings;
 
+  const pathRef = useRef();
+
+  const debugRef = data.map(() => useRef());
+
+  const textRefs = data.map(() => useRef());
+
   useEffect(() => {
-    const pathElement = document.getElementById(`line-path`);
+    if (!pathRef.current) {
+      return;
+    }
+
+    const pathElement = pathRef?.current;
     const pathLength = pathElement?.getTotalLength();
     pathElement?.style.setProperty(`--line-length`, `${pathLength}px`);
     pathElement?.style.setProperty(`--line-offset`, `${pathLength}px`);
-  }, [pathString]);
+  }, [data]);
+
+  useEffect(() => {
+    if (!debugRef[0].current || !enablePointLabel || !showLabelOnHover) {
+      return;
+    }
+
+    debugRef?.forEach((dd, idx) => {
+      dd?.current.addEventListener("mouseover", () => {
+        textRefs[idx].current.classList.add(styles.hovered);
+        textRefs[idx].current.style.opacity = 1;
+      });
+      dd?.current.addEventListener("mouseout", () => {
+        textRefs[idx].current.classList.remove(styles.hovered);
+        textRefs[idx].current.style.opacity = 0;
+      });
+    });
+  }, [data]);
 
   const ms = new Date().valueOf();
 
@@ -203,7 +214,8 @@ const NormalLine = ({
         xAxisInitialPosition: 0,
         xAxisWidth: pointGapWidth,
         yAxisHeight: lineHeight,
-        showTopScope
+        showTopScope,
+        colorPalette: [lineColor]
       }}
       axisXGridLineSettings={result.axisXGridLineSettings}
       axisYGridLineSettings={result.axisYGridLineSettings}
@@ -225,7 +237,7 @@ const NormalLine = ({
               <mask id={`mask-normal-${ms}`}>
                 <path
                   d={areaPathString}
-                  fill={result.normalSettings.colorPalette[0]}
+                  fill={areaColor}
                   strokeLinejoin={strokeLinejoin}
                   strokeLinecap={strokeLinecap}
                   fillOpacity={enableArea ? areaOpacity : 0}
@@ -251,7 +263,7 @@ const NormalLine = ({
                     : ""
                   : ""
               }
-              fill={result.normalSettings.colorPalette[0]}
+              fill={areaColor}
               fillOpacity={enableArea ? areaOpacity : 0}
               style={{
                 "--line-width": `${drawWidth}px`,
@@ -264,10 +276,10 @@ const NormalLine = ({
           </g>
         )}
         <path
-          id="line-path"
-          className={useAnimation ? (appearType === "draw" ? styles.drawLine : appearType === "fade" ? styles.fadeLine : "") : ""}
+          ref={pathRef}
+          className={`${styles.line} ` + useAnimation ? (appearType === "draw" ? styles.drawLine : appearType === "fade" ? styles.fadeLine : "") : ""}
           d={pathString}
-          stroke={result.normalSettings.colorPalette[0]}
+          stroke={lineColor}
           strokeWidth={lineWidth}
           strokeOpacity={lineOpacity}
           strokeLinejoin={strokeLinejoin}
@@ -292,12 +304,14 @@ const NormalLine = ({
           return (
             <g
               key={"data-" + nowData.label + "-" + idx}
-              className={useAnimation ? (appearType === "draw" ? styles.drawPoint : appearType === "fade" ? styles.fadeLine : "") : ""}
-              transform={
-                horizontal
-                  ? `translate(${zeroHeight + height},${center - halfAreaWidth})`
-                  : `translate(${center - halfAreaWidth},${totalHeight - height - zeroHeight})`
+              className={
+                `${styles.point} ` + useAnimation ? (appearType === "draw" ? styles.drawPoint : appearType === "fade" ? styles.fadeLine : "") : ""
               }
+              // transform={
+              //   horizontal
+              //     ? `translate(${zeroHeight + height},${center - halfAreaWidth})`
+              //     : `translate(${center - halfAreaWidth},${totalHeight - height - zeroHeight})`
+              // }
               style={{
                 "--pos-x": `${horizontal ? zeroHeight + height : center - halfAreaWidth}px`,
                 "--pos-y": `${horizontal ? center - halfAreaWidth : totalHeight - height - zeroHeight}px`,
@@ -313,28 +327,52 @@ const NormalLine = ({
                   cx={horizontal ? 0 : halfAreaWidth}
                   cy={horizontal ? halfAreaWidth : 0}
                   r={pointSize}
-                  fill={result.normalSettings.colorPalette[0]}
+                  fill={pointColor}
                   stroke={pointBorderColor}
                   strokeWidth={pointBorderWidth}
                 />
               )}
               {enablePointLabel && (
                 <text
+                  ref={textRefs[idx]}
                   transform={
                     horizontal
-                      ? `translate(${pointLabelOffsetX},${pointLabelOffsetY})`
+                      ? `translate(${pointLabelOffsetX},${halfAreaWidth + pointLabelOffsetY})`
                       : `translate(${halfAreaWidth + pointLabelOffsetX},${pointLabelOffsetY})`
                   }
+                  opacity={showLabelOnHover ? 0 : 1}
                   dominantBaseline={"alphabetic"}
                   textAnchor="middle"
                   fontSize={pointLabelSize}
                   fontWeight={pointLabelWeight}
                   fill={pointLabelColor}
+                  className={`${styles.pointLabel}`}
                 >
                   {d.value}
                 </text>
               )}
             </g>
+          );
+        })}
+        {data.map((d, idx) => {
+          return (
+            <rect
+              key={`debug-${d.label}-${idx}`}
+              className={styles.debug}
+              ref={debugRef[idx]}
+              x={0}
+              y={0}
+              width={horizontal ? totalHeight : pointGapWidth}
+              height={horizontal ? pointGapWidth : totalHeight}
+              opacity={0.1}
+              fill={"#f0f"}
+              strokeWidth={0}
+              transform={
+                horizontal
+                  ? `translate(${0},${pointGapWidth * idx - pointGapWidth / 2 + padding})`
+                  : `translate(${pointGapWidth * idx - pointGapWidth / 2 + padding},${0})`
+              }
+            />
           );
         })}
       </g>

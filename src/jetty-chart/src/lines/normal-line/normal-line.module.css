@@ -127,3 +127,24 @@
     opacity: 1;
   }
 }
+
+/* debug */
+.debug {
+  opacity: 0;
+  transition: all linear 0.5s;
+}
+
+.pointLabel.hovered {
+  transition: all 0.25s ease 0s;
+}
+
+.pointLabel {
+  transition: all 0.2s ease 0.2s;
+}
+
+.point {
+  transition: all linear 1s;
+}
+/* .line {
+  transition: all ease-out 1s;
+} */

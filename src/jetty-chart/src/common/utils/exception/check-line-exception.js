@@ -22,19 +22,19 @@ const normalLineSetting = {
     width: 500,
     height: 400,
     backgroundColor: "#fff",
-    margin: { top: 60, bottom: 70, left: 80, right: 120 },
+    margin: { top: 60, bottom: 70, left: 80, right: 100 },
     innerMargin: { top: 0, bottom: 0 },
     colorPalette: ["#5DADE2", "#F1948A", "#82E0AA", "#D7BDE2"],
-    padding: 10,
+    padding: 0,
     reverse: false,
     horizontal: false
   },
   // 범위 세팅
   scopeSettings: {
     autoScope: true,
-    maxScope: 8,
-    minScope: -8,
-    showTopScope: true
+    maxScope: 700,
+    minScope: -100,
+    showTopScope: false
   },
   // y축 라인 세팅
   axisYGridLineSettings: {
@@ -49,7 +49,7 @@ const normalLineSetting = {
   },
   // x축 라인 세팅
   axisXGridLineSettings: {
-    lineVisible: false,
+    lineVisible: true,
     lineOpacity: 1,
     lineColor: "#d4d4d4",
     lineWidth: 1,
@@ -131,7 +131,7 @@ const normalLineSetting = {
   leftLegendSettings: {
     useLegend: true,
     legendOnLeft: true,
-    legendMargin: 40,
+    legendMargin: 50,
     legendSize: 14,
     legendWeight: 700,
     legendOpacity: 1,
@@ -179,7 +179,7 @@ const normalLineSetting = {
   legendSettings: {
     useLegend: true,
     position: "bottom-right", // bottom center top - left center right
-    xLocation: 16,
+    xLocation: 20,
     yLocation: 0,
     directionColumn: true,
     itemWidth: 80,
@@ -196,22 +196,26 @@ const normalLineSetting = {
   },
   // 라인 세팅
   lineSettings: {
+    lineColor: "#F1948A",
     lineOpacity: 1,
     lineWidth: 2,
     enablePoint: true,
+    pointColor: "#fff",
     pointSize: 2,
     pointBorderColor: "#666",
     pointBorderWidth: 2,
-    enablePointLabel: false,
+    enablePointLabel: true,
+    showLabelOnHover: true,
     pointLabelColor: "#000",
-    pointLabelSize: 8,
+    pointLabelSize: 12,
     pointLabelOffsetX: 0,
-    pointLabelOffsetY: -10,
+    pointLabelOffsetY: -5,
     pointLabelWeight: 500,
     enableArea: false,
+    areaColor: "#fff",
     areaOpacity: 0.5,
     enableCurve: false,
-    smoothDegree: 0.2,
+    smoothDegree: 0.15,
     angleDegree: 1,
     strokeLinejoin: "miter", // "miter" | "round" | "bevel"
     strokeLinecap: "butt" // "butt" | "round" | "square"
@@ -219,59 +223,59 @@ const normalLineSetting = {
   animationSettings: {
     axisYGridLineSettings: {
       useAnimation: true,
-      appearType: "draw",
-      appearDuration: 0.4,
-      appearStartDelay: 0,
-      appearItemDelay: 0,
-      appearTimingFunction: "ease",
-      appearStartFrom: "left-bottom",
-      moveLine: true,
-      moveDuration: 0.3,
-      moveStartDelay: 0,
-      moveItemDelay: 0,
-      moveTimingFunction: "ease"
+      renderType: "draw",
+      renderDuration: 0.4,
+      renderStartDelay: 0,
+      renderItemDelay: 0.1,
+      renderTimingFunction: "ease",
+      renderStartFrom: "left-bottom",
+      translateLine: true,
+      translateDuration: 0.3,
+      translateStartDelay: 0,
+      translateItemDelay: 0,
+      translateTimingFunction: "ease"
     },
     axisXGridLineSettings: {
       useAnimation: true,
-      appearType: "draw", // draw, fade
-      appearDuration: 0.2,
-      appearStartDelay: 0,
-      appearItemDelay: 0,
-      appearTimingFunction: "ease",
-      appearStartFrom: "left-bottom",
-      moveLine: true,
-      moveDuration: 0.2,
-      moveStartDelay: 0,
-      moveItemDelay: 0,
-      moveTimingFunction: "ease"
+      renderType: "draw", // draw, fade
+      renderDuration: 0.4,
+      renderStartDelay: 0,
+      renderItemDelay: 0.1,
+      renderTimingFunction: "ease",
+      renderStartFrom: "left-bottom",
+      translateLine: true,
+      translateDuration: 0.3,
+      translateStartDelay: 0,
+      translateItemDelay: 0,
+      translateTimingFunction: "ease"
     },
     axisYLabelSettings: {
       useAnimation: true,
-      appearType: "fade", // fade
-      appearDuration: 0.4,
-      appearStartDelay: 0,
-      appearItemDelay: 0,
-      appearTimingFunction: "ease",
-      appearStartFrom: "bottom",
-      moveLable: true,
-      moveDuration: 0.3,
-      moveStartDelay: 0,
-      moveItemDelay: 0,
-      moveTimingFunction: "ease"
+      renderType: "fade", // fade
+      renderDuration: 0.4,
+      renderStartDelay: 0,
+      renderItemDelay: 0.1,
+      renderTimingFunction: "ease",
+      renderStartFrom: "bottom",
+      translateLabel: true,
+      translateDuration: 0.3,
+      translateStartDelay: 0,
+      translateItemDelay: 0,
+      translateTimingFunction: "ease"
     },
     axisXLabelSettings: {
       useAnimation: true,
-      appearType: "fade", // fade
-      appearDuration: 0.2,
-      appearStartDelay: 0,
-      appearItemDelay: 0,
-      appearTimingFunction: "ease",
-      appearStartFrom: "left",
-      moveLable: true,
-      moveDuration: 0.2,
-      moveStartDelay: 0,
-      moveItemDelay: 0,
-      moveTimingFunction: "ease"
+      renderType: "fade", // fade
+      renderDuration: 0.4,
+      renderStartDelay: 0,
+      renderItemDelay: 0.1,
+      renderTimingFunction: "ease",
+      renderStartFrom: "left",
+      translateLabel: true,
+      translateDuration: 0.3,
+      translateStartDelay: 0,
+      translateItemDelay: 0,
+      translateTimingFunction: "ease"
     },
     lineSettings: {
       useAnimation: true,
