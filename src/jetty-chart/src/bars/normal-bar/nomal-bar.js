@@ -228,16 +228,13 @@ const NormalBar = ({
 
           prevBarsTemp.current[nowData.label] = {
             center,
-            width: halfBarRealWidth + halfBarRealWidth,
+            width: rectWidth,
             height: rectHeight,
-            zeroHeight,
-            prevPosition: horizontal
-              ? `translate(${zeroHeight}px,${center - halfBarRealWidth}px)`
-              : `translate(${center - halfBarRealWidth}px,${drawHeight - barHeight - zeroHeight}px)`
+            zeroHeight
           };
 
           let useTranslate = false;
-          let translate = { center: 0, width: 0, height: 0, zeroHeight: 0, prevPosition: "0px,0px" };
+          let translate = { center: 0, width: 0, height: 0, zeroHeight: 0 };
 
           if (translateBar) {
             if (prevBarsKeys.includes(String(nowData.label))) {
@@ -245,15 +242,10 @@ const NormalBar = ({
                 center: center - prevBars.current[nowData.label].center,
                 width: rectWidth - prevBars.current[nowData.label].width,
                 height: rectHeight - prevBars.current[nowData.label].height,
-                zeroHeight: zeroHeight - prevBars.current[nowData.label].zeroHeight,
-                prevPosition: prevBars.current[nowData.label].prevPosition
+                zeroHeight: zeroHeight - prevBars.current[nowData.label].zeroHeight
               };
               useTranslate = true;
             }
-          }
-
-          if (useTranslate) {
-            console.log((rectWidth - translate.width) / 2);
           }
 
           return (
@@ -274,10 +266,10 @@ const NormalBar = ({
                 className={useAnimation && useTranslate ? styles.translateGroup : ""}
                 style={{
                   "--group-from": horizontal
-                    ? `${zeroHeight - translate.zeroHeight}px,${center - translate.center - halfBarRealWidth}px`
-                    : `${center - translate.center - halfBarRealWidth}px,${drawHeight - barHeight - zeroHeight}px`,
+                    ? `${zeroHeight - translate.zeroHeight - borderRadius}px,${center - translate.center - (rectHeight - translate.height) / 2}px`
+                    : `${center - translate.center - (rectWidth - translate.width) / 2}px,${drawHeight - barHeight - zeroHeight}px`,
                   "--group-to": horizontal
-                    ? `${zeroHeight}px,${center - halfBarRealWidth}px`
+                    ? `${zeroHeight - translate.zeroHeight}px,${center - halfBarRealWidth}px`
                     : `${center - halfBarRealWidth}px,${drawHeight - barHeight - zeroHeight}px`,
                   "--animation-duration": `${translateDuration}s`,
                   "--animation-timing-function": translateTimingFunction,
@@ -326,22 +318,22 @@ const NormalBar = ({
                   style={{
                     "--bar-from": useTranslate
                       ? horizontal
-                        ? ``
+                        ? `${checkPositive ? 0 : borderRadius + borderRadius - rectWidth + translate.width}px`
                         : `0px,${(checkPositive ? translate.height : barHeight + (barOnlyUpperRadius ? -borderRadius : 0)) + translate.zeroHeight}px`
                       : horizontal
                       ? `${barOnlyUpperRadius ? (checkPositive ? -borderRadius : borderRadius) : 0}px,0px`
                       : `0px,${drawHeight - zeroHeight + (barOnlyUpperRadius ? (checkPositive ? borderRadius : -borderRadius) : 0)}px`,
                     "--bar-to": useTranslate
                       ? horizontal
-                        ? ``
+                        ? `${(checkPositive ? -borderRadius : -rectWidth + borderRadius) + translate.zeroHeight}px`
                         : `0px,${checkPositive ? 0 : barHeight - borderRadius}px`
                       : horizontal
                       ? `${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight}px,0px`
                       : `0px,${drawHeight - zeroHeight - (checkPositive ? barHeight : barOnlyUpperRadius ? borderRadius : 0)}px`,
-                    "--width-from": useTranslate ? (horizontal ? `` : `${rectWidth - translate.width}px`) : horizontal ? `0px` : `${rectWidth}px`,
+                    "--width-from": useTranslate ? `${rectWidth - translate.width}px` : horizontal ? `0px` : `${rectWidth}px`,
                     "--width-to": `${rectWidth}px`,
-                    "--height-from": useTranslate ? (horizontal ? `` : `${rectHeight - translate.height}px`) : horizontal ? `${rectHeight}px` : `0px`,
-                    "--height-to": horizontal ? `${rectHeight}px` : `${rectHeight}px`,
+                    "--height-from": useTranslate ? `${rectHeight - translate.height}px` : horizontal ? `${rectHeight}px` : `0px`,
+                    "--height-to": `${rectHeight}px`,
                     "--animation-duration": useTranslate
                       ? `${translateDuration}s`
                       : `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`,
@@ -388,17 +380,29 @@ const NormalBar = ({
                         "--text-from": useTranslate
                           ? horizontal
                             ? labelPosition === "over"
-                              ? `${(rectWidth - translate.width) / 2}px,0px`
+                              ? `${(checkPositive ? rectWidth - translate.width : barBorderRadius) + labelMargin}px,${
+                                  (rectHeight - translate.height) / 2
+                                }px`
                               : labelPosition === "under"
-                              ? `${checkPositive ? 0 : barHeight}px,0px`
-                              : `${checkPositive ? -barHeight / 2 : barHeight / 2}px,0px`
+                              ? `${(checkPositive ? 0 : -rectWidth + translate.width + borderRadius) + borderRadius - labelMargin}px,${
+                                  (rectHeight - translate.height) / 2
+                                }px`
+                              : `${(checkPositive ? (barHeight - translate.width) / 2 : -(barHeight - translate.width) / 2) + borderRadius}px,${
+                                  (rectHeight - translate.height) / 2
+                                }px`
                             : labelPosition === "over"
                             ? `${(rectWidth - translate.width) / 2}px,${
                                 (checkPositive ? translate.height : barHeight) - labelMargin + translate.zeroHeight
                               }px`
                             : labelPosition === "under"
-                            ? `${(rectWidth - translate.width) / 2}px,${checkPositive ? barHeight : translate.height}px`
-                            : `${(rectWidth - translate.width) / 2}px,${checkPositive ? barHeight / 2 : -barHeight / 2}px`
+                            ? `${(rectWidth - translate.width) / 2}px,${
+                                (checkPositive ? barHeight : barHeight + barHeight - translate.height) + labelMargin + translate.zeroHeight
+                              }px`
+                            : `${(rectWidth - translate.width) / 2}px,${
+                                checkPositive
+                                  ? translate.height + (barHeight - translate.height) / 2 + translate.zeroHeight
+                                  : barHeight + (barHeight - translate.height) / 2 + translate.zeroHeight
+                              }px`
                           : horizontal
                           ? labelPosition === "over"
                             ? `${checkPositive ? -barHeight : 0}px,0px`
@@ -411,11 +415,17 @@ const NormalBar = ({
                           ? `0px,${checkPositive ? 0 : -barHeight}px`
                           : `0px,${checkPositive ? barHeight / 2 : -barHeight / 2}px`,
                         "--text-to": useTranslate
-                          ? labelPosition === "over"
+                          ? horizontal
+                            ? labelPosition === "over"
+                              ? `${(checkPositive ? barHeight : 0) + labelMargin + translate.zeroHeight}px,${halfBarRealWidth}px`
+                              : labelPosition === "under"
+                              ? `${(checkPositive ? 0 : -barHeight) + translate.zeroHeight - labelMargin}px,${halfBarRealWidth}px`
+                              : `${(checkPositive ? barHeight / 2 : -barHeight / 2) + translate.zeroHeight}px,${halfBarRealWidth}px`
+                            : labelPosition === "over"
                             ? `${halfBarRealWidth}px,${(checkPositive ? 0 : barHeight) - labelMargin}px`
                             : labelPosition === "under"
-                            ? `${halfBarRealWidth}px,${(checkPositive ? barHeight : translate.height) + labelMargin}px`
-                            : `${halfBarRealWidth}px,${checkPositive ? barHeight / 2 : -barHeight / 2}px`
+                            ? `${halfBarRealWidth}px,${(checkPositive ? barHeight : barHeight + barHeight) + labelMargin}px`
+                            : `${halfBarRealWidth}px,${checkPositive ? barHeight / 2 : barHeight + barHeight / 2}px`
                           : `0px,0px`,
                         "--animation-duration": useTranslate
                           ? `${translateDuration}s`
@@ -427,9 +437,6 @@ const NormalBar = ({
                         "--animation-timing-function": useTranslate ? translateTimingFunction : textRenderTimingFunction
                       }}
                     >
-                      {/* translate(${halfBarRealWidth - translate.width / 2},${
-                            verticalLabelLocation + (useAnimation && renderType.includes("grow") ? drawHeight - barHeight - zeroHeight : 0)
-                          }) */}
                       {reverse ? -nowData.value : nowData.value}
                     </text>
                   </g>

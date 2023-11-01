@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { NormalBar } from "./jetty-chart/src";
 
-const counts = [3, 5, 7];
+const counts = [5, 6, 7];
 
 const myNormalBar = ({ data }) => {
   return <NormalBar data={data} keys={["target1"]} xLegend={"types"} yLegend={"values"} />;
@@ -21,16 +21,6 @@ function App() {
         label: "test" + (index + 1)
       });
     }
-
-    arr.push({
-      value: 0,
-      label: "asdf"
-    });
-
-    arr.push({
-      value: -20,
-      label: "asdasdff"
-    });
 
     setData(arr);
   }, [state]);

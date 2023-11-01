@@ -15,16 +15,6 @@
   animation: translate-label var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
-/* @keyframes type-label {
-  0% {
-    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-  }
-
-  100% {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
-} */
-
 @keyframes fade-label {
   0% {
     opacity: 0;
