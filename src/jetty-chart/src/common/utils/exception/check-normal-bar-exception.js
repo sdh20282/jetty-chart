@@ -207,7 +207,7 @@ const normalBarSetting = {
     useMinHeight: true,
     minHeight: 1,
     useLabel: true,
-    labelPosition: "under", // over, center, under,
+    labelPosition: "center", // over, center, under,
     labelMargin: 5,
     labelSize: 11,
     labelWeight: 500,
