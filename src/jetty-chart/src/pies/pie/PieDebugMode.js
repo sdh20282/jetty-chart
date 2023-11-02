@@ -1,7 +1,7 @@
 import React from "react";
 import { pointBetweenTwoPoints } from "../utils/pointBetweenTwoPoints";
 
-const PieTestPoint = ({
+export const PieDebugMode = ({
   startAngle,
   percent,
   vertex,
@@ -121,14 +121,14 @@ const PieTestPoint = ({
       <circle
         cx={borderCoordinate1.x}
         cy={borderCoordinate1.y}
-        r="0.1"
+        r={borderRadius}
         fill={"red"}
         opacity={0.5}
       />
       <circle
         cx={borderCoordinate2.x}
         cy={borderCoordinate2.y}
-        r="0.1"
+        r={borderRadius}
         fill={"blue"}
         opacity={0.5}
       />
@@ -159,5 +159,3 @@ const PieTestPoint = ({
     </>
   );
 };
-
-export default PieTestPoint;

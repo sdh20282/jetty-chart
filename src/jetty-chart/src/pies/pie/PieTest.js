@@ -1,33 +1,38 @@
 import { calculateInputData } from "../utils/calculateIntersection";
-import findBorderCandidates from "../utils/findBorderCandidates";
-import findCoordinatesNear from "../utils/findCoordinatesNear";
+import { findBorderCandidates } from "../utils/findBorderCandidates";
+import { findCoordinatesNear } from "../utils/findCoordinatesNear";
 import { findReferenceCoordinates } from "../utils/findReferenceCoordinates";
 import { findTangentCircle } from "../utils/findTangentCircle";
 import { findTangentLine } from "../utils/findTangentLine";
 import { getCoordinatesForVertex } from "../utils/getCoordinates";
 import { pointBetweenTwoPoints } from "../utils/pointBetweenTwoPoints";
-import PieTestPoint from "./PieTestPoint";
+import { PieDebugMode } from "./PieDebugMode";
 
 const PieTest = () => {
-  const percent = 0.5;
+  const width = 550;
+  const height = 550;
+  const percent = 0.3;
   const startAngle = 0;
   const pieRadius = 1;
-  const innerRadius = 0.8;
-  const borderRadius = 0.1;
+  const innerRadius = 0.5;
+  const borderRadius = 0.2;
   const debugPointView = !!true;
   const tangentLineCoordinate1 = findTangentLine({
-    angle: (startAngle + percent * 360) % 360,
     pieRadius,
     innerRadius,
+    borderRadius,
+    angle: (startAngle + percent * 360) % 360,
   });
   const tangentLineCoordinate2 = findTangentLine({
-    angle: startAngle,
     pieRadius,
     innerRadius,
+    borderRadius,
+    angle: startAngle,
   });
   const candidates1 = findBorderCandidates({
     pieRadius,
     innerRadius,
+    borderRadius,
     refAngle: (startAngle + percent * 360) % 360,
     tangentX: tangentLineCoordinate1.x,
     tangentY: tangentLineCoordinate1.y,
@@ -35,6 +40,7 @@ const PieTest = () => {
   const candidates2 = findBorderCandidates({
     pieRadius,
     innerRadius,
+    borderRadius,
     refAngle: startAngle,
     tangentX: tangentLineCoordinate2.x,
     tangentY: tangentLineCoordinate2.y,
@@ -79,7 +85,7 @@ const PieTest = () => {
 
   return (
     <>
-      <svg width="600" height="600" viewBox="-1 -1 2 2" style={{ backgroundColor: "black" }}>
+      <svg width={width} height={height} viewBox="-1 -1 2 2" style={{ backgroundColor: "black" }}>
         <path
           d={`          
             M ${pointBetweenTwoPoints({
@@ -109,7 +115,7 @@ const PieTest = () => {
           fill="#bae7ff"
         />
         {debugPointView && (
-          <PieTestPoint
+          <PieDebugMode
             startAngle={startAngle}
             percent={percent}
             vertex={vertex}

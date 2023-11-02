@@ -35,12 +35,12 @@ const Pie = ({
 
   return (
     <div>
-      <TestFile
+      {/* <TestFile
         generalSettings={generalSettings}
         pieSettings={pieSettings}
         changeNewGeneralSettings={setNewGeneralSettings}
         changeNewPieSettings={setNewPieSettings}
-      />
+      /> */}
       {/* <PaintPie
         data={calcData(data)}
         generalSettings={newGeneralSettings}
