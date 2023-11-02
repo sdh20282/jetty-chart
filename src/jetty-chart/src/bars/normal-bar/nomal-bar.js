@@ -4,8 +4,19 @@ import { LabelValueCommon } from "../../components/label-value-common/label-valu
 
 import { checkNormalBar } from "../../common/bar-common/exception/check-normal-bar-exception";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
-import { checkBarBorderRadius } from "../../common/utils/exception/check-common-exception";
-import { calculateBase } from "../../common/bar-common/utils/calculate-measure";
+import { calculateBase, calculateBarBase, calculateLabelLocation } from "../../common/bar-common/utils/calculate-base-values";
+import {
+  calculateWarpperTransform,
+  calculateBarWrapperTransform,
+  calculateBarWrapperFrom,
+  calculateBarWrapperTo,
+  calculateBarTransform,
+  calculateBarFrom,
+  calculateBarTo,
+  calculateLabelTransform,
+  calculateLabelFrom,
+  calculateLabelTo
+} from "../../common/bar-common/utils/calculate-bar-positions";
 
 import styles from "./normal-bar.module.css";
 
@@ -150,13 +161,7 @@ const NormalBar = ({
       legendSettings={result.legendSettings}
       animationSettings={result.animationSettings}
     >
-      <g
-        transform={
-          horizontal
-            ? `translate(${reverse ? innerMargin.top : innerMargin.bottom},${padding})`
-            : `translate(${padding}, ${reverse ? innerMargin.bottom : innerMargin.top})`
-        }
-      >
+      <g transform={calculateWarpperTransform({ horizontal, reverse, innerMargin, padding })}>
         {data.map((d, idx) => {
           const nowData = { ...d };
 
@@ -164,41 +169,29 @@ const NormalBar = ({
             nowData.value = -nowData.value;
           }
 
-          const center = (drawWidth / data.length) * idx + drawWidth / data.length / 2;
-          const valueRatio = Math.abs(nowData.value) / totalScope;
-          let barHeight = valueRatio * drawHeight;
+          const { center, valueRatio, barHeight, borderRadius, realHeight, rectWidth, rectHeight, checkPositive } = calculateBarBase({
+            horizontal,
+            reverse,
+            value: nowData.value,
+            length: data.length,
+            idx,
+            drawWidth,
+            drawHeight,
+            useMinHeight,
+            minHeight,
+            totalScope,
+            barBorderRadius,
+            barOnlyUpperRadius,
+            halfBarRealWidth
+          });
 
-          if (useMinHeight && barHeight < minHeight) {
-            barHeight = minHeight;
-          }
-
-          let barHeightWithoutRadius = barHeight > barBorderRadius ? barHeight - barBorderRadius : barHeight;
-
-          if (useMinHeight && barHeightWithoutRadius < minHeight) {
-            barHeightWithoutRadius = minHeight;
-          }
-
-          const borderRadius = checkBarBorderRadius({ halfWidth: halfBarRealWidth, height: barHeightWithoutRadius, borderRadius: barBorderRadius });
-          const barTotalWidth = halfBarRealWidth + halfBarRealWidth;
-          const realHeight = barHeightWithoutRadius + borderRadius;
-
-          const rectWidth = horizontal ? barHeight + (barOnlyUpperRadius ? borderRadius : 0) : barTotalWidth;
-          const rectHeight = horizontal ? barTotalWidth : barHeight + (barOnlyUpperRadius ? borderRadius : 0);
-          const checkPositive = nowData.value > 0 || (!reverse && nowData.value === 0);
-          const horizontalLabelLocation =
-            labelPosition === "over"
-              ? (checkPositive ? realHeight : 0) + labelMargin
-              : labelPosition === "under"
-              ? (checkPositive ? 0 : -realHeight) - labelMargin
-              : checkPositive
-              ? realHeight / 2
-              : -realHeight / 2;
-          const verticalLabelLocation =
-            labelPosition === "over"
-              ? barHeight - (checkPositive ? realHeight : 0) - labelMargin
-              : labelPosition === "under"
-              ? barHeight + (checkPositive ? 0 : realHeight) + labelMargin
-              : barHeight + (checkPositive ? -realHeight / 2 : realHeight / 2);
+          const { horizontalLabelLocation, verticalLabelLocation } = calculateLabelLocation({
+            barHeight,
+            realHeight,
+            checkPositive,
+            labelPosition,
+            labelMargin
+          });
 
           prevBarsTemp.current[nowData.label] = {
             center,
@@ -226,25 +219,31 @@ const NormalBar = ({
             display && (
               <g
                 key={"data-" + ms + "-" + nowData.label}
-                transform={
-                  useAnimation && useTranslate
-                    ? "translate(0,0)"
-                    : useAnimation && renderType.includes("grow")
-                    ? horizontal
-                      ? `translate(${zeroHeight},${center - halfBarRealWidth})`
-                      : `translate(${center - halfBarRealWidth})`
-                    : horizontal
-                    ? `translate(${zeroHeight},${center - halfBarRealWidth})`
-                    : `translate(${center - halfBarRealWidth},${drawHeight - barHeight - zeroHeight})`
-                }
+                transform={calculateBarWrapperTransform({
+                  useAnimation,
+                  useTranslate,
+                  renderType,
+                  horizontal,
+                  zeroHeight,
+                  center,
+                  halfBarRealWidth,
+                  drawHeight,
+                  barHeight
+                })}
                 className={useAnimation && useTranslate ? styles.translateGroup : ""}
                 style={{
-                  "--group-from": horizontal
-                    ? `${zeroHeight - translate.zeroHeight - borderRadius}px,${center - translate.center - (rectHeight - translate.height) / 2}px`
-                    : `${center - translate.center - (rectWidth - translate.width) / 2}px,${drawHeight - barHeight - zeroHeight}px`,
-                  "--group-to": horizontal
-                    ? `${zeroHeight - translate.zeroHeight}px,${center - halfBarRealWidth}px`
-                    : `${center - halfBarRealWidth}px,${drawHeight - barHeight - zeroHeight}px`,
+                  "--group-from": calculateBarWrapperFrom({
+                    horizontal,
+                    zeroHeight,
+                    translate,
+                    borderRadius,
+                    center,
+                    rectHeight,
+                    rectWidth,
+                    drawHeight,
+                    barHeight
+                  }),
+                  "--group-to": calculateBarWrapperTo({ horizontal, zeroHeight, translate, center, drawHeight, barHeight, halfBarRealWidth }),
                   "--animation-duration": `${translateDuration}s`,
                   "--animation-timing-function": translateTimingFunction,
                   "--animation-delay": `${translateStartDelay + translateItemDelay * (renderStartFrom === "left" ? idx : data.length - 1 - idx)}s`
@@ -264,13 +263,16 @@ const NormalBar = ({
                         : `inset(${borderRadius}px 0px 0px 0px)`
                       : ""
                   }
-                  transform={
-                    (useAnimation && renderType.includes("grow")) || (useAnimation && useTranslate)
-                      ? ""
-                      : horizontal
-                      ? `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight})`
-                      : `translate(0,${checkPositive ? 0 : barHeight - (barOnlyUpperRadius ? borderRadius : 0)})`
-                  }
+                  transform={calculateBarTransform({
+                    useAnimation,
+                    renderType,
+                    useTranslate,
+                    horizontal,
+                    checkPositive,
+                    barOnlyUpperRadius,
+                    borderRadius,
+                    barHeight
+                  })}
                   fill={useVariousColors ? colorPalette[idx % colorPalette.length] : colorPalette[0]}
                   opacity={barOpacity}
                   rx={borderRadius}
@@ -290,20 +292,30 @@ const NormalBar = ({
                       : ""
                   }
                   style={{
-                    "--bar-from": useTranslate
-                      ? horizontal
-                        ? `${checkPositive ? 0 : borderRadius + borderRadius - rectWidth + translate.width}px`
-                        : `0px,${(checkPositive ? translate.height : barHeight + (barOnlyUpperRadius ? -borderRadius : 0)) + translate.zeroHeight}px`
-                      : horizontal
-                      ? `${barOnlyUpperRadius ? (checkPositive ? -borderRadius : borderRadius) : 0}px,0px`
-                      : `0px,${drawHeight - zeroHeight + (barOnlyUpperRadius ? (checkPositive ? borderRadius : -borderRadius) : 0)}px`,
-                    "--bar-to": useTranslate
-                      ? horizontal
-                        ? `${(checkPositive ? -borderRadius : -rectWidth + borderRadius) + translate.zeroHeight}px`
-                        : `0px,${checkPositive ? 0 : barHeight - borderRadius}px`
-                      : horizontal
-                      ? `${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight}px,0px`
-                      : `0px,${drawHeight - zeroHeight - (checkPositive ? barHeight : barOnlyUpperRadius ? borderRadius : 0)}px`,
+                    "--bar-from": calculateBarFrom({
+                      useTranslate,
+                      horizontal,
+                      checkPositive,
+                      borderRadius,
+                      rectWidth,
+                      translate,
+                      barHeight,
+                      barOnlyUpperRadius,
+                      drawHeight,
+                      zeroHeight
+                    }),
+                    "--bar-to": calculateBarTo({
+                      useTranslate,
+                      horizontal,
+                      checkPositive,
+                      borderRadius,
+                      rectWidth,
+                      translate,
+                      barHeight,
+                      barOnlyUpperRadius,
+                      drawHeight,
+                      zeroHeight
+                    }),
                     "--width-from": useTranslate ? `${rectWidth - translate.width}px` : horizontal ? `0px` : `${rectWidth}px`,
                     "--width-to": `${rectWidth}px`,
                     "--height-from": useTranslate ? `${rectHeight - translate.height}px` : horizontal ? `${rectHeight}px` : `0px`,
@@ -320,15 +332,18 @@ const NormalBar = ({
                 ></rect>
                 {useLabel && realHeight > labelInvisibleHeight && (
                   <g
-                    transform={
-                      useAnimation && useTranslate
-                        ? ``
-                        : horizontal
-                        ? `translate(${horizontalLabelLocation},${halfBarRealWidth})`
-                        : `translate(${halfBarRealWidth},${
-                            verticalLabelLocation + (useAnimation && renderType.includes("grow") ? drawHeight - barHeight - zeroHeight : 0)
-                          })`
-                    }
+                    transform={calculateLabelTransform({
+                      useAnimation,
+                      useTranslate,
+                      horizontal,
+                      horizontalLabelLocation,
+                      halfBarRealWidth,
+                      verticalLabelLocation,
+                      renderType,
+                      drawHeight,
+                      barHeight,
+                      zeroHeight
+                    })}
                   >
                     <text
                       fontSize={labelSize}
@@ -351,56 +366,29 @@ const NormalBar = ({
                           : ""
                       }
                       style={{
-                        "--text-from": useTranslate
-                          ? horizontal
-                            ? labelPosition === "over"
-                              ? `${(checkPositive ? rectWidth - translate.width : barBorderRadius) + labelMargin}px,${
-                                  (rectHeight - translate.height) / 2
-                                }px`
-                              : labelPosition === "under"
-                              ? `${(checkPositive ? 0 : -rectWidth + translate.width + borderRadius) + borderRadius - labelMargin}px,${
-                                  (rectHeight - translate.height) / 2
-                                }px`
-                              : `${(checkPositive ? (barHeight - translate.width) / 2 : -(barHeight - translate.width) / 2) + borderRadius}px,${
-                                  (rectHeight - translate.height) / 2
-                                }px`
-                            : labelPosition === "over"
-                            ? `${(rectWidth - translate.width) / 2}px,${
-                                (checkPositive ? translate.height : barHeight) - labelMargin + translate.zeroHeight
-                              }px`
-                            : labelPosition === "under"
-                            ? `${(rectWidth - translate.width) / 2}px,${
-                                (checkPositive ? barHeight : barHeight + barHeight - translate.height) + labelMargin + translate.zeroHeight
-                              }px`
-                            : `${(rectWidth - translate.width) / 2}px,${
-                                checkPositive
-                                  ? translate.height + (barHeight - translate.height) / 2 + translate.zeroHeight
-                                  : barHeight + (barHeight - translate.height) / 2 + translate.zeroHeight
-                              }px`
-                          : horizontal
-                          ? labelPosition === "over"
-                            ? `${checkPositive ? -barHeight : 0}px,0px`
-                            : labelPosition === "under"
-                            ? `${checkPositive ? 0 : barHeight}px,0px`
-                            : `${checkPositive ? -barHeight / 2 : barHeight / 2}px,0px`
-                          : labelPosition === "over"
-                          ? `0px,${checkPositive ? barHeight : 0}px`
-                          : labelPosition === "under"
-                          ? `0px,${checkPositive ? 0 : -barHeight}px`
-                          : `0px,${checkPositive ? barHeight / 2 : -barHeight / 2}px`,
-                        "--text-to": useTranslate
-                          ? horizontal
-                            ? labelPosition === "over"
-                              ? `${(checkPositive ? barHeight : 0) + labelMargin + translate.zeroHeight}px,${halfBarRealWidth}px`
-                              : labelPosition === "under"
-                              ? `${(checkPositive ? 0 : -barHeight) + translate.zeroHeight - labelMargin}px,${halfBarRealWidth}px`
-                              : `${(checkPositive ? barHeight / 2 : -barHeight / 2) + translate.zeroHeight}px,${halfBarRealWidth}px`
-                            : labelPosition === "over"
-                            ? `${halfBarRealWidth}px,${(checkPositive ? 0 : barHeight) - labelMargin}px`
-                            : labelPosition === "under"
-                            ? `${halfBarRealWidth}px,${(checkPositive ? barHeight : barHeight + barHeight) + labelMargin}px`
-                            : `${halfBarRealWidth}px,${checkPositive ? barHeight / 2 : barHeight + barHeight / 2}px`
-                          : `0px,0px`,
+                        "--text-from": calculateLabelFrom({
+                          useTranslate,
+                          horizontal,
+                          labelPosition,
+                          checkPositive,
+                          rectWidth,
+                          translate,
+                          barBorderRadius,
+                          labelMargin,
+                          rectHeight,
+                          borderRadius,
+                          barHeight
+                        }),
+                        "--text-to": calculateLabelTo({
+                          useTranslate,
+                          horizontal,
+                          labelPosition,
+                          checkPositive,
+                          barHeight,
+                          labelMargin,
+                          translate,
+                          halfBarRealWidth
+                        }),
                         "--animation-duration": useTranslate
                           ? `${translateDuration}s`
                           : `${renderType === "grow" ? textRenderDuration * valueRatio : textRenderDuration}s`,
