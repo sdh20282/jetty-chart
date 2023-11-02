@@ -28,6 +28,8 @@ const StackedLine = ({
     return;
   }
 
+  console.log(dataSet);
+
   const result = checkNormalLine({
     normalSettings,
     scopeSettings,
@@ -195,49 +197,53 @@ const StackedLine = ({
 
   const { useAnimation, appearType, appearDuration, appearStartDelay, appearItemDelay, appearTimingFunction } = result.animationSettings.lineSettings;
 
-  const pathRefs = dataSet.map(() => useRef());
+  const pathRefs = useRef([]);
+
+  // const textRefs = useRef(
+  //   dataSet[0].data.map(() => {
+  //     return {};
+  //   })
+  // );
 
   useEffect(() => {
-    if (!pathRefs[0].current) {
-      return;
-    }
-
-    pathRefs.forEach((pathRef) => {
-      const pathElement = pathRef?.current;
+    pathRefs.current?.forEach((pathElement) => {
       const pathLength = pathElement?.getTotalLength();
       pathElement?.style.setProperty(`--line-length`, `${pathLength}px`);
       pathElement?.style.setProperty(`--line-offset`, `${pathLength}px`);
     });
-  }, [dataSet]);
+    pathRefs.current = [];
+  }, [pathRefs.current]);
 
-  const debugRef = dataSet[0].data.map(() => useRef());
+  const pointPosition = Array.from({ length: dataLength }, () => []);
 
-  const textRefs = dataSet[0].data.map(() => {
-    return dataSet.map(() => useRef());
-  });
+  console.log(pointPosition);
 
-  useEffect(() => {
-    if (!debugRef[0].current || !enablePointLabel || !showLabelOnHover) {
-      return;
-    }
+  stackedData.forEach((data, index) => {
+    data.data.forEach((d, idx) => {
+      const nowData = { ...d };
 
-    debugRef.forEach((dd, idx) => {
-      dd.current.addEventListener("mouseover", () => {
-        textRefs[idx].forEach((el) => {
-          el.current.classList.add(styles.hovered);
-          el.current.style.opacity = 1;
-        });
-      });
-      dd.current.addEventListener("mouseout", () => {
-        textRefs[idx].forEach((el) => {
-          el.current.classList.remove(styles.hovered);
-          el.current.style.opacity = 0;
-        });
+      if (reverse) {
+        nowData.value = -nowData.value;
+      }
+
+      const positionX = pointGapWidth * idx;
+
+      const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
+
+      pointPosition[idx].push({
+        x: positionX,
+        y: totalHeight - height - zeroHeight,
+        horizontalX: zeroHeight + height,
+        horizontalY: positionX,
+        animationDelay: appearStartDelay + index * appearItemDelay + (idx * appearItemDelay) / dataLength,
+        value: d.value
       });
     });
-  }, [dataSet]);
+  });
 
   const lineColors = [...Array(dataSet.length).keys()].map((idx) => colorPalette[idx % colorPalette.length]);
+
+  const ms = new Date().valueOf();
 
   return (
     <LabelValueCommon
@@ -313,9 +319,10 @@ const StackedLine = ({
         {linePathArray.map((d, idx) => {
           return (
             <path
-              id={`line-stacked-${idArray[idx]}-${idx}`}
-              key={`line-stacked-${idArray[idx]}-${idx}`}
-              ref={pathRefs[idx]}
+              key={`line-stacked-${ms}-${idx}`}
+              ref={(el) => {
+                pathRefs.current[idx] = el;
+              }}
               d={d}
               className={useAnimation ? (appearType === "draw" ? styles.drawLine : appearType === "fade" ? styles.fadeLine : "") : ""}
               stroke={lineColors[idx % colorPalette.length]}
@@ -333,67 +340,34 @@ const StackedLine = ({
           );
         })}
       </g>
-
-      {stackedData.map((data, index) => {
+      {pointPosition.map((data, index) => {
         return (
-          <g key={`g-${data.id}-${index}`} transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
-            {data.data.map((d, idx) => {
-              const nowData = { ...d };
-
-              if (reverse) {
-                nowData.value = -nowData.value;
-              }
-
-              const center = pointGapWidth * idx;
-              const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
-
+          <g key={`point-${ms}-${index}`} transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
+            {data.map((d, idx) => {
               return (
                 <g
-                  key={"data-" + nowData.label + "-" + idx}
+                  key={"point-stacked-" + idx}
                   className={useAnimation ? (appearType === "draw" ? styles.drawPoint : appearType === "fade" ? styles.fadeLine : "") : ""}
-                  transform={
-                    horizontal
-                      ? `translate(${zeroHeight + height},${center - halfAreaWidth})`
-                      : `translate(${center - halfAreaWidth},${totalHeight - height - zeroHeight})`
-                  }
+                  transform={horizontal ? `translate(${d.horizontalX},${d.x})` : `translate(${d.horizontalY},${d.y})`}
                   style={{
-                    "--pos-x": `${horizontal ? zeroHeight + height : center - halfAreaWidth}px`,
-                    "--pos-y": `${horizontal ? center - halfAreaWidth : totalHeight - height - zeroHeight}px`,
-                    "--start-x-offset": `${horizontal ? zeroHeight + height - 10 : center - halfAreaWidth}px`,
-                    "--start-y-offset": `${horizontal ? center - halfAreaWidth : totalHeight - height - zeroHeight - 10}px`,
+                    "--pos-x": `${horizontal ? d.horizontalX : d.x}px`,
+                    "--pos-y": `${horizontal ? d.horizontalY : d.y}px`,
+                    "--start-x-offset": `${horizontal ? d.horizontalX - 10 : d.x}px`,
+                    "--start-y-offset": `${horizontal ? d.horizontalY : d.y - 10}px`,
                     "--animation-duration": `${appearDuration}s`,
                     "--animation-timing-function": appearTimingFunction,
-                    "--animation-delay": `${appearStartDelay + index * appearItemDelay + (idx * appearItemDelay) / dataLength}s`
+                    "--animation-delay": `${d.animationDelay}s`
                   }}
                 >
                   {enablePoint && (
                     <circle
-                      cx={horizontal ? 0 : halfAreaWidth}
-                      cy={horizontal ? halfAreaWidth : 0}
+                      cx={0}
+                      cy={0}
                       r={pointSize}
                       fill={lineColors[index % colorPalette.length]}
                       stroke={pointBorderColor}
                       strokeWidth={pointBorderWidth}
                     />
-                  )}
-                  {enablePointLabel && (
-                    <text
-                      ref={textRefs[idx][index]}
-                      transform={
-                        horizontal
-                          ? `translate(${pointLabelOffsetX},${halfAreaWidth + pointLabelOffsetY})`
-                          : `translate(${halfAreaWidth + pointLabelOffsetX},${pointLabelOffsetY})`
-                      }
-                      opacity={0}
-                      dominantBaseline={"alphabetic"}
-                      textAnchor="middle"
-                      fontSize={pointLabelSize}
-                      fontWeight={pointLabelWeight}
-                      fill={pointLabelColor}
-                      className={`${styles.pointLabel}`}
-                    >
-                      {d.value}
-                    </text>
                   )}
                 </g>
               );
@@ -401,27 +375,70 @@ const StackedLine = ({
           </g>
         );
       })}
-      {stackedData[0]?.data?.map((d, idx) => {
-        return (
-          <rect
-            key={`debug-${d.label}-${idx}`}
-            className={styles.debug}
-            ref={debugRef[idx]}
-            x={0}
-            y={0}
-            width={horizontal ? totalHeight : pointGapWidth}
-            height={horizontal ? pointGapWidth : totalHeight}
-            opacity={0.1}
-            fill={"#f0f"}
-            strokeWidth={0}
-            transform={
-              horizontal
-                ? `translate(${0},${pointGapWidth * idx - pointGapWidth / 2 + padding})`
-                : `translate(${pointGapWidth * idx - pointGapWidth / 2 + padding},${0})`
-            }
-          />
-        );
-      })}
+
+      {enablePointLabel &&
+        pointPosition.map((data, index) => {
+          console.log(pointLabelOffsetX, pointLabelOffsetY, halfAreaWidth);
+
+          return (
+            <g key={`debug-${index}`} className={styles.debug}>
+              {data.map((d, idx) => {
+                console.log(data);
+                return (
+                  <text
+                    key={`text-${d.value}-${idx}`}
+                    transform={
+                      horizontal
+                        ? `translate(${pointLabelOffsetX + d.horizontalX},${halfAreaWidth + pointLabelOffsetY + d.horizontalY})`
+                        : `translate(${pointLabelOffsetX + d.x},${pointLabelOffsetY + d.y})`
+                    }
+                    opacity={1}
+                    dominantBaseline={"alphabetic"}
+                    textAnchor="middle"
+                    style={{
+                      position: "relative",
+                      transform: horizontal
+                        ? `translate(${pointLabelOffsetX + d.horizontalX},${halfAreaWidth + pointLabelOffsetY + d.horizontalY})`
+                        : `translate(${pointLabelOffsetX + d.x},${pointLabelOffsetY + d.y})`
+                    }}
+                    fontSize={pointLabelSize}
+                    fontWeight={pointLabelWeight}
+                    color={pointLabelColor}
+                  >
+                    {d.value}
+                  </text>
+                );
+              })}
+              <rect
+                x={0}
+                y={0}
+                width={horizontal ? totalHeight : pointGapWidth}
+                height={horizontal ? pointGapWidth : totalHeight}
+                strokeWidth={0}
+                opacity={0}
+                transform={
+                  horizontal
+                    ? `translate(${0},${pointGapWidth * index - pointGapWidth / 2 + padding})`
+                    : `translate(${pointGapWidth * index - pointGapWidth / 2 + padding},${0})`
+                }
+                onMouseEnter={
+                  showLabelOnHover
+                    ? (event) => {
+                        event.currentTarget.parentElement.style.opacity = 1;
+                      }
+                    : null
+                }
+                onMouseLeave={
+                  showLabelOnHover
+                    ? (event) => {
+                        event.currentTarget.parentElement.style.opacity = 0;
+                      }
+                    : null
+                }
+              />
+            </g>
+          );
+        })}
     </LabelValueCommon>
   );
 };

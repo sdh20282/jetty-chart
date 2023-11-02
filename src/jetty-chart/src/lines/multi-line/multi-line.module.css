@@ -135,10 +135,6 @@
   transition: all 0.25s ease 0s;
 }
 
-.pointLabel {
-  transition: all 0.2s ease 0.2s;
-}
-
 .point {
   transition: all linear 1s;
 }
