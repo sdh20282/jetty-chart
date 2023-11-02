@@ -25,6 +25,7 @@ const normalBarSetting = {
     margin: { top: 60, bottom: 70, left: 80, right: 120 },
     innerMargin: { top: 0, bottom: 0 },
     colorPalette: ["#669dfe", "#876697"],
+    useVariousColors: false,
     padding: 20,
     reverse: false,
     horizontal: false
@@ -49,7 +50,7 @@ const normalBarSetting = {
   },
   // x축 라인 세팅
   axisXGridLineSettings: {
-    lineVisible: true,
+    lineVisible: false,
     lineOpacity: 1,
     lineColor: "#d4d4d4",
     lineWidth: 1,
@@ -207,7 +208,7 @@ const normalBarSetting = {
     useMinHeight: true,
     minHeight: 1,
     useLabel: true,
-    labelPosition: "center", // over, center, under,
+    labelPosition: "over", // over, center, under,
     labelMargin: 5,
     labelSize: 11,
     labelWeight: 500,

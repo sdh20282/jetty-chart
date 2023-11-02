@@ -51,7 +51,7 @@ const NormalBar = ({
     animationSettings
   });
 
-  const { width, height, margin, innerMargin, padding, reverse, horizontal, colorPalette } = result.normalSettings;
+  const { width, height, margin, innerMargin, padding, reverse, horizontal, colorPalette, useVariousColors } = result.normalSettings;
   const { autoScope, maxScope, minScope } = result.scopeSettings;
   let { showTopScope } = result.scopeSettings;
   const {
@@ -297,7 +297,7 @@ const NormalBar = ({
                       ? `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight})`
                       : `translate(0,${checkPositive ? 0 : barHeight - (barOnlyUpperRadius ? borderRadius : 0)})`
                   }
-                  fill={colorPalette[0]}
+                  fill={useVariousColors ? colorPalette[idx % colorPalette.length] : colorPalette[0]}
                   opacity={barOpacity}
                   rx={borderRadius}
                   ry={borderRadius}
