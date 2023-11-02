@@ -1,4 +1,4 @@
-import PaintPie from "./PaintPie";
+// import PaintPie from "./PaintPie";
 import { useState } from "react";
 import TestFile from "./testFile/TestFile";
 import PieTest from "./PieTest";

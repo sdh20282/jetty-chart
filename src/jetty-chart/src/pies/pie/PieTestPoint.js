@@ -1,8 +1,8 @@
 import React from "react";
 import { pointBetweenTwoPoints } from "../utils/pointBetweenTwoPoints";
 
-const PieTestPoint = ({ vertex, calcPos, borderRadius }) => {
-  const pointSize = 0.01;
+const PieTestPoint = ({ vertex, calcPos, borderRadius, innerRadius }) => {
+  const pointSize = 0.02;
   return (
     <>
       <circle cx={vertex.pos1.x} cy={vertex.pos1.y} r={pointSize} fill="#FF1100" opacity={0.9} />
@@ -105,6 +105,8 @@ const PieTestPoint = ({ vertex, calcPos, borderRadius }) => {
         fill="#B3AF6B"
         opacity={0.9}
       />
+      <circle cx={0} cy={0} r={innerRadius} fill="#FFFFFF" opacity={0.5} />
+      <circle cx={0} cy={0} r={0.01} fill="blue" opacity={0.5} />
     </>
   );
 };

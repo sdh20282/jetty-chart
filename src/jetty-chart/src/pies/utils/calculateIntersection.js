@@ -39,14 +39,14 @@ export const calculateInputData = ({ vertex, pieRadius, innerRadius, borderRadiu
       x: vertex.pos3.x,
       y: vertex.pos3.y,
       radius: innerRadius,
-      borderRadius,
+      borderRadius: borderRadius * 1.2,
       dir: 1,
     }),
     pos4: calculateIntersection({
       x: vertex.pos4.x,
       y: vertex.pos4.y,
       radius: innerRadius,
-      borderRadius,
+      borderRadius: borderRadius * 0.8,
       dir: 0,
     }),
   };
