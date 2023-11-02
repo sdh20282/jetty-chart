@@ -1,4 +1,4 @@
-import { checkSize } from "./check-common-exception";
+import { checkSize } from "../../utils/exception/check-common-exception";
 
 const checkMargin = ({ margin }) => {
   margin.top ??= 60;
