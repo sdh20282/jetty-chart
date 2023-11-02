@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NormalBar } from "./jetty-chart/src/bars/bars";
+import { NormalBar, StackedBar } from "./jetty-chart/src/bars/bars";
 
 const counts = [5, 6, 7];
 
@@ -8,18 +8,14 @@ const myNormalBar = ({ data }) => {
 };
 
 const myStackedBar = ({ data }) => {
-  // return (
-  //   <StackedBar
-  //     data={data}
-  //     keys={["category-01", "category-02", "category-03", "category-04", "category-05", "category-06"]}
-  //     xLegend={"types"}
-  //     yLegend={"values"}
-  //   />
-  // );
-
-  console.log(data);
-
-  return <></>;
+  return (
+    <StackedBar
+      data={data}
+      keys={["category-01", "category-02", "category-03", "category-04", "category-05", "category-06"]}
+      xLegend={"types"}
+      yLegend={"values"}
+    />
+  );
 };
 
 function App() {
