@@ -1,347 +1,37 @@
 import { NormalScatter } from "./jetty-chart/src/scatters/scatter";
-
-const data = [
-  {
-    id: "group A",
-    data: [
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      }
-    ]
-  },
-  {
-    id: "group B",
-    data: [
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      }
-    ]
-  },
-  {
-    id: "group C",
-    data: [
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      }
-    ]
-  },
-  {
-    id: "group D",
-    data: [
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      }
-    ]
-  },
-  {
-    id: "group E",
-    data: [
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      }
-    ]
-  },
-  {
-    id: "group F",
-    data: [
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      }
-    ]
-  },
-  {
-    id: "group G",
-    data: [
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      },
-      {
-        x: Math.floor(Math.random() * 10001),
-        y: Math.floor(Math.random() * 10001)
-      }
-    ]
-  }
-];
+import { NormalPyramid } from "./jetty-chart/src/pyramid/pyramid";
+import { useState } from "react";
+import { useEffect } from "react";
 
 function App() {
+  const [data2, setData2] = useState([]);
+
+  useEffect(() => {
+    const groups = [];
+
+    for (let index = 0; index < 10; index++) {
+      const group = {};
+      group.id = `group ${index}`;
+      const arr = [];
+      for (let index = 0; index < 30; index++) {
+        arr.push({
+          x: Math.floor(Math.random() * 130) + 10,
+          y: Math.floor(Math.random() * 130) + 10
+        });
+      }
+
+      group.data = arr;
+
+      groups.push(group);
+    }
+
+    setData2(groups);
+  }, []);
+
   return (
     <div>
-      <NormalScatter
-        data={data}
-        normalSettings={{ xReverse: false, yReverse: false }}
-        pointSettings={{
-          pointSize: 1.5,
-          pointColor: "#fff",
-          pointBorderColor: "#333",
-          pointBorderWidth: 1,
-          areaOpacity: 0.15
-        }}
-        scopeSettings={{
-          xAutoScope: true,
-          yAutoScope: true,
-          xMaxScope: 150,
-          xMinScope: 0,
-          yMaxScope: 150,
-          yMinScope: 0,
-          xScopeMul: 1,
-          yScopeMul: 1
-        }}
-      />
+      {data2.length > 0 && <NormalScatter data={data2} />}
+      <NormalPyramid />
     </div>
   );
 }

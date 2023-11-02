@@ -33,7 +33,7 @@ function CircleWithTooltip({ x, y, xPos, yPos, group, pointSize, groupColor, poi
   };
 
   const tooltipStyle = {
-    fontSize: "10px", // 원하는 글씨 크기로 조절하세요
+    fontSize: "10px",
     backgroundColor: "blue",
     color: "black",
     padding: "5px",
@@ -43,6 +43,45 @@ function CircleWithTooltip({ x, y, xPos, yPos, group, pointSize, groupColor, poi
     left: `${xPos}px`
   };
 
+  // return (
+  //   <g transform={`translate(${xPos},${yPos})`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+  //     <circle cx={0} cy={0} r={pointSize} fill={groupColor} stroke={groupColor} strokeWidth={pointBorderWidth} />
+  //     <foreignObject x="0" y="0" width={"150"} height="50">
+  //       <div
+  //         xmlns="http://www.w3.org/1999/xhtml"
+  //         style={
+  //           showTooltip
+  //             ? {
+  //                 width: "100%",
+  //                 height: "100%",
+  //                 display: "flex",
+  //                 flexDirection: "column",
+  //                 justifyContent: "center",
+  //                 alignItems: "center",
+  //                 backgroundColor: "gray",
+  //                 color: "black",
+  //                 borderRadius: "5px",
+  //                 border: "0.5px solid #ddd",
+  //                 margin: "0px"
+  //               }
+  //             : { visibility: "hidden" }
+  //         }
+  //       >
+  //         <p
+  //           style={{
+  //             margin: "0px",
+  //             marginTop: "5px",
+  //             marginBottom: "5px",
+  //             color: "black",
+  //             fontSize: "10px",
+  //             fontWeight: "bold"
+  //           }}
+  //         >{`${group.id}, x: ${x.toFixed(1)}, y: ${y.toFixed(1)}`}</p>
+  //       </div>
+  //     </foreignObject>
+  //     {/* {showTooltip && <div style={tooltipStyle}>{`${group.id}, x: ${x.toFixed(1)}, y: ${y.toFixed(1)}`}</div>} */}
+  //   </g>
+  // );
   return (
     <g transform={`translate(${xPos},${yPos})`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <circle cx={0} cy={0} r={pointSize} fill={groupColor} stroke={groupColor} strokeWidth={pointBorderWidth} />
@@ -96,6 +135,29 @@ const NormalScatter = ({
     ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.y)), scopeMul: yScopeMul })
     : getUserScope({ maxScope: yMaxScope, minScope: yMinScope });
 
+  // const gridList = [];
+  // let num = 0;
+
+  // for (let index = 0; index < 6; index++) {
+  //   gridList.push(num);
+  //   num += 20;
+  // }
+
+  // for (let index = 0; index < 5; index++) {
+  //   gridList.push(num);
+  //   num -= 20;
+  // }
+
+  // const newGridX = { scope: gridList, maxScope: 100, minScope: 0 };
+  // console.log("X", newGridX);
+
+  const expandedScope = [
+    ...yScopeResult.scope, // 주어진 초기 배열을 추가합니다.
+    ...yScopeResult.scope.slice(0, yScopeResult.scope.length - 1).reverse() // 초기 배열의 두 번째 요소부터 뒤에서 두 번째 요소까지를 역순으로 추가합니다.
+  ];
+
+  console.log("Y", expandedScope);
+
   const { pointSize, pointBorderWidth } = result.pointSettings;
   // let display = true;
 
@@ -113,6 +175,7 @@ const NormalScatter = ({
   const drawWidth = totalWidth - padding - padding;
   const lineHeight = totalHeight / (yScopeResult.scope.length - 1);
 
+  // const AreaWidth = drawWidth / (newGridX.scope.length - 1);
   const AreaWidth = drawWidth / (xScopeResult.scope.length - 1);
 
   const availableColors = ["#93c5fd", "#fdba74", "#fca5a5", "#cbd5e1", "#86efac"];
@@ -133,6 +196,7 @@ const NormalScatter = ({
       data={data}
       normalSettings={{
         ...result.normalSettings,
+        // xScope: newGridX.scope,
         xScope: xScopeResult.scope,
         yScope: yScopeResult.scope,
         totalWidth,

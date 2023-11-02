@@ -16,8 +16,8 @@ const normalPointSetting = {
   },
   // 범위 세팅
   scopeSettings: {
-    xAutoScope: false,
-    yAutoScope: false,
+    xAutoScope: true,
+    yAutoScope: true,
     xMaxScope: 100,
     xMinScope: 0,
     yMaxScope: 100,
