@@ -2,9 +2,10 @@ import { useRef } from "react";
 
 import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
 
-import { checkNormalBar } from "../../common/utils/exception/check-normal-bar-exception";
+import { checkNormalBar } from "../../common/bar-common/exception/check-normal-bar-exception";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
 import { checkBarBorderRadius } from "../../common/utils/exception/check-common-exception";
+import { calculateBase } from "../../common/bar-common/utils/calculate-measure";
 
 import styles from "./normal-bar.module.css";
 
@@ -109,35 +110,8 @@ const NormalBar = ({
     showTopScope = false;
   }
 
-  const totalWidth = horizontal ? height - margin.bottom - margin.top : width - margin.left - margin.right;
-  const totalHeight = horizontal ? width - margin.left - margin.right : height - margin.bottom - margin.top;
-  const totalScope = scopeResult.maxScope - scopeResult.minScope;
-
-  if (!autoScope && scopeResult.display) {
-    innerMargin.top = scopeResult.topMarginRatio * totalHeight;
-    innerMargin.bottom = scopeResult.bottomMarginRatio * totalHeight;
-  }
-
-  const drawWidth = totalWidth - padding - padding;
-  const drawHeight = totalHeight - innerMargin.top - innerMargin.bottom;
-  const lineHeight = drawHeight / (scopeResult.scope.length - 1);
-
-  const barWidth = drawWidth / data.length;
-  const halfBarWidth = barWidth / 2;
-  const halfBarRealWidth = halfBarWidth - barGap * halfBarWidth;
-
-  const zeroHeight =
-    scopeResult.scope.reduce((acc, cur) => {
-      if (cur !== 0) {
-        acc += 1;
-      }
-
-      if (cur === 0) {
-        acc = 0;
-      }
-
-      return acc;
-    }, 0) * lineHeight;
+  const { totalWidth, totalHeight, totalScope, drawWidth, drawHeight, lineHeight, barWidth, halfBarWidth, halfBarRealWidth, zeroHeight } =
+    calculateBase({ horizontal, height, margin, width, scopeResult, autoScope, innerMargin, padding, length: data.length, barGap });
 
   const prevBarsKeys = Object.keys(prevBars.current);
   const ms = new Date().valueOf();
