@@ -200,7 +200,7 @@ const normalLineSetting = {
     lineOpacity: 1,
     lineWidth: 2,
     enablePoint: true,
-    pointColor: "#fff",
+    pointColor: null,
     pointSize: 2,
     pointBorderColor: "#666",
     pointBorderWidth: 2,
@@ -212,7 +212,7 @@ const normalLineSetting = {
     pointLabelOffsetY: -5,
     pointLabelWeight: 500,
     enableArea: false,
-    areaColor: "#fff",
+    areaColor: null,
     areaOpacity: 0.5,
     enableCurve: false,
     smoothDegree: 0.15,
@@ -282,7 +282,7 @@ const normalLineSetting = {
       appearType: "draw",
       appearDuration: 1,
       appearStartDelay: 0.1,
-      appearItemDelay: 0,
+      appearItemDelay: 0.5,
       appearTimingFunction: "ease",
       moveLine: true,
       moveDuration: 2,
@@ -348,6 +348,10 @@ export const checkNormalLine = ({
 
   result.normalSettings.margin = checkMargin({ margin: result.normalSettings.margin });
   result.normalSettings.innerMargin = checkInnerMargin({ innerMargin: result.normalSettings.innerMargin });
+
+  result.lineSettings.lineColor ??= result.normalSettings.colorPalette[0];
+  result.lineSettings.areaColor ??= result.lineSettings.lineColor;
+  result.lineSettings.pointColor ??= result.lineSettings.lineColor;
 
   const checkedSize = checkSize({
     width: result.normalSettings.width,
