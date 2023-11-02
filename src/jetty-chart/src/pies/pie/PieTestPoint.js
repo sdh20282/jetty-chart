@@ -1,7 +1,17 @@
 import React from "react";
 import { pointBetweenTwoPoints } from "../utils/pointBetweenTwoPoints";
 
-const PieTestPoint = ({ vertex, calcPos, borderRadius, innerRadius }) => {
+const PieTestPoint = ({
+  startAngle,
+  percent,
+  vertex,
+  calcPos,
+  borderRadius,
+  innerRadius,
+  borderCoordinate1,
+  borderCoordinate2,
+  referenceCoordinates,
+}) => {
   const pointSize = 0.02;
   return (
     <>
@@ -105,8 +115,47 @@ const PieTestPoint = ({ vertex, calcPos, borderRadius, innerRadius }) => {
         fill="#B3AF6B"
         opacity={0.9}
       />
-      <circle cx={0} cy={0} r={innerRadius} fill="#FFFFFF" opacity={0.5} />
-      <circle cx={0} cy={0} r={0.01} fill="blue" opacity={0.5} />
+      <circle cx={0} cy={0} r={innerRadius} fill="#aaaaaa" opacity={0.2} />
+      <circle cx={0} cy={0} r={0.05} fill="pink" opacity={0.5} />
+
+      <circle
+        cx={borderCoordinate1.x}
+        cy={borderCoordinate1.y}
+        r="0.1"
+        fill={"red"}
+        opacity={0.5}
+      />
+      <circle
+        cx={borderCoordinate2.x}
+        cy={borderCoordinate2.y}
+        r="0.1"
+        fill={"blue"}
+        opacity={0.5}
+      />
+
+      <line
+        x1={0}
+        y1={0}
+        x2={Math.cos((startAngle * Math.PI) / 180)}
+        y2={Math.sin((startAngle * Math.PI) / 180)}
+        stroke="yellow"
+        strokeWidth="0.003"
+      />
+      <line
+        x1={0}
+        y1={0}
+        x2={Math.cos((((startAngle + percent * 360) % 360) * Math.PI) / 180)}
+        y2={Math.sin((((startAngle + percent * 360) % 360) * Math.PI) / 180)}
+        stroke="yellow"
+        strokeWidth="0.003"
+      />
+      <circle
+        cx={referenceCoordinates.x}
+        cy={referenceCoordinates.y}
+        r="0.05"
+        fill="pink"
+        opacity={0.8}
+      />
     </>
   );
 };

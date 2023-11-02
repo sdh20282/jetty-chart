@@ -19,7 +19,14 @@ const calculateIntersection = ({ x, y, radius, borderRadius, dir }) => {
 };
 
 // 두 원 사이에 교점 구하기, 데이터 입력
-export const calculateInputData = ({ vertex, pieRadius, innerRadius, borderRadius }) => {
+export const calculateInputData = ({
+  vertex,
+  pieRadius,
+  innerRadius,
+  borderRadius,
+  tangentCircleCoordinate1,
+  tangentCircleCoordinate2,
+}) => {
   const calcPos = {
     pos1: calculateIntersection({
       x: vertex.pos1.x,
@@ -35,20 +42,8 @@ export const calculateInputData = ({ vertex, pieRadius, innerRadius, borderRadiu
       borderRadius,
       dir: 1,
     }),
-    pos3: calculateIntersection({
-      x: vertex.pos3.x,
-      y: vertex.pos3.y,
-      radius: innerRadius,
-      borderRadius: borderRadius * 1.2,
-      dir: 1,
-    }),
-    pos4: calculateIntersection({
-      x: vertex.pos4.x,
-      y: vertex.pos4.y,
-      radius: innerRadius,
-      borderRadius: borderRadius * 0.8,
-      dir: 0,
-    }),
+    pos3: { x: tangentCircleCoordinate1.x, y: tangentCircleCoordinate1.y },
+    pos4: { x: tangentCircleCoordinate2.x, y: tangentCircleCoordinate2.y },
   };
   return calcPos;
 };
