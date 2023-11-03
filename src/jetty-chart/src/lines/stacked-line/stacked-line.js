@@ -28,8 +28,6 @@ const StackedLine = ({
     return;
   }
 
-  console.log(dataSet);
-
   const result = checkNormalLine({
     normalSettings,
     scopeSettings,
@@ -216,8 +214,6 @@ const StackedLine = ({
 
   const pointPosition = Array.from({ length: dataLength }, () => []);
 
-  console.log(pointPosition);
-
   stackedData.forEach((data, index) => {
     data.data.forEach((d, idx) => {
       const nowData = { ...d };
@@ -278,14 +274,14 @@ const StackedLine = ({
         {enableArea &&
           areaPathArray.reverse().map((d, idx) => {
             return (
-              <g key={`area-${idArray[idx]}-${idx}`}>
+              <g key={`area-${ms}-${idx}`}>
                 <defs>
-                  <mask id={`mask-stacked-${idArray[idx]}-${idx}`}>
+                  <mask id={`mask-stacked-${ms}-${idx}`}>
                     <path d={d} fill={lineColors[(dataSet.length - 1 - idx) % colorPalette.length]} />
                   </mask>
                 </defs>
                 <rect
-                  mask={`url(#mask-stacked-${idArray[idx]}-${idx})`}
+                  mask={`url(#mask-stacked-${ms}-${idx})`}
                   x={0}
                   y={0}
                   rx={0}
@@ -378,12 +374,9 @@ const StackedLine = ({
 
       {enablePointLabel &&
         pointPosition.map((data, index) => {
-          console.log(pointLabelOffsetX, pointLabelOffsetY, halfAreaWidth);
-
           return (
             <g key={`debug-${index}`} className={styles.debug}>
               {data.map((d, idx) => {
-                console.log(data);
                 return (
                   <text
                     key={`text-${d.value}-${idx}`}

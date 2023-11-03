@@ -23,7 +23,7 @@ const NormalLine = ({
   rightLegendSettings,
   legendSettings,
   lineSettings,
-  animationSettings
+  animationSettings,
 }) => {
   if (!data || data.length === 0) {
     return;
@@ -42,7 +42,7 @@ const NormalLine = ({
     rightLegendSettings,
     legendSettings,
     lineSettings,
-    animationSettings
+    animationSettings,
   });
 
   const { width, height, margin, padding, reverse, horizontal } = result.normalSettings;
@@ -72,7 +72,7 @@ const NormalLine = ({
     smoothDegree,
     angleDegree,
     strokeLinejoin,
-    strokeLinecap
+    strokeLinecap,
   } = result.lineSettings;
 
   const scopeResult = autoScope ? getAutoScope({ data: data.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
@@ -132,6 +132,7 @@ const NormalLine = ({
       if (isFirstPoint) return acc + `${curr[0]},${curr[1]}`;
 
       const [cpsX, cpsY] = getControlPoint(arr[idx - 2], arr[idx - 1], curr, { smoothDegree, angleDegree, isEndControlPoint: false });
+
       const [cpeX, cpeY] = getControlPoint(arr[idx - 1], curr, arr[idx + 1], { smoothDegree, angleDegree, isEndControlPoint: true });
 
       // const midX = (arr[idx - 1][0] + curr[0]) / 2;
@@ -179,8 +180,6 @@ const NormalLine = ({
 
   const pointPosition = [];
 
-  console.log(pointPosition);
-
   data.forEach((d, idx) => {
     const nowData = { ...d };
 
@@ -198,7 +197,7 @@ const NormalLine = ({
       horizontalX: zeroHeight + height,
       horizontalY: positionX,
       animationDelay: appearStartDelay + (idx * appearItemDelay) / data.length,
-      value: d.value
+      value: d.value,
     });
   });
 
@@ -219,7 +218,7 @@ const NormalLine = ({
         xAxisWidth: pointGapWidth,
         yAxisHeight: lineHeight,
         showTopScope,
-        colorPalette: [lineColor]
+        colorPalette: [lineColor],
       }}
       axisXGridLineSettings={result.axisXGridLineSettings}
       axisYGridLineSettings={result.axisYGridLineSettings}
@@ -274,7 +273,7 @@ const NormalLine = ({
                 "--line-heght": `${totalHeight}px`,
                 "--animation-duration": `${appearDuration}s`,
                 "--animation-timing-function": appearTimingFunction,
-                "--animation-delay": `${appearStartDelay}s`
+                "--animation-delay": `${appearStartDelay}s`,
               }}
             />
           </g>
@@ -293,7 +292,7 @@ const NormalLine = ({
           style={{
             "--animation-duration": `${appearDuration}s`,
             "--animation-timing-function": appearTimingFunction,
-            "--animation-delay": `${appearStartDelay}s`
+            "--animation-delay": `${appearStartDelay}s`,
           }}
         />
         {pointPosition.map((d, idx) => {
@@ -309,7 +308,7 @@ const NormalLine = ({
                 "--start-y-offset": `${horizontal ? d.horizontalY : d.y - 10}px`,
                 "--animation-duration": `${appearDuration}s`,
                 "--animation-timing-function": appearTimingFunction,
-                "--animation-delay": `${d.animationDelay}s`
+                "--animation-delay": `${d.animationDelay}s`,
               }}
             >
               {enablePoint && <circle cx={0} cy={0} r={pointSize} fill={pointColor} stroke={pointBorderColor} strokeWidth={pointBorderWidth} />}
@@ -335,7 +334,7 @@ const NormalLine = ({
                     position: "relative",
                     transform: horizontal
                       ? `translate(${pointLabelOffsetX + d.horizontalX},${halfAreaWidth + pointLabelOffsetY + d.horizontalY})`
-                      : `translate(${pointLabelOffsetX + d.x},${pointLabelOffsetY + d.y})`
+                      : `translate(${pointLabelOffsetX + d.x},${pointLabelOffsetY + d.y})`,
                   }}
                   fontSize={pointLabelSize}
                   fontWeight={pointLabelWeight}

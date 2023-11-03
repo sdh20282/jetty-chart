@@ -185,8 +185,6 @@ const MultiLine = ({
 
   const pointPosition = Array.from({ length: dataLength }, () => []);
 
-  console.log(pointPosition);
-
   dataSet.forEach((data, index) => {
     data.data.forEach((d, idx) => {
       const nowData = { ...d };
@@ -256,14 +254,14 @@ const MultiLine = ({
         {enableArea &&
           areaPathArray.map((d, idx) => {
             return (
-              <g key={`area-multi-${idArray[idx]}-${idx}`}>
+              <g key={`area-multi-${ms}-${idx}`}>
                 <defs>
-                  <mask id={`mask-multi-${idArray[idx]}-${idx}`}>
+                  <mask id={`mask-multi-${ms}-${idx}`}>
                     <path d={d} fill={lineColors[idx]} />
                   </mask>
                 </defs>
                 <rect
-                  mask={`url(#mask-multi-${idArray[idx]}-${idx})`}
+                  mask={`url(#mask-multi-${ms}-${idx})`}
                   x={0}
                   y={0}
                   rx={0}
@@ -342,7 +340,7 @@ const MultiLine = ({
                       cx={0}
                       cy={0}
                       r={pointSize}
-                      fill={lineColors[index % colorPalette.length]}
+                      fill={lineColors[idx % colorPalette.length]}
                       stroke={pointBorderColor}
                       strokeWidth={pointBorderWidth}
                     />
@@ -356,12 +354,9 @@ const MultiLine = ({
 
       {enablePointLabel &&
         pointPosition.map((data, index) => {
-          console.log(pointLabelOffsetX, pointLabelOffsetY, halfAreaWidth);
-
           return (
             <g key={`debug-${index}`} className={styles.debug}>
               {data.map((d, idx) => {
-                console.log(data);
                 return (
                   <text
                     key={`text-${d.value}-${idx}`}
