@@ -104,3 +104,20 @@ export const calculateLabelLocation = ({ barHeight, realHeight, checkPositive, l
 
   return { horizontalLabelLocation, verticalLabelLocation };
 };
+
+export const calculateStackedBarBase = ({ rectHeight, values, idx, totalValue, reverseOrder }) => {
+  const nowHeight = (values[idx] / totalValue) * rectHeight;
+  let nowPosition = 0;
+
+  if (reverseOrder) {
+    for (let index = values.length - 1; index > idx; index--) {
+      nowPosition += (values[index] / totalValue) * rectHeight;
+    }
+  } else {
+    for (let index = 0; index < idx; index++) {
+      nowPosition += (values[index] / totalValue) * rectHeight;
+    }
+  }
+
+  return { nowHeight, nowPosition };
+};

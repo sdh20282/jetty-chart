@@ -56,13 +56,16 @@ export const calculateBarTransform = ({
   checkPositive,
   barOnlyUpperRadius,
   borderRadius,
-  barHeight
+  barHeight,
+  nowPosition
 }) => {
+  nowPosition ??= 0;
+
   return (useAnimation && renderType.includes("grow")) || (useAnimation && useTranslate)
     ? ""
     : horizontal
     ? `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight})`
-    : `translate(0,${checkPositive ? 0 : barHeight - (barOnlyUpperRadius ? borderRadius : 0)})`;
+    : `translate(0,${checkPositive ? nowPosition : barHeight - (barOnlyUpperRadius ? borderRadius : 0)})`;
 };
 
 export const calculateBarFrom = ({

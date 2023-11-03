@@ -199,8 +199,8 @@ const stackedBarSetting = {
   barSettings: {
     barOpacity: 1,
     barGap: 0.15,
-    barOnlyUpperRadius: true,
-    barBorderRadius: 5,
+    barOnlyUpperRadius: false,
+    barBorderRadius: 10,
     useBarBorder: false,
     barBorderWidth: 2,
     barBorderColor: "#000",
@@ -371,6 +371,8 @@ export const checkStackedBar = ({
   result.normalSettings.height = checkedSize.height;
   result.normalSettings.margin = checkedSize.margin;
   result.normalSettings.padding = checkedSize.padding;
+
+  result.barSettings.useBarBorder = false;
 
   Object.keys(normalBarTypes).forEach((setting) => {
     Object.keys(normalBarTypes[setting]).forEach((detail) => {

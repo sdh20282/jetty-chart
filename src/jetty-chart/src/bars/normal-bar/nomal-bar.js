@@ -36,6 +36,8 @@ const NormalBar = ({
   topLabelSettings,
   leftLegendSettings,
   rightLegendSettings,
+  bottomLegendSettings,
+  topLegendSettings,
   legendSettings,
   barSettings,
   animationSettings
@@ -58,6 +60,8 @@ const NormalBar = ({
     topLabelSettings,
     leftLegendSettings,
     rightLegendSettings,
+    bottomLegendSettings,
+    topLegendSettings,
     legendSettings,
     barSettings,
     animationSettings
@@ -203,7 +207,7 @@ const NormalBar = ({
           let useTranslate = false;
           let translate = { center: 0, width: 0, height: 0, zeroHeight: 0 };
 
-          if (translateBar) {
+          if (translateBar && useAnimation) {
             if (prevBarsKeys.includes(String(nowData.label))) {
               translate = {
                 center: center - prevBars.current[nowData.label].center,
@@ -274,7 +278,7 @@ const NormalBar = ({
                     barHeight
                   })}
                   fill={useVariousColors ? colorPalette[idx % colorPalette.length] : colorPalette[0]}
-                  opacity={barOpacity}
+                  fillOpacity={barOpacity}
                   rx={borderRadius}
                   ry={borderRadius}
                   stroke={useBarBorder ? barBorderColor : ""}
