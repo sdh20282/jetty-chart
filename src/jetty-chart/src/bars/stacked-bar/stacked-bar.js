@@ -4,7 +4,12 @@ import { LabelValueCommon } from "../../components/label-value-common/label-valu
 
 import { checkStackedBar } from "../../common/bar-common/exception/check-stacked-bar-exception";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
-import { calculateBase, calculateBarBase, calculateLabelLocation } from "../../common/bar-common/utils/calculate-base-values";
+import {
+  calculateBase,
+  calculateBarBase,
+  calculateLabelLocation,
+  calculateStackedBarBase
+} from "../../common/bar-common/utils/calculate-base-values";
 import {
   calculateWarpperTransform,
   calculateBarWrapperTransform,
@@ -36,6 +41,8 @@ const StackedBar = ({
   topLabelSettings,
   leftLegendSettings,
   rightLegendSettings,
+  bottomLegendSettings,
+  topLegendSettings,
   legendSettings,
   barSettings,
   animationSettings
@@ -58,12 +65,14 @@ const StackedBar = ({
     topLabelSettings,
     leftLegendSettings,
     rightLegendSettings,
+    bottomLegendSettings,
+    topLegendSettings,
     legendSettings,
     barSettings,
     animationSettings
   });
 
-  const { width, height, margin, innerMargin, padding, reverse, horizontal, colorPalette, useVariousColors } = result.normalSettings;
+  const { width, height, margin, innerMargin, padding, reverse, horizontal, colorPalette } = result.normalSettings;
   const { autoScope, maxScope, minScope } = result.scopeSettings;
   let { showTopScope } = result.scopeSettings;
   const {
@@ -170,25 +179,23 @@ const StackedBar = ({
       animationSettings={result.animationSettings}
     >
       <g transform={calculateWarpperTransform({ horizontal, reverse, innerMargin, padding })}>
-        {data.map((d, idx) => {
+        {data.map((d, index) => {
           const nowData = { ...d };
 
-          console.log(nowData);
-
-          let nowValue = nowData.value.reduce((acc, cur) => {
+          let nowTotalValue = nowData.value.reduce((acc, cur) => {
             return acc + cur;
           }, 0);
 
           if (reverse) {
-            nowValue = -nowValue;
+            nowTotalValue = -nowTotalValue;
           }
 
           const { center, valueRatio, barHeight, borderRadius, realHeight, rectWidth, rectHeight, checkPositive } = calculateBarBase({
             horizontal,
             reverse,
-            value: nowValue,
+            value: nowTotalValue,
             length: data.length,
-            idx,
+            idx: index,
             drawWidth,
             drawHeight,
             useMinHeight,
@@ -217,7 +224,7 @@ const StackedBar = ({
           let useTranslate = false;
           let translate = { center: 0, width: 0, height: 0, zeroHeight: 0 };
 
-          if (translateBar) {
+          if (translateBar && useAnimation) {
             if (prevBarsKeys.includes(String(nowData.label))) {
               translate = {
                 center: center - prevBars.current[nowData.label].center,
@@ -260,10 +267,92 @@ const StackedBar = ({
                   "--group-to": calculateBarWrapperTo({ horizontal, zeroHeight, translate, center, drawHeight, barHeight, halfBarRealWidth }),
                   "--animation-duration": `${translateDuration}s`,
                   "--animation-timing-function": translateTimingFunction,
-                  "--animation-delay": `${translateStartDelay + translateItemDelay * (renderStartFrom === "left" ? idx : data.length - 1 - idx)}s`
+                  "--animation-delay": `${translateStartDelay + translateItemDelay * (renderStartFrom === "left" ? index : data.length - 1 - index)}s`
                 }}
               >
-                <rect
+                {nowData.value.map((d, idx) => {
+                  const { nowHeight, nowPosition } = calculateStackedBarBase({
+                    rectHeight,
+                    values: nowData.value,
+                    idx,
+                    totalValue: nowTotalValue,
+                    reverseOrder: true
+                  });
+
+                  return (
+                    <rect
+                      key={"rect-" + ms + "-" + nowData.label + "-" + idx}
+                      width={rectWidth}
+                      height={nowHeight}
+                      transform={calculateBarTransform({
+                        useAnimation,
+                        renderType,
+                        useTranslate,
+                        horizontal,
+                        checkPositive,
+                        barOnlyUpperRadius,
+                        borderRadius,
+                        barHeight,
+                        nowPosition
+                      })}
+                      fill={colorPalette[idx % colorPalette.length]}
+                      opacity={barOpacity}
+                      stroke={useBarBorder ? barBorderColor : ""}
+                      strokeOpacity={barBorderOpacity}
+                      strokeWidth={useBarBorder ? barBorderWidth : "0"}
+                      className={
+                        useAnimation
+                          ? useTranslate
+                            ? styles.translateBar
+                            : renderType.includes("grow")
+                            ? styles.growBar
+                            : renderType === "fade"
+                            ? styles.fadeBar
+                            : ""
+                          : ""
+                      }
+                      style={{
+                        "--bar-from": calculateBarFrom({
+                          useTranslate,
+                          horizontal,
+                          checkPositive,
+                          borderRadius,
+                          rectWidth,
+                          translate,
+                          barHeight,
+                          barOnlyUpperRadius,
+                          drawHeight,
+                          zeroHeight
+                        }),
+                        "--bar-to": calculateBarTo({
+                          useTranslate,
+                          horizontal,
+                          checkPositive,
+                          borderRadius,
+                          rectWidth,
+                          translate,
+                          barHeight,
+                          barOnlyUpperRadius,
+                          drawHeight,
+                          zeroHeight
+                        }),
+                        "--width-from": useTranslate ? `${rectWidth - translate.width}px` : horizontal ? `0px` : `${rectWidth}px`,
+                        "--width-to": `${rectWidth}px`,
+                        "--height-from": useTranslate ? `${rectHeight - translate.height}px` : horizontal ? `${rectHeight}px` : `0px`,
+                        "--height-to": `${nowHeight}px`,
+                        "--animation-duration": useTranslate
+                          ? `${translateDuration}s`
+                          : `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`,
+                        "--animation-delay": `${
+                          (useTranslate ? translateStartDelay : renderStartDelay) +
+                          (useTranslate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? idx : data.length - 1 - idx)
+                        }s`,
+                        "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction
+                      }}
+                    ></rect>
+                  );
+                })}
+                {/* <rect
                   width={rectWidth}
                   height={rectHeight}
                   clipPath={
@@ -343,7 +432,7 @@ const StackedBar = ({
                     }s`,
                     "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction
                   }}
-                ></rect>
+                ></rect> */}
                 {useLabel && realHeight > labelInvisibleHeight && (
                   <g
                     transform={calculateLabelTransform({
@@ -408,12 +497,13 @@ const StackedBar = ({
                           : `${renderType === "grow" ? textRenderDuration * valueRatio : textRenderDuration}s`,
                         "--animation-delay": `${
                           (useTranslate ? translateStartDelay : textRenderStartDelay) +
-                          (useTranslate ? translateItemDelay : textRenderItemDelay) * (textRenderStartFrom === "left" ? idx : data.length - 1 - idx)
+                          (useTranslate ? translateItemDelay : textRenderItemDelay) *
+                            (textRenderStartFrom === "left" ? index : data.length - 1 - index)
                         }s`,
                         "--animation-timing-function": useTranslate ? translateTimingFunction : textRenderTimingFunction
                       }}
                     >
-                      {reverse ? -nowValue : nowValue}
+                      {reverse ? -nowTotalValue : nowTotalValue}
                     </text>
                   </g>
                 )}
