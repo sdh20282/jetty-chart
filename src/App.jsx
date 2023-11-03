@@ -83,7 +83,7 @@ const data1 = [
   {
     name: "gwangju",
     value: Math.floor(Math.random() * 1001),
-    color: "#4079F3",
+    color: "#F35F40",
     colorCode: 0,
     description: "",
     inKorea: "광주"
@@ -123,7 +123,7 @@ const data1 = [
   {
     name: "southJeolla",
     value: Math.floor(Math.random() * 1001),
-    color: "#4079F3",
+    color: "#F35F40",
     colorCode: 0,
     description: "",
     inKorea: "전라남도"
@@ -184,7 +184,7 @@ const myMap = ({ data1 }) => {
         colorCode: 2,
         width: 300,
         zoomMagnification:1.8,
-        usePersentageColor: true,
+        usePersentageColor: false,
         zoomOn:true,
         animationOn:true,
       }}
@@ -201,7 +201,7 @@ const myMap = ({ data1 }) => {
         valueLavel: "*원"
       }}
       tooltipSetting={{
-        useFollowColor:true,
+        useFollowColor:false,
         useKorea:true,
         tooltipWidth: 600,
         tooltipMaxHeight: 1064,

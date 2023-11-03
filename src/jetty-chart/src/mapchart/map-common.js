@@ -53,7 +53,21 @@ const MapChart = ({
     ["#ffedd5", "#fed7aa", "#fdba74", "#fb923c", "#f97316"],
     ["#fee2e2", "#fecaca", "#fca5a5", "#f87171", "#ef4444"],
     ["#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b"],
-    ["#dcfce7", "#bbf7d0", "#86efac", "#4ade80", "#22c55e"]
+    ["#dcfce7", "#bbf7d0", "#86efac", "#4ade80", "#22c55e"],
+    ["#f3e8ff", "#e9d5ff", "#c084fc", "#a855f7", "#7e22ce"],
+    ["#fefce8","#fef08a","#fde047","#facc15","#eab308"],
+    ["#f5f5f4","#d6d3d1","#a8a29e","#78716c","#57534e"],
+    ["#FFBE0B", "#FB5607", "#FF006E", "#8338EC", "#3A86FF"],
+    ["#264653", "#2A9D8F" , "#E9C46A" , "#F4A261", "#E76F51"],
+    ["#606C38", "#283618", "#FEFAE0", "#DDA15E", "#BC6C25"],
+    ["#CDB4DB", "#FFC8DD", "#FFAFCC", "#BDE0FE", "#A2D2FF"],
+    ["#080708", "#3772FF", "#DF2935", "#FDCA40", "#E6E8E6"],
+    ["#ff0000", "#ff8000", "#ffff00", "#80ff00", "#00ff00", "#00ff80", "#00ffff", "#0080ff", "#0000ff", "#8000ff", "#ff00ff", "#ff0080"],
+    ["#EC5BCF", "#F65AA6" , "#FF5C77", "#FF7A66", "#FFB070", "#FFE07A", "#F5FF85", "#D2FF8F", "#B6FF99", "#A3FFA6"],
+    ["#202202", "#4E3708" , "#772F13", "#9C212B", "#BC3473", "#C75CB7", "#BD88CD", "#C0B1D8", "#D6D6E6", "#F6F7F9"],
+    ["#1A1E05", "#484B0C", "#786C12", "#A68017", "#D5871A", "#E9863A", "#F08D66", "#F6A093", "#FAC1C1", "#FEF1F3"],
+    ["#FEC5BB", "#FCD5CE", "#FAE1DD", "#F8EDEB", "#E8E8E4", "#D8E2DC", "#ECE4DB", "#FFE5D9", "#FFD7BA", "#FEC89A"],
+    ["#03071E", "#370617", "#6A040F", "#9D0208", "#D00000" , "#DC2F02", "#E85D04", "#F48C06", "#FAA307", "#FFBA08"]
   ];
   // 컬러코드 0: 파랑 , 1: 오렌지, 2: 레드, 3: 블루그레이, 4: 그린
   const color = colorPallette[colorCode];
@@ -116,7 +130,7 @@ const MapChart = ({
       min = d.value;
     }
   });
-  // const [cityData, setCityData] = useState();
+
 
   const citycolor = data.map((city) => {
     const percentage = (city.value / max) * 100;
@@ -246,6 +260,7 @@ const MapChart = ({
     });
     const outMap = document.querySelector("#map");
     outMap.addEventListener("mouseout", pathOut);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
