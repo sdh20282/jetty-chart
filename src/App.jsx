@@ -1,45 +1,42 @@
-import { Pie } from "./jetty-chart/src/pies/pie/Pie";
+import { useState } from "react";
+import { useEffect } from "react";
+import { NormalBar } from "./jetty-chart/src";
 
-const data = [
-  {
-    value: 0.2,
-    label: "test1",
-  },
-  {
-    value: 0.2,
-    label: "test2",
-  },
-  {
-    value: 0.2,
-    label: "test3",
-  },
-  {
-    value: 0.2,
-    label: "test4",
-  },
-  {
-    value: 0.08,
-    label: "test5",
-  },
-  {
-    value: 0.02,
-    label: "test5",
-  },
-  {
-    value: 0.09,
-    label: "test5",
-  },
-  {
-    value: 0.01,
-    label: "test5",
-  },
-];
+const counts = [5, 6, 7];
 
-const MyPie = ({ data }) => {
-  return <Pie data={data} width="400" height="300" backgroundColor="#c4c4c4" />;
+const myNormalBar = ({ data }) => {
+  return <NormalBar data={data} keys={["target1"]} xLegend={"types"} yLegend={"values"} />;
 };
 
 function App() {
-  return <div>{MyPie({ data })}</div>;
+  const [data, setData] = useState([]);
+  const [state, setState] = useState(1);
+
+  useEffect(() => {
+    const arr = [];
+
+    for (let index = 0; index < counts[Math.floor(Math.random() * counts.length)]; index++) {
+      arr.push({
+        value: Math.floor(Math.random() * 90) + 10,
+        label: "test" + (index + 1)
+      });
+    }
+
+    setData(arr);
+  }, [state]);
+
+  return (
+    <div>
+      {myNormalBar({ data })}
+      <button
+        onClick={() => {
+          setState((state) => 1 - state);
+        }}
+      >
+        갱신
+      </button>
+    </div>
+  );
 }
+
 export default App;
