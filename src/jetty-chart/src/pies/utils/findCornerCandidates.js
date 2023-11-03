@@ -1,15 +1,15 @@
-export const findBorderCandidates = ({
+export const findCornerCandidates = ({
   pieRadius,
   innerRadius,
   refAngle,
   tangentX,
   tangentY,
-  borderRadius,
+  cornerRadius,
 }) => {
-  console.log(pieRadius, innerRadius, refAngle, tangentX, tangentY, borderRadius);
+  console.log(pieRadius, innerRadius, refAngle, tangentX, tangentY, cornerRadius);
   // const r1 = pieRadius; // 파이 반지름
   const r2 = innerRadius; // 내부원 반지름
-  const r3 = borderRadius; // 두번째 원 반지름
+  const r3 = cornerRadius; // 두번째 원 반지름
   // const angle = refAngle; // 파이 각도
   // const x1 = Math.cos((angle * Math.PI) / 180); // 파이 r1 위치 x
   // const y1 = Math.sin((angle * Math.PI) / 180); // 파이 r1 위치 y

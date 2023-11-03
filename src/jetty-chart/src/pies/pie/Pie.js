@@ -6,9 +6,9 @@ import PieTest from "./PieTest";
 const Pie = ({
   data,
   generalSettings = {
-    width: "200",
-    height: "200",
-    backgroundColor: "#777",
+    width: 550,
+    height: 550,
+    backgroundColor: "#000000",
     padding: { top: "10", bottom: "10", left: "10", right: "10" },
   },
   pieSettings = {
@@ -16,7 +16,7 @@ const Pie = ({
     startAngle: 0, // 시작 위치 각도, default 0
     padSize: 100, // 조각 크기, default 100
     padSpace: 1, // 조각 여백 default 0
-    innerWidth: 10, // 내부원 크기, default 50
+    innerRadius: 10, // 내부원 크기, default 50
     cornerRound: 10, // 조각 둥글기, default 0
   },
 }) => {

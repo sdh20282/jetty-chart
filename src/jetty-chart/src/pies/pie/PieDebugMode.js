@@ -6,10 +6,10 @@ export const PieDebugMode = ({
   percent,
   vertex,
   calcPos,
-  borderRadius,
+  cornerRadius,
   innerRadius,
-  borderCoordinate1,
-  borderCoordinate2,
+  cornerCoordinate1,
+  cornerCoordinate2,
   referenceCoordinates,
 }) => {
   const pointSize = 0.02;
@@ -30,7 +30,7 @@ export const PieDebugMode = ({
             y1: vertex.pos1.y,
             x2: vertex.pos4.x,
             y2: vertex.pos4.y,
-            borderRadius,
+            cornerRadius,
           }).split(",")[0]
         }
         cy={
@@ -39,7 +39,7 @@ export const PieDebugMode = ({
             y1: vertex.pos1.y,
             x2: vertex.pos4.x,
             y2: vertex.pos4.y,
-            borderRadius,
+            cornerRadius,
           }).split(",")[1]
         }
         r={pointSize}
@@ -53,7 +53,7 @@ export const PieDebugMode = ({
             y1: vertex.pos2.y,
             x2: vertex.pos3.x,
             y2: vertex.pos3.y,
-            borderRadius,
+            cornerRadius,
           }).split(",")[0]
         }
         cy={
@@ -62,7 +62,7 @@ export const PieDebugMode = ({
             y1: vertex.pos2.y,
             x2: vertex.pos3.x,
             y2: vertex.pos3.y,
-            borderRadius,
+            cornerRadius,
           }).split(",")[1]
         }
         r={pointSize}
@@ -76,7 +76,7 @@ export const PieDebugMode = ({
             y1: vertex.pos3.y,
             x2: vertex.pos2.x,
             y2: vertex.pos2.y,
-            borderRadius,
+            cornerRadius,
           }).split(",")[0]
         }
         cy={
@@ -85,7 +85,7 @@ export const PieDebugMode = ({
             y1: vertex.pos3.y,
             x2: vertex.pos2.x,
             y2: vertex.pos2.y,
-            borderRadius,
+            cornerRadius,
           }).split(",")[1]
         }
         r={pointSize}
@@ -99,7 +99,7 @@ export const PieDebugMode = ({
             y1: vertex.pos4.y,
             x2: vertex.pos1.x,
             y2: vertex.pos1.y,
-            borderRadius,
+            cornerRadius,
           }).split(",")[0]
         }
         cy={
@@ -108,7 +108,7 @@ export const PieDebugMode = ({
             y1: vertex.pos4.y,
             x2: vertex.pos1.x,
             y2: vertex.pos1.y,
-            borderRadius,
+            cornerRadius,
           }).split(",")[1]
         }
         r={pointSize}
@@ -119,16 +119,16 @@ export const PieDebugMode = ({
       <circle cx={0} cy={0} r={0.05} fill="pink" opacity={0.5} />
 
       <circle
-        cx={borderCoordinate1.x}
-        cy={borderCoordinate1.y}
-        r={borderRadius}
+        cx={cornerCoordinate1.x}
+        cy={cornerCoordinate1.y}
+        r={cornerRadius}
         fill={"red"}
         opacity={0.5}
       />
       <circle
-        cx={borderCoordinate2.x}
-        cy={borderCoordinate2.y}
-        r={borderRadius}
+        cx={cornerCoordinate2.x}
+        cy={cornerCoordinate2.y}
+        r={cornerRadius}
         fill={"blue"}
         opacity={0.5}
       />

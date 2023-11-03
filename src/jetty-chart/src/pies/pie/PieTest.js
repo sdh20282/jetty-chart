@@ -1,5 +1,5 @@
 import { calculateInputData } from "../utils/calculateIntersection";
-import { findBorderCandidates } from "../utils/findBorderCandidates";
+import { findCornerCandidates } from "../utils/findCornerCandidates";
 import { findCoordinatesNear } from "../utils/findCoordinatesNear";
 import { findReferenceCoordinates } from "../utils/findReferenceCoordinates";
 import { findTangentCircle } from "../utils/findTangentCircle";
@@ -15,44 +15,45 @@ const PieTest = () => {
   const startAngle = 0;
   const pieRadius = 1;
   const innerRadius = 0.5;
-  const borderRadius = 0.2;
-  const debugPointView = !!true;
+  const cornerRadius = 0.2;
+  const debugPointView = !true;
+  const backgroundColor = "black";
   const tangentLineCoordinate1 = findTangentLine({
     pieRadius,
     innerRadius,
-    borderRadius,
+    cornerRadius,
     angle: (startAngle + percent * 360) % 360,
   });
   const tangentLineCoordinate2 = findTangentLine({
     pieRadius,
     innerRadius,
-    borderRadius,
+    cornerRadius,
     angle: startAngle,
   });
-  const candidates1 = findBorderCandidates({
+  const candidates1 = findCornerCandidates({
     pieRadius,
     innerRadius,
-    borderRadius,
+    cornerRadius,
     refAngle: (startAngle + percent * 360) % 360,
     tangentX: tangentLineCoordinate1.x,
     tangentY: tangentLineCoordinate1.y,
   });
-  const candidates2 = findBorderCandidates({
+  const candidates2 = findCornerCandidates({
     pieRadius,
     innerRadius,
-    borderRadius,
+    cornerRadius,
     refAngle: startAngle,
     tangentX: tangentLineCoordinate2.x,
     tangentY: tangentLineCoordinate2.y,
   });
   const referenceCoordinates = findReferenceCoordinates({ startAngle, percent, pieRadius });
 
-  const borderCoordinate1 = findCoordinatesNear({
+  const cornerCoordinate1 = findCoordinatesNear({
     circle1: { x: candidates1[0].x, y: candidates1[0].y },
     circle2: { x: candidates1[1].x, y: candidates1[1].y },
     referenceCoordinates,
   });
-  const borderCoordinate2 = findCoordinatesNear({
+  const cornerCoordinate2 = findCoordinatesNear({
     circle1: { x: candidates2[0].x, y: candidates2[0].y },
     circle2: { x: candidates2[1].x, y: candidates2[1].y },
     referenceCoordinates,
@@ -60,11 +61,11 @@ const PieTest = () => {
 
   const tangentCircleCoordinate1 = findTangentCircle({
     circle1: { x: 0, y: 0, r: innerRadius },
-    circle2: { x: borderCoordinate1.x, y: borderCoordinate1.y, r: borderRadius },
+    circle2: { x: cornerCoordinate1.x, y: cornerCoordinate1.y, r: cornerRadius },
   });
   const tangentCircleCoordinate2 = findTangentCircle({
     circle1: { x: 0, y: 0, r: innerRadius },
-    circle2: { x: borderCoordinate2.x, y: borderCoordinate2.y, r: borderRadius },
+    circle2: { x: cornerCoordinate2.x, y: cornerCoordinate2.y, r: cornerRadius },
   });
   const vertex = getCoordinatesForVertex({
     percent,
@@ -78,14 +79,14 @@ const PieTest = () => {
     vertex,
     pieRadius,
     innerRadius,
-    borderRadius,
+    cornerRadius,
     tangentCircleCoordinate1,
     tangentCircleCoordinate2,
   });
 
   return (
     <>
-      <svg width={width} height={height} viewBox="-1 -1 2 2" style={{ backgroundColor: "black" }}>
+      <svg width={width} height={height} viewBox="-1 -1 2 2" style={{ backgroundColor }}>
         <path
           d={`          
             M ${pointBetweenTwoPoints({
@@ -93,21 +94,21 @@ const PieTest = () => {
               y1: vertex.pos1.y,
               x2: vertex.pos4.x,
               y2: vertex.pos4.y,
-              borderRadius,
+              cornerRadius,
             })}
-            A ${borderRadius},${borderRadius},0,0,1,${calcPos.pos1.x},${calcPos.pos1.y}
+            A ${cornerRadius},${cornerRadius},0,0,1,${calcPos.pos1.x},${calcPos.pos1.y}
             A ${pieRadius},${pieRadius},0,0,1,${calcPos.pos2.x},${calcPos.pos2.y}
-            A ${borderRadius},${borderRadius},0,0,1,${pointBetweenTwoPoints({
+            A ${cornerRadius},${cornerRadius},0,0,1,${pointBetweenTwoPoints({
             x1: vertex.pos2.x,
             y1: vertex.pos2.y,
             x2: vertex.pos3.x,
             y2: vertex.pos3.y,
-            borderRadius,
+            cornerRadius,
           })}
             L ${tangentLineCoordinate1.x},${tangentLineCoordinate1.y}
-            A ${borderRadius},${borderRadius},0,0,1,${calcPos.pos3.x},${calcPos.pos3.y}
+            A ${cornerRadius},${cornerRadius},0,0,1,${calcPos.pos3.x},${calcPos.pos3.y}
             A ${innerRadius},${innerRadius},0,0,0,${calcPos.pos4.x},${calcPos.pos4.y}
-            A ${borderRadius},${borderRadius},0,0,1,${tangentLineCoordinate2.x},${
+            A ${cornerRadius},${cornerRadius},0,0,1,${tangentLineCoordinate2.x},${
             tangentLineCoordinate2.y
           }
             Z
@@ -120,10 +121,10 @@ const PieTest = () => {
             percent={percent}
             vertex={vertex}
             calcPos={calcPos}
-            borderRadius={borderRadius}
+            cornerRadius={cornerRadius}
             innerRadius={innerRadius}
-            borderCoordinate1={borderCoordinate1}
-            borderCoordinate2={borderCoordinate2}
+            cornerCoordinate1={cornerCoordinate1}
+            cornerCoordinate2={cornerCoordinate2}
             referenceCoordinates={referenceCoordinates}
           />
         )}
