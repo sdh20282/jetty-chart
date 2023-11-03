@@ -28,13 +28,13 @@ export const getCoordinatesForPosition = ({ percent, startAngle, range }) => {
 // vertex 데이터 받아서 좌표 구하는 함수
 export const getCoordinatesVertex = ({ percent, startAngle, pieRadius, innerRadius }) => {
   return {
-    pos1: getCoordinatesForPercent({ percent: 0, startAngle: startAngle, radius: pieRadius }),
-    pos2: getCoordinatesForPercent({ percent: percent, startAngle: startAngle, radius: pieRadius }),
+    pos1: getCoordinatesForPercent({ percent: 0, startAngle, radius: pieRadius }),
+    pos2: getCoordinatesForPercent({ percent, startAngle, radius: pieRadius }),
     pos3: getCoordinatesForPercent({
-      percent: percent,
-      startAngle: startAngle,
+      percent,
+      startAngle,
       radius: innerRadius,
     }),
-    pos4: getCoordinatesForPercent({ percent: 0, startAngle: startAngle, radius: innerRadius }),
+    pos4: getCoordinatesForPercent({ percent: 0, startAngle, radius: innerRadius }),
   };
 };

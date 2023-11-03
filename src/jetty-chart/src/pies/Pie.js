@@ -1,8 +1,8 @@
 // import PaintPie from "./PaintPie";
 import { useState } from "react";
-import TestFile from "./testFile/TestFile";
+// import TestFile from "./testFile/TestFile";
 import PieTest from "./PieTest";
-import PaintPie from "./PaintPie";
+import PieSvg from "./components/PieSvg";
 
 const Pie = ({
   data,
@@ -10,7 +10,12 @@ const Pie = ({
     width: 550,
     height: 550,
     backgroundColor: "#000000",
-    padding: { top: "10", bottom: "10", left: "10", right: "10" },
+    padding: {
+      top: "10",
+      bottom: "10",
+      left: "10",
+      right: "10",
+    },
   },
   pieSettings = {
     color: ["#ffeaa7", "#81ecec", "#fab1a0", "#74b9ff", "#ff7675", "#a29bfe", "#fd79a8", "#55efc4"],
@@ -21,36 +26,46 @@ const Pie = ({
     padSize: 100, // 조각 크기, default 100
     padSpace: 1, // 조각 여백 default 0
   },
-  debugTool = !true,
+  // debugTool = !true,
 }) => {
   const [newGeneralSettings, setNewGeneralSettings] = useState(generalSettings);
   const [newPieSettings, setNewPieSettings] = useState(pieSettings);
-
+  console.log(data, setNewGeneralSettings, setNewPieSettings);
   const calcData = () => {
     let sum = 0;
     for (let i = 0; i < data.length; i++) {
       sum += data[i].value;
     }
+
     return data.map((item) => {
-      return { ...item, value: (item.value = item.value / sum) };
+      return {
+        ...item,
+        value: (item.value /= sum),
+      };
     });
   };
 
+  const test = calcData(data);
+
+  console.log("calcData");
+  console.log(test + "1");
+  console.log(data);
+
   return (
-    <div>
+    <>
       {/* <TestFile
         generalSettings={generalSettings}
         pieSettings={pieSettings}
         changeNewGeneralSettings={setNewGeneralSettings}
         changeNewPieSettings={setNewPieSettings}
       /> */}
-      <PaintPie
+      <PieSvg
         data={calcData(data)}
         generalSettings={newGeneralSettings}
         pieSettings={newPieSettings}
       />
       <PieTest />
-    </div>
+    </>
   );
 };
 

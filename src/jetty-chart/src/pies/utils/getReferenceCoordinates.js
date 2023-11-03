@@ -5,5 +5,8 @@ export const getReferenceCoordinates = ({ startAngle, percent, pieRadius }) => {
   const x = pieRadius * Math.cos(angleInRadians);
   const y = pieRadius * Math.sin(angleInRadians);
 
-  return { x, y };
+  return {
+    x,
+    y
+  };
 };

@@ -6,7 +6,12 @@ const distanceBetweenTwoPoints = ({ x1, y1, x2, y2 }) => {
 
 export const getCornerRadius = ({ x1, y1, x2, y2 }) => {
   console.log(x1, y1, x2, y2);
-  const cornerRadius = distanceBetweenTwoPoints({ x1, y1, x2, y2 });
+  const cornerRadius = distanceBetweenTwoPoints({
+    x1,
+    y1,
+    x2,
+    y2
+  });
   console.log(cornerRadius);
   return cornerRadius + "," + cornerRadius;
 };

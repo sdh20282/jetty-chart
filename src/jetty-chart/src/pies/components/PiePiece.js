@@ -1,7 +1,7 @@
-import React from "react";
-import { checkRangePadSpace, checkRangeStrokeWidth } from "./exceptions/checkValue";
+import { checkRangePadSpace, checkRangeStrokeWidth } from "../exceptions/checkValue";
 
 const PiePiece = ({
+  data,
   startX,
   startY,
   startRoundPos,
@@ -15,21 +15,10 @@ const PiePiece = ({
   index,
   value,
   label,
+  targetRad,
+  targetSpace,
+  targetRestRad,
 }) => {
-  const targetRad = 2 * Math.PI * value * (1 - pieSettings.padSpace / 100);
-  const targetSpace = (2 * Math.PI * value * pieSettings.padSpace) / 100 / 2;
-  const targetRestRad = 2 * Math.PI * (1 - value);
-  console.log(
-    startX,
-    startY,
-    startRoundPos,
-    endX,
-    endY,
-    endRoundPos,
-    targetRad,
-    targetSpace,
-    targetRestRad
-  );
   return (
     <>
       <path
