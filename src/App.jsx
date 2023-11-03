@@ -1,5 +1,5 @@
 import { NormalScatter } from "./jetty-chart/src/scatters/scatter";
-import { NormalPyramid } from "./jetty-chart/src/pyramid/pyramid";
+// import { NormalPyramid } from "./jetty-chart/src/pyramid/pyramid";
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -29,9 +29,9 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div style={{ marginLeft: "400px", marginTop: "150px" }}>
       {data2.length > 0 && <NormalScatter data={data2} />}
-      <NormalPyramid />
+      {/* <NormalPyramid /> */}
     </div>
   );
 }

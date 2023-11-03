@@ -3,6 +3,7 @@ import { ScatterCommon } from "../scatter-common/scatter-common";
 import { getAutoScope, getUserScope } from "../scope/calculate-scope";
 import { useState, useEffect } from "react";
 
+// X 좌표 위치 계산
 function calculateXPosition(value, scopeResult, totalWidth, xReverse) {
   const { minScope, maxScope } = scopeResult;
   if (xReverse) {
@@ -12,6 +13,7 @@ function calculateXPosition(value, scopeResult, totalWidth, xReverse) {
   return ((value - minScope) / (maxScope - minScope)) * totalWidth;
 }
 
+// Y 좌표 위치 계산
 function calculateYPosition(value, scopeResult, totalHeight, yReverse) {
   const { minScope, maxScope } = scopeResult;
   if (yReverse) {
@@ -43,45 +45,6 @@ function CircleWithTooltip({ x, y, xPos, yPos, group, pointSize, groupColor, poi
     left: `${xPos}px`
   };
 
-  // return (
-  //   <g transform={`translate(${xPos},${yPos})`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-  //     <circle cx={0} cy={0} r={pointSize} fill={groupColor} stroke={groupColor} strokeWidth={pointBorderWidth} />
-  //     <foreignObject x="0" y="0" width={"150"} height="50">
-  //       <div
-  //         xmlns="http://www.w3.org/1999/xhtml"
-  //         style={
-  //           showTooltip
-  //             ? {
-  //                 width: "100%",
-  //                 height: "100%",
-  //                 display: "flex",
-  //                 flexDirection: "column",
-  //                 justifyContent: "center",
-  //                 alignItems: "center",
-  //                 backgroundColor: "gray",
-  //                 color: "black",
-  //                 borderRadius: "5px",
-  //                 border: "0.5px solid #ddd",
-  //                 margin: "0px"
-  //               }
-  //             : { visibility: "hidden" }
-  //         }
-  //       >
-  //         <p
-  //           style={{
-  //             margin: "0px",
-  //             marginTop: "5px",
-  //             marginBottom: "5px",
-  //             color: "black",
-  //             fontSize: "10px",
-  //             fontWeight: "bold"
-  //           }}
-  //         >{`${group.id}, x: ${x.toFixed(1)}, y: ${y.toFixed(1)}`}</p>
-  //       </div>
-  //     </foreignObject>
-  //     {/* {showTooltip && <div style={tooltipStyle}>{`${group.id}, x: ${x.toFixed(1)}, y: ${y.toFixed(1)}`}</div>} */}
-  //   </g>
-  // );
   return (
     <g transform={`translate(${xPos},${yPos})`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <circle cx={0} cy={0} r={pointSize} fill={groupColor} stroke={groupColor} strokeWidth={pointBorderWidth} />
@@ -126,40 +89,15 @@ const NormalScatter = ({
 
   const { width, height, margin, padding, xReverse, yReverse } = result.normalSettings;
   const { xAutoScope, yAutoScope, xMaxScope, xMinScope, yMaxScope, yMinScope, xScopeMul, yScopeMul } = result.scopeSettings;
-  // let { showTopScope } = result.scopeSettings;
 
   const xScopeResult = xAutoScope
-    ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.x)), scopeMul: xScopeMul })
+    ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.x)), scopeMul: xScopeMul }) // scopeMul 그리드 개수 조정
     : getUserScope({ maxScope: xMaxScope, minScope: xMinScope });
   const yScopeResult = yAutoScope
     ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.y)), scopeMul: yScopeMul })
     : getUserScope({ maxScope: yMaxScope, minScope: yMinScope });
 
-  // const gridList = [];
-  // let num = 0;
-
-  // for (let index = 0; index < 6; index++) {
-  //   gridList.push(num);
-  //   num += 20;
-  // }
-
-  // for (let index = 0; index < 5; index++) {
-  //   gridList.push(num);
-  //   num -= 20;
-  // }
-
-  // const newGridX = { scope: gridList, maxScope: 100, minScope: 0 };
-  // console.log("X", newGridX);
-
-  const expandedScope = [
-    ...yScopeResult.scope, // 주어진 초기 배열을 추가합니다.
-    ...yScopeResult.scope.slice(0, yScopeResult.scope.length - 1).reverse() // 초기 배열의 두 번째 요소부터 뒤에서 두 번째 요소까지를 역순으로 추가합니다.
-  ];
-
-  console.log("Y", expandedScope);
-
   const { pointSize, pointBorderWidth } = result.pointSettings;
-  // let display = true;
 
   if (!xReverse) {
     xScopeResult.scope.reverse();
@@ -175,7 +113,6 @@ const NormalScatter = ({
   const drawWidth = totalWidth - padding - padding;
   const lineHeight = totalHeight / (yScopeResult.scope.length - 1);
 
-  // const AreaWidth = drawWidth / (newGridX.scope.length - 1);
   const AreaWidth = drawWidth / (xScopeResult.scope.length - 1);
 
   const availableColors = ["#93c5fd", "#fdba74", "#fca5a5", "#cbd5e1", "#86efac"];
@@ -203,7 +140,6 @@ const NormalScatter = ({
         totalHeight,
         xAxisWidth: AreaWidth,
         yAxisHeight: lineHeight
-        // showTopScope
       }}
       axisXGridLineSettings={result.axisXGridLineSettings}
       axisYGridLineSettings={result.axisYGridLineSettings}
@@ -229,10 +165,10 @@ const NormalScatter = ({
             return (
               <CircleWithTooltip
                 key={"data-" + groupIdx + idx}
-                xPos={xPos}
-                yPos={yPos}
-                x={item.x}
-                y={item.y}
+                xPos={xPos} // 점이 찍히는 X 위치
+                yPos={yPos} // 점이 찍히는 Y 위치
+                x={item.x} // X좌표
+                y={item.y} // Y좌표
                 group={{ id: group.id }}
                 pointSize={pointSize}
                 groupColor={groupColor}

@@ -21,8 +21,8 @@ const normalPointSetting = {
     xMaxScope: 100,
     xMinScope: 0,
     yMaxScope: 100,
-    xScopeMul: 1,
-    yScopeMul: 1,
+    xScopeMul: 2,
+    yScopeMul: 2,
     yMinScope: 0,
     showTopScope: true
   },
@@ -172,7 +172,7 @@ const normalPointSetting = {
     legendColor: "#aaa",
     legendOnStart: true
   },
-  // 바 세팅
+  // 포인트 세팅
   pointSettings: {
     pointSize: 1,
     pointColor: "#8EA3BC",
