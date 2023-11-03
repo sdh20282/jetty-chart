@@ -19,7 +19,7 @@ const calculateIntersection = ({ x, y, radius, cornerRadius, dir }) => {
 };
 
 // 두 원 사이에 교점 구하기, 데이터 입력
-export const calculateInputData = ({
+export const getCoordinatesCalcPos = ({
   vertex,
   pieRadius,
   innerRadius,

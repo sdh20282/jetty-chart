@@ -1,36 +1,36 @@
-import { calculateInputData } from "../utils/calculateIntersection";
-import { findCornerCandidates } from "../utils/findCornerCandidates";
-import { findCoordinatesNear } from "../utils/findCoordinatesNear";
-import { findReferenceCoordinates } from "../utils/findReferenceCoordinates";
-import { findTangentCircle } from "../utils/findTangentCircle";
-import { findTangentLine } from "../utils/findTangentLine";
-import { getCoordinatesForVertex } from "../utils/getCoordinates";
+import { getCoordinatesCalcPos } from "../utils/getCoordinatesCalcPos";
+import { getCornerCandidates } from "../utils/getCornerCandidates";
+import { getCoordinatesNear } from "../utils/getCoordinatesNear";
+import { getReferenceCoordinates } from "../utils/getReferenceCoordinates";
+import { getTangentCircle } from "../utils/getTangentCircle";
+import { getTangentLine } from "../utils/getTangentLine";
+import { getCoordinatesVertex } from "../utils/getCoordinates";
 import { pointBetweenTwoPoints } from "../utils/pointBetweenTwoPoints";
 import { PieDebugMode } from "./PieDebugMode";
 
 const PieTest = () => {
   const width = 550;
   const height = 550;
-  const percent = 0.3;
-  const startAngle = 0;
   const pieRadius = 1;
   const innerRadius = 0.5;
   const cornerRadius = 0.2;
-  const debugPointView = !true;
+  const startAngle = 0;
+  const debugTool = !!true;
+  const percent = 0.3;
   const backgroundColor = "black";
-  const tangentLineCoordinate1 = findTangentLine({
+  const tangentLineCoordinate1 = getTangentLine({
     pieRadius,
     innerRadius,
     cornerRadius,
     angle: (startAngle + percent * 360) % 360,
   });
-  const tangentLineCoordinate2 = findTangentLine({
+  const tangentLineCoordinate2 = getTangentLine({
     pieRadius,
     innerRadius,
     cornerRadius,
     angle: startAngle,
   });
-  const candidates1 = findCornerCandidates({
+  const candidates1 = getCornerCandidates({
     pieRadius,
     innerRadius,
     cornerRadius,
@@ -38,7 +38,7 @@ const PieTest = () => {
     tangentX: tangentLineCoordinate1.x,
     tangentY: tangentLineCoordinate1.y,
   });
-  const candidates2 = findCornerCandidates({
+  const candidates2 = getCornerCandidates({
     pieRadius,
     innerRadius,
     cornerRadius,
@@ -46,28 +46,28 @@ const PieTest = () => {
     tangentX: tangentLineCoordinate2.x,
     tangentY: tangentLineCoordinate2.y,
   });
-  const referenceCoordinates = findReferenceCoordinates({ startAngle, percent, pieRadius });
+  const referenceCoordinates = getReferenceCoordinates({ startAngle, percent, pieRadius });
 
-  const cornerCoordinate1 = findCoordinatesNear({
+  const cornerCoordinate1 = getCoordinatesNear({
     circle1: { x: candidates1[0].x, y: candidates1[0].y },
     circle2: { x: candidates1[1].x, y: candidates1[1].y },
     referenceCoordinates,
   });
-  const cornerCoordinate2 = findCoordinatesNear({
+  const cornerCoordinate2 = getCoordinatesNear({
     circle1: { x: candidates2[0].x, y: candidates2[0].y },
     circle2: { x: candidates2[1].x, y: candidates2[1].y },
     referenceCoordinates,
   });
 
-  const tangentCircleCoordinate1 = findTangentCircle({
+  const tangentCircleCoordinate1 = getTangentCircle({
     circle1: { x: 0, y: 0, r: innerRadius },
     circle2: { x: cornerCoordinate1.x, y: cornerCoordinate1.y, r: cornerRadius },
   });
-  const tangentCircleCoordinate2 = findTangentCircle({
+  const tangentCircleCoordinate2 = getTangentCircle({
     circle1: { x: 0, y: 0, r: innerRadius },
     circle2: { x: cornerCoordinate2.x, y: cornerCoordinate2.y, r: cornerRadius },
   });
-  const vertex = getCoordinatesForVertex({
+  const vertex = getCoordinatesVertex({
     percent,
     startAngle,
     pieRadius,
@@ -75,7 +75,7 @@ const PieTest = () => {
     tangentLineCoordinate1,
     tangentLineCoordinate2,
   });
-  const calcPos = calculateInputData({
+  const calcPos = getCoordinatesCalcPos({
     vertex,
     pieRadius,
     innerRadius,
@@ -115,7 +115,7 @@ const PieTest = () => {
             `}
           fill="#bae7ff"
         />
-        {debugPointView && (
+        {debugTool && (
           <PieDebugMode
             startAngle={startAngle}
             percent={percent}

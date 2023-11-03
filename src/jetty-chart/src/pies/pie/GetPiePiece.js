@@ -1,45 +1,54 @@
-import { checkRangePadSize } from "../utils/checkValue";
+import { checkRangePadSize } from "./exceptions/checkValue";
 import { getCoordinatesForPercent, getCoordinatesForPosition } from "../utils/getCoordinates";
 import PiePiece from "./PiePiece";
 
 const GetPiePiece = ({ data, pieSettings }) => {
   let accumulatedPercent = 0;
   return data.map(({ value, label }, index) => {
-    const [startX, startY] = getCoordinatesForPercent(accumulatedPercent, pieSettings.startAngle);
-    const startRoundPos = getCoordinatesForPosition(
-      accumulatedPercent,
-      pieSettings.startAngle,
-      pieSettings.cornerRound
-    );
-    const startInnerPos = getCoordinatesForPosition(
-      accumulatedPercent,
-      pieSettings.startAngle,
-      pieSettings.innerWidth
-    );
-    value *= checkRangePadSize(pieSettings.padSize) / 100;
+    const startPos = getCoordinatesForPercent({
+      percent: accumulatedPercent,
+      startAngle: pieSettings.startAngle,
+      radius: pieSettings.pieRadius,
+    });
+    console.log("startPos", startPos);
+    const startRoundPos = getCoordinatesForPosition({
+      percent: accumulatedPercent,
+      startAngle: pieSettings.startAngle,
+      range: 1,
+    });
+    const startInnerPos = getCoordinatesForPosition({
+      percent: accumulatedPercent,
+      startAngle: pieSettings.startAngle,
+      range: 0.1,
+    });
+    value *= pieSettings.padSize / 100;
     accumulatedPercent += value;
-    const [endX, endY] = getCoordinatesForPercent(accumulatedPercent, pieSettings.startAngle);
-    const endRoundPos = getCoordinatesForPosition(
-      accumulatedPercent,
-      pieSettings.startAngle,
-      pieSettings.cornerRound
-    );
-    const endInnerPos = getCoordinatesForPosition(
-      accumulatedPercent,
-      pieSettings.startAngle,
-      pieSettings.innerWidth
-    );
+    const endPos = getCoordinatesForPercent({
+      percent: accumulatedPercent,
+      startAngle: pieSettings.startAngle,
+      radius: pieSettings.pieRadius,
+    });
+    const endRoundPos = getCoordinatesForPosition({
+      percent: accumulatedPercent,
+      startAngle: pieSettings.startAngle,
+      range: 1,
+    });
+    const endInnerPos = getCoordinatesForPosition({
+      percent: accumulatedPercent,
+      startAngle: pieSettings.startAngle,
+      range: 0.1,
+    });
     const isLargeArcFlag = value > 0.5 ? "1" : "0";
     return (
       <PiePiece
-        startX={startX}
-        startY={startY}
+        startX={startPos.x}
+        startY={startPos.y}
         startRoundPos={startRoundPos}
         endRoundPos={endRoundPos}
         startInnerPos={startInnerPos}
         endInnerPos={endInnerPos}
-        endX={endX}
-        endY={endY}
+        endX={endPos.x}
+        endY={endPos.y}
         isLargeArcFlag={isLargeArcFlag}
         pieSettings={pieSettings}
         index={index}

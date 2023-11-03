@@ -1,4 +1,4 @@
-export const findReferenceCoordinates = ({ startAngle, percent, pieRadius }) => {
+export const getReferenceCoordinates = ({ startAngle, percent, pieRadius }) => {
   const angleInDegrees = (startAngle + percent * 180) % 360;
   const angleInRadians = angleInDegrees * (Math.PI / 180);
 

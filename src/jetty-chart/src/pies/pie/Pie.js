@@ -2,6 +2,7 @@
 import { useState } from "react";
 import TestFile from "./testFile/TestFile";
 import PieTest from "./PieTest";
+import PaintPie from "./PaintPie";
 
 const Pie = ({
   data,
@@ -13,12 +14,14 @@ const Pie = ({
   },
   pieSettings = {
     color: ["#ffeaa7", "#81ecec", "#fab1a0", "#74b9ff", "#ff7675", "#a29bfe", "#fd79a8", "#55efc4"],
+    pieRadius: 1, // 파이 반지름, default 1
+    innerRadius: 0.5, // 내부원 크기, default 50
+    cornerRadius: 0.2, // 조각 둥글기, default 0
     startAngle: 0, // 시작 위치 각도, default 0
     padSize: 100, // 조각 크기, default 100
     padSpace: 1, // 조각 여백 default 0
-    innerRadius: 10, // 내부원 크기, default 50
-    cornerRound: 10, // 조각 둥글기, default 0
   },
+  debugTool = !true,
 }) => {
   const [newGeneralSettings, setNewGeneralSettings] = useState(generalSettings);
   const [newPieSettings, setNewPieSettings] = useState(pieSettings);
@@ -41,11 +44,11 @@ const Pie = ({
         changeNewGeneralSettings={setNewGeneralSettings}
         changeNewPieSettings={setNewPieSettings}
       /> */}
-      {/* <PaintPie
+      <PaintPie
         data={calcData(data)}
         generalSettings={newGeneralSettings}
         pieSettings={newPieSettings}
-      /> */}
+      />
       <PieTest />
     </div>
   );

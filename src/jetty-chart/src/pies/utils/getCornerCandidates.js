@@ -1,4 +1,4 @@
-export const findCornerCandidates = ({
+export const getCornerCandidates = ({
   pieRadius,
   innerRadius,
   refAngle,
@@ -6,7 +6,6 @@ export const findCornerCandidates = ({
   tangentY,
   cornerRadius,
 }) => {
-  console.log(pieRadius, innerRadius, refAngle, tangentX, tangentY, cornerRadius);
   // const r1 = pieRadius; // 파이 반지름
   const r2 = innerRadius; // 내부원 반지름
   const r3 = cornerRadius; // 두번째 원 반지름
@@ -17,9 +16,9 @@ export const findCornerCandidates = ({
   // const y2 = Math.sqrt(0.5) * 0.2; // 파이 r2 위치 y
   let a = tangentX; // 두번째 좌표와 기울기가 만나는 지점 x
   let b = tangentY; // 두번째 좌표와 기울기가 만나는 지점 y
-  console.log("AB", a, b);
+
   const alpha = Math.pow(a, 2) + Math.pow(b, 2) + Math.pow(r2 + r3, 2) - Math.pow(r3, 2);
-  console.log("Alpha", alpha);
+
   const xp = {
     plus:
       (a * alpha +
@@ -77,7 +76,5 @@ export const findCornerCandidates = ({
       return result === target;
     });
 
-  console.log("!!");
-  console.log(candidates);
   return candidates;
 };

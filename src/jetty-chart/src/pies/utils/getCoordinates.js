@@ -2,11 +2,13 @@
 export const getCoordinatesForPercent = ({ percent, startAngle, radius }) => {
   const x = Math.cos(2 * Math.PI * percent + (Math.PI * startAngle) / 180) * radius;
   const y = Math.sin(2 * Math.PI * percent + (Math.PI * startAngle) / 180) * radius;
-
+  console.log("getCoordinatesForPercent", percent, startAngle, radius);
+  console.log("XY", x, y);
   return { x, y };
 };
 
-export const getCoordinatesForPosition = (percent, startAngle, range) => {
+export const getCoordinatesForPosition = ({ percent, startAngle, range }) => {
+  console.log("getCoordinatesForPosition", percent, startAngle, range);
   const x1 = Math.cos((2 * Math.PI * percent * (100 - range)) / 100 + (Math.PI * startAngle) / 180);
   const y1 =
     (Math.sin((2 * Math.PI * percent * (100 - range)) / 100 + (Math.PI * startAngle) / 180) *
@@ -18,11 +20,13 @@ export const getCoordinatesForPosition = (percent, startAngle, range) => {
       (100 - range)) /
     100;
 
+  console.log("XXXX", x1, x2, y1, y2);
+
   return { x1, x2, y1, y2 };
 };
 
 // vertex 데이터 받아서 좌표 구하는 함수
-export const getCoordinatesForVertex = ({ percent, startAngle, pieRadius, innerRadius }) => {
+export const getCoordinatesVertex = ({ percent, startAngle, pieRadius, innerRadius }) => {
   return {
     pos1: getCoordinatesForPercent({ percent: 0, startAngle: startAngle, radius: pieRadius }),
     pos2: getCoordinatesForPercent({ percent: percent, startAngle: startAngle, radius: pieRadius }),
