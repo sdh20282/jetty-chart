@@ -16,7 +16,7 @@
     "rules": {
         "prettier/prettier": [
             "error",
-            { "endOfLine": "auto", "tabWidth": 2, "useTabs": false, "printWidth": 150, "trailingComma": "none" }
+            { "endOfLine": "auto", "tabWidth": 2, "useTabs": false, "printWidth": 150, "trailingComma": "es2021" }
         ],
         "react/jsx-one-expression-per-line": "off",
         "react/react-in-jsx-scope": "off",
