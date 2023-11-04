@@ -64,8 +64,8 @@ export const calculateBarTransform = ({
   return (useAnimation && renderType.includes("grow")) || (useAnimation && useTranslate)
     ? ""
     : horizontal
-    ? `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight})`
-    : `translate(0,${checkPositive ? nowPosition : barHeight - (barOnlyUpperRadius ? borderRadius : 0)})`;
+    ? `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) + nowPosition : -barHeight - nowPosition})`
+    : `translate(0,${checkPositive ? nowPosition : barHeight - (barOnlyUpperRadius ? borderRadius : 0) - nowPosition})`;
 };
 
 export const calculateBarFrom = ({
@@ -89,6 +89,31 @@ export const calculateBarFrom = ({
     : `0px,${drawHeight - zeroHeight + (barOnlyUpperRadius ? (checkPositive ? borderRadius : -borderRadius) : 0)}px`;
 };
 
+export const calculateStackedBarFrom = ({
+  useTranslate,
+  horizontal,
+  checkPositive,
+  borderRadius,
+  translate,
+  barHeight,
+  barOnlyUpperRadius,
+  drawHeight,
+  zeroHeight,
+  nowPosition
+}) => {
+  return useTranslate
+    ? horizontal
+      ? `${checkPositive ? nowPosition - translate.position : -barHeight + translate.totalHeight - nowPosition + translate.position}px`
+      : `0px,${
+          checkPositive
+            ? translate.totalHeight + nowPosition - translate.position
+            : barHeight + (barOnlyUpperRadius ? -borderRadius : 0) + translate.zeroHeight - nowPosition + translate.position
+        }px`
+    : horizontal
+    ? `${barOnlyUpperRadius ? (checkPositive ? -borderRadius : borderRadius) : 0}px,0px`
+    : `0px,${drawHeight - zeroHeight + (barOnlyUpperRadius ? (checkPositive ? borderRadius : -borderRadius) : 0)}px`;
+};
+
 export const calculateBarTo = ({
   useTranslate,
   horizontal,
@@ -99,15 +124,18 @@ export const calculateBarTo = ({
   barHeight,
   barOnlyUpperRadius,
   drawHeight,
-  zeroHeight
+  zeroHeight,
+  nowPosition
 }) => {
+  nowPosition ??= 0;
+
   return useTranslate
     ? horizontal
-      ? `${(checkPositive ? -borderRadius : -rectWidth + borderRadius) + translate.zeroHeight}px`
-      : `0px,${checkPositive ? 0 : barHeight - borderRadius}px`
+      ? `${(checkPositive ? -borderRadius + nowPosition : -rectWidth + borderRadius - nowPosition) + translate.zeroHeight}px`
+      : `0px,${checkPositive ? nowPosition : barHeight - borderRadius - nowPosition}px`
     : horizontal
-    ? `${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight}px,0px`
-    : `0px,${drawHeight - zeroHeight - (checkPositive ? barHeight : barOnlyUpperRadius ? borderRadius : 0)}px`;
+    ? `${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) + nowPosition : -barHeight - nowPosition}px,0px`
+    : `0px,${drawHeight - zeroHeight - (checkPositive ? barHeight - nowPosition : (barOnlyUpperRadius ? borderRadius : 0) + nowPosition)}px`;
 };
 
 export const calculateLabelTransform = ({
