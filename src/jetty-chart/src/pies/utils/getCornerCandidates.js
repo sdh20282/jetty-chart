@@ -1,4 +1,11 @@
-export const getCornerCandidates = ({ pieRadius, innerRadius, refAngle, tangentX, tangentY, cornerRadius }) => {
+export const getCornerCandidates = ({
+  pieRadius,
+  innerRadius,
+  refAngle,
+  tangentX,
+  tangentY,
+  cornerRadius,
+}) => {
   // const r1 = pieRadius; // 파이 반지름
   const r2 = innerRadius; // 내부원 반지름
   const r3 = cornerRadius; // 두번째 원 반지름
@@ -13,12 +20,22 @@ export const getCornerCandidates = ({ pieRadius, innerRadius, refAngle, tangentX
   const alpha = a ** 2 + b ** 2 + (r2 + r3) ** 2 - r3 ** 2;
 
   const xp = {
-    plus: (a * alpha + Math.sqrt(a ** 2 * alpha ** 2 - (a ** 2 + b ** 2) * (alpha ** 2 - 4 * b ** 2 * (r2 + r3) ** 2))) / (2 * (a ** 2 + b ** 2)),
-    minus: (a * alpha - Math.sqrt(a ** 2 * alpha ** 2 - (a ** 2 + b ** 2) * (alpha ** 2 - 4 * b ** 2 * (r2 + r3) ** 2))) / (2 * (a ** 2 + b ** 2))
+    plus:
+      (a * alpha +
+        Math.sqrt(
+          a ** 2 * alpha ** 2 - (a ** 2 + b ** 2) * (alpha ** 2 - 4 * b ** 2 * (r2 + r3) ** 2)
+        )) /
+      (2 * (a ** 2 + b ** 2)),
+    minus:
+      (a * alpha -
+        Math.sqrt(
+          a ** 2 * alpha ** 2 - (a ** 2 + b ** 2) * (alpha ** 2 - 4 * b ** 2 * (r2 + r3) ** 2)
+        )) /
+      (2 * (a ** 2 + b ** 2)),
   };
   const yp = {
     plus: Math.sqrt((r2 + r3) ** 2 - xp.plus ** 2),
-    minus: Math.sqrt((r2 + r3) ** 2 - xp.minus ** 2)
+    minus: Math.sqrt((r2 + r3) ** 2 - xp.minus ** 2),
   };
 
   const check = [];
@@ -30,9 +47,9 @@ export const getCornerCandidates = ({ pieRadius, innerRadius, refAngle, tangentX
     { x: xp.plus, y: -yp.plus },
     { x: xp.plus, y: -yp.minus },
     { x: xp.minus, y: -yp.plus },
-    { x: xp.minus, y: -yp.minus }
+    { x: xp.minus, y: -yp.minus },
   ]
-    .filter(candidate => {
+    .filter((candidate) => {
       const checkStr = candidate.x + "_" + candidate.y;
 
       if (check.includes(checkStr)) {
@@ -42,13 +59,13 @@ export const getCornerCandidates = ({ pieRadius, innerRadius, refAngle, tangentX
       check.push(checkStr);
       return true;
     })
-    .filter(candidate => {
+    .filter((candidate) => {
       const result = Math.round(((a - candidate.x) ** 2 + (b - candidate.y) ** 2) * 10000);
       const target = Math.round(r3 ** 2 * 10000);
-      console.log(result, target);
+
       return result === target;
     })
-    .filter(candidate => {
+    .filter((candidate) => {
       const result = Math.round((candidate.x ** 2 + candidate.y ** 2) * 10000);
       const target = Math.round((r2 + r3) ** 2 * 10000);
 

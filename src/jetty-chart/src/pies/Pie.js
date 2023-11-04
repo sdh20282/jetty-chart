@@ -30,26 +30,6 @@ const Pie = ({
 }) => {
   const [newGeneralSettings, setNewGeneralSettings] = useState(generalSettings);
   const [newPieSettings, setNewPieSettings] = useState(pieSettings);
-  console.log(data, setNewGeneralSettings, setNewPieSettings);
-  const calcData = () => {
-    let sum = 0;
-    for (let i = 0; i < data.length; i++) {
-      sum += data[i].value;
-    }
-
-    return data.map((item) => {
-      return {
-        ...item,
-        value: (item.value /= sum),
-      };
-    });
-  };
-
-  const test = calcData(data);
-
-  console.log("calcData");
-  console.log(test + "1");
-  console.log(data);
 
   return (
     <>
@@ -59,11 +39,7 @@ const Pie = ({
         changeNewGeneralSettings={setNewGeneralSettings}
         changeNewPieSettings={setNewPieSettings}
       /> */}
-      <PieSvg
-        data={calcData(data)}
-        generalSettings={newGeneralSettings}
-        pieSettings={newPieSettings}
-      />
+      <PieSvg data={data} generalSettings={newGeneralSettings} pieSettings={newPieSettings} />
       <PieTest />
     </>
   );

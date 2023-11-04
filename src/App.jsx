@@ -9,12 +9,12 @@ const counts = [5, 6, 7];
 //   return <NormalBar data={data} keys={["target1"]} xLegend={"types"} yLegend={"values"} />;
 // };
 
-const myPie = ({ data }) => {
-  return <Pie data={data} />;
-};
-
 function App() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+    { value: 10, label: "test1" },
+    { value: 20, label: "test2" },
+    { value: 30, label: "test3" },
+  ]);
   const [state, setState] = useState(1);
 
   useEffect(() => {
@@ -33,9 +33,7 @@ function App() {
   return (
     <div>
       {/* {myNormalBar({ data })} */}
-      {myPie({
-        data,
-      })}
+      <Pie data={data} />
       <button
         onClick={() => {
           setState((state) => 1 - state);

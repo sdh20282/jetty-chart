@@ -12,12 +12,12 @@ const PiePiece = ({
   endX,
   endY,
   pieSettings,
-  index,
-  value,
-  label,
   targetRad,
   targetSpace,
   targetRestRad,
+  value,
+  label,
+  index,
 }) => {
   return (
     <>

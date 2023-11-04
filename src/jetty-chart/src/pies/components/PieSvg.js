@@ -1,11 +1,12 @@
 import getPiePiece from "../getPiePiece";
+import { getDividePercent } from "../utils/getDividePercent";
 import PiePiece from "./PiePiece";
 
 const PieSvg = ({ data, generalSettings, pieSettings }) => {
-  const { startPos, startRoundPos, startInnerPos, endPos, endRoundPos, endInnerPos, isLargeArcFlag, targetRad, targetSpace, targetRestRad } =
-    getPiePiece({ data, pieSettings });
-  console.log("PIESVG");
-  console.log(startPos, startRoundPos, startInnerPos, endPos, endRoundPos, endInnerPos, isLargeArcFlag, targetRad, targetSpace, targetRestRad);
+  data = getDividePercent({ data });
+  const pieceData = getPiePiece({ data, pieSettings });
+  console.log(pieceData);
+
   return (
     <svg
       id="pie"
@@ -22,29 +23,30 @@ const PieSvg = ({ data, generalSettings, pieSettings }) => {
           generalSettings.padding.bottom +
           "px " +
           generalSettings.padding.left +
-          "px "
+          "px ",
       }}
     >
-      <PiePiece
-        data={data}
-        startX={startPos.x}
-        startY={startPos.y}
-        startRoundPos={startRoundPos}
-        endRoundPos={endRoundPos}
-        startInnerPos={startInnerPos}
-        endInnerPos={endInnerPos}
-        endX={endPos.x}
-        endY={endPos.y}
-        isLargeArcFlag={isLargeArcFlag}
-        pieSettings={pieSettings}
-        index={index}
-        key={index}
-        value={value}
-        label={label}
-        targetRad={targetRad}
-        targetSpace={targetSpace}
-        targetRestRad={targetRestRad}
-      />
+      {pieceData.map((piece) => (
+        <PiePiece
+          startX={piece.startPos.x}
+          startY={piece.startPos.y}
+          startRoundPos={piece.startRoundPos}
+          endRoundPos={piece.endRoundPos}
+          startInnerPos={piece.startInnerPos}
+          endInnerPos={piece.endInnerPos}
+          endX={piece.endPos.x}
+          endY={piece.endPos.y}
+          isLargeArcFlag={piece.isLargeArcFlag}
+          key={piece.index}
+          index={piece.index}
+          value={piece.value}
+          label={piece.label}
+          targetRad={piece.targetRad}
+          targetSpace={piece.targetSpace}
+          targetRestRad={piece.targetRestRad}
+          pieSettings={pieSettings}
+        />
+      ))}
     </svg>
   );
 };
