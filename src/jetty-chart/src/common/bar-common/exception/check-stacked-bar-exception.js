@@ -28,7 +28,8 @@ const stackedBarSetting = {
     useVariousColors: false,
     padding: 20,
     reverse: false,
-    horizontal: false
+    horizontal: false,
+    reverseOrder: false
   },
   // 범위 세팅
   scopeSettings: {
@@ -200,7 +201,7 @@ const stackedBarSetting = {
     barOpacity: 1,
     barGap: 0.15,
     barOnlyUpperRadius: false,
-    barBorderRadius: 10,
+    barBorderRadius: 0,
     useBarBorder: false,
     barBorderWidth: 2,
     barBorderColor: "#000",
