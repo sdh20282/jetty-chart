@@ -3,7 +3,7 @@ import { useEffect } from "react";
 // import { NormalBar } from "./jetty-chart/src";
 import { Pie } from "./jetty-chart/src/pies/Pie";
 
-const counts = [5, 6, 7];
+const counts = [3, 4, 5, 6, 7];
 
 // const myNormalBar = ({ data }) => {
 //   return <NormalBar data={data} keys={["target1"]} xLegend={"types"} yLegend={"values"} />;

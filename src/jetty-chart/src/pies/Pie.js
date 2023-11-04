@@ -1,14 +1,14 @@
 // import PaintPie from "./PaintPie";
 import { useState } from "react";
 // import TestFile from "./testFile/TestFile";
-import PieTest from "./PieTest";
+import PieTest from "./testFile/PieTest";
 import PieSvg from "./components/PieSvg";
 
 const Pie = ({
   data,
   generalSettings = {
-    width: 550,
-    height: 550,
+    width: 400,
+    height: 400,
     backgroundColor: "#000000",
     padding: {
       top: "10",
@@ -20,7 +20,7 @@ const Pie = ({
   pieSettings = {
     color: ["#ffeaa7", "#81ecec", "#fab1a0", "#74b9ff", "#ff7675", "#a29bfe", "#fd79a8", "#55efc4"],
     pieRadius: 1, // 파이 반지름, default 1
-    innerRadius: 0.5, // 내부원 크기, default 50
+    innerRadius: 0.2, // 내부원 크기, default 0
     cornerRadius: 0.2, // 조각 둥글기, default 0
     startAngle: 0, // 시작 위치 각도, default 0
     padSize: 100, // 조각 크기, default 100
@@ -28,8 +28,8 @@ const Pie = ({
   },
   // debugTool = !true,
 }) => {
-  const [newGeneralSettings, setNewGeneralSettings] = useState(generalSettings);
-  const [newPieSettings, setNewPieSettings] = useState(pieSettings);
+  // const [newGeneralSettings, setNewGeneralSettings] = useState(generalSettings);
+  // const [newPieSettings, setNewPieSettings] = useState(pieSettings);
 
   return (
     <>
@@ -39,8 +39,7 @@ const Pie = ({
         changeNewGeneralSettings={setNewGeneralSettings}
         changeNewPieSettings={setNewPieSettings}
       /> */}
-      <PieSvg data={data} generalSettings={newGeneralSettings} pieSettings={newPieSettings} />
-      <PieTest />
+      <PieSvg data={data} generalSettings={generalSettings} pieSettings={pieSettings} />
     </>
   );
 };

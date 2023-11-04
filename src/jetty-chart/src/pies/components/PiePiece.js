@@ -1,4 +1,5 @@
 import { checkRangePadSpace, checkRangeStrokeWidth } from "../exceptions/checkValue";
+import { pointBetweenTwoPoints } from "../utils/pointBetweenTwoPoints";
 
 const PiePiece = ({
   data,
@@ -15,25 +16,49 @@ const PiePiece = ({
   targetRad,
   targetSpace,
   targetRestRad,
+
   value,
   label,
   index,
+
+  vertex,
+  cornerRadius,
+  innerRadius,
+  pieRadius,
+  tangentLineCoordinate1,
+  tangentLineCoordinate2,
+  calcPos,
+  color,
 }) => {
   return (
     <>
       <path
-        d={`M ${startX} ${startY} A 1 1 0 ${isLargeArcFlag} 1 ${endX} ${endY}`}
-        fill="none"
-        stroke={pieSettings.color[index]}
-        strokeWidth={pieSettings.innerRadius}
-        strokeDasharray={`0 ${targetSpace} ${targetRad} ${targetSpace + targetRestRad}`}
-      ></path>
-      <path
-        d={`M ${startRoundPos.x} ${startRoundPos.y}
-        A 1 1 0 0 1 ${startX} ${startY}
-        A 0 0 0 1 1 ${endX} ${endY}
-        A 1 1 0 0 1 ${endRoundPos.x} ${endRoundPos.y2}
-      `}
+        d={`          
+            M ${pointBetweenTwoPoints({
+              x1: vertex.pos1.x,
+              y1: vertex.pos1.y,
+              x2: vertex.pos4.x,
+              y2: vertex.pos4.y,
+              cornerRadius,
+            })}
+            A ${cornerRadius},${cornerRadius},0,0,1,${calcPos.pos1.x},${calcPos.pos1.y}
+            A ${pieRadius},${pieRadius},0,0,1,${calcPos.pos2.x},${calcPos.pos2.y}
+            A ${cornerRadius},${cornerRadius},0,0,1,${pointBetweenTwoPoints({
+              x1: vertex.pos2.x,
+              y1: vertex.pos2.y,
+              x2: vertex.pos3.x,
+              y2: vertex.pos3.y,
+              cornerRadius,
+            })}
+            L ${tangentLineCoordinate1.x},${tangentLineCoordinate1.y}
+            A ${cornerRadius},${cornerRadius},0,0,1,${calcPos.pos3.x},${calcPos.pos3.y}
+            A ${innerRadius},${innerRadius},0,0,0,${calcPos.pos4.x},${calcPos.pos4.y}
+            A ${cornerRadius},${cornerRadius},0,0,1,${tangentLineCoordinate2.x},${
+              tangentLineCoordinate2.y
+            }
+            Z
+            `}
+        fill={color}
       />
     </>
   );
