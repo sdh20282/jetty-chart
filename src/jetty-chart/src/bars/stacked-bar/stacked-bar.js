@@ -2,26 +2,31 @@ import { useRef } from "react";
 
 import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
 
-import { checkNormalBar } from "../../common/bar-common/exception/check-normal-bar-exception";
+import { checkStackedBar } from "../../common/bar-common/exception/check-stacked-bar-exception";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
-import { calculateBase, calculateBarBase, calculateLabelLocation } from "../../common/bar-common/utils/calculate-base-values";
+import {
+  calculateBase,
+  calculateBarBase,
+  calculateLabelLocation,
+  calculateStackedBarBase
+} from "../../common/bar-common/utils/calculate-base-values";
 import {
   calculateWarpperTransform,
   calculateBarWrapperTransform,
   calculateBarWrapperFrom,
   calculateBarWrapperTo,
   calculateBarTransform,
-  calculateBarFrom,
   calculateBarTo,
   calculateLabelTransform,
   calculateLabelFrom,
-  calculateLabelTo
+  calculateLabelTo,
+  calculateStackedBarFrom
 } from "../../common/bar-common/utils/calculate-bar-positions";
 
-import styles from "./normal-bar.module.css";
+import styles from "./stacked-bar.module.css";
 
 /* eslint-disable complexity */
-const NormalBar = ({
+const StackedBar = ({
   data,
   keys,
   xLegend,
@@ -45,11 +50,14 @@ const NormalBar = ({
   const prevBars = useRef({});
   const prevBarsTemp = useRef({});
 
+  const pervBarItem = useRef({});
+  const prevBarItemTemp = useRef({});
+
   if (!data || data.length === 0) {
     return;
   }
 
-  const result = checkNormalBar({
+  const result = checkStackedBar({
     normalSettings,
     scopeSettings,
     axisXGridLineSettings,
@@ -67,7 +75,7 @@ const NormalBar = ({
     animationSettings
   });
 
-  const { width, height, margin, innerMargin, padding, reverse, horizontal, colorPalette, useVariousColors } = result.normalSettings;
+  const { width, height, margin, innerMargin, padding, reverse, horizontal, colorPalette, reverseOrder } = result.normalSettings;
   const { autoScope, maxScope, minScope } = result.scopeSettings;
   let { showTopScope } = result.scopeSettings;
   const {
@@ -113,7 +121,15 @@ const NormalBar = ({
     translateTimingFunction
   } = result.animationSettings.barSettings;
 
-  const scopeResult = autoScope ? getAutoScope({ data: data.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
+  const scopeResult = autoScope
+    ? getAutoScope({
+        data: data.map((d) =>
+          d.value.reduce((acc, cur) => {
+            return acc + cur;
+          }, 0)
+        )
+      })
+    : getUserScope({ maxScope, minScope });
   let display = true;
 
   if (reverse) {
@@ -129,11 +145,14 @@ const NormalBar = ({
     calculateBase({ horizontal, height, margin, width, scopeResult, autoScope, innerMargin, padding, length: data.length, barGap });
 
   const prevBarsKeys = Object.keys(prevBars.current);
+  const prevBarItemKeys = Object.keys(pervBarItem.current);
   const ms = new Date().valueOf();
 
   if (translateBar) {
     prevBars.current = { ...prevBarsTemp.current };
     prevBarsTemp.current = [];
+    pervBarItem.current = { ...prevBarItemTemp.current };
+    prevBarItemTemp.current = [];
   }
 
   return (
@@ -166,25 +185,29 @@ const NormalBar = ({
       animationSettings={result.animationSettings}
     >
       <g transform={calculateWarpperTransform({ horizontal, reverse, innerMargin, padding })}>
-        {data.map((d, idx) => {
+        {data.map((d, index) => {
           const nowData = { ...d };
 
+          let nowTotalValue = nowData.value.reduce((acc, cur) => {
+            return acc + cur;
+          }, 0);
+
           if (reverse) {
-            nowData.value = -nowData.value;
+            nowTotalValue = -nowTotalValue;
           }
 
           const { center, valueRatio, barHeight, borderRadius, realHeight, rectWidth, rectHeight, checkPositive } = calculateBarBase({
             horizontal,
             reverse,
-            value: nowData.value,
+            value: nowTotalValue,
             length: data.length,
-            idx,
+            idx: index,
             drawWidth,
             drawHeight,
             useMinHeight,
             minHeight,
             totalScope,
-            barBorderRadius,
+            barBorderRadius: 0,
             barOnlyUpperRadius,
             halfBarRealWidth
           });
@@ -250,10 +273,127 @@ const NormalBar = ({
                   "--group-to": calculateBarWrapperTo({ horizontal, zeroHeight, translate, center, drawHeight, barHeight, halfBarRealWidth }),
                   "--animation-duration": `${translateDuration}s`,
                   "--animation-timing-function": translateTimingFunction,
-                  "--animation-delay": `${translateStartDelay + translateItemDelay * (renderStartFrom === "left" ? idx : data.length - 1 - idx)}s`
+                  "--animation-delay": `${translateStartDelay + translateItemDelay * (renderStartFrom === "left" ? index : data.length - 1 - index)}s`
                 }}
               >
-                <rect
+                {nowData.value.map((d, idx) => {
+                  const { nowHeight, nowPosition } = calculateStackedBarBase({
+                    rectHeight: horizontal ? rectWidth : rectHeight,
+                    values: nowData.value,
+                    idx,
+                    totalValue: nowTotalValue,
+                    reverseOrder
+                  });
+
+                  const nowRectWidth = Math.abs(horizontal ? nowHeight : rectWidth);
+                  const nowRectHeight = Math.abs(horizontal ? rectHeight : nowHeight);
+
+                  const cur = `${nowData.label}_${idx}`;
+
+                  prevBarItemTemp.current[cur] = {
+                    center,
+                    width: nowRectWidth,
+                    height: nowRectHeight,
+                    zeroHeight,
+                    position: nowPosition,
+                    totalHeight: barHeight
+                  };
+
+                  let useTranslate = false;
+                  let translate = { center: 0, width: 0, height: 0, zeroHeight: 0, position: 0, totalHeight: 0 };
+
+                  if (translateBar && useAnimation) {
+                    if (prevBarItemKeys.includes(cur)) {
+                      translate = {
+                        center: center - pervBarItem.current[cur].center,
+                        width: nowRectWidth - pervBarItem.current[cur].width,
+                        height: nowRectHeight - pervBarItem.current[cur].height,
+                        zeroHeight: zeroHeight - pervBarItem.current[cur].zeroHeight,
+                        position: nowPosition - pervBarItem.current[cur].position,
+                        totalHeight: barHeight - pervBarItem.current[cur].totalHeight
+                      };
+                      useTranslate = true;
+                    }
+                  }
+
+                  return (
+                    <rect
+                      key={"rect-" + ms + "-" + nowData.label + "-" + idx}
+                      width={nowRectWidth}
+                      height={nowRectHeight}
+                      transform={calculateBarTransform({
+                        useAnimation,
+                        renderType,
+                        useTranslate,
+                        horizontal,
+                        checkPositive,
+                        barOnlyUpperRadius,
+                        borderRadius,
+                        barHeight,
+                        nowPosition
+                      })}
+                      fill={colorPalette[idx % colorPalette.length]}
+                      fillOpacity={barOpacity}
+                      rx={barBorderRadius}
+                      ry={barBorderRadius}
+                      stroke={useBarBorder ? barBorderColor : ""}
+                      strokeOpacity={barBorderOpacity}
+                      strokeWidth={useBarBorder ? barBorderWidth : "0"}
+                      className={
+                        useAnimation
+                          ? useTranslate
+                            ? styles.translateBar
+                            : renderType.includes("grow")
+                            ? styles.growBar
+                            : renderType === "fade"
+                            ? styles.fadeBar
+                            : ""
+                          : ""
+                      }
+                      style={{
+                        "--bar-from": calculateStackedBarFrom({
+                          useTranslate,
+                          horizontal,
+                          checkPositive,
+                          borderRadius,
+                          rectWidth,
+                          translate,
+                          barHeight,
+                          barOnlyUpperRadius,
+                          drawHeight,
+                          zeroHeight,
+                          nowPosition
+                        }),
+                        "--bar-to": calculateBarTo({
+                          useTranslate,
+                          horizontal,
+                          checkPositive,
+                          borderRadius,
+                          rectWidth,
+                          translate,
+                          barHeight,
+                          barOnlyUpperRadius,
+                          drawHeight,
+                          zeroHeight,
+                          nowPosition
+                        }),
+                        "--width-from": useTranslate ? `${nowRectWidth - translate.width}px` : horizontal ? `0px` : `${nowRectWidth}px`,
+                        "--width-to": `${nowRectWidth}px`,
+                        "--height-from": useTranslate ? `${nowRectHeight - translate.height}px` : horizontal ? `${nowRectHeight}px` : `0px`,
+                        "--height-to": `${nowRectHeight}px`,
+                        "--animation-duration": useTranslate
+                          ? `${translateDuration}s`
+                          : `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`,
+                        "--animation-delay": `${
+                          (useTranslate ? translateStartDelay : renderStartDelay) +
+                          (useTranslate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? index : data.length - 1 - index)
+                        }s`,
+                        "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction
+                      }}
+                    ></rect>
+                  );
+                })}
+                {/* <rect
                   width={rectWidth}
                   height={rectHeight}
                   clipPath={
@@ -278,7 +418,7 @@ const NormalBar = ({
                     barHeight
                   })}
                   fill={useVariousColors ? colorPalette[idx % colorPalette.length] : colorPalette[0]}
-                  fillOpacity={barOpacity}
+                  opacity={barOpacity}
                   rx={borderRadius}
                   ry={borderRadius}
                   stroke={useBarBorder ? barBorderColor : ""}
@@ -333,7 +473,7 @@ const NormalBar = ({
                     }s`,
                     "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction
                   }}
-                ></rect>
+                ></rect> */}
                 {useLabel && realHeight > labelInvisibleHeight && (
                   <g
                     transform={calculateLabelTransform({
@@ -377,7 +517,7 @@ const NormalBar = ({
                           checkPositive,
                           rectWidth,
                           translate,
-                          barBorderRadius,
+                          barBorderRadius: 0,
                           labelMargin,
                           rectHeight,
                           borderRadius,
@@ -398,12 +538,13 @@ const NormalBar = ({
                           : `${renderType === "grow" ? textRenderDuration * valueRatio : textRenderDuration}s`,
                         "--animation-delay": `${
                           (useTranslate ? translateStartDelay : textRenderStartDelay) +
-                          (useTranslate ? translateItemDelay : textRenderItemDelay) * (textRenderStartFrom === "left" ? idx : data.length - 1 - idx)
+                          (useTranslate ? translateItemDelay : textRenderItemDelay) *
+                            (textRenderStartFrom === "left" ? index : data.length - 1 - index)
                         }s`,
                         "--animation-timing-function": useTranslate ? translateTimingFunction : textRenderTimingFunction
                       }}
                     >
-                      {reverse ? -nowData.value : nowData.value}
+                      {reverse ? -nowTotalValue : nowTotalValue}
                     </text>
                   </g>
                 )}
@@ -415,6 +556,5 @@ const NormalBar = ({
     </LabelValueCommon>
   );
 };
-/* eslint-enable complexity */
 
-export { NormalBar };
+export { StackedBar };
