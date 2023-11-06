@@ -1,52 +1,61 @@
 import { useEffect, useState } from "react";
 import styles from "./map-common.module.css";
-
+import { checkMapChart } from "../../../exception/map-common-exception";
 /* eslint-disable complexity */
 const MapChart = ({
   data,
-  nomalSetting: {
-    usePersentageColor,
-    backgroundColor,
-    divide,
-    colorCode,
-    width,
-    zoomMagnification, 
-    zoomOn,
-    animationOn,
-  },
-  gagueBarSetting:{
-    gagueBarWidth,
-    gagueBarHeight,
+  normalSetting,
+  gagueBarSetting,
+  tooltipSetting,
+}) => {
+  const result = checkMapChart({
+    normalSetting,
+    gagueBarSetting,
+    tooltipSetting})
+    
+  const { backgroundColor,
+  divide,
+  colorCode,
+  width,
+  zoomMagnification,
+  usePersentageColor,
+  zoomOn,
+  animationOn,
+  marginTop,
+  marginBottom,
+  marginLeft,
+  marginRight} = result.normalSetting
+  
+  const{
     useGagueBar,
+    useValueLavel,
     pointerSize,
     pointerColor,
+    gagueBarWidth,
+    gagueBarHeight,
     gagueValueFontSize,
-    gagueValueFontWeight,
     gagueValueFontFamily,
+    gagueValueFontWeight,
     valueLavel,
-    useValueLavel,
-  },
-  tooltipSetting:{
-    useFollowColor,
-    useKorea,
-    tooltipWidth,
-    tooltipMaxHeight,
-    tooltipBackGroundColor,
-    tooltipBorderRadius,
-    tooltipBorder,
-    tooltipBoxShadow,
-    cityNameFontSize,
-    cityNameColor,
-    cityNameFontWeight,
-    cityValueColor,
-    cityValueFontWeight,
-    cityValueFontSize,
-    descriptionColor,
-    descriptionFontSize,
-    descriptionFontWeight,
-    descriptionFontFamily
-  }
-}) => {
+  } = result.gagueBarSetting
+
+  const {useFollowColor,
+        useKorea,
+        tooltipWidth,
+        tooltipBackGroundColor,
+        tooltipBorderRadius,
+        tooltipBorder,
+        tooltipBoxShadow,
+        cityNameFontSize,
+        cityNameColor,
+        cityNameFontWeight,
+        cityValueColor,
+        cityValueFontWeight,
+        cityValueFontSize,
+        descriptionColor,
+        descriptionFontSize,
+        descriptionFontWeight,
+        descriptionFontFamily} = result.tooltipSetting
 
   const colorPallette = [
     ["#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6"],
@@ -67,7 +76,7 @@ const MapChart = ({
     ["#202202", "#4E3708" , "#772F13", "#9C212B", "#BC3473", "#C75CB7", "#BD88CD", "#C0B1D8", "#D6D6E6", "#F6F7F9"],
     ["#1A1E05", "#484B0C", "#786C12", "#A68017", "#D5871A", "#E9863A", "#F08D66", "#F6A093", "#FAC1C1", "#FEF1F3"],
     ["#FEC5BB", "#FCD5CE", "#FAE1DD", "#F8EDEB", "#E8E8E4", "#D8E2DC", "#ECE4DB", "#FFE5D9", "#FFD7BA", "#FEC89A"],
-    ["#03071E", "#370617", "#6A040F", "#9D0208", "#D00000" , "#DC2F02", "#E85D04", "#F48C06", "#FAA307", "#FFBA08"]
+    ["#03071E", "#370617", "#6A040F", "#9D0208", "#D00000" , "#DC2F02", "#E85D04", "#F48C06", "#FAA307", "#FFBA08"],
   ];
   // 컬러코드 0: 파랑 , 1: 오렌지, 2: 레드, 3: 블루그레이, 4: 그린
   const color = colorPallette[colorCode];
@@ -193,7 +202,7 @@ const MapChart = ({
   const [firstX,setFirstX] = useState();
   const [targetColor,setTargetColor] =useState("");
   let ToolW = tooltipWidth/scale;
-  let ToolH = tooltipMaxHeight/scale;
+  let ToolH = 1064/scale;
 
   let cityFontS =  cityNameFontSize/scale; 
   let cityValueFontS = cityValueFontSize/scale;
@@ -260,7 +269,8 @@ const MapChart = ({
     });
     const outMap = document.querySelector("#map");
     outMap.addEventListener("mouseout", pathOut);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+
   }, [data]);
 
   useEffect(() => {
@@ -317,6 +327,7 @@ const MapChart = ({
     if(zoomOn){
     const mapSvg = document.querySelectorAll(".mapsvg");
     let onZoom = true
+    // eslint-disable-next-line no-inner-declarations
     function zoomin (e) {
       
         let svg = document.querySelector(".mapsvg");
@@ -335,7 +346,7 @@ const MapChart = ({
         onZoom = !onZoom
         setScale(scale)
         
-    };
+    }
     mapSvg.forEach((path) => {
       path.addEventListener("click", zoomin);
     });
@@ -347,7 +358,7 @@ const MapChart = ({
   
   return (
     // width 랑 height 데이타 값으로 받기
-    <div style={{ width: `${width}px`, height: `100%`, backgroundColor: `${backgroundColor}` }}>
+    <div style={{ width: `${width}px`, height: `100%`, backgroundColor: `${backgroundColor}`, marginTop: `${marginTop}px`, marginLeft: `${marginLeft}px`, marginRight:`${marginRight}px`, marginBottom:`${marginBottom}px`}}>
       <svg className="mapsvg" fill="none" viewBox="0 0 1048 1064">
         <g id="map">
           <path
@@ -582,7 +593,7 @@ const MapChart = ({
                       border: `${tooltipBorder}`,
                       boxShadow: `${tooltipBoxShadow}`,
                       margin: "10%",
-                      overflow:"hidden"
+                      overflow:"hidden",
                     }
                   : { visibility: "hidden" }
               }
@@ -595,7 +606,7 @@ const MapChart = ({
                   marginBottom: "5px",
                   color: `${cityNameColor}`,
                   fontSize: `${cityFontS}px`,
-                  fontWeight: `${cityNameFontWeight}`
+                  fontWeight: `${cityNameFontWeight}`,
                 }}
               >
                 {tooltipCity} :{" "}
@@ -616,7 +627,7 @@ const MapChart = ({
                   fontSize: `${decripFontS}px`,
                   fontWeight: `${descriptionFontWeight}`,
                   maxHeight:"50%",
-                  overflow:"hidden"
+                  overflow:"hidden",
                 }}
               >
                 {tooltipDescription}

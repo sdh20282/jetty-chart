@@ -38,7 +38,7 @@ const data1 = [
     color: "#000000",
     colorCode:0,
     description: "",
-    inKorea: "충청북도"
+    inKorea: "충청북도",
   },
   {
     name: "incheon",
@@ -46,7 +46,7 @@ const data1 = [
     color: "#4079F3",
     colorCode: 0,
     description: "",
-    inKorea: "인천"
+    inKorea: "인천",
   },
   {
     name: "kangwon",
@@ -54,7 +54,7 @@ const data1 = [
     color: "#F35F40",
     colorCode: 0,
     description: "",
-    inKorea: "강원도"
+    inKorea: "강원도",
   },
   {
     name: "seoul",
@@ -62,7 +62,7 @@ const data1 = [
     color: "#F35F40",
     colorCode: 0,
     description: "",
-    inKorea: "서울"
+    inKorea: "서울",
   },
   {
     name: "gyeonggi",
@@ -70,7 +70,7 @@ const data1 = [
     color: "#4079F3",
     colorCode: 0,
     description: "",
-    inKorea: "경기도"
+    inKorea: "경기도",
   },
   {
     name: "northJeolla",
@@ -78,7 +78,7 @@ const data1 = [
     color: "#4079F3",
     colorCode: 0,
     description: "",
-    inKorea: "전라북도"
+    inKorea: "전라북도",
   },
   {
     name: "gwangju",
@@ -86,7 +86,7 @@ const data1 = [
     color: "#F35F40",
     colorCode: 0,
     description: "",
-    inKorea: "광주"
+    inKorea: "광주",
   },
   {
     name: "southChungcheong",
@@ -94,7 +94,7 @@ const data1 = [
     color: "#4079F3",
     colorCode: 0,
     description: "",
-    inKorea: "충청남도"
+    inKorea: "충청남도",
   },
   {
     name: "daejeon",
@@ -102,7 +102,7 @@ const data1 = [
     color: "#000000",
     colorCode: 0,
     description: "",
-    inKorea: "대전"
+    inKorea: "대전",
   },
   {
     name: "deagu",
@@ -110,7 +110,7 @@ const data1 = [
     color: "#F35F40",
     colorCode: 0,
     description: "",
-    inKorea: "대구"
+    inKorea: "대구",
   },
   {
     name: "southgyeongsang",
@@ -118,7 +118,7 @@ const data1 = [
     color: "#F35F40",
     colorCode: 0,
     description: "",
-    inKorea: "경상남도"
+    inKorea: "경상남도",
   },
   {
     name: "southJeolla",
@@ -126,15 +126,15 @@ const data1 = [
     color: "#F35F40",
     colorCode: 0,
     description: "",
-    inKorea: "전라남도"
+    inKorea: "전라남도",
   },
   {
     name: "busan",
     value: Math.floor(Math.random() * 1001),
     color: "#F35F40",
     colorCode: 0, 
-    description: "부싼부싼 부싼부싼부 부싼부싼부싼부싼부싼부싼부싼부싼부싼부싼부부부싼부싼부싼부싼부싼부싼부부싼부싼부싼부싼부싼부부싼부싼부싼부싼부싼싼",
-    inKorea: "부산"
+    description: "",
+    inKorea: "부산",
   },
   {
     name: "ulsan",
@@ -142,15 +142,15 @@ const data1 = [
     color: "#F35F40",
     colorCode: 0,
     description: "",
-    inKorea: "울산"
+    inKorea: "울산",
   },
   {
     name: "jeju",
     value: Math.floor(Math.random() * 1001),
     color: "#4079F3",
     colorCode: 0,
-    description: "zzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzzzzzzzzzzzz zzzzzzzzzzzzzzzzzz zzzz",
-    inKorea:"제주"
+    description: "zzzzz",
+    inKorea:"제주",
   },
   {
     name: "kyeongbook",
@@ -158,7 +158,7 @@ const data1 = [
     color: "#F35F40",
     colorCode: 0,
     description: "",
-    inKorea: "경상북도"
+    inKorea: "경상북도",
   },
   {
     name: "sejong",
@@ -166,8 +166,8 @@ const data1 = [
     color: "#4079F3",
     colorCode: 0,
     description: "",
-    inKorea: "세종"
-  }
+    inKorea: "세종",
+  },
 ];
 
 // const myNormalBar = ({ data }) => {
@@ -176,51 +176,7 @@ const data1 = [
 
 const myMap = ({ data1 }) => {
   return (
-    <MapChart
-      data={data1}
-      nomalSetting={{
-        backgroundColor: "white",
-        divide: 5,
-        colorCode: 2,
-        width: 300,
-        zoomMagnification:1.8,
-        usePersentageColor: false,
-        zoomOn:true,
-        animationOn:true,
-      }}
-      gagueBarSetting={{
-        useGagueBar: true,
-        useValueLavel:true,
-        pointerSize: 0,
-        pointerColor: "#000000",
-        gagueBarWidth: 0,
-        gagueBarHeight: 200,
-        gagueValueFontSize: 40,
-        gagueValueFontFamily:"inter",
-        gagueValueFontWeight:"bold",
-        valueLavel: "*원"
-      }}
-      tooltipSetting={{
-        useFollowColor:false,
-        useKorea:true,
-        tooltipWidth: 600,
-        tooltipMaxHeight: 1064,
-        tooltipBackGroundColor: "white",
-        tooltipBorderRadius: 10,
-        tooltipBorder: "0.5px solid #ddd",
-        tooltipBoxShadow: "none",
-        cityNameFontSize: 30,
-        cityNameColor: "black",
-        cityNameFontWeight: "bold",
-        cityValueColor: "black",
-        cityValueFontWeight: "bold",
-        cityValueFontSize: 30,
-        descriptionColor: "black",
-        descriptionFontSize: 30,
-        descriptionFontWeight: "bold",
-        descriptionFontFamily : "inter"
-      }}
-    />
+    <MapChart data={data1}/>
   );
 };
 
@@ -228,7 +184,7 @@ function App() {
   return (
     <div>
       {/* {myNormalBar({ data })} */}
-      <div style={{position:"absolute", left:"300px"}}>{myMap({ data1 })}</div>
+      <div style={{position:"absolute"}}>{myMap({ data1 })}</div>
     </div>
   );
 }
