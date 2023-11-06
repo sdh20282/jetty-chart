@@ -23,7 +23,7 @@ const MultiLine = ({
   rightLegendSettings,
   legendSettings,
   lineSettings,
-  animationSettings
+  animationSettings,
 }) => {
   if (!dataSet || dataSet.length === 0) {
     return;
@@ -42,7 +42,7 @@ const MultiLine = ({
     rightLegendSettings,
     legendSettings,
     lineSettings,
-    animationSettings
+    animationSettings,
   });
 
   const { width, height, margin, padding, reverse, horizontal } = result.normalSettings;
@@ -70,7 +70,7 @@ const MultiLine = ({
     smoothDegree,
     angleDegree,
     strokeLinejoin,
-    strokeLinecap
+    strokeLinecap,
   } = result.lineSettings;
 
   const colorPalette = [...result.normalSettings.colorPalette];
@@ -203,10 +203,13 @@ const MultiLine = ({
         horizontalX: zeroHeight + height,
         horizontalY: positionX,
         animationDelay: appearStartDelay + index * appearItemDelay + (idx * appearItemDelay) / dataLength,
-        value: d.value
+        value: d.value,
       });
     });
   });
+
+  console.log(dataSetCoords);
+  console.log(pointPosition);
 
   useEffect(() => {
     pathRefs.current?.forEach((pathElement) => {
@@ -235,7 +238,7 @@ const MultiLine = ({
         xAxisInitialPosition: 0,
         xAxisWidth: pointGapWidth,
         yAxisHeight: lineHeight,
-        showTopScope
+        showTopScope,
       }}
       axisXGridLineSettings={result.axisXGridLineSettings}
       axisYGridLineSettings={result.axisYGridLineSettings}
@@ -286,7 +289,7 @@ const MultiLine = ({
                     "--line-heght": `${totalHeight}px`,
                     "--animation-duration": `${appearDuration}s`,
                     "--animation-timing-function": appearTimingFunction,
-                    "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`
+                    "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`,
                   }}
                 />
               </g>
@@ -310,7 +313,7 @@ const MultiLine = ({
               style={{
                 "--animation-duration": `${appearDuration}s`,
                 "--animation-timing-function": appearTimingFunction,
-                "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`
+                "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`,
               }}
             />
           );
@@ -332,7 +335,7 @@ const MultiLine = ({
                     "--start-y-offset": `${horizontal ? d.horizontalY : d.y - 10}px`,
                     "--animation-duration": `${appearDuration}s`,
                     "--animation-timing-function": appearTimingFunction,
-                    "--animation-delay": `${d.animationDelay}s`
+                    "--animation-delay": `${d.animationDelay}s`,
                   }}
                 >
                   {enablePoint && (
@@ -372,7 +375,7 @@ const MultiLine = ({
                       position: "relative",
                       transform: horizontal
                         ? `translate(${pointLabelOffsetX + d.horizontalX},${halfAreaWidth + pointLabelOffsetY + d.horizontalY})`
-                        : `translate(${pointLabelOffsetX + d.x},${pointLabelOffsetY + d.y})`
+                        : `translate(${pointLabelOffsetX + d.x},${pointLabelOffsetY + d.y})`,
                     }}
                     fontSize={pointLabelSize}
                     fontWeight={pointLabelWeight}

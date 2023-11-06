@@ -22,7 +22,7 @@ const BumpChart = ({
   rightLegendSettings,
   legendSettings,
   lineSettings,
-  animationSettings
+  animationSettings,
 }) => {
   if (!dataSet || dataSet.length === 0) {
     return;
@@ -46,7 +46,7 @@ const BumpChart = ({
     rightLegendSettings,
     legendSettings,
     lineSettings,
-    animationSettings
+    animationSettings,
   });
   result.normalSettings.padding += lineSettings.xOuterPadding;
 
@@ -83,7 +83,7 @@ const BumpChart = ({
     inactiveLineWidth,
     activeOpacity,
     inactiveOpacity,
-    startLabel
+    startLabel,
   } = result.lineSettings;
 
   const colorPalette = [...result.normalSettings.colorPalette];
@@ -224,7 +224,7 @@ const BumpChart = ({
         horizontalX: zeroHeight + height,
         horizontalY: positionX,
         animationDelay: appearStartDelay + index * appearItemDelay + (idx * appearItemDelay) / dataLength,
-        value: d.value
+        value: d.value,
       });
     });
   });
@@ -256,7 +256,7 @@ const BumpChart = ({
         xAxisInitialPosition: 0,
         xAxisWidth: pointGapWidth,
         yAxisHeight: lineHeight,
-        showTopScope
+        showTopScope,
       }}
       axisXGridLineSettings={result.axisXGridLineSettings}
       axisYGridLineSettings={result.axisYGridLineSettings}
@@ -307,7 +307,7 @@ const BumpChart = ({
                     "--line-heght": `${totalHeight}px`,
                     "--animation-duration": `${appearDuration}s`,
                     "--animation-timing-function": appearTimingFunction,
-                    "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`
+                    "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`,
                   }}
                 />
               </g>
@@ -331,7 +331,7 @@ const BumpChart = ({
               style={{
                 "--animation-duration": `${appearDuration}s`,
                 "--animation-timing-function": appearTimingFunction,
-                "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`
+                "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`,
               }}
             />
           );
@@ -354,7 +354,7 @@ const BumpChart = ({
                       "--start-y-offset": `${horizontal ? d.horizontalY : d.y - 10}px`,
                       "--animation-duration": `${appearDuration}s`,
                       "--animation-timing-function": appearTimingFunction,
-                      "--animation-delay": `${d.animationDelay}s`
+                      "--animation-delay": `${d.animationDelay}s`,
                     }}
                   >
                     <circle

@@ -41,14 +41,14 @@ const normalBumpSetting = {
     // ],
     padding: 0,
     reverse: false,
-    horizontal: false
+    horizontal: false,
   },
   // 범위 세팅
   scopeSettings: {
     autoScope: true,
     maxScope: 12,
     minScope: 1,
-    showTopScope: true
+    showTopScope: true,
   },
   // y축 라인 세팅
   axisYGridLineSettings: {
@@ -59,7 +59,7 @@ const normalBumpSetting = {
     lineDash: false,
     lineDashWidth: 5,
     lineDashGap: 3,
-    lineRound: false
+    lineRound: false,
   },
   // x축 라인 세팅
   axisXGridLineSettings: {
@@ -71,7 +71,7 @@ const normalBumpSetting = {
     lineDashWidth: 5,
     lineDashGap: 3,
     lineRound: false,
-    showEndLine: false
+    showEndLine: false,
   },
   // 왼쪽 라벨 세팅
   leftLabelSettings: {
@@ -88,7 +88,7 @@ const normalBumpSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2
+    sideLineWidth: 2,
   },
   // 오른쪽 라벨 세팅
   rightLabelSettings: {
@@ -105,7 +105,7 @@ const normalBumpSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2
+    sideLineWidth: 2,
   },
   // 아래쪽 라벨 세팅
   bottomLabelSettings: {
@@ -122,7 +122,7 @@ const normalBumpSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2
+    sideLineWidth: 2,
   },
   // 위쪽 라벨 세팅
   topLabelSettings: {
@@ -139,7 +139,7 @@ const normalBumpSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2
+    sideLineWidth: 2,
   },
   // 왼쪽 설명 세팅
   leftLegendSettings: {
@@ -151,7 +151,7 @@ const normalBumpSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0
+    legendMove: 0,
   },
   // 오른쪽 설명 세팅
   rightLegendSettings: {
@@ -163,7 +163,7 @@ const normalBumpSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0
+    legendMove: 0,
   },
   // 아래쪽 설명 세팅
   bottomLegendSettings: {
@@ -175,7 +175,7 @@ const normalBumpSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0
+    legendMove: 0,
   },
   // 위쪽 설명 세팅
   topLegendSettings: {
@@ -187,7 +187,7 @@ const normalBumpSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0
+    legendMove: 0,
   },
   // 설명 세팅
   legendSettings: {
@@ -206,7 +206,7 @@ const normalBumpSetting = {
     legendWeight: 400,
     legendOpacity: 1,
     legendColor: "#aaa",
-    legendOnStart: true
+    legendOnStart: true,
   },
   // 라인 세팅
   lineSettings: {
@@ -239,7 +239,7 @@ const normalBumpSetting = {
     activeOpacity: 1,
     inactiveOpacity: 0.2,
     startLabel: false,
-    endLabel: false
+    endLabel: false,
   },
   animationSettings: {
     axisYGridLineSettings: {
@@ -254,7 +254,7 @@ const normalBumpSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease"
+      translateTimingFunction: "ease",
     },
     axisXGridLineSettings: {
       useAnimation: true,
@@ -268,7 +268,7 @@ const normalBumpSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease"
+      translateTimingFunction: "ease",
     },
     axisYLabelSettings: {
       useAnimation: true,
@@ -282,7 +282,7 @@ const normalBumpSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease"
+      translateTimingFunction: "ease",
     },
     axisXLabelSettings: {
       useAnimation: true,
@@ -296,7 +296,7 @@ const normalBumpSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease"
+      translateTimingFunction: "ease",
     },
     lineSettings: {
       useAnimation: true,
@@ -309,9 +309,9 @@ const normalBumpSetting = {
       moveDuration: 2,
       moveStartDelay: 0,
       moveItemDelay: 0,
-      moveTimingFunction: "ease"
-    }
-  }
+      moveTimingFunction: "ease",
+    },
+  },
 };
 
 export const checkNormalBump = ({
@@ -329,7 +329,7 @@ export const checkNormalBump = ({
   topLegendSettings,
   legendSettings,
   lineSettings,
-  animationSettings
+  animationSettings,
 }) => {
   const result = {
     normalSettings,
@@ -346,7 +346,7 @@ export const checkNormalBump = ({
     topLegendSettings,
     legendSettings,
     lineSettings,
-    animationSettings
+    animationSettings,
   };
 
   Object.keys(normalBumpSetting).forEach((setting) => {
@@ -378,7 +378,7 @@ export const checkNormalBump = ({
     width: result.normalSettings.width,
     height: result.normalSettings.height,
     margin: result.normalSettings.margin,
-    padding: result.normalSettings.padding
+    padding: result.normalSettings.padding,
   });
 
   result.normalSettings.width = checkedSize.width;
