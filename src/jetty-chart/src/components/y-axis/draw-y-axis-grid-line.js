@@ -38,6 +38,8 @@ export const DrawYAxisGridLine = ({
     prevYAxisTemp.current = [];
   }
 
+  console.log(yAxis);
+
   return (
     <g>
       {yAxis.map((c, idx) => {
