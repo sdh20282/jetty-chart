@@ -17,8 +17,8 @@ export const getControlPoint = (prev, curr, next, options) => {
   const angle = o.angle + (options.isEndControlPoint ? Math.PI : 0);
   const length = o.length * options.smoothDegree;
 
-  const x = curr[0] + Math.cos(angle) * length;
-  const y = curr[1] + Math.sin(angle) * length;
+  const x = (curr[0] + Math.cos(angle) * length).toFixed(1);
+  const y = (curr[1] + Math.sin(angle) * length).toFixed(1);
 
   return [x, y];
 };
