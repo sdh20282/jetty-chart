@@ -359,7 +359,7 @@ const NormalBar = ({
                       }
                       textAnchor={horizontal ? (labelPosition === "over" ? "start" : labelPosition === "under" ? "end" : "middle") : "middle"}
                       className={
-                        textRender
+                        textRender && useAnimation
                           ? useTranslate
                             ? styles.translateText
                             : textRenderType.includes("grow")

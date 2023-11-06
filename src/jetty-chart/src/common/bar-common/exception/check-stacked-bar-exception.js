@@ -28,7 +28,7 @@ const stackedBarSetting = {
     useVariousColors: false,
     padding: 20,
     reverse: false,
-    horizontal: false,
+    horizontal: true,
     reverseOrder: false
   },
   // 범위 세팅
@@ -277,14 +277,14 @@ const stackedBarSetting = {
     barSettings: {
       useAnimation: true,
       renderType: "grow", // fade, grow, grow-async
-      renderDuration: 2,
+      renderDuration: 1,
       renderStartDelay: 0,
       renderItemDelay: 0.1,
       renderTimingFunction: "ease",
       renderStartFrom: "left",
       textRender: true,
       textRenderType: "grow", // fade, grow, grow-async
-      textRenderDuration: 2,
+      textRenderDuration: 3,
       textRenderStartDelay: 0,
       textRenderItemDelay: 0.1,
       textRenderTimingFunction: "ease",
