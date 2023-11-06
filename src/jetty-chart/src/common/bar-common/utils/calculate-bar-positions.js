@@ -217,7 +217,6 @@ export const calculateStackedLabelFrom = ({
   checkPositive,
   rectWidth,
   translate,
-  barBorderRadius,
   labelMargin,
   rectHeight,
   borderRadius,
@@ -229,7 +228,11 @@ export const calculateStackedLabelFrom = ({
   return useTranslate
     ? horizontal
       ? labelPosition === "over"
-        ? `${(checkPositive ? 0 : barBorderRadius) + labelMargin}px,${(rectHeight - translate.totalHeight) / 2}px`
+        ? `${
+            checkPositive
+              ? nowPosition - translate.position + rectWidth - translate.width + labelMargin
+              : -(barHeight - translate.totalHeight) - (nowPosition - translate.position) + (rectWidth - translate.width) + labelMargin
+          }px,${(rectHeight - translate.height) / 2}px`
         : labelPosition === "under"
         ? `${(checkPositive ? 0 : -rectWidth + translate.width + borderRadius) + borderRadius - labelMargin}px,${
             (rectHeight - translate.totalHeight) / 2
@@ -254,7 +257,7 @@ export const calculateStackedLabelFrom = ({
         }px`
     : horizontal
     ? labelPosition === "over"
-      ? `${checkPositive ? -rectHeight - labelMargin - nowPosition : labelMargin + nowPosition + rectWidth - rectHeight}px,0px`
+      ? `${checkPositive ? -(nowPosition + rectWidth + labelMargin) : barHeight + nowPosition - rectWidth}px,0px`
       : labelPosition === "under"
       ? `${checkPositive ? 0 : barHeight}px,0px`
       : `${checkPositive ? -barHeight / 2 : barHeight / 2}px,0px`
@@ -266,7 +269,23 @@ export const calculateStackedLabelFrom = ({
 };
 /* eslint-enable complexity */
 
-export const calculateLabelTo = ({
+export const calculateLabelTo = ({ useTranslate, horizontal, labelPosition, checkPositive, barHeight, labelMargin, translate, halfBarRealWidth }) => {
+  return useTranslate
+    ? horizontal
+      ? labelPosition === "over"
+        ? `${(checkPositive ? barHeight : 0) + labelMargin + translate.zeroHeight}px,${halfBarRealWidth}px`
+        : labelPosition === "under"
+        ? `${(checkPositive ? 0 : -barHeight) + translate.zeroHeight - labelMargin}px,${halfBarRealWidth}px`
+        : `${(checkPositive ? barHeight / 2 : -barHeight / 2) + translate.zeroHeight}px,${halfBarRealWidth}px`
+      : labelPosition === "over"
+      ? `${halfBarRealWidth}px,${(checkPositive ? 0 : barHeight) - labelMargin}px`
+      : labelPosition === "under"
+      ? `${halfBarRealWidth}px,${(checkPositive ? barHeight : barHeight + barHeight) + labelMargin}px`
+      : `${halfBarRealWidth}px,${checkPositive ? barHeight / 2 : barHeight + barHeight / 2}px`
+    : `0px,0px`;
+};
+
+export const calculateStackedLabelTo = ({
   useTranslate,
   horizontal,
   labelPosition,
@@ -275,14 +294,17 @@ export const calculateLabelTo = ({
   labelMargin,
   translate,
   halfBarRealWidth,
-  nowPosition
+  nowPosition,
+  rectWidth
 }) => {
   nowPosition ??= 0;
 
   return useTranslate
     ? horizontal
       ? labelPosition === "over"
-        ? `${(checkPositive ? barHeight : 0) + labelMargin + translate.zeroHeight}px,${halfBarRealWidth}px`
+        ? `${
+            (checkPositive ? nowPosition + rectWidth : -barHeight - nowPosition + rectWidth) + labelMargin + translate.zeroHeight
+          }px,${halfBarRealWidth}px`
         : labelPosition === "under"
         ? `${(checkPositive ? 0 : -barHeight) + translate.zeroHeight - labelMargin}px,${halfBarRealWidth}px`
         : `${(checkPositive ? barHeight / 2 : -barHeight / 2) + translate.zeroHeight}px,${halfBarRealWidth}px`

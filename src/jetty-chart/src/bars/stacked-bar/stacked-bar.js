@@ -18,9 +18,9 @@ import {
   calculateBarTransform,
   calculateBarTo,
   calculateLabelTransform,
-  calculateLabelTo,
   calculateStackedBarFrom,
-  calculateStackedLabelFrom
+  calculateStackedLabelFrom,
+  calculateStackedLabelTo
 } from "../../common/bar-common/utils/calculate-bar-positions";
 
 import styles from "./stacked-bar.module.css";
@@ -212,14 +212,6 @@ const StackedBar = ({
             halfBarRealWidth
           });
 
-          const { verticalLabelLocation } = calculateLabelLocation({
-            barHeight,
-            realHeight,
-            checkPositive,
-            labelPosition,
-            labelMargin
-          });
-
           prevBarsTemp.current[nowData.label] = {
             center,
             width: rectWidth,
@@ -288,6 +280,15 @@ const StackedBar = ({
                   const nowRectWidth = Math.abs(horizontal ? nowHeight : rectWidth);
                   const nowRectHeight = Math.abs(horizontal ? rectHeight : nowHeight);
 
+                  const { verticalLabelLocation } = calculateLabelLocation({
+                    barHeight,
+                    realHeight,
+                    checkPositive,
+                    labelPosition,
+                    labelMargin,
+                    nowPosition
+                  });
+
                   const cur = `${nowData.label}_${idx}`;
 
                   prevBarItemTemp.current[cur] = {
@@ -333,7 +334,7 @@ const StackedBar = ({
                           nowPosition
                         })}
                         fill={colorPalette[idx % colorPalette.length]}
-                        fillOpacity={barOpacity && 0.3}
+                        fillOpacity={barOpacity}
                         rx={barBorderRadius}
                         ry={barBorderRadius}
                         stroke={useBarBorder ? barBorderColor : ""}
@@ -397,8 +398,9 @@ const StackedBar = ({
                             useAnimation,
                             useTranslate,
                             horizontal,
-                            horizontalLabelLocation:
-                              (checkPositive ? nowPosition + nowRectWidth : -barHeight - nowPosition + nowRectWidth) + labelMargin,
+                            horizontalLabelLocation: checkPositive
+                              ? nowPosition + nowRectWidth + labelMargin
+                              : -(barHeight + nowPosition) + nowRectWidth + labelMargin,
                             halfBarRealWidth,
                             verticalLabelLocation,
                             renderType,
@@ -433,7 +435,7 @@ const StackedBar = ({
                                 horizontal,
                                 labelPosition,
                                 checkPositive,
-                                rectWidth,
+                                rectWidth: nowRectWidth,
                                 translate,
                                 barBorderRadius: 0,
                                 labelMargin,
@@ -442,7 +444,7 @@ const StackedBar = ({
                                 barHeight,
                                 nowPosition
                               }),
-                              "--text-to": calculateLabelTo({
+                              "--text-to": calculateStackedLabelTo({
                                 useTranslate,
                                 horizontal,
                                 labelPosition,
@@ -451,7 +453,8 @@ const StackedBar = ({
                                 labelMargin,
                                 translate,
                                 halfBarRealWidth,
-                                nowPosition
+                                nowPosition,
+                                rectWidth: nowRectWidth
                               }),
                               "--animation-duration": useTranslate
                                 ? `${translateDuration}s`
