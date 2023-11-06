@@ -1,10 +1,10 @@
 import getPiePiece from "../getPiePiece";
 import PiePiece from "./PiePiece";
-import { getDividePercent } from "../utils/getDividePercent";
+import { getDivideRatio } from "../utils/getDivideRatio";
 import { PieDebugMode } from "../testFile/PieDebugMode";
 
 const PieSvg = ({ data, generalSettings, pieSettings }) => {
-  data = getDividePercent({ data });
+  data = getDivideRatio({ data });
   const pieceData = getPiePiece({
     data,
     pieRadius: pieSettings.pieRadius,
@@ -12,7 +12,7 @@ const PieSvg = ({ data, generalSettings, pieSettings }) => {
     cornerRadius: pieSettings.cornerRadius,
     startAngle: pieSettings.startAngle,
   });
-  const debugTool = !!true;
+  const debugTool = !true;
 
   return (
     <svg
@@ -43,6 +43,8 @@ const PieSvg = ({ data, generalSettings, pieSettings }) => {
             innerRadius={piece.innerRadius}
             tangentLineCoordinate1={piece.tangentLineCoordinate1}
             tangentLineCoordinate2={piece.tangentLineCoordinate2}
+            tangentLineCoordinate3={piece.tangentLineCoordinate3}
+            tangentLineCoordinate4={piece.tangentLineCoordinate4}
             color={pieSettings.color[index]}
             key={index}
           />
@@ -56,7 +58,14 @@ const PieSvg = ({ data, generalSettings, pieSettings }) => {
               calcPos={piece.calcPos}
               cornerCoordinate1={piece.cornerCoordinate1}
               cornerCoordinate2={piece.cornerCoordinate2}
+              cornerCoordinate3={piece.cornerCoordinate3}
+              cornerCoordinate4={piece.cornerCoordinate4}
+              tangentCircleCoordinate1={piece.tangentCircleCoordinate1}
+              tangentCircleCoordinate2={piece.tangentCircleCoordinate2}
+              tangentCircleCoordinate3={piece.tangentCircleCoordinate3}
+              tangentCircleCoordinate4={piece.tangentCircleCoordinate4}
               referenceCoordinates={piece.referenceCoordinates}
+              key={index}
             />
           )}
         </>

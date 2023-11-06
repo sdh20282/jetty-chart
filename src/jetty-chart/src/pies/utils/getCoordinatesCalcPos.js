@@ -1,5 +1,5 @@
 // 두 원 사이에 교점 구하기
-const calculateIntersection = ({ x, y, radius, cornerRadius, dir }) => {
+const calcIntersection = ({ x, y, radius, cornerRadius, dir }) => {
   const d = Math.sqrt(x ** 2 + y ** 2);
 
   // 쓰레기 값 예외처리
@@ -26,24 +26,29 @@ export const getCoordinatesCalcPos = ({
   cornerRadius,
   tangentCircleCoordinate1,
   tangentCircleCoordinate2,
+  tangentCircleCoordinate3,
+  tangentCircleCoordinate4,
 }) => {
   const calcPos = {
-    pos1: calculateIntersection({
-      x: vertex.pos1.x,
-      y: vertex.pos1.y,
-      radius: pieRadius,
-      cornerRadius,
-      dir: 0,
-    }),
-    pos2: calculateIntersection({
-      x: vertex.pos2.x,
-      y: vertex.pos2.y,
-      radius: pieRadius,
-      cornerRadius,
-      dir: 1,
-    }),
+    // pos1: calcIntersection({
+    //   x: vertex.pos1.x,
+    //   y: vertex.pos1.y,
+    //   radius: pieRadius,
+    //   cornerRadius,
+    //   dir: 0,
+    // }),
+    // pos2: calcIntersection({
+    //   x: vertex.pos2.x,
+    //   y: vertex.pos2.y,
+    //   radius: pieRadius,
+    //   cornerRadius,
+    //   dir: 1,
+    // }),
+    pos1: { x: tangentCircleCoordinate4.x, y: tangentCircleCoordinate4.y },
+    pos2: { x: tangentCircleCoordinate3.x, y: tangentCircleCoordinate3.y },
     pos3: { x: tangentCircleCoordinate1.x, y: tangentCircleCoordinate1.y },
     pos4: { x: tangentCircleCoordinate2.x, y: tangentCircleCoordinate2.y },
   };
+
   return calcPos;
 };

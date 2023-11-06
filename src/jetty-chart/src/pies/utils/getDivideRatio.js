@@ -1,4 +1,4 @@
-export const getDividePercent = ({ data }) => {
+export const getDivideRatio = ({ data }) => {
   let sum = 0;
   for (let i = 0; i < data.length; i++) {
     sum += data[i].value;

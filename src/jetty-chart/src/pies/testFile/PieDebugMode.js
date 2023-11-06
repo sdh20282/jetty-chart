@@ -10,11 +10,15 @@ export const PieDebugMode = ({
   innerRadius,
   cornerCoordinate1,
   cornerCoordinate2,
+  cornerCoordinate3,
+  cornerCoordinate4,
+  tangentCircleCoordinate1,
+  tangentCircleCoordinate2,
+  tangentCircleCoordinate3,
+  tangentCircleCoordinate4,
   referenceCoordinates,
 }) => {
   const pointSize = 0.02;
-  console.log("accumulatedPercent", accumulatedPercent);
-  console.log("percent", percent);
   return (
     <>
       <circle cx={vertex.pos1.x} cy={vertex.pos1.y} r={pointSize} fill="#FF1100" opacity={0.9} />
@@ -125,13 +129,27 @@ export const PieDebugMode = ({
         cy={cornerCoordinate1.y}
         r={cornerRadius}
         fill={"red"}
-        opacity={0.5}
+        opacity={0.3}
       />
       <circle
         cx={cornerCoordinate2.x}
         cy={cornerCoordinate2.y}
         r={cornerRadius}
         fill={"blue"}
+        opacity={0.3}
+      />
+      <circle
+        cx={cornerCoordinate3.x}
+        cy={cornerCoordinate3.y}
+        r={cornerRadius}
+        fill={"brown"}
+        opacity={0.5}
+      />
+      <circle
+        cx={cornerCoordinate4.x}
+        cy={cornerCoordinate4.y}
+        r={cornerRadius}
+        fill={"brown"}
         opacity={0.5}
       />
 
@@ -160,6 +178,35 @@ export const PieDebugMode = ({
         fill="purple"
         opacity={0.5}
       />
+      <circle
+        cx={tangentCircleCoordinate1.x}
+        cy={tangentCircleCoordinate1.y}
+        r={0.05}
+        fill="cyan"
+        opacity={0.5}
+      />
+      <circle
+        cx={tangentCircleCoordinate2.x}
+        cy={tangentCircleCoordinate2.y}
+        r={0.05}
+        fill="cyan"
+        opacity={0.5}
+      />
+      <circle
+        cx={tangentCircleCoordinate3.x}
+        cy={tangentCircleCoordinate3.y}
+        r={0.05}
+        fill="blue"
+        opacity={0.5}
+      />
+      <circle
+        cx={tangentCircleCoordinate4.x}
+        cy={tangentCircleCoordinate4.y}
+        r={0.05}
+        fill="red"
+        opacity={0.5}
+      />
+      <circle cx={0} cy={0} r={1} fill="gray" opacity={0.1} />
     </>
   );
 };

@@ -1,4 +1,4 @@
-export const getCornerCandidates = ({
+export const getInnerCornerCandidates = ({
   pieRadius,
   innerRadius,
   refAngle,
