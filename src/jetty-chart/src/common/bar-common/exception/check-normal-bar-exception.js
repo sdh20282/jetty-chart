@@ -28,7 +28,7 @@ const normalBarSetting = {
     useVariousColors: false,
     padding: 20,
     reverse: false,
-    horizontal: true
+    horizontal: false
   },
   // 범위 세팅
   scopeSettings: {

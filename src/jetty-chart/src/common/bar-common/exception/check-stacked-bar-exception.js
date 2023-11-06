@@ -28,7 +28,7 @@ const stackedBarSetting = {
     useVariousColors: false,
     padding: 20,
     reverse: false,
-    horizontal: true,
+    horizontal: false,
     reverseOrder: false
   },
   // 범위 세팅
@@ -209,7 +209,7 @@ const stackedBarSetting = {
     useMinHeight: true,
     minHeight: 1,
     useLabel: true,
-    labelPosition: "over", // over, center, under,
+    labelPosition: "center", // over, center, under,
     labelMargin: 5,
     labelSize: 11,
     labelWeight: 500,
@@ -284,7 +284,7 @@ const stackedBarSetting = {
       renderStartFrom: "left",
       textRender: true,
       textRenderType: "grow", // fade, grow, grow-async
-      textRenderDuration: 3,
+      textRenderDuration: 1,
       textRenderStartDelay: 0,
       textRenderItemDelay: 0.1,
       textRenderTimingFunction: "ease",

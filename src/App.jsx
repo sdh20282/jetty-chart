@@ -175,7 +175,7 @@ function App() {
           keys={["data-1"]}
           xLegend={"categories"}
           yLegend={"values"}
-          normalSettings={{ colorPalette: ["#77d4ff", "#F1948A", "#82E0AA", "#D7BDE2"], reverse: false }}
+          normalSettings={{ colorPalette: ["#77d4ff", "#F1948A", "#82E0AA", "#D7BDE2"], reverse: false, horizontal: true }}
         />
       </div>
 
