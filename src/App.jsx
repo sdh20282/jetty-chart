@@ -3,18 +3,6 @@ import { NormalBar, StackedBar } from "./jetty-chart/src/bars/bars";
 
 const counts = [5, 6, 7];
 
-const myStackedBar = ({ data }) => {
-  return (
-    <StackedBar
-      data={data}
-      keys={["data-1", "data-2", "data-3", "data-4", "data-5", "data-6"]}
-      xLegend={"types"}
-      yLegend={"values"}
-      normalSettings={{ colorPalette: ["#03045e", "#023e8a", "#0077b6", "#0096c7", "#00b4d8", "#48cae4", "#90e0ef", "#caf0f8"] }}
-    />
-  );
-};
-
 function App() {
   const [data, setData] = useState([]);
   const [data2, setData2] = useState([]);
@@ -38,7 +26,7 @@ function App() {
       const temp = [];
 
       for (let index = 0; index < 6; index++) {
-        temp.push(Math.floor(Math.random() * 30) + 20);
+        temp.push(Math.floor(Math.random() * 30) + 70);
       }
 
       arr2.push({
@@ -68,13 +56,6 @@ function App() {
           gap: "0"
         }}
       >
-        <NormalBar
-          data={data}
-          keys={["data-1"]}
-          xLegend={"categories"}
-          yLegend={"values"}
-          normalSettings={{ colorPalette: ["#77d4ff", "#F1948A", "#82E0AA", "#D7BDE2"] }}
-        />
         {/* <NormalBar
           data={data}
           keys={["data-1"]}
@@ -175,7 +156,27 @@ function App() {
             }
           }}
         /> */}
-        {myStackedBar({ data: data2 })}
+        <StackedBar
+          data={data2}
+          keys={["data-1", "data-2", "data-3", "data-4", "data-5", "data-6"]}
+          xLegend={"types"}
+          yLegend={"values"}
+          normalSettings={{ colorPalette: ["#03045e", "#023e8a", "#0077b6", "#0096c7", "#00b4d8", "#48cae4", "#90e0ef", "#caf0f8"] }}
+        />
+        <StackedBar
+          data={data2}
+          keys={["data-1", "data-2", "data-3", "data-4", "data-5", "data-6"]}
+          xLegend={"types"}
+          yLegend={"values"}
+          normalSettings={{ colorPalette: ["#03045e", "#023e8a", "#0077b6", "#0096c7", "#00b4d8", "#48cae4", "#90e0ef", "#caf0f8"], reverse: true }}
+        />
+        <NormalBar
+          data={data}
+          keys={["data-1"]}
+          xLegend={"categories"}
+          yLegend={"values"}
+          normalSettings={{ colorPalette: ["#77d4ff", "#F1948A", "#82E0AA", "#D7BDE2"], reverse: false }}
+        />
       </div>
 
       <button

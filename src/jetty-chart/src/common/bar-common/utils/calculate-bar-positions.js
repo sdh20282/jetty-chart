@@ -209,7 +209,76 @@ export const calculateLabelFrom = ({
 };
 /* eslint-enable complexity */
 
-export const calculateLabelTo = ({ useTranslate, horizontal, labelPosition, checkPositive, barHeight, labelMargin, translate, halfBarRealWidth }) => {
+/* eslint-disable complexity */
+export const calculateStackedLabelFrom = ({
+  useTranslate,
+  horizontal,
+  labelPosition,
+  checkPositive,
+  rectWidth,
+  translate,
+  barBorderRadius,
+  labelMargin,
+  rectHeight,
+  borderRadius,
+  barHeight,
+  nowPosition
+}) => {
+  nowPosition ??= 0;
+
+  return useTranslate
+    ? horizontal
+      ? labelPosition === "over"
+        ? `${(checkPositive ? 0 : barBorderRadius) + labelMargin}px,${(rectHeight - translate.totalHeight) / 2}px`
+        : labelPosition === "under"
+        ? `${(checkPositive ? 0 : -rectWidth + translate.width + borderRadius) + borderRadius - labelMargin}px,${
+            (rectHeight - translate.totalHeight) / 2
+          }px`
+        : `${(checkPositive ? (barHeight - translate.width) / 2 : -(barHeight - translate.width) / 2) + borderRadius}px,${
+            (rectHeight - translate.totalHeight) / 2
+          }px`
+      : labelPosition === "over"
+      ? `${(rectWidth - translate.width) / 2}px,${
+          (checkPositive ? translate.totalHeight + nowPosition - translate.position : barHeight - nowPosition + translate.position) -
+          labelMargin +
+          translate.zeroHeight
+        }px`
+      : labelPosition === "under"
+      ? `${(rectWidth - translate.width) / 2}px,${
+          (checkPositive ? barHeight : barHeight + barHeight - translate.totalHeight) + labelMargin + translate.zeroHeight
+        }px`
+      : `${(rectWidth - translate.width) / 2}px,${
+          checkPositive
+            ? translate.totalHeight + (barHeight - translate.totalHeight) / 2 + translate.zeroHeight
+            : barHeight + (barHeight - translate.totalHeight) / 2 + translate.zeroHeight
+        }px`
+    : horizontal
+    ? labelPosition === "over"
+      ? `${checkPositive ? -rectHeight - labelMargin - nowPosition : labelMargin + nowPosition + rectWidth - rectHeight}px,0px`
+      : labelPosition === "under"
+      ? `${checkPositive ? 0 : barHeight}px,0px`
+      : `${checkPositive ? -barHeight / 2 : barHeight / 2}px,0px`
+    : labelPosition === "over"
+    ? `0px,${checkPositive ? barHeight - nowPosition : nowPosition}px`
+    : labelPosition === "under"
+    ? `0px,${checkPositive ? 0 : -barHeight}px`
+    : `0px,${checkPositive ? barHeight / 2 : -barHeight / 2}px`;
+};
+/* eslint-enable complexity */
+
+export const calculateLabelTo = ({
+  useTranslate,
+  horizontal,
+  labelPosition,
+  checkPositive,
+  barHeight,
+  labelMargin,
+  translate,
+  halfBarRealWidth,
+  nowPosition
+}) => {
+  nowPosition ??= 0;
+
   return useTranslate
     ? horizontal
       ? labelPosition === "over"
@@ -218,7 +287,7 @@ export const calculateLabelTo = ({ useTranslate, horizontal, labelPosition, chec
         ? `${(checkPositive ? 0 : -barHeight) + translate.zeroHeight - labelMargin}px,${halfBarRealWidth}px`
         : `${(checkPositive ? barHeight / 2 : -barHeight / 2) + translate.zeroHeight}px,${halfBarRealWidth}px`
       : labelPosition === "over"
-      ? `${halfBarRealWidth}px,${(checkPositive ? 0 : barHeight) - labelMargin}px`
+      ? `${halfBarRealWidth}px,${(checkPositive ? nowPosition : barHeight - nowPosition) - labelMargin}px`
       : labelPosition === "under"
       ? `${halfBarRealWidth}px,${(checkPositive ? barHeight : barHeight + barHeight) + labelMargin}px`
       : `${halfBarRealWidth}px,${checkPositive ? barHeight / 2 : barHeight + barHeight / 2}px`
