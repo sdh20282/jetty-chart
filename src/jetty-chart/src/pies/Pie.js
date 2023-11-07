@@ -27,6 +27,7 @@ const Pie = ({
     padSpace: 1, // 조각 여백 default 0
   },
 }) => {
+  data = [{ ratio: 0.25 }, { ratio: 0.25 }, { ratio: 0.25 }, { ratio: 0.25 }];
   const [newGeneralSettings, setNewGeneralSettings] = useState(generalSettings);
   const [newPieSettings, setNewPieSettings] = useState(pieSettings);
   const [debugTool, setDebugTool] = useState(false);

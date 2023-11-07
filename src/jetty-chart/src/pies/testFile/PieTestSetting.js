@@ -127,6 +127,14 @@ const PieTestSetting = ({
               setTestToggle(!testToggle);
             }}
           />
+          <input
+            style={{ margin: "10px" }}
+            value={pieRadius}
+            onChange={(e) => {
+              setPieRadius(Number(e.target.value));
+              setTestToggle(!testToggle);
+            }}
+          />
           <br />
           <label>innerRadius</label>
           <input
@@ -141,6 +149,14 @@ const PieTestSetting = ({
               setTestToggle(!testToggle);
             }}
           />
+          <input
+            style={{ margin: "10px" }}
+            value={innerRadius}
+            onChange={(e) => {
+              setInnerRadius(Number(e.target.value));
+              setTestToggle(!testToggle);
+            }}
+          />
           <br />
           <label>cornerRadius</label>
           <input
@@ -148,6 +164,14 @@ const PieTestSetting = ({
             min="0.1"
             max={"1"}
             step={"0.01"}
+            style={{ margin: "10px" }}
+            value={cornerRadius}
+            onChange={(e) => {
+              setCornerRadius(Number(e.target.value));
+              setTestToggle(!testToggle);
+            }}
+          />
+          <input
             style={{ margin: "10px" }}
             value={cornerRadius}
             onChange={(e) => {

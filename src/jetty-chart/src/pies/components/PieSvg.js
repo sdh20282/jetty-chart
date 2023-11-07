@@ -2,9 +2,22 @@ import getPiePiece from "../getPiePiece";
 import PiePiece from "./PiePiece";
 import { getDivideRatio } from "../utils/getDivideRatio";
 import { PieDebugMode } from "../testFile/PieDebugMode";
+import { getMaxWidthRadius } from "../utils/getMaxWidthRadius";
 
 const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
   data = getDivideRatio({ data });
+  data = [
+    { ratio: 0.1 },
+    { ratio: 0.1 },
+    { ratio: 0.1 },
+    { ratio: 0.1 },
+    { ratio: 0.2 },
+    { ratio: 0.2 },
+    { ratio: 0.2 },
+  ];
+  data.map((test) => {
+    console.log(getMaxWidthRadius({ innerRadius: pieSettings.innerRadius, ratio: test.ratio }));
+  });
   const pieceData = getPiePiece({
     data,
     pieRadius: pieSettings.pieRadius,
