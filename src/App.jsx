@@ -174,17 +174,14 @@ const data1 = [
 //   return <NormalBar data={data} normalSettings={{ horizontal: false, reverse: false, margin: { right: 10 } }} />;
 // };
 
-const myMap = ({ data1 }) => {
-  return (
-    <MapChart data={data1}/>
-  );
-};
 
 function App() {
   return (
     <div>
       {/* {myNormalBar({ data })} */}
-      <div style={{position:"absolute"}}>{myMap({ data1 })}</div>
+      <div style={{position:"absolute", left:"300px"}}>
+        <MapChart data={data1} normalSetting={{width:600}}/>
+        </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./map-common.module.css";
 import { checkMapChart } from "../../../exception/map-common-exception";
 /* eslint-disable complexity */
@@ -218,6 +218,23 @@ const MapChart = ({
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
   
+  const svgRef =useRef(null);
+  const mapRef = useRef(null);
+  const PathelementsRef = useRef([]);
+  const tooltipRef = useRef(null);
+  const tooltipDiv = useRef(null);
+
+
+  const pathRef = (el) => {
+    if (el && !PathelementsRef.current.includes(el)) {
+      PathelementsRef.current.push(el);
+    }
+  };
+
+
+
+
+
 
   function pathEvent(e) {
     const pathId = e.target.id;
@@ -239,9 +256,9 @@ const MapChart = ({
       
       let color = e.target.getAttribute('fill')
       let opacolor = convertHexToRGBA(color,0.5)
-      setTargetColor(opacolor)
       const cityDescription = value[0].description;
       const mousePercentage = (200 + gagueBarHeight) * (cityValue / max);
+      setTargetColor(opacolor)
       setMousePointer(mousePercentage);
       setTooltipCity(cityName);
       setTooltipValue(cityValue);
@@ -260,77 +277,88 @@ const MapChart = ({
       return;
     }
 
-    const mySVG = document.getElementsByClassName("mapsvg")
-    setFirstX(mySVG[0].getBoundingClientRect().x);
+    const mySVG = svgRef.current
+    setFirstX(mySVG.getBoundingClientRect().x);
+    const mapSvg = PathelementsRef;
 
-    const mapSvg = document.querySelectorAll(".mapsvg > #map > *");
-    mapSvg.forEach((path) => {
+    mapSvg.current.forEach((path) => {
       path.addEventListener("mouseover", pathEvent);
     });
-    const outMap = document.querySelector("#map");
-    outMap.addEventListener("mouseout", pathOut);
+    const outMap = mapRef;
+    outMap.current.addEventListener("mouseout", pathOut);
 
 
   }, [data]);
 
-  useEffect(() => {
-    const main = document.querySelector("#map");
-    // 적용될 svg 태그의 .id 값을 선택합니다.
-    const tooltipObject = document.querySelector("#tooltipBox");
-    // 툴팁이 입력될 tooltipbox 를 선택합니다.
-    window.addEventListener("mousemove", (e) => {
-      const rect = main.getBoundingClientRect();
-      // 선택된 svg 태그의 절대 위치를 가져옵니다.
-      const rectTooltip = tooltipObject.getBoundingClientRect();
-      // 선택된 tooltip 태그의 절대 위치를 가져옵니다.
-      // 좌표값을 구하는데 오른쪽과 왼쪽을 나눠서 구해줍니다. 툴팁이 뜨는방향을 정하기 위함.
 
-      const realativeTooltip = document.querySelector("#tooltipBox > #foreingObject > .tooltipDiv ")
-      const realativetooltipMaxHeight = realativeTooltip.getBoundingClientRect().height;
-      const xRight = 20/scale + (e.clientX - rect.x) * (1048 /scale / width);
-      // svg 의 실제 width 와 viewBox 의 비율을 맞춰줍니다. 1048 << 뷰박스 크기 , width 사용자가 입력한 width 크기
-      const xLeft = -20/scale + (e.clientX - rect.x) * (1048 /scale / width) - rectTooltip.width * (1048 /scale / width);
-      const yTop = -20/scale + (e.clientY - rect.y) * (1064/ rect.height);
-      const yBottom = -20/scale + (e.clientY - rect.y) * (1064 / rect.height ) - (realativetooltipMaxHeight * (1064 / rect.height));
-      // svg 의 실제 height 와 viewBox 의 비율을 맞춰줍니다. 1064 << 뷰박스 크기 , height 사용자가 입력한 width 크기
-      if(scale === 1){
-        if (e.clientX < rect.x + rect.width / 2 && e.clientY < rect.y + rect.height / 2) {
-          tooltipObject.style.transform = `translate(${xRight}px,${yTop}px)`;
-        }
-  
-        if (e.clientX < rect.x + rect.width / 2 && e.clientY > rect.y + rect.height / 2) {
-          tooltipObject.style.transform = `translate(${xRight}px,${yBottom}px)`;
-        }
-  
-        if (e.clientX > rect.x + rect.width / 2 && e.clientY < rect.y + rect.height / 2) {
-          tooltipObject.style.transform = `translate(${xLeft}px,${yTop}px)`;
-        }
-  
-        if (e.clientX > rect.x + rect.width / 2 && e.clientY > rect.y + rect.height / 2) {
-          tooltipObject.style.transform = `translate(${xLeft}px,${yBottom}px)`;
-        }
-      }else{
-        if(e.clientX < firstX + width / 2){
-          tooltipObject.style.transform = `translate(${xRight}px,${yBottom}px)`;
-        }
-        if(e.clientX > firstX + width / 2){
-          tooltipObject.style.transform = `translate(${xLeft}px,${yBottom}px)`;
-        }
-        
+
+  function tooltipMove(e){
+    console.log(1)
+    const main = mapRef.current;
+    // 적용될 svg 태그의 .id 값을 선택합니다.
+    const tooltipObject = tooltipRef.current;
+    // 툴팁이 입력될 tooltipbox 를 선택합니다.
+    const rect = main.getBoundingClientRect();
+    // 선택된 svg 태그의 절대 위치를 가져옵니다.
+    const rectTooltip = tooltipObject.getBoundingClientRect();
+    // 선택된 tooltip 태그의 절대 위치를 가져옵니다.
+    // 좌표값을 구하는데 오른쪽과 왼쪽을 나눠서 구해줍니다. 툴팁이 뜨는방향을 정하기 위함.
+    const realativeTooltip = tooltipDiv.current
+    const realativetooltipMaxHeight = realativeTooltip.getBoundingClientRect().height;
+    const xRight = 20/scale + (e.clientX - rect.x) * (1048 /scale / width);
+    // svg 의 실제 width 와 viewBox 의 비율을 맞춰줍니다. 1048 << 뷰박스 크기 , width 사용자가 입력한 width 크기
+    const xLeft = -20/scale + (e.clientX - rect.x) * (1048 /scale / width) - rectTooltip.width * (1048 /scale / width);
+    const yTop = -20/scale + (e.clientY - rect.y) * (1064/ rect.height);
+    const yBottom = -20/scale + (e.clientY - rect.y) * (1064 / rect.height ) - (realativetooltipMaxHeight * (1064 / rect.height));
+    // svg 의 실제 height 와 viewBox 의 비율을 맞춰줍니다. 1064 << 뷰박스 크기 , height 사용자가 입력한 width 크기
+    if(scale === 1){
+      if (e.clientX < rect.x + rect.width / 2 && e.clientY < rect.y + rect.height / 2) {
+        tooltipObject.style.transform = `translate(${xRight}px,${yTop}px)`;
+      }
+
+      if (e.clientX < rect.x + rect.width / 2 && e.clientY > rect.y + rect.height / 2) {
+        tooltipObject.style.transform = `translate(${xRight}px,${yBottom}px)`;
+      }
+
+      if (e.clientX > rect.x + rect.width / 2 && e.clientY < rect.y + rect.height / 2) {
+        tooltipObject.style.transform = `translate(${xLeft}px,${yTop}px)`;
+      }
+
+      if (e.clientX > rect.x + rect.width / 2 && e.clientY > rect.y + rect.height / 2) {
+        tooltipObject.style.transform = `translate(${xLeft}px,${yBottom}px)`;
+      }
+    }else{
+      if(e.clientX < firstX + width / 2){
+        tooltipObject.style.transform = `translate(${xRight}px,${yBottom}px)`;
+      }
+      if(e.clientX > firstX + width / 2){
+        tooltipObject.style.transform = `translate(${xLeft}px,${yBottom}px)`;
       }
       
-      // 위치조정
-    });
+    } 
+    // 위치조정
+  }
+
+  useEffect(() => {
+    if (!svgRef.current) {
+      return
+    }
+    svgRef.current.addEventListener("mousemove",tooltipMove);
+    return () => {
+      svgRef.current.removeEventListener("mousemove",tooltipMove);
+    }
+    
   }, [tooltipOn, scale, width, firstX]);
+
 
   useEffect(()=>{
     if(zoomOn){
-    const mapSvg = document.querySelectorAll(".mapsvg");
+    const mapSvg = svgRef.current
     let onZoom = true
     // eslint-disable-next-line no-inner-declarations
     function zoomin (e) {
       
-        let svg = document.querySelector(".mapsvg");
+        let svg = mapSvg;
         let scale = onZoom ? zoomMagnification : 1;
     
         let pt = svg.createSVGPoint();
@@ -347,21 +375,20 @@ const MapChart = ({
         setScale(scale)
         
     }
-    mapSvg.forEach((path) => {
-      path.addEventListener("click", zoomin);
-    });
+    mapSvg.addEventListener("click", zoomin);
+    
   }
     
   },[zoomMagnification,zoomOn])
 
-    
-  
+
   return (
     // width 랑 height 데이타 값으로 받기
     <div style={{ width: `${width}px`, height: `100%`, backgroundColor: `${backgroundColor}`, marginTop: `${marginTop}px`, marginLeft: `${marginLeft}px`, marginRight:`${marginRight}px`, marginBottom:`${marginBottom}px`}}>
-      <svg className="mapsvg" fill="none" viewBox="0 0 1048 1064">
-        <g id="map">
+      <svg ref={svgRef} fill="none" viewBox="0 0 1048 1064">
+        <g ref={mapRef}>
           <path
+            ref={pathRef}
             id="incheon"
             fill={usePersentageColor ? color[citycolor[1].colorCode] : citycolor[1].color}
             stroke="white"
@@ -373,6 +400,7 @@ const MapChart = ({
           />
           <path
             id="kangwon"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[2].colorCode] : citycolor[2].color}
             stroke="white"
             strokeLinecap="round"
@@ -383,6 +411,7 @@ const MapChart = ({
           />
           <path
             id="gyeonggi"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[4].colorCode] : citycolor[4].color}
             stroke="white"
             strokeLinecap="round"
@@ -393,6 +422,7 @@ const MapChart = ({
           />
           <path
             id="northJeolla"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[5].colorCode] : citycolor[5].color}
             stroke="white"
             strokeLinecap="round"
@@ -403,6 +433,7 @@ const MapChart = ({
           />
           <path
             id="southChungcheong"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[7].colorCode] : citycolor[7].color}
             stroke="white"
             strokeLinecap="round"
@@ -413,6 +444,7 @@ const MapChart = ({
           />
           <path
             id="daejeon"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[8].colorCode] : citycolor[8].color}
             stroke="white"
             strokeLinecap="round"
@@ -423,6 +455,7 @@ const MapChart = ({
           />
           <path
             id="southgyeongsang"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[10].colorCode] : citycolor[10].color}
             stroke="white"
             strokeLinecap="round"
@@ -433,6 +466,7 @@ const MapChart = ({
           />
           <path
             id="southJeolla"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[11].colorCode] : citycolor[11].color}
             stroke="white"
             strokeLinecap="round"
@@ -443,6 +477,7 @@ const MapChart = ({
           />
           <path
             id="busan"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[12].colorCode] : citycolor[12].color}
             stroke="white"
             strokeLinecap="round"
@@ -453,6 +488,7 @@ const MapChart = ({
           />
           <path
             id="ulsan"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[13].colorCode] : citycolor[13].color}
             stroke="white"
             strokeLinecap="round"
@@ -463,6 +499,7 @@ const MapChart = ({
           />
           <path
             id="jeju"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[14].colorCode] : citycolor[14].color}
             stroke="white"
             strokeLinecap="round"
@@ -471,20 +508,23 @@ const MapChart = ({
             fillOpacity={animationOn ? "0.5" : "1"}
             d="m351 994 2 3 2 2 8 3 2 2 1 6 2 2 2-1v-1l1 2v1l-2 1-1 1v1l1 2v2l-2 2-3 4-5 4-2 3-2 5-1 1-1 3h-3l-2 1h-4l-6 4-16 3-6 5-6 1h-7l-8 1-7-2h-15l-5 3-2 5h-3l-2-1-4-6-5-2-4-5-2-5 3-8 2-5 2-2 6-3 4-8 5-1 2-5 7-2 16-5 4-3 16-2 10-4h3l12-2h13Z"
           />
-          <g className="kyeongbook-group" fillOpacity={animationOn ? "0.5" : "1"} stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" id="kyeongbook">
+          <g  className="kyeongbook-group" fillOpacity={animationOn ? "0.5" : "1"} stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" id="kyeongbook">
             <path
+            ref={pathRef}
               className ="kyeongbook"
               id="kyeongbook"
               fill={usePersentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
               d="m762 403 1 8 2 8 1 8-1 17-1 3-5 6-2 4-1 3v27l1 2 1 1 1 1 1 7 1 5 1 1 1 1v3l-2 1-1 1-2 1-2 2-1 3 4 3 2 2 3 4h3l4-3 10-11 2-3 3 2v3l1 4 1 3-2 4-6 12-1 5-1 13-4 12v7l-4 13-3 6-2 3 2 3 1 2-13-3-15 2h-2l-2-2-1-2v-3l-1-3-6-2-5-1-6 1-6 2-6 4 1 3 2 2-1 2h-3l-4 3-4 3-4 1-5-2-6-1-5 2-2 2-2 2-3 1h-2l-5 4h-6l-5-2-5-2-6 1-6 1-5-3-4-5-1-11-4 3-4 5h-4l-8 4-5-1-4-3-4-2-5-1-5 1-9-1-3-9 2-4v-5l-2-2-2-2-1-1-1-2-3-3-2-4-3-3-5-1h-4l-5-1-2-1-2-2h-5l-3-1v-4l-3-2-3-2-2-4 1-13-6-11 3-2 4-1 3-5 1-5 1-2 2-2v-6l-1-5 4-3h4l3 1-2-11-3-2-8 2-3-2-5-3-4-2-6 2-1-10 4-3 2-4-2-3-1-4 1-4 1-11 1-5 3-2-8-12-6-1-2-4 3-1 2-1 2-2 4-5 1-2v-4l5-4 6-2 3-5 6 2 11 2-2-4-3-4 1-4 2-5 2-3 2 2h4l2-4 3-2 2 2 5 2h5l1-3 1-3 1-3 3-2 2 2 2 2 4 3 2 5 6 2 13-5 3-8-3-2-1-2 2-4 2-4 3-5 5-3 2-3 2-1 3-1 3-3 4-3 3-4 2-1 2 1 2-2 2-2 4 2 4 2 4 1h5v-4l1-4-1-5 3-4 4-2 4 1 3 4h3l2 2v7l5-2 5-4 2 1 1 2h2l2-1 6 1 6 3 4-1 4-2 6 1 5 3 1 4-4 3-4-2-3 1-3 2-1 5 1 7 3 5 5 2 1 4 2 4 3 2 4 2h11v5l1 1 1 2-1 5-2 5v5l1 5 1 5-2 4 11 5 5-3 5 1 2 1ZM657 551l1-3-1-4v-3l-2-1-1-2v-5l1-1v-2l-2-3-6-5h-9l-10 2-7 6 1 9-3 3-2 4h2l1 1v1l-1 2-2 1h-3l-2 3 1 3 3 1 2 3 2 3 2 3 2 1 2 1 1-1 2-4 3-2 5 1 9 2 3-2 1-2v-1l1-4 1-2v-1h2l3-2Zm338-316-3 1-4-1-4-2-2-3-1-4 1-3 3-2 6-1 3-2h2l3 2v5l-2 6-2 4Z"
             />
             <path
+            ref={pathRef}
               className ="kyeongbook"
               id="kyeongbook"
               fill={usePersentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
               d="M1026 239c2 1-4 5-6 5-1 0-3-2-3-4-2 0 3-5 5-5s4 3 4 4Z"
             />
             <path
+            ref={pathRef}
               className ="kyeongbook"
               id="kyeongbook"
               fill={usePersentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
@@ -493,6 +533,7 @@ const MapChart = ({
           </g>
           <path
             id="deagu"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[9].colorCode] : citycolor[9].color}
             stroke="white"
             strokeLinecap="round"
@@ -503,6 +544,7 @@ const MapChart = ({
           />
           <path
             id="sejong"
+            ref={pathRef}
             fillOpacity={animationOn ? "0.5" : "1"}
             fill={usePersentageColor ? color[citycolor[16].colorCode] : citycolor[16].color}
             stroke="white"
@@ -513,6 +555,7 @@ const MapChart = ({
           />
           <path
             id="northChungcheong"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[0].colorCode] : citycolor[0].color}
             stroke="white"
             strokeLinecap="round"
@@ -523,6 +566,7 @@ const MapChart = ({
           />
           <path
             id="seoul"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[3].colorCode] : citycolor[3].color}
             stroke="white"
             strokeLinecap="round"
@@ -533,6 +577,7 @@ const MapChart = ({
           />
           <path
             id="gwangju"
+            ref={pathRef}
             fill={usePersentageColor ? color[citycolor[6].colorCode] : citycolor[6].color}
             stroke="white"
             strokeLinecap="round"
@@ -572,9 +617,10 @@ const MapChart = ({
           )}
         </g>
 
-        <g id="tooltipBox">
+        <g ref={tooltipRef} id="tooltipBox">
           <foreignObject id="foreingObject" x="0" y="0" width={ToolW} height={ToolH} >
             <div
+            ref={tooltipDiv}
               className="tooltipDiv"
               xmlns="http://www.w3.org/1999/xhtml"
               style={
