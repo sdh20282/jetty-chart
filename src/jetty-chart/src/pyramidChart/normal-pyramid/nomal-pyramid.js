@@ -51,7 +51,7 @@ const NormalPyramid = ({
     animationSettings
   });
 
-  const { width, height, margin, innerMargin, padding, reverse, colorPalette } = result.normalSettings;
+  const { width, height, margin, innerMargin, padding, colorPalette, xReverse, yReverse } = result.normalSettings;
   const { autoScope, maxScope, minScope } = result.scopeSettings;
   let { showTopScope } = result.scopeSettings;
   const {
@@ -105,10 +105,6 @@ const NormalPyramid = ({
   const newScope = [...scopeResult.scope, ...scopeResult.scope.slice(0, scopeResult.scope.length - 1).reverse()];
   scopeResult.scope = newScope;
 
-  if (reverse) {
-    scopeResult.scope.reverse();
-  }
-
   if (!autoScope && !scopeResult.display) {
     display = false;
     showTopScope = false;
@@ -152,10 +148,12 @@ const NormalPyramid = ({
     prevBarsTemp.current = [];
   }
 
+  const modifiedData = yReverse ? data.slice().reverse() : data;
+
   return (
     <LabelValueCommon
       keys={keys}
-      xAxis={data.map((d) => d.id)}
+      xAxis={modifiedData.map((d) => d.id)}
       yAxis={scopeResult.scope}
       xLegend={xLegend}
       yLegend={yLegend}
@@ -181,14 +179,10 @@ const NormalPyramid = ({
       legendSettings={result.legendSettings}
       animationSettings={result.animationSettings}
     >
-      <g transform={`translate(${reverse ? innerMargin.top : innerMargin.bottom},${padding})`}>
-        {data.flatMap((group, groupIdx) => {
+      <g transform={`translate(${innerMargin.bottom},${padding})`}>
+        {modifiedData.flatMap((group, groupIdx) => {
           return group.arr.map((d) => {
             const nowData = { ...d };
-
-            if (nowData.label === "여") {
-              nowData.value = -nowData.value;
-            }
 
             const center = (drawWidth / data.length) * groupIdx + drawWidth / data.length / 2;
             const valueRatio = Math.abs(nowData.value) / totalScope;
@@ -212,7 +206,15 @@ const NormalPyramid = ({
             // const rectFill = (barHeight + (barOnlyUpperRadius ? borderRadius : 0)) / 2;
 
             const rectHeight = barTotalWidth;
-            const checkPositive = nowData.value > 0 || (!reverse && nowData.value === 0);
+
+            let checkPositive = nowData.label === keys[0];
+
+            if (xReverse) {
+              checkPositive = nowData.label === keys[1];
+            } else {
+              checkPositive = nowData.label === keys[0];
+            }
+
             const horizontalLabelLocation =
               labelPosition === "over"
                 ? checkPositive
@@ -220,11 +222,11 @@ const NormalPyramid = ({
                   : -realHeight / 2 - labelMargin * 4
                 : labelPosition === "under"
                 ? checkPositive
-                  ? 0 - labelMargin
-                  : 0 + labelMargin * 4
+                  ? labelMargin * 6
+                  : 0
                 : checkPositive
-                ? realHeight / 2
-                : -realHeight / 2;
+                ? realHeight / 4
+                : -realHeight / 4;
 
             prevBarsTemp.current[nowData.label] = {
               center,
@@ -283,7 +285,7 @@ const NormalPyramid = ({
                         ? ""
                         : `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight})`
                     }
-                    fill={nowData.label === "남" ? colorPalette[0] : colorPalette[1]}
+                    fill={nowData.label === keys[0] ? colorPalette[0] : colorPalette[1]}
                     opacity={barOpacity}
                     rx={borderRadius}
                     ry={borderRadius}
@@ -344,11 +346,11 @@ const NormalPyramid = ({
                               ? `${(rectWidth - translate.width) / 2}px,0px`
                               : labelPosition === "under"
                               ? `${checkPositive ? 0 : barHeight}px,0px`
-                              : `${checkPositive ? -barHeight / 2 : barHeight / 2}px,0px`
+                              : `${checkPositive ? -barHeight : barHeight}px,0px`
                             : labelPosition === "over"
                             ? `${checkPositive ? -barHeight : 0}px,0px`
                             : labelPosition === "under"
-                            ? `${checkPositive ? 0 : barHeight}px,0px`
+                            ? `${checkPositive ? 0 : -barHeight}px,0px`
                             : `${checkPositive ? -barHeight / 2 : barHeight / 2}px,0px`,
                           "--text-to": useTranslate
                             ? labelPosition === "over"

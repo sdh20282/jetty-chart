@@ -17,14 +17,15 @@ const normalBarSetting = {
     innerMargin: { top: 0, bottom: 0 },
     colorPalette: ["#669dfe", "#876697"],
     padding: 20,
-    reverse: false,
+    xReverse: true,
+    yReverse: true,
     horizontal: true
   },
   // 범위 세팅
   scopeSettings: {
     autoScope: true,
-    maxScope: 700,
-    minScope: -100,
+    maxScope: 8000,
+    minScope: 0,
     showTopScope: true
   },
   // y축 라인 세팅
@@ -198,7 +199,7 @@ const normalBarSetting = {
     useMinHeight: true,
     minHeight: 1,
     useLabel: true,
-    labelPosition: "under", // over, center, under,
+    labelPosition: "over", // over, center, under,
     labelMargin: 5,
     labelSize: 11,
     labelWeight: 500,

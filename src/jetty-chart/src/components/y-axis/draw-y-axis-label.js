@@ -53,6 +53,14 @@ export const DrawYAxisLabel = ({
     prevYAxisTemp.current = [];
   }
 
+  if (yAxis[0] > 1000000000) {
+    yAxis = yAxis.map((value) => value / 1000 + "b");
+  } else if (yAxis[0] > 1000000) {
+    yAxis = yAxis.map((value) => value / 1000 + "m");
+  } else if (yAxis[0] > 1000) {
+    yAxis = yAxis.map((value) => value / 1000 + "k");
+  }
+
   return (
     <g
       transform={

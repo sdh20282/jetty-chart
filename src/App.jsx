@@ -21,11 +21,11 @@ function App() {
       const arr = [];
 
       arr.push({
-        value: Math.floor(Math.random() * 900) + 10,
+        value: Math.floor(7 * index * 10),
         label: "남"
       });
       arr.push({
-        value: Math.floor(Math.random() * 900) + 10,
+        value: Math.floor(6 * index * 10),
         label: "여"
       });
 
