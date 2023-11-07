@@ -22,7 +22,7 @@ function App() {
 
     const arr2 = [];
 
-    for (let index = 0; index < counts[Math.floor(Math.random() * counts.length)]; index++) {
+    for (let idx = 0; idx < counts[Math.floor(Math.random() * counts.length)]; idx++) {
       const temp = [];
 
       for (let index = 0; index < 6; index++) {
@@ -31,7 +31,7 @@ function App() {
 
       arr2.push({
         value: temp,
-        label: "data-" + (index + 1)
+        label: "data-" + (idx + 1)
       });
     }
 
@@ -56,106 +56,6 @@ function App() {
           gap: "0"
         }}
       >
-        {/* <NormalBar
-          data={data}
-          keys={["data-1"]}
-          xLegend={"categories"}
-          yLegend={"values"}
-          normalSettings={{ colorPalette: ["#A0ADFF"] }}
-          barSettings={{
-            barBorderRadius: 20
-          }}
-          animationSettings={{
-            barSettings: {
-              translateItemDelay: 0.1
-            }
-          }}
-        />
-        <NormalBar
-          data={data}
-          keys={["data-1"]}
-          xLegend={"categories"}
-          yLegend={"values"}
-          normalSettings={{ reverse: true, colorPalette: ["#F1948A", "#82E0AA", "#D7BDE2"] }}
-          barSettings={{
-            barOpacity: 0.2,
-            barGap: 0.05,
-            barOnlyUpperRadius: false,
-            labelColor: "#F1948A"
-          }}
-          animationSettings={{
-            axisYGridLineSettings: { renderType: "fade", renderItemDelay: 0 },
-            axisYLabelSettings: {
-              translateLabel: false,
-              renderItemDelay: 0
-            },
-            axisXLabelSettings: {
-              translateLabel: false,
-              renderItemDelay: 0
-            },
-            barSettings: {
-              renderType: "fade",
-              translateBar: false
-            }
-          }}
-        />
-        <NormalBar
-          data={data}
-          keys={["data-1"]}
-          xLegend={"categories"}
-          yLegend={"values"}
-          normalSettings={{ horizontal: true, colorPalette: ["#82E0AA", "#D7BDE2"] }}
-          animationSettings={{
-            barSettings: {
-              renderType: "fade",
-              renderTimingFunction: "linear",
-              textRenderTimingFunction: "linear",
-              translateTimingFunction: "linear",
-              renderStartDelay: 2
-            }
-          }}
-        />
-        <NormalBar
-          data={data}
-          keys={["data-1"]}
-          xLegend={"categories"}
-          yLegend={"values"}
-          normalSettings={{ horizontal: true, colorPalette: ["#D7BDE2"] }}
-          barSettings={{
-            barGap: 0.5,
-            useLabel: false
-          }}
-          animationSettings={{
-            barSettings: {
-              renderType: "grow-async",
-              translateBar: false
-            }
-          }}
-        />
-        <NormalBar
-          data={data}
-          xLegend={"categories"}
-          yLegend={"values"}
-          normalSettings={{
-            horizontal: true,
-            reverse: true,
-            colorPalette: ["#03045e", "#023e8a", "#0077b6", "#0096c7", "#00b4d8", "#48cae4", "#90e0ef", "#caf0f8"],
-            useVariousColors: true
-          }}
-          barSettings={{
-            labelPosition: "under"
-          }}
-          animationSettings={{
-            axisYGridLineSettings: { renderType: "fade" },
-            barSettings: {
-              renderType: "fade",
-              textRenderType: "fade",
-              translateBar: false,
-              renderItemDelay: 0,
-              textRenderItemDelay: 0
-            }
-          }}
-        /> */}
         <StackedBar
           data={data2}
           keys={["data-1", "data-2", "data-3", "data-4", "data-5", "data-6"]}

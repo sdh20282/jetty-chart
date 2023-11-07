@@ -214,7 +214,7 @@ const stackedBarSetting = {
     labelSize: 11,
     labelWeight: 500,
     labelOpacity: 1,
-    labelColor: "#777",
+    labelColor: "#ccc",
     labelInvisibleHeight: 0
   },
   animationSettings: {
