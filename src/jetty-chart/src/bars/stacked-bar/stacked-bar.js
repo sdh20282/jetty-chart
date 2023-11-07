@@ -7,8 +7,8 @@ import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-s
 import {
   calculateBase,
   calculateBarBase,
-  calculateLabelLocation,
-  calculateStackedBarBase
+  calculateStackedBarBase,
+  calculateStackedLabelLocation
 } from "../../common/bar-common/utils/calculate-base-values";
 import {
   calculateWarpperTransform,
@@ -87,7 +87,6 @@ const StackedBar = ({
     barBorderWidth,
     barBorderColor,
     barBorderOpacity,
-    useMinHeight,
     minHeight,
     useLabel,
     labelPosition,
@@ -204,7 +203,7 @@ const StackedBar = ({
             idx: index,
             drawWidth,
             drawHeight,
-            useMinHeight,
+            useMinHeight: false,
             minHeight,
             totalScope,
             barBorderRadius: 0,
@@ -280,12 +279,14 @@ const StackedBar = ({
                   const nowRectWidth = Math.abs(horizontal ? nowHeight : rectWidth);
                   const nowRectHeight = Math.abs(horizontal ? rectHeight : nowHeight);
 
-                  const { verticalLabelLocation } = calculateLabelLocation({
+                  const { horizontalLabelLocation, verticalLabelLocation } = calculateStackedLabelLocation({
                     barHeight,
                     realHeight,
                     checkPositive,
                     labelPosition,
                     labelMargin,
+                    rectWidth: nowRectWidth,
+                    rectHeight: nowRectHeight,
                     nowPosition
                   });
 
@@ -398,14 +399,12 @@ const StackedBar = ({
                             useAnimation,
                             useTranslate,
                             horizontal,
-                            horizontalLabelLocation: checkPositive
-                              ? nowPosition + nowRectWidth + labelMargin
-                              : -(barHeight + nowPosition) + nowRectWidth + labelMargin,
+                            horizontalLabelLocation,
                             halfBarRealWidth,
                             verticalLabelLocation,
                             renderType,
                             drawHeight,
-                            barHeight: checkPositive ? barHeight - nowPosition : nowPosition + barHeight,
+                            barHeight,
                             zeroHeight
                           })}
                         >
@@ -436,10 +435,10 @@ const StackedBar = ({
                                 labelPosition,
                                 checkPositive,
                                 rectWidth: nowRectWidth,
+                                rectHeight: nowRectHeight,
                                 translate,
-                                barBorderRadius: 0,
+                                barBorderRadius,
                                 labelMargin,
-                                rectHeight,
                                 borderRadius,
                                 barHeight,
                                 nowPosition
@@ -454,7 +453,8 @@ const StackedBar = ({
                                 translate,
                                 halfBarRealWidth,
                                 nowPosition,
-                                rectWidth: nowRectWidth
+                                rectWidth: nowRectWidth,
+                                rectHeight: nowRectHeight
                               }),
                               "--animation-duration": useTranslate
                                 ? `${translateDuration}s`

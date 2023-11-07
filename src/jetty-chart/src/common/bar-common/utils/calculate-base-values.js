@@ -121,3 +121,29 @@ export const calculateStackedBarBase = ({ rectHeight, values, idx, totalValue, r
 
   return { nowHeight, nowPosition };
 };
+
+export const calculateStackedLabelLocation = ({
+  barHeight,
+  realHeight,
+  checkPositive,
+  labelPosition,
+  labelMargin,
+  rectWidth,
+  rectHeight,
+  nowPosition
+}) => {
+  const horizontalLabelLocation =
+    labelPosition === "over"
+      ? (checkPositive ? nowPosition : -(barHeight + nowPosition)) + rectWidth + labelMargin
+      : // : labelPosition === "under"
+        // ? (checkPositive ? 0 : -realHeight) - labelMargin
+        (checkPositive ? nowPosition : -(barHeight + nowPosition)) + rectWidth / 2;
+  const verticalLabelLocation =
+    labelPosition === "over"
+      ? (checkPositive ? nowPosition : barHeight - nowPosition) - labelMargin
+      : labelPosition === "under"
+      ? barHeight + (checkPositive ? 0 : realHeight) + labelMargin
+      : (checkPositive ? nowPosition : barHeight - nowPosition) + rectHeight / 2;
+
+  return { horizontalLabelLocation, verticalLabelLocation };
+};

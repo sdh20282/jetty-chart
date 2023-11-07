@@ -13,7 +13,7 @@ function App() {
 
     for (let index = 0; index < counts[Math.floor(Math.random() * counts.length)]; index++) {
       arr.push({
-        value: Math.floor(Math.random() * 90) + 10,
+        value: Math.floor(Math.random() * 90) - 50,
         label: "c-" + (index + 1)
       });
     }
@@ -175,8 +175,50 @@ function App() {
           keys={["data-1"]}
           xLegend={"categories"}
           yLegend={"values"}
-          normalSettings={{ colorPalette: ["#77d4ff", "#F1948A", "#82E0AA", "#D7BDE2"], reverse: false, horizontal: true }}
+          normalSettings={{ colorPalette: ["#77d4ff", "#F1948A", "#82E0AA", "#D7BDE2"], reverse: false, horizontal: false }}
         />
+        <StackedBar
+          data={data2}
+          keys={["data-1", "data-2", "data-3", "data-4", "data-5", "data-6"]}
+          xLegend={"types"}
+          yLegend={"values"}
+          normalSettings={{
+            colorPalette: ["#03045e", "#023e8a", "#0077b6", "#0096c7", "#00b4d8", "#48cae4", "#90e0ef", "#caf0f8"],
+            horizontal: true
+          }}
+        />
+        <StackedBar
+          data={data2}
+          keys={["data-1", "data-2", "data-3", "data-4", "data-5", "data-6"]}
+          xLegend={"types"}
+          yLegend={"values"}
+          normalSettings={{
+            colorPalette: ["#03045e", "#023e8a", "#0077b6", "#0096c7", "#00b4d8", "#48cae4", "#90e0ef", "#caf0f8"],
+            horizontal: true,
+            reverse: true
+          }}
+        />
+        {/* <NormalBar
+          data={data}
+          keys={["data-1"]}
+          xLegend={"categories"}
+          yLegend={"values"}
+          normalSettings={{ colorPalette: ["#77d4ff", "#F1948A", "#82E0AA", "#D7BDE2"], reverse: true, horizontal: true }}
+        />
+        <NormalBar
+          data={data}
+          keys={["data-1"]}
+          xLegend={"categories"}
+          yLegend={"values"}
+          normalSettings={{ colorPalette: ["#77d4ff", "#F1948A", "#82E0AA", "#D7BDE2"], reverse: false, horizontal: false }}
+        />
+        <NormalBar
+          data={data}
+          keys={["data-1"]}
+          xLegend={"categories"}
+          yLegend={"values"}
+          normalSettings={{ colorPalette: ["#77d4ff", "#F1948A", "#82E0AA", "#D7BDE2"], reverse: true, horizontal: false }}
+        /> */}
       </div>
 
       <button
