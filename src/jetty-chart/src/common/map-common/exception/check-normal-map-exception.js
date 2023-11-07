@@ -47,7 +47,7 @@ const  normalMapSetting = {
         descriptionFontWeight: "bold",
         descriptionFontFamily : "inter",
         tooltipOpacity: 1,
-        usetooltipCol:true,
+        useTooltipCol:true,
       },
 }
 

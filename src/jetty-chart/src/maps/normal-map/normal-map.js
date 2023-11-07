@@ -57,7 +57,7 @@ const MapChart = ({
         descriptionFontWeight,
         descriptionFontFamily,
         tooltipOpacity,
-        usetooltipCol} = result.tooltipSetting
+        useTooltipCol} = result.tooltipSetting
 
   const colorPallette = [
     ["#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6"],
@@ -704,7 +704,7 @@ const MapChart = ({
                   fontWeight: `${cityNameFontWeight}`,
                 }}
               >
-                {tooltipCity} {usetooltipCol ? ":" : ""}{" "}
+                {tooltipCity} {useTooltipCol ? ":" : ""}{" "}
                 <span style={{ color: `${cityValueColor}`, fontSize: `${cityValueFontS}px`, fontWeight: `${cityValueFontWeight}` }}>
                   {tooltipValue}
                 </span>
