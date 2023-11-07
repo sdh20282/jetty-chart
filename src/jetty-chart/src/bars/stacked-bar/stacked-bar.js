@@ -268,13 +268,21 @@ const StackedBar = ({
                 }}
               >
                 {nowData.value.map((d, idx) => {
-                  const { nowHeight, nowPosition } = calculateStackedBarBase({
+                  let { nowHeight, nowPosition } = calculateStackedBarBase({
                     rectHeight: horizontal ? rectWidth : rectHeight,
                     values: nowData.value,
                     idx: horizontal ? nowData.value.length - 1 - idx : idx,
                     totalValue: nowTotalValue,
                     reverseOrder
                   });
+
+                  if (nowTotalValue < 0) {
+                    nowPosition = -nowPosition;
+                  }
+
+                  if (reverse) {
+                    nowPosition = -nowPosition;
+                  }
 
                   const nowRectWidth = Math.abs(horizontal ? nowHeight : rectWidth);
                   const nowRectHeight = Math.abs(horizontal ? rectHeight : nowHeight);
