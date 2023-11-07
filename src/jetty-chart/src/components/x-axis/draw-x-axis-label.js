@@ -19,7 +19,7 @@ export const DrawXAxisLabel = ({
     sideLineVisible,
     sideLineOpacity,
     sideLineColor,
-    sideLineWidth
+    sideLineWidth,
   },
   animationSettings: {
     useAnimation,
@@ -33,8 +33,8 @@ export const DrawXAxisLabel = ({
     translateDuration,
     translateStartDelay,
     translateItemDelay,
-    translateTimingFunction
-  }
+    translateTimingFunction,
+  },
 }) => {
   const prevXAxis = useRef({});
   const prevXAxisTemp = useRef({});
@@ -95,7 +95,7 @@ export const DrawXAxisLabel = ({
                 (useTranlate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? idx : xAxis.length - 1 - idx)
               }s`,
               "--translate-from": horizontal ? `0px,${x - translate}px` : `${x - translate}px`,
-              "--translate-to": horizontal ? `0px,${x}px` : `${x}px`
+              "--translate-to": horizontal ? `0px,${x}px` : `${x}px`,
             }}
           >
             {sideLineVisible && (

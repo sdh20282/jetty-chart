@@ -19,7 +19,7 @@ export const DrawYAxisLabel = ({
     sideLineVisible,
     sideLineOpacity,
     sideLineColor,
-    sideLineWidth
+    sideLineWidth,
   },
   animationSettings: {
     useAnimation,
@@ -33,8 +33,8 @@ export const DrawYAxisLabel = ({
     translateDuration,
     translateStartDelay,
     translateItemDelay,
-    translateTimingFunction
-  }
+    translateTimingFunction,
+  },
 }) => {
   const prevYAxis = useRef({});
   const prevYAxisTemp = useRef({});
@@ -101,7 +101,7 @@ export const DrawYAxisLabel = ({
                   ((!horizontal && renderStartFrom === "bottom") || (horizontal && renderStartFrom !== "bottom") ? yAxis.length - 1 - idx : idx)
               }s`,
               "--translate-from": horizontal ? `${location - translate}px` : `0px,${location - translate}px`,
-              "--translate-to": horizontal ? `${location}px` : `0px,${location}px`
+              "--translate-to": horizontal ? `${location}px` : `0px,${location}px`,
             }}
           >
             <g transform={`translate(${horizontal ? labelMove : 0},${horizontal ? 0 : -labelMove}) rotate(${labelRotate})`}>
