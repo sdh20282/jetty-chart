@@ -55,7 +55,9 @@ const MapChart = ({
         descriptionColor,
         descriptionFontSize,
         descriptionFontWeight,
-        descriptionFontFamily} = result.tooltipSetting
+        descriptionFontFamily,
+        tooltipOpacity,
+        usetooltipCol} = result.tooltipSetting
 
   const colorPallette = [
     ["#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6"],
@@ -194,7 +196,7 @@ const MapChart = ({
     return city;
   });
   // 컬러코드 지정 
-  
+
   const [mousePointer, setMousePointer] = useState(25);
   const [tooltipOn, setTooltipOn] = useState(false);
   const [tooltipDescription, settooltipDescription] = useState("");
@@ -266,7 +268,7 @@ const MapChart = ({
       setTooltipValue(cityValue);
       settooltipDescription(cityDescription);
     } else {
-      console.log("No matching city found.");
+      console.log("");
     }
   }
 
@@ -295,7 +297,7 @@ const MapChart = ({
 
 
   function tooltipMove(e){
-    console.log(1)
+
     const main = mapRef.current;
     // 적용될 svg 태그의 .id 값을 선택합니다.
     const tooltipObject = tooltipRef.current;
@@ -421,7 +423,6 @@ const MapChart = ({
       return () => {
         mapSvg.removeEventListener("click", zoomin);
         if (animationFrameId) {
-          console.log('sung')
           cancelAnimationFrame(animationFrameId);
         }
       };
@@ -673,6 +674,7 @@ const MapChart = ({
               style={
                 tooltipOn
                   ? {
+                      opacity:tooltipOpacity,
                       maxWidth: `${ToolW}px`,
                       // height: "100%",
                       minHeight:`${150/scale}px`,
@@ -702,7 +704,7 @@ const MapChart = ({
                   fontWeight: `${cityNameFontWeight}`,
                 }}
               >
-                {tooltipCity} :{" "}
+                {tooltipCity} {usetooltipCol ? ":" : ""}{" "}
                 <span style={{ color: `${cityValueColor}`, fontSize: `${cityValueFontS}px`, fontWeight: `${cityValueFontWeight}` }}>
                   {tooltipValue}
                 </span>

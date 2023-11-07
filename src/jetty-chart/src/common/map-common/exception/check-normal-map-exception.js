@@ -1,7 +1,5 @@
-import { checkMapMargin } from "../utils/calculate-map-position";
-import { checkDivide } from "../utils/calculate-map-position";
-import { checkGagueBarSize } from "../utils/calculate-map-position";
-import { checkTooltip } from "../utils/calculate-map-position";
+import { checkMapMargin, checkDivide, checkGagueBarSize, checkTooltip } from "../utils/calculate-map-position";
+
 
 const  normalMapSetting = {
     normalSetting:{
@@ -48,6 +46,8 @@ const  normalMapSetting = {
         descriptionFontSize: 30,
         descriptionFontWeight: "bold",
         descriptionFontFamily : "inter",
+        tooltipOpacity: 1,
+        usetooltipCol:true,
       },
 }
 
