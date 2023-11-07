@@ -5,6 +5,7 @@ const PieTestSetting = ({
   pieSettings,
   changeNewGeneralSettings,
   changeNewPieSettings,
+  changeDebugTool,
 }) => {
   const [width, setWidth] = useState(generalSettings.width);
   const [height, setHeight] = useState(generalSettings.height);
@@ -18,6 +19,7 @@ const PieTestSetting = ({
   const [innerRadius, setInnerRadius] = useState(pieSettings.innerRadius);
   const [cornerRadius, setCornerRadius] = useState(pieSettings.cornerRadius);
   const [testToggle, setTestToggle] = useState(true);
+
   useEffect(() => {
     changeNewGeneralSettings({
       width,
@@ -114,24 +116,55 @@ const PieTestSetting = ({
           <br />
           <label>pieRadius</label>
           <input
-            size={5}
+            type={"range"}
+            min="0.1"
+            max={"1"}
+            step={"0.01"}
             style={{ margin: "10px" }}
             value={pieRadius}
-            onChange={(e) => setPieRadius(Number(e.target.value))}
+            onChange={(e) => {
+              setPieRadius(Number(e.target.value));
+              setTestToggle(!testToggle);
+            }}
           />
+          <br />
           <label>innerRadius</label>
           <input
-            size={5}
+            type={"range"}
+            min="0.1"
+            max={"1"}
+            step={"0.01"}
             style={{ margin: "10px" }}
             value={innerRadius}
-            onChange={(e) => setInnerRadius(Number(e.target.value))}
+            onChange={(e) => {
+              setInnerRadius(Number(e.target.value));
+              setTestToggle(!testToggle);
+            }}
           />
+          <br />
           <label>cornerRadius</label>
           <input
-            size={5}
+            type={"range"}
+            min="0.1"
+            max={"1"}
+            step={"0.01"}
             style={{ margin: "10px" }}
             value={cornerRadius}
-            onChange={(e) => setCornerRadius(Number(e.target.value))}
+            onChange={(e) => {
+              setCornerRadius(Number(e.target.value));
+              setTestToggle(!testToggle);
+            }}
+          />
+          <br />
+          <label>Debug</label>
+          <input
+            type={"checkbox"}
+            name={"debug"}
+            value={false}
+            onChange={() => {
+              changeDebugTool();
+              setTestToggle(!testToggle);
+            }}
           />
         </div>
       </div>

@@ -26,11 +26,13 @@ const Pie = ({
     padSize: 100, // 조각 크기, default 100
     padSpace: 1, // 조각 여백 default 0
   },
-  // debugTool = !true,
 }) => {
   const [newGeneralSettings, setNewGeneralSettings] = useState(generalSettings);
   const [newPieSettings, setNewPieSettings] = useState(pieSettings);
-
+  const [debugTool, setDebugTool] = useState(false);
+  const toggleDebugTool = () => {
+    setDebugTool(!debugTool);
+  };
   return (
     <>
       <PieTestSetting
@@ -38,8 +40,14 @@ const Pie = ({
         pieSettings={pieSettings}
         changeNewGeneralSettings={setNewGeneralSettings}
         changeNewPieSettings={setNewPieSettings}
+        changeDebugTool={toggleDebugTool}
       />
-      <PieSvg data={data} generalSettings={newGeneralSettings} pieSettings={newPieSettings} />
+      <PieSvg
+        data={data}
+        generalSettings={newGeneralSettings}
+        pieSettings={newPieSettings}
+        debugTool={debugTool}
+      />
     </>
   );
 };

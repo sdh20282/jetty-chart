@@ -3,7 +3,7 @@ import PiePiece from "./PiePiece";
 import { getDivideRatio } from "../utils/getDivideRatio";
 import { PieDebugMode } from "../testFile/PieDebugMode";
 
-const PieSvg = ({ data, generalSettings, pieSettings }) => {
+const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
   data = getDivideRatio({ data });
   const pieceData = getPiePiece({
     data,
@@ -12,7 +12,6 @@ const PieSvg = ({ data, generalSettings, pieSettings }) => {
     cornerRadius: pieSettings.cornerRadius,
     startAngle: pieSettings.startAngle,
   });
-  const debugTool = !true;
 
   return (
     <svg
@@ -65,7 +64,6 @@ const PieSvg = ({ data, generalSettings, pieSettings }) => {
               tangentCircleCoordinate3={piece.tangentCircleCoordinate3}
               tangentCircleCoordinate4={piece.tangentCircleCoordinate4}
               referenceCoordinates={piece.referenceCoordinates}
-              key={index}
             />
           )}
         </>
