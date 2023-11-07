@@ -1,4 +1,4 @@
-import { VerticalBar } from "./vertical-bar/vertical-bar";
-import { HorizontalBar } from "./horizontal-bar/horizontal-bar";
+import { NormalBar } from "./normal-bar/nomal-bar";
+import { StackedBar } from "./stacked-bar/stacked-bar";
 
-export { VerticalBar, HorizontalBar };
+export { NormalBar, StackedBar };
