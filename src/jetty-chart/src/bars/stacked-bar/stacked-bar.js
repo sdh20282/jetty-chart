@@ -7,8 +7,8 @@ import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-s
 import {
   calculateBase,
   calculateBarBase,
-  calculateLabelLocation,
-  calculateStackedBarBase
+  calculateStackedBarBase,
+  calculateStackedLabelLocation
 } from "../../common/bar-common/utils/calculate-base-values";
 import {
   calculateWarpperTransform,
@@ -18,9 +18,9 @@ import {
   calculateBarTransform,
   calculateBarTo,
   calculateLabelTransform,
-  calculateLabelFrom,
-  calculateLabelTo,
-  calculateStackedBarFrom
+  calculateStackedBarFrom,
+  calculateStackedLabelFrom,
+  calculateStackedLabelTo
 } from "../../common/bar-common/utils/calculate-bar-positions";
 
 import styles from "./stacked-bar.module.css";
@@ -87,7 +87,6 @@ const StackedBar = ({
     barBorderWidth,
     barBorderColor,
     barBorderOpacity,
-    useMinHeight,
     minHeight,
     useLabel,
     labelPosition,
@@ -204,20 +203,12 @@ const StackedBar = ({
             idx: index,
             drawWidth,
             drawHeight,
-            useMinHeight,
+            useMinHeight: false,
             minHeight,
             totalScope,
             barBorderRadius: 0,
             barOnlyUpperRadius,
             halfBarRealWidth
-          });
-
-          const { horizontalLabelLocation, verticalLabelLocation } = calculateLabelLocation({
-            barHeight,
-            realHeight,
-            checkPositive,
-            labelPosition,
-            labelMargin
           });
 
           prevBarsTemp.current[nowData.label] = {
@@ -277,16 +268,35 @@ const StackedBar = ({
                 }}
               >
                 {nowData.value.map((d, idx) => {
-                  const { nowHeight, nowPosition } = calculateStackedBarBase({
+                  let { nowHeight, nowPosition } = calculateStackedBarBase({
                     rectHeight: horizontal ? rectWidth : rectHeight,
                     values: nowData.value,
-                    idx,
+                    idx: horizontal ? nowData.value.length - 1 - idx : idx,
                     totalValue: nowTotalValue,
                     reverseOrder
                   });
 
+                  if (nowTotalValue < 0) {
+                    nowPosition = -nowPosition;
+                  }
+
+                  if (reverse) {
+                    nowPosition = -nowPosition;
+                  }
+
                   const nowRectWidth = Math.abs(horizontal ? nowHeight : rectWidth);
                   const nowRectHeight = Math.abs(horizontal ? rectHeight : nowHeight);
+
+                  const { horizontalLabelLocation, verticalLabelLocation } = calculateStackedLabelLocation({
+                    barHeight,
+                    realHeight,
+                    checkPositive,
+                    labelPosition,
+                    labelMargin,
+                    rectWidth: nowRectWidth,
+                    rectHeight: nowRectHeight,
+                    nowPosition
+                  });
 
                   const cur = `${nowData.label}_${idx}`;
 
@@ -317,237 +327,161 @@ const StackedBar = ({
                   }
 
                   return (
-                    <rect
-                      key={"rect-" + ms + "-" + nowData.label + "-" + idx}
-                      width={nowRectWidth}
-                      height={nowRectHeight}
-                      transform={calculateBarTransform({
-                        useAnimation,
-                        renderType,
-                        useTranslate,
-                        horizontal,
-                        checkPositive,
-                        barOnlyUpperRadius,
-                        borderRadius,
-                        barHeight,
-                        nowPosition
-                      })}
-                      fill={colorPalette[idx % colorPalette.length]}
-                      fillOpacity={barOpacity}
-                      rx={barBorderRadius}
-                      ry={barBorderRadius}
-                      stroke={useBarBorder ? barBorderColor : ""}
-                      strokeOpacity={barBorderOpacity}
-                      strokeWidth={useBarBorder ? barBorderWidth : "0"}
-                      className={
-                        useAnimation
-                          ? useTranslate
-                            ? styles.translateBar
-                            : renderType.includes("grow")
-                            ? styles.growBar
-                            : renderType === "fade"
-                            ? styles.fadeBar
+                    <g key={"rect-" + ms + "-" + nowData.label + "-" + idx}>
+                      <rect
+                        width={nowRectWidth}
+                        height={nowRectHeight}
+                        transform={calculateBarTransform({
+                          useAnimation,
+                          renderType,
+                          useTranslate,
+                          horizontal,
+                          checkPositive,
+                          barOnlyUpperRadius,
+                          borderRadius,
+                          barHeight,
+                          nowPosition
+                        })}
+                        fill={colorPalette[idx % colorPalette.length]}
+                        fillOpacity={barOpacity}
+                        rx={barBorderRadius}
+                        ry={barBorderRadius}
+                        stroke={useBarBorder ? barBorderColor : ""}
+                        strokeOpacity={barBorderOpacity}
+                        strokeWidth={useBarBorder ? barBorderWidth : "0"}
+                        className={
+                          useAnimation
+                            ? useTranslate
+                              ? styles.translateBar
+                              : renderType.includes("grow")
+                              ? styles.growBar
+                              : renderType === "fade"
+                              ? styles.fadeBar
+                              : ""
                             : ""
-                          : ""
-                      }
-                      style={{
-                        "--bar-from": calculateStackedBarFrom({
-                          useTranslate,
-                          horizontal,
-                          checkPositive,
-                          borderRadius,
-                          rectWidth,
-                          translate,
-                          barHeight,
-                          barOnlyUpperRadius,
-                          drawHeight,
-                          zeroHeight,
-                          nowPosition
-                        }),
-                        "--bar-to": calculateBarTo({
-                          useTranslate,
-                          horizontal,
-                          checkPositive,
-                          borderRadius,
-                          rectWidth,
-                          translate,
-                          barHeight,
-                          barOnlyUpperRadius,
-                          drawHeight,
-                          zeroHeight,
-                          nowPosition
-                        }),
-                        "--width-from": useTranslate ? `${nowRectWidth - translate.width}px` : horizontal ? `0px` : `${nowRectWidth}px`,
-                        "--width-to": `${nowRectWidth}px`,
-                        "--height-from": useTranslate ? `${nowRectHeight - translate.height}px` : horizontal ? `${nowRectHeight}px` : `0px`,
-                        "--height-to": `${nowRectHeight}px`,
-                        "--animation-duration": useTranslate
-                          ? `${translateDuration}s`
-                          : `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`,
-                        "--animation-delay": `${
-                          (useTranslate ? translateStartDelay : renderStartDelay) +
-                          (useTranslate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? index : data.length - 1 - index)
-                        }s`,
-                        "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction
-                      }}
-                    ></rect>
+                        }
+                        style={{
+                          "--bar-from": calculateStackedBarFrom({
+                            useTranslate,
+                            horizontal,
+                            checkPositive,
+                            borderRadius,
+                            rectWidth,
+                            translate,
+                            barHeight,
+                            barOnlyUpperRadius,
+                            drawHeight,
+                            zeroHeight,
+                            nowPosition
+                          }),
+                          "--bar-to": calculateBarTo({
+                            useTranslate,
+                            horizontal,
+                            checkPositive,
+                            borderRadius,
+                            rectWidth,
+                            translate,
+                            barHeight,
+                            barOnlyUpperRadius,
+                            drawHeight,
+                            zeroHeight,
+                            nowPosition
+                          }),
+                          "--width-from": useTranslate ? `${nowRectWidth - translate.width}px` : horizontal ? `0px` : `${nowRectWidth}px`,
+                          "--width-to": `${nowRectWidth}px`,
+                          "--height-from": useTranslate ? `${nowRectHeight - translate.height}px` : horizontal ? `${nowRectHeight}px` : `0px`,
+                          "--height-to": `${nowRectHeight}px`,
+                          "--animation-duration": useTranslate
+                            ? `${translateDuration}s`
+                            : `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`,
+                          "--animation-delay": `${
+                            (useTranslate ? translateStartDelay : renderStartDelay) +
+                            (useTranslate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? index : data.length - 1 - index)
+                          }s`,
+                          "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction
+                        }}
+                      ></rect>
+                      {useLabel && realHeight > labelInvisibleHeight && (
+                        <g
+                          transform={calculateLabelTransform({
+                            useAnimation,
+                            useTranslate,
+                            horizontal,
+                            horizontalLabelLocation,
+                            halfBarRealWidth,
+                            verticalLabelLocation,
+                            renderType,
+                            drawHeight,
+                            barHeight,
+                            zeroHeight
+                          })}
+                        >
+                          <text
+                            fontSize={labelSize}
+                            fontWeight={labelWeight}
+                            fill={labelColor}
+                            opacity={labelOpacity}
+                            dominantBaseline={
+                              horizontal ? "middle" : labelPosition === "over" ? "ideographic" : labelPosition === "under" ? "hanging" : "middle"
+                            }
+                            textAnchor={horizontal ? (labelPosition === "over" ? "start" : labelPosition === "under" ? "end" : "middle") : "middle"}
+                            className={
+                              textRender && useAnimation
+                                ? useTranslate
+                                  ? styles.translateText
+                                  : textRenderType.includes("grow")
+                                  ? styles.growText
+                                  : textRenderType === "fade"
+                                  ? styles.fadeText
+                                  : ""
+                                : ""
+                            }
+                            style={{
+                              "--text-from": calculateStackedLabelFrom({
+                                useTranslate,
+                                horizontal,
+                                labelPosition,
+                                checkPositive,
+                                rectWidth: nowRectWidth,
+                                rectHeight: nowRectHeight,
+                                translate,
+                                barBorderRadius,
+                                labelMargin,
+                                borderRadius,
+                                barHeight,
+                                nowPosition
+                              }),
+                              "--text-to": calculateStackedLabelTo({
+                                useTranslate,
+                                horizontal,
+                                labelPosition,
+                                checkPositive,
+                                barHeight,
+                                labelMargin,
+                                translate,
+                                halfBarRealWidth,
+                                nowPosition,
+                                rectWidth: nowRectWidth,
+                                rectHeight: nowRectHeight
+                              }),
+                              "--animation-duration": useTranslate
+                                ? `${translateDuration}s`
+                                : `${renderType === "grow" ? textRenderDuration * valueRatio : textRenderDuration}s`,
+                              "--animation-delay": `${
+                                (useTranslate ? translateStartDelay : textRenderStartDelay) +
+                                (useTranslate ? translateItemDelay : textRenderItemDelay) *
+                                  (textRenderStartFrom === "left" ? index : data.length - 1 - index)
+                              }s`,
+                              "--animation-timing-function": useTranslate ? translateTimingFunction : textRenderTimingFunction
+                            }}
+                          >
+                            {nowData.value[idx]}
+                          </text>
+                        </g>
+                      )}
+                    </g>
                   );
                 })}
-                {/* <rect
-                  width={rectWidth}
-                  height={rectHeight}
-                  clipPath={
-                    barOnlyUpperRadius
-                      ? horizontal
-                        ? checkPositive
-                          ? `inset(0px 0px 0px ${borderRadius}px)`
-                          : `inset(0px ${borderRadius}px 0px 0px)`
-                        : checkPositive
-                        ? `inset(0px 0px ${borderRadius}px 0px)`
-                        : `inset(${borderRadius}px 0px 0px 0px)`
-                      : ""
-                  }
-                  transform={calculateBarTransform({
-                    useAnimation,
-                    renderType,
-                    useTranslate,
-                    horizontal,
-                    checkPositive,
-                    barOnlyUpperRadius,
-                    borderRadius,
-                    barHeight
-                  })}
-                  fill={useVariousColors ? colorPalette[idx % colorPalette.length] : colorPalette[0]}
-                  opacity={barOpacity}
-                  rx={borderRadius}
-                  ry={borderRadius}
-                  stroke={useBarBorder ? barBorderColor : ""}
-                  strokeOpacity={barBorderOpacity}
-                  strokeWidth={useBarBorder ? barBorderWidth : "0"}
-                  className={
-                    useAnimation
-                      ? useTranslate
-                        ? styles.translateBar
-                        : renderType.includes("grow")
-                        ? styles.growBar
-                        : renderType === "fade"
-                        ? styles.fadeBar
-                        : ""
-                      : ""
-                  }
-                  style={{
-                    "--bar-from": calculateBarFrom({
-                      useTranslate,
-                      horizontal,
-                      checkPositive,
-                      borderRadius,
-                      rectWidth,
-                      translate,
-                      barHeight,
-                      barOnlyUpperRadius,
-                      drawHeight,
-                      zeroHeight
-                    }),
-                    "--bar-to": calculateBarTo({
-                      useTranslate,
-                      horizontal,
-                      checkPositive,
-                      borderRadius,
-                      rectWidth,
-                      translate,
-                      barHeight,
-                      barOnlyUpperRadius,
-                      drawHeight,
-                      zeroHeight
-                    }),
-                    "--width-from": useTranslate ? `${rectWidth - translate.width}px` : horizontal ? `0px` : `${rectWidth}px`,
-                    "--width-to": `${rectWidth}px`,
-                    "--height-from": useTranslate ? `${rectHeight - translate.height}px` : horizontal ? `${rectHeight}px` : `0px`,
-                    "--height-to": `${rectHeight}px`,
-                    "--animation-duration": useTranslate
-                      ? `${translateDuration}s`
-                      : `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`,
-                    "--animation-delay": `${
-                      (useTranslate ? translateStartDelay : renderStartDelay) +
-                      (useTranslate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? idx : data.length - 1 - idx)
-                    }s`,
-                    "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction
-                  }}
-                ></rect> */}
-                {useLabel && realHeight > labelInvisibleHeight && (
-                  <g
-                    transform={calculateLabelTransform({
-                      useAnimation,
-                      useTranslate,
-                      horizontal,
-                      horizontalLabelLocation,
-                      halfBarRealWidth,
-                      verticalLabelLocation,
-                      renderType,
-                      drawHeight,
-                      barHeight,
-                      zeroHeight
-                    })}
-                  >
-                    <text
-                      fontSize={labelSize}
-                      fontWeight={labelWeight}
-                      fill={labelColor}
-                      opacity={labelOpacity}
-                      dominantBaseline={
-                        horizontal ? "middle" : labelPosition === "over" ? "ideographic" : labelPosition === "under" ? "hanging" : "middle"
-                      }
-                      textAnchor={horizontal ? (labelPosition === "over" ? "start" : labelPosition === "under" ? "end" : "middle") : "middle"}
-                      className={
-                        textRender
-                          ? useTranslate
-                            ? styles.translateText
-                            : textRenderType.includes("grow")
-                            ? styles.growText
-                            : textRenderType === "fade"
-                            ? styles.fadeText
-                            : ""
-                          : ""
-                      }
-                      style={{
-                        "--text-from": calculateLabelFrom({
-                          useTranslate,
-                          horizontal,
-                          labelPosition,
-                          checkPositive,
-                          rectWidth,
-                          translate,
-                          barBorderRadius: 0,
-                          labelMargin,
-                          rectHeight,
-                          borderRadius,
-                          barHeight
-                        }),
-                        "--text-to": calculateLabelTo({
-                          useTranslate,
-                          horizontal,
-                          labelPosition,
-                          checkPositive,
-                          barHeight,
-                          labelMargin,
-                          translate,
-                          halfBarRealWidth
-                        }),
-                        "--animation-duration": useTranslate
-                          ? `${translateDuration}s`
-                          : `${renderType === "grow" ? textRenderDuration * valueRatio : textRenderDuration}s`,
-                        "--animation-delay": `${
-                          (useTranslate ? translateStartDelay : textRenderStartDelay) +
-                          (useTranslate ? translateItemDelay : textRenderItemDelay) *
-                            (textRenderStartFrom === "left" ? index : data.length - 1 - index)
-                        }s`,
-                        "--animation-timing-function": useTranslate ? translateTimingFunction : textRenderTimingFunction
-                      }}
-                    >
-                      {reverse ? -nowTotalValue : nowTotalValue}
-                    </text>
-                  </g>
-                )}
               </g>
             )
           );

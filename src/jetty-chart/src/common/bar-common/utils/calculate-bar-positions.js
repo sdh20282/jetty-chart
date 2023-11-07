@@ -209,6 +209,64 @@ export const calculateLabelFrom = ({
 };
 /* eslint-enable complexity */
 
+export const calculateStackedLabelFrom = ({
+  useTranslate,
+  horizontal,
+  labelPosition,
+  checkPositive,
+  rectWidth,
+  translate,
+  labelMargin,
+  rectHeight,
+  barHeight,
+  nowPosition
+}) => {
+  nowPosition ??= 0;
+
+  return useTranslate
+    ? horizontal
+      ? labelPosition === "over"
+        ? `${
+            checkPositive
+              ? nowPosition - translate.position + rectWidth - translate.width + labelMargin
+              : -(barHeight - translate.totalHeight) - (nowPosition - translate.position) + (rectWidth - translate.width) + labelMargin
+          }px,${(rectHeight - translate.height) / 2}px`
+        : // : labelPosition === "under"
+          // ? `${(checkPositive ? 0 : -rectWidth + translate.width + borderRadius) + borderRadius - labelMargin}px,${
+          //     (rectHeight - translate.totalHeight) / 2
+          //   }px`
+          `${
+            checkPositive
+              ? (rectWidth - translate.width) / 2 + nowPosition - translate.position
+              : -(barHeight - translate.totalHeight) - (nowPosition - translate.position) + (rectWidth - translate.width) / 2
+          }px,${(rectHeight - translate.height) / 2}px`
+      : labelPosition === "over"
+      ? `${(rectWidth - translate.width) / 2}px,${
+          (checkPositive ? translate.totalHeight + nowPosition - translate.position : barHeight - nowPosition + translate.position) - labelMargin
+        }px`
+      : // : labelPosition === "under"
+        // ? `${(rectWidth - translate.width) / 2}px,${
+        //     (checkPositive ? barHeight : barHeight + barHeight - translate.totalHeight) + labelMargin + translate.zeroHeight
+        //   }px`
+        `${(rectWidth - translate.width) / 2}px,${
+          checkPositive
+            ? translate.totalHeight + (rectHeight - translate.height) / 2 + nowPosition - translate.position
+            : barHeight + (rectHeight - translate.height) / 2 - nowPosition + translate.position
+        }px`
+    : horizontal
+    ? labelPosition === "over"
+      ? `${checkPositive ? -(nowPosition + rectWidth + labelMargin) : barHeight + nowPosition - rectWidth}px,0px`
+      : // : labelPosition === "under"
+        // ? `${checkPositive ? 0 : barHeight}px,0px`
+        `${checkPositive ? -nowPosition - rectWidth / 2 : barHeight + nowPosition - rectWidth / 2}px,0px`
+    : labelPosition === "over"
+    ? `0px,${checkPositive ? barHeight - nowPosition : nowPosition}px`
+    : // : labelPosition === "under"
+      // ? `0px,${checkPositive ? 0 : -barHeight}px`
+      `0px,${checkPositive ? -nowPosition + barHeight - rectHeight / 2 : nowPosition}px`;
+};
+/* eslint-enable complexity */
+
 export const calculateLabelTo = ({ useTranslate, horizontal, labelPosition, checkPositive, barHeight, labelMargin, translate, halfBarRealWidth }) => {
   return useTranslate
     ? horizontal
@@ -222,5 +280,37 @@ export const calculateLabelTo = ({ useTranslate, horizontal, labelPosition, chec
       : labelPosition === "under"
       ? `${halfBarRealWidth}px,${(checkPositive ? barHeight : barHeight + barHeight) + labelMargin}px`
       : `${halfBarRealWidth}px,${checkPositive ? barHeight / 2 : barHeight + barHeight / 2}px`
+    : `0px,0px`;
+};
+
+export const calculateStackedLabelTo = ({
+  useTranslate,
+  horizontal,
+  labelPosition,
+  checkPositive,
+  barHeight,
+  labelMargin,
+  translate,
+  halfBarRealWidth,
+  nowPosition,
+  rectWidth,
+  rectHeight
+}) => {
+  nowPosition ??= 0;
+
+  return useTranslate
+    ? horizontal
+      ? labelPosition === "over"
+        ? `${
+            (checkPositive ? nowPosition + rectWidth : -barHeight - nowPosition + rectWidth) + labelMargin + translate.zeroHeight
+          }px,${halfBarRealWidth}px`
+        : // : labelPosition === "under"
+          // ? `${(checkPositive ? 0 : -barHeight) + translate.zeroHeight - labelMargin}px,${halfBarRealWidth}px`
+          `${(checkPositive ? nowPosition : -(barHeight + nowPosition)) + rectWidth / 2 + translate.zeroHeight}px,${halfBarRealWidth}px`
+      : labelPosition === "over"
+      ? `${halfBarRealWidth}px,${(checkPositive ? nowPosition : barHeight - nowPosition) - labelMargin}px`
+      : // : labelPosition === "under"
+        // ? `${halfBarRealWidth}px,${(checkPositive ? barHeight : barHeight + barHeight) + labelMargin}px`
+        `${halfBarRealWidth}px,${(checkPositive ? nowPosition : -nowPosition + barHeight) + rectHeight / 2}px`
     : `0px,0px`;
 };

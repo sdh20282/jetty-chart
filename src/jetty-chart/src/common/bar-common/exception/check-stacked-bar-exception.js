@@ -206,15 +206,15 @@ const stackedBarSetting = {
     barBorderWidth: 2,
     barBorderColor: "#000",
     barBorderOpacity: 1,
-    useMinHeight: true,
+    useMinHeight: false,
     minHeight: 1,
     useLabel: true,
-    labelPosition: "over", // over, center, under,
+    labelPosition: "center", // over, center,
     labelMargin: 5,
     labelSize: 11,
     labelWeight: 500,
     labelOpacity: 1,
-    labelColor: "#777",
+    labelColor: "#ccc",
     labelInvisibleHeight: 0
   },
   animationSettings: {
@@ -277,14 +277,14 @@ const stackedBarSetting = {
     barSettings: {
       useAnimation: true,
       renderType: "grow", // fade, grow, grow-async
-      renderDuration: 2,
+      renderDuration: 1,
       renderStartDelay: 0,
       renderItemDelay: 0.1,
       renderTimingFunction: "ease",
       renderStartFrom: "left",
       textRender: true,
       textRenderType: "grow", // fade, grow, grow-async
-      textRenderDuration: 2,
+      textRenderDuration: 1,
       textRenderStartDelay: 0,
       textRenderItemDelay: 0.1,
       textRenderTimingFunction: "ease",
