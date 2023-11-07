@@ -1,7 +1,7 @@
-import { checkMapMargin } from "./check-common";
-import { checkDivide } from "./check-common";
-import { checkGagueBarSize } from "./check-common";
-import { checkTooltip } from "./check-common";
+import { checkMapMargin } from "../utils/calculate-map-position";
+import { checkDivide } from "../utils/calculate-map-position";
+import { checkGagueBarSize } from "../utils/calculate-map-position";
+import { checkTooltip } from "../utils/calculate-map-position";
 
 const  normalMapSetting = {
     normalSetting:{
@@ -10,7 +10,7 @@ const  normalMapSetting = {
         colorCode: 0,
         width: 400,
         zoomMagnification:1.8,
-        usePersentageColor: true,
+        usePercentageColor: true,
         zoomOn:true,
         animationOn:true,
         marginTop:0,

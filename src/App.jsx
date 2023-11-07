@@ -1,5 +1,5 @@
 // import { NormalBar } from "./jetty-chart/src";
-import { MapChart } from "./jetty-chart/src/mapchart/map-common";
+import { MapChart } from "./jetty-chart/src/maps/normal-map/normal-map";
 // const data = [
 //   {
 //     value: 1.1,
@@ -36,7 +36,7 @@ const data1 = [
     name: "northChungcheong",
     value: Math.floor(Math.random() * 1001),
     color: "#000000",
-    colorCode:0,
+    colorCode: 0,
     description: "",
     inKorea: "충청북도",
   },
@@ -132,7 +132,7 @@ const data1 = [
     name: "busan",
     value: Math.floor(Math.random() * 1001),
     color: "#F35F40",
-    colorCode: 0, 
+    colorCode: 0,
     description: "",
     inKorea: "부산",
   },
@@ -150,7 +150,7 @@ const data1 = [
     color: "#4079F3",
     colorCode: 0,
     description: "zzzzz",
-    inKorea:"제주",
+    inKorea: "제주",
   },
   {
     name: "kyeongbook",
@@ -179,9 +179,9 @@ function App() {
   return (
     <div>
       {/* {myNormalBar({ data })} */}
-      <div style={{position:"absolute", left:"300px"}}>
-        <MapChart data={data1} normalSetting={{width:600}}/>
-        </div>
+      <div>
+        <MapChart data={data1} />
+      </div>
     </div>
   );
 }

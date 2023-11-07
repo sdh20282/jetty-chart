@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
-import styles from "./map-common.module.css";
-import { checkMapChart } from "../../../exception/map-common-exception";
+import styles from "./normal-map.module.css";
+import { checkMapChart } from "../../common/map-common/exception/check-normal-map-exception";
 /* eslint-disable complexity */
 const MapChart = ({
   data,
@@ -18,7 +18,7 @@ const MapChart = ({
   colorCode,
   width,
   zoomMagnification,
-  usePersentageColor,
+  usePercentageColor,
   zoomOn,
   animationOn,
   marginTop,
@@ -193,6 +193,8 @@ const MapChart = ({
 
     return city;
   });
+  // 컬러코드 지정 
+  
   const [mousePointer, setMousePointer] = useState(25);
   const [tooltipOn, setTooltipOn] = useState(false);
   const [tooltipDescription, settooltipDescription] = useState("");
@@ -208,15 +210,6 @@ const MapChart = ({
   let cityValueFontS = cityValueFontSize/scale;
   let decripFontS = descriptionFontSize/scale;
 
-  function convertHexToRGBA(hexCode, opacity) {
-    // 헥사 코드에서 R, G, B 값을 추출합니다.
-    let r = parseInt(hexCode.slice(1, 3), 16);
-    let g = parseInt(hexCode.slice(3, 5), 16);
-    let b = parseInt(hexCode.slice(5, 7), 16);
-  
-    // RGBA 형식의 색상 문자열을 반환합니다.
-    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
-  }
   
   const svgRef =useRef(null);
   const mapRef = useRef(null);
@@ -234,6 +227,15 @@ const MapChart = ({
 
 
 
+  function convertHexToRGBA(hexCode, opacity) {
+    // 헥사 코드에서 R, G, B 값을 추출합니다.
+    let r = parseInt(hexCode.slice(1, 3), 16);
+    let g = parseInt(hexCode.slice(3, 5), 16);
+    let b = parseInt(hexCode.slice(5, 7), 16);
+  
+    // RGBA 형식의 색상 문자열을 반환합니다.
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  }
 
 
   function pathEvent(e) {
@@ -350,37 +352,82 @@ const MapChart = ({
     
   }, [tooltipOn, scale, width, firstX]);
 
-
-  useEffect(()=>{
+  
+  useEffect(() => {
     if(zoomOn){
-    const mapSvg = svgRef.current
-    let onZoom = true
-    // eslint-disable-next-line no-inner-declarations
-    function zoomin (e) {
+      const mapSvg = svgRef.current;
+      let onZoom = true;
+      let animationFrameId;
       
-        let svg = mapSvg;
-        let scale = onZoom ? zoomMagnification : 1;
-    
-        let pt = svg.createSVGPoint();
+      // eslint-disable-next-line no-inner-declarations
+      function animateViewBox(targetViewBox, duration) {
+        const startTime = performance.now();
+        const initialViewBox = mapSvg.getAttribute('viewBox').split(' ').map(Number);
+        // 현재 뷰박스 값 얻어서 숫자로 받기  [0, 0, 1048, 1064] 이렇게 배열로 옴 
+
+        const targetViewBoxValues = targetViewBox.split(' ').map(Number);
+        //  목표 뷰박스 값 얻어서 숫자로 받기  [316.73062472873266, -93.81126234266492, 582.2222222222222, 591.1111111111111] 이렇게 배열로 옴
+
+        function step(timestamp) {
+          const elapsedTime = timestamp - startTime;
+          const progress = Math.min(elapsedTime / duration, 1);
+          // 애니메이션 진행정도 0엣 1사이 값 0 시작 1이 되면 종료 
+          
+          const currentViewBox = initialViewBox.map((initialValue, index) => {
+            const targetValue = targetViewBoxValues[index];
+            return initialValue + (targetValue - initialValue) * progress; 
+          }).join(' ');
+          
+          // 현재viewBox 값을 map 함수로 돌면서 좌표 x, y , viewX, viewY 에  목표 (ViewBox값 xDest, yDest , viewX Dest , viewY Dest - 현재값) * 진행정도 만큼 더해준다.
+         
+          
+
+          mapSvg.setAttribute('viewBox', currentViewBox);
+          // 위에서 정해준 값이 다시 현재의 viewBox 값이 된다.
+
+          if (progress < 1) {
+            animationFrameId = requestAnimationFrame(step);
+          }
+          // 만약 progress가 1 즉 , 완료되지 않았다면 재귀적으로 requestAnimationFrame(step) 를 불러온다. 
+        }
+  
+        animationFrameId = requestAnimationFrame(step);
+        // 처음 한번 실행 될 때 requestAnimationFrame에 (step) 함수를 예약한다. 그리고 animationFrameId 이 return 받는값은 식별자로 사용하고 애니매이션 중지시에 사용할 수 있다. 
+       
+      }
+      // eslint-disable-next-line no-inner-declarations
+      function zoomin(e) {
+        let pt = mapSvg.createSVGPoint();
         pt.x = e.clientX;
         pt.y = e.clientY;
-        let svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+        let svgP = pt.matrixTransform(mapSvg.getScreenCTM().inverse());
     
-        let width = 1048 / scale;
-        let height = 1064 / scale;
+        let newScale = onZoom ? zoomMagnification : 1;
+        let width = 1048 / newScale;
+        let height = 1064 / newScale;
         let x = svgP.x - (width / 2);
         let y = svgP.y - (height / 2);
-        svg.setAttribute('viewBox', onZoom ?  `${x} ${y} ${width} ${height}` : '0 0 1048 1064');
-        onZoom = !onZoom
-        setScale(scale)
+  
+        let targetViewBox = onZoom ? `${x} ${y} ${width} ${height}` : '0 0 1048 1064';
         
+        animateViewBox(targetViewBox, 350); // << 여기서 두번째 숫자가 duration 애니메이션 지연시간 
+  
+        onZoom = !onZoom;
+        setScale(newScale);
+      }
+  
+      mapSvg.addEventListener("click", zoomin);
+      
+      return () => {
+        mapSvg.removeEventListener("click", zoomin);
+        if (animationFrameId) {
+          console.log('sung')
+          cancelAnimationFrame(animationFrameId);
+        }
+      };
     }
-    mapSvg.addEventListener("click", zoomin);
-    
-  }
-    
-  },[zoomMagnification,zoomOn])
-
+  }, [zoomMagnification, zoomOn]);
+ 
 
   return (
     // width 랑 height 데이타 값으로 받기
@@ -390,7 +437,7 @@ const MapChart = ({
           <path
             ref={pathRef}
             id="incheon"
-            fill={usePersentageColor ? color[citycolor[1].colorCode] : citycolor[1].color}
+            fill={usePercentageColor ? color[citycolor[1].colorCode] : citycolor[1].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -401,7 +448,7 @@ const MapChart = ({
           <path
             id="kangwon"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[2].colorCode] : citycolor[2].color}
+            fill={usePercentageColor ? color[citycolor[2].colorCode] : citycolor[2].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -412,7 +459,7 @@ const MapChart = ({
           <path
             id="gyeonggi"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[4].colorCode] : citycolor[4].color}
+            fill={usePercentageColor ? color[citycolor[4].colorCode] : citycolor[4].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -423,7 +470,7 @@ const MapChart = ({
           <path
             id="northJeolla"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[5].colorCode] : citycolor[5].color}
+            fill={usePercentageColor ? color[citycolor[5].colorCode] : citycolor[5].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -434,7 +481,7 @@ const MapChart = ({
           <path
             id="southChungcheong"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[7].colorCode] : citycolor[7].color}
+            fill={usePercentageColor ? color[citycolor[7].colorCode] : citycolor[7].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -445,7 +492,7 @@ const MapChart = ({
           <path
             id="daejeon"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[8].colorCode] : citycolor[8].color}
+            fill={usePercentageColor ? color[citycolor[8].colorCode] : citycolor[8].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -456,7 +503,7 @@ const MapChart = ({
           <path
             id="southgyeongsang"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[10].colorCode] : citycolor[10].color}
+            fill={usePercentageColor ? color[citycolor[10].colorCode] : citycolor[10].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -467,7 +514,7 @@ const MapChart = ({
           <path
             id="southJeolla"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[11].colorCode] : citycolor[11].color}
+            fill={usePercentageColor ? color[citycolor[11].colorCode] : citycolor[11].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -478,7 +525,7 @@ const MapChart = ({
           <path
             id="busan"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[12].colorCode] : citycolor[12].color}
+            fill={usePercentageColor ? color[citycolor[12].colorCode] : citycolor[12].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -489,7 +536,7 @@ const MapChart = ({
           <path
             id="ulsan"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[13].colorCode] : citycolor[13].color}
+            fill={usePercentageColor ? color[citycolor[13].colorCode] : citycolor[13].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -500,7 +547,7 @@ const MapChart = ({
           <path
             id="jeju"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[14].colorCode] : citycolor[14].color}
+            fill={usePercentageColor ? color[citycolor[14].colorCode] : citycolor[14].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -513,28 +560,28 @@ const MapChart = ({
             ref={pathRef}
               className ="kyeongbook"
               id="kyeongbook"
-              fill={usePersentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
+              fill={usePercentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
               d="m762 403 1 8 2 8 1 8-1 17-1 3-5 6-2 4-1 3v27l1 2 1 1 1 1 1 7 1 5 1 1 1 1v3l-2 1-1 1-2 1-2 2-1 3 4 3 2 2 3 4h3l4-3 10-11 2-3 3 2v3l1 4 1 3-2 4-6 12-1 5-1 13-4 12v7l-4 13-3 6-2 3 2 3 1 2-13-3-15 2h-2l-2-2-1-2v-3l-1-3-6-2-5-1-6 1-6 2-6 4 1 3 2 2-1 2h-3l-4 3-4 3-4 1-5-2-6-1-5 2-2 2-2 2-3 1h-2l-5 4h-6l-5-2-5-2-6 1-6 1-5-3-4-5-1-11-4 3-4 5h-4l-8 4-5-1-4-3-4-2-5-1-5 1-9-1-3-9 2-4v-5l-2-2-2-2-1-1-1-2-3-3-2-4-3-3-5-1h-4l-5-1-2-1-2-2h-5l-3-1v-4l-3-2-3-2-2-4 1-13-6-11 3-2 4-1 3-5 1-5 1-2 2-2v-6l-1-5 4-3h4l3 1-2-11-3-2-8 2-3-2-5-3-4-2-6 2-1-10 4-3 2-4-2-3-1-4 1-4 1-11 1-5 3-2-8-12-6-1-2-4 3-1 2-1 2-2 4-5 1-2v-4l5-4 6-2 3-5 6 2 11 2-2-4-3-4 1-4 2-5 2-3 2 2h4l2-4 3-2 2 2 5 2h5l1-3 1-3 1-3 3-2 2 2 2 2 4 3 2 5 6 2 13-5 3-8-3-2-1-2 2-4 2-4 3-5 5-3 2-3 2-1 3-1 3-3 4-3 3-4 2-1 2 1 2-2 2-2 4 2 4 2 4 1h5v-4l1-4-1-5 3-4 4-2 4 1 3 4h3l2 2v7l5-2 5-4 2 1 1 2h2l2-1 6 1 6 3 4-1 4-2 6 1 5 3 1 4-4 3-4-2-3 1-3 2-1 5 1 7 3 5 5 2 1 4 2 4 3 2 4 2h11v5l1 1 1 2-1 5-2 5v5l1 5 1 5-2 4 11 5 5-3 5 1 2 1ZM657 551l1-3-1-4v-3l-2-1-1-2v-5l1-1v-2l-2-3-6-5h-9l-10 2-7 6 1 9-3 3-2 4h2l1 1v1l-1 2-2 1h-3l-2 3 1 3 3 1 2 3 2 3 2 3 2 1 2 1 1-1 2-4 3-2 5 1 9 2 3-2 1-2v-1l1-4 1-2v-1h2l3-2Zm338-316-3 1-4-1-4-2-2-3-1-4 1-3 3-2 6-1 3-2h2l3 2v5l-2 6-2 4Z"
             />
             <path
             ref={pathRef}
               className ="kyeongbook"
               id="kyeongbook"
-              fill={usePersentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
+              fill={usePercentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
               d="M1026 239c2 1-4 5-6 5-1 0-3-2-3-4-2 0 3-5 5-5s4 3 4 4Z"
             />
             <path
             ref={pathRef}
               className ="kyeongbook"
               id="kyeongbook"
-              fill={usePersentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
+              fill={usePercentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
               d="M1016 231v2a24 24 0 0 1-4 7l-1 1-3-2-2-2 2-3 3-2h2l1-1a30 30 0 0 1 2 0Z"
             />
           </g>
           <path
             id="deagu"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[9].colorCode] : citycolor[9].color}
+            fill={usePercentageColor ? color[citycolor[9].colorCode] : citycolor[9].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -546,7 +593,7 @@ const MapChart = ({
             id="sejong"
             ref={pathRef}
             fillOpacity={animationOn ? "0.5" : "1"}
-            fill={usePersentageColor ? color[citycolor[16].colorCode] : citycolor[16].color}
+            fill={usePercentageColor ? color[citycolor[16].colorCode] : citycolor[16].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -556,7 +603,7 @@ const MapChart = ({
           <path
             id="northChungcheong"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[0].colorCode] : citycolor[0].color}
+            fill={usePercentageColor ? color[citycolor[0].colorCode] : citycolor[0].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -567,7 +614,7 @@ const MapChart = ({
           <path
             id="seoul"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[3].colorCode] : citycolor[3].color}
+            fill={usePercentageColor ? color[citycolor[3].colorCode] : citycolor[3].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -578,7 +625,7 @@ const MapChart = ({
           <path
             id="gwangju"
             ref={pathRef}
-            fill={usePersentageColor ? color[citycolor[6].colorCode] : citycolor[6].color}
+            fill={usePercentageColor ? color[citycolor[6].colorCode] : citycolor[6].color}
             stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
