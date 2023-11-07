@@ -17,8 +17,8 @@ export const DrawLegends = ({
     legendWeight,
     legendOpacity,
     legendColor,
-    legendOnStart
-  }
+    legendOnStart,
+  },
 }) => {
   if (!keys || keys.length === 0) {
     return;

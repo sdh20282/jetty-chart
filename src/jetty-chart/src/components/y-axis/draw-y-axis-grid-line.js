@@ -18,8 +18,8 @@ export const DrawYAxisGridLine = ({
     translateDuration,
     translateStartDelay,
     translateItemDelay,
-    translateTimingFunction
-  }
+    translateTimingFunction,
+  },
 }) => {
   const prevYAxis = useRef({});
   const prevYAxisTemp = useRef({});
@@ -125,7 +125,7 @@ export const DrawYAxisGridLine = ({
                     ? yAxis.length - 1 - idx
                     : idx)
               }s`,
-              "--height-offset": horizontal ? `${translate}px` : `0px,${translate}px`
+              "--height-offset": horizontal ? `${translate}px` : `0px,${translate}px`,
             }}
           ></path>
         );
