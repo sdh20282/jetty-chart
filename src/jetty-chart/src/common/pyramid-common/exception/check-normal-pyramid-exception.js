@@ -17,9 +17,9 @@ const normalBarSetting = {
     innerMargin: { top: 0, bottom: 0 },
     colorPalette: ["#669dfe", "#876697"],
     padding: 20,
-    xReverse: true,
+    xReverse: false,
     yReverse: true,
-    horizontal: true
+    dataDirect: false
   },
   // 범위 세팅
   scopeSettings: {
@@ -28,7 +28,7 @@ const normalBarSetting = {
     minScope: 0,
     showTopScope: true
   },
-  // y축 라인 세팅
+  // x축 라인 세팅
   axisYGridLineSettings: {
     lineVisible: true,
     lineOpacity: 1,
@@ -39,7 +39,7 @@ const normalBarSetting = {
     lineDashGap: 3,
     lineRound: false
   },
-  // x축 라인 세팅
+  // y축 라인 세팅
   axisXGridLineSettings: {
     lineVisible: false,
     lineOpacity: 1,
@@ -51,7 +51,7 @@ const normalBarSetting = {
     lineRound: false,
     showEndLine: false
   },
-  // 왼쪽 라벨 세팅
+  // 위쪽 라벨 세팅
   leftLabelSettings: {
     useLabel: true,
     labelOnLeft: true,
@@ -68,7 +68,7 @@ const normalBarSetting = {
     sideLineColor: "#aaa",
     sideLineWidth: 2
   },
-  // 오른쪽 라벨 세팅
+  // 아래쪽 라벨 세팅
   rightLabelSettings: {
     useLabel: false,
     labelOnLeft: false,
@@ -85,7 +85,7 @@ const normalBarSetting = {
     sideLineColor: "#aaa",
     sideLineWidth: 2
   },
-  // 아래쪽 라벨 세팅
+  // 왼쪽 라벨 세팅
   bottomLabelSettings: {
     useLabel: true,
     labelOnBottom: true,
@@ -102,7 +102,7 @@ const normalBarSetting = {
     sideLineColor: "#aaa",
     sideLineWidth: 2
   },
-  // 위쪽 라벨 세팅
+  // 오른쪽 라벨 세팅
   topLabelSettings: {
     useLabel: false,
     labelOnBottom: false,
@@ -119,7 +119,7 @@ const normalBarSetting = {
     sideLineColor: "#aaa",
     sideLineWidth: 2
   },
-  // 왼쪽 설명 세팅
+  // 위쪽 설명 세팅
   leftLegendSettings: {
     useLegend: true,
     legendOnLeft: true,
@@ -131,7 +131,7 @@ const normalBarSetting = {
     legendReverse: false,
     legendMove: 0
   },
-  // 오른쪽 설명 세팅
+  // 아래쪽 설명 세팅
   rightLegendSettings: {
     useLegend: false,
     legendOnLeft: false,
@@ -143,7 +143,7 @@ const normalBarSetting = {
     legendReverse: false,
     legendMove: 0
   },
-  // 아래쪽 설명 세팅
+  // 왼쪽 설명 세팅
   bottomLegendSettings: {
     useLegend: true,
     legendOnBottom: true,
@@ -155,7 +155,7 @@ const normalBarSetting = {
     legendReverse: false,
     legendMove: 0
   },
-  // 위쪽 설명 세팅
+  // 오른쪽 설명 세팅
   topLegendSettings: {
     useLegend: false,
     legendOnBottom: false,
@@ -198,8 +198,8 @@ const normalBarSetting = {
     barBorderOpacity: 1,
     useMinHeight: true,
     minHeight: 1,
-    useLabel: true,
-    labelPosition: "over", // over, center, under,
+    useLabel: false,
+    labelPosition: "center", // over, center, under,
     labelMargin: 5,
     labelSize: 11,
     labelWeight: 500,

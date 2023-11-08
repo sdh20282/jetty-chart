@@ -98,11 +98,13 @@ const NormalPyramid = ({
   } = result.animationSettings.barSettings;
 
   const scopeResult = autoScope
-    ? getAutoScope({ data: data.flatMap((group) => group.arr.map((d) => d.value)) })
+    ? getAutoScope({ data: data.flatMap((group) => group.arr.map((d) => (d.value >= 0 ? d.value : -d.value))) })
     : getUserScope({ maxScope, minScope });
   let display = true;
 
+  // 양쪽으로 증가하는 피라미드 차트 구조
   const newScope = [...scopeResult.scope, ...scopeResult.scope.slice(0, scopeResult.scope.length - 1).reverse()];
+
   scopeResult.scope = newScope;
 
   if (!autoScope && !scopeResult.display) {
@@ -124,6 +126,7 @@ const NormalPyramid = ({
   const lineHeight = drawHeight / (scopeResult.scope.length - 1);
 
   const barWidth = drawWidth / data.length;
+  // 중앙을 기준으로 양쪽으로 증가하기 떄문에 계산한 barHeight의 절반만 증가
   const halfBarWidth = barWidth / 2;
   const halfBarRealWidth = halfBarWidth - barGap * halfBarWidth;
 
@@ -159,6 +162,7 @@ const NormalPyramid = ({
       yLegend={yLegend}
       normalSettings={{
         ...result.normalSettings,
+        horizontal: true,
         totalWidth,
         totalHeight,
         xAxisInitialPosition: halfBarWidth,
@@ -202,7 +206,7 @@ const NormalPyramid = ({
             const barTotalWidth = halfBarRealWidth + halfBarRealWidth;
             const realHeight = barHeightWithoutRadius + borderRadius;
 
-            const rectWidth = (barHeight + (barOnlyUpperRadius ? borderRadius : 0)) / 2 + 2;
+            const rectWidth = (barHeight + (barOnlyUpperRadius ? borderRadius : 0)) / 2;
             // const rectFill = (barHeight + (barOnlyUpperRadius ? borderRadius : 0)) / 2;
 
             const rectHeight = barTotalWidth;
@@ -252,13 +256,16 @@ const NormalPyramid = ({
               }
             }
 
+            console.log("ㅂㅂㅂㅂㅂ", useTranslate);
+            console.log("ㅁㅁㅁㅁㅁ", barOnlyUpperRadius);
+
             return (
               display && (
                 <g
                   key={"data-" + ms + "-" + group.id + "-" + nowData.label}
                   transform={
                     useAnimation && useTranslate
-                      ? "translate(0,0)"
+                      ? `translate(0,0)`
                       : useAnimation && renderType.includes("grow")
                       ? `translate(${zeroHeight},${center - halfBarRealWidth})`
                       : `translate(${zeroHeight},${center - halfBarRealWidth})`
@@ -283,7 +290,7 @@ const NormalPyramid = ({
                     transform={
                       (useAnimation && renderType.includes("grow")) || (useAnimation && useTranslate)
                         ? ""
-                        : `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight})`
+                        : `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight - borderRadius})`
                     }
                     fill={nowData.label === keys[0] ? colorPalette[0] : colorPalette[1]}
                     opacity={barOpacity}
@@ -304,8 +311,12 @@ const NormalPyramid = ({
                         : ""
                     }
                     style={{
-                      "--bar-from": useTranslate ? "" : `trans${barOnlyUpperRadius ? (checkPositive ? -borderRadius : borderRadius) : 0}px,0px`,
-                      "--bar-to": useTranslate ? `` : `${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight / 2}px,0px`,
+                      "--bar-from": useTranslate
+                        ? `${checkPositive ? -borderRadius : -rectWidth + borderRadius}px, 0px`
+                        : `trans${barOnlyUpperRadius ? (checkPositive ? -borderRadius : borderRadius) : 0}px,0px`,
+                      "--bar-to": useTranslate
+                        ? `${checkPositive ? -borderRadius : -rectWidth + borderRadius}px, 0px`
+                        : `${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight / 2 + 2}px,0px`,
                       "--width-from": useTranslate ? `` : `0px`,
                       "--width-to": `${rectWidth}px`,
                       "--height-from": useTranslate ? `` : `${rectHeight}px`,
@@ -321,7 +332,13 @@ const NormalPyramid = ({
                     }}
                   ></rect>
                   {useLabel && realHeight > labelInvisibleHeight && (
-                    <g transform={useAnimation && useTranslate ? `` : `translate(${horizontalLabelLocation - 3},${halfBarRealWidth})`}>
+                    <g
+                      transform={
+                        useAnimation && useTranslate
+                          ? `translate(${horizontalLabelLocation - 3},${halfBarRealWidth})`
+                          : `translate(${horizontalLabelLocation - 3},${halfBarRealWidth})`
+                      }
+                    >
                       <text
                         fontSize={labelSize}
                         fontWeight={labelWeight}
@@ -343,22 +360,16 @@ const NormalPyramid = ({
                         style={{
                           "--text-from": useTranslate
                             ? labelPosition === "over"
-                              ? `${(rectWidth - translate.width) / 2}px,0px`
+                              ? ``
                               : labelPosition === "under"
-                              ? `${checkPositive ? 0 : barHeight}px,0px`
-                              : `${checkPositive ? -barHeight : barHeight}px,0px`
+                              ? ``
+                              : ``
                             : labelPosition === "over"
                             ? `${checkPositive ? -barHeight : 0}px,0px`
                             : labelPosition === "under"
                             ? `${checkPositive ? 0 : -barHeight}px,0px`
                             : `${checkPositive ? -barHeight / 2 : barHeight / 2}px,0px`,
-                          "--text-to": useTranslate
-                            ? labelPosition === "over"
-                              ? `${halfBarRealWidth}px,${(checkPositive ? 0 : barHeight) - labelMargin}px`
-                              : labelPosition === "under"
-                              ? `${halfBarRealWidth}px,${(checkPositive ? barHeight : translate.height) + labelMargin}px`
-                              : `${halfBarRealWidth}px,${checkPositive ? barHeight / 2 : -barHeight / 2}px`
-                            : `0px,0px`,
+                          "--text-to": useTranslate ? (labelPosition === "over" ? `` : labelPosition === "under" ? `` : ``) : `0px,0px`,
                           "--animation-duration": useTranslate
                             ? `${translateDuration}s`
                             : `${renderType === "grow" ? textRenderDuration * valueRatio : textRenderDuration}s`,
