@@ -1,23 +1,24 @@
 export const checkMapMargin = ({marginTop,marginBottom,marginLeft,marginRight}) => {
-    marginTop ??= 0;
-    marginBottom ??=0;
-    marginLeft ??=0;
-    marginRight ??=0;
-    
-    return {marginTop,marginBottom,marginLeft,marginRight}
+  marginTop ??= 0;
+  marginBottom ??=0;
+  marginLeft ??=0;
+  marginRight ??=0;
+  
+  return {marginTop,marginBottom,marginLeft,marginRight}
 }
 
 
 export const checkDivide =({divide})=>{
-    if(divide < 2){
-        divide = 2
-    }
-    if(divide>5){
-        divide = 5
-    }else{
-        divide
-    }
-   return divide
+  if(divide < 2){
+      divide = 2
+  }
+  if(divide>5){
+      divide = 5
+  }else{
+      divide
+  }
+
+  return divide
 }
 
 export const checkGagueBarSize=(GagueBarSetting)=>{

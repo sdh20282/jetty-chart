@@ -28,14 +28,14 @@ const normalBarSetting = {
     useVariousColors: false,
     padding: 20,
     reverse: false,
-    horizontal: false
+    horizontal: false,
   },
   // 범위 세팅
   scopeSettings: {
     autoScope: true,
     maxScope: 700,
     minScope: -100,
-    showTopScope: true
+    showTopScope: true,
   },
   // y축 라인 세팅
   axisYGridLineSettings: {
@@ -46,7 +46,7 @@ const normalBarSetting = {
     lineDash: false,
     lineDashWidth: 5,
     lineDashGap: 3,
-    lineRound: false
+    lineRound: false,
   },
   // x축 라인 세팅
   axisXGridLineSettings: {
@@ -58,7 +58,7 @@ const normalBarSetting = {
     lineDashWidth: 5,
     lineDashGap: 3,
     lineRound: false,
-    showEndLine: false
+    showEndLine: false,
   },
   // 왼쪽 라벨 세팅
   leftLabelSettings: {
@@ -75,7 +75,7 @@ const normalBarSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2
+    sideLineWidth: 2,
   },
   // 오른쪽 라벨 세팅
   rightLabelSettings: {
@@ -92,7 +92,7 @@ const normalBarSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2
+    sideLineWidth: 2,
   },
   // 아래쪽 라벨 세팅
   bottomLabelSettings: {
@@ -109,7 +109,7 @@ const normalBarSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2
+    sideLineWidth: 2,
   },
   // 위쪽 라벨 세팅
   topLabelSettings: {
@@ -126,7 +126,7 @@ const normalBarSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2
+    sideLineWidth: 2,
   },
   // 왼쪽 설명 세팅
   leftLegendSettings: {
@@ -138,7 +138,7 @@ const normalBarSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0
+    legendMove: 0,
   },
   // 오른쪽 설명 세팅
   rightLegendSettings: {
@@ -150,7 +150,7 @@ const normalBarSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0
+    legendMove: 0,
   },
   // 아래쪽 설명 세팅
   bottomLegendSettings: {
@@ -162,7 +162,7 @@ const normalBarSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0
+    legendMove: 0,
   },
   // 위쪽 설명 세팅
   topLegendSettings: {
@@ -174,7 +174,7 @@ const normalBarSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0
+    legendMove: 0,
   },
   // 설명 세팅
   legendSettings: {
@@ -193,7 +193,7 @@ const normalBarSetting = {
     legendWeight: 400,
     legendOpacity: 1,
     legendColor: "#aaa",
-    legendOnStart: true
+    legendOnStart: true,
   },
   // 바 세팅
   barSettings: {
@@ -214,7 +214,7 @@ const normalBarSetting = {
     labelWeight: 500,
     labelOpacity: 1,
     labelColor: "#777",
-    labelInvisibleHeight: 0
+    labelInvisibleHeight: 0,
   },
   animationSettings: {
     axisYGridLineSettings: {
@@ -229,7 +229,7 @@ const normalBarSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease"
+      translateTimingFunction: "ease",
     },
     axisXGridLineSettings: {
       useAnimation: true,
@@ -243,7 +243,7 @@ const normalBarSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease"
+      translateTimingFunction: "ease",
     },
     axisYLabelSettings: {
       useAnimation: true,
@@ -257,7 +257,7 @@ const normalBarSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease"
+      translateTimingFunction: "ease",
     },
     axisXLabelSettings: {
       useAnimation: true,
@@ -271,7 +271,7 @@ const normalBarSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease"
+      translateTimingFunction: "ease",
     },
     barSettings: {
       useAnimation: true,
@@ -292,16 +292,16 @@ const normalBarSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease"
-    }
-  }
+      translateTimingFunction: "ease",
+    },
+  },
 };
 
 const normalBarTypes = {
   scopeSettings: {
     minScope: "nevative-number",
-    maxScope: "positive-number"
-  }
+    maxScope: "positive-number",
+  },
 };
 
 export const checkNormalBar = ({
@@ -319,7 +319,7 @@ export const checkNormalBar = ({
   topLegendSettings,
   legendSettings,
   barSettings,
-  animationSettings
+  animationSettings,
 }) => {
   const result = {
     normalSettings,
@@ -336,7 +336,7 @@ export const checkNormalBar = ({
     topLegendSettings,
     legendSettings,
     barSettings,
-    animationSettings
+    animationSettings,
   };
 
   Object.keys(normalBarSetting).forEach((setting) => {
@@ -364,7 +364,7 @@ export const checkNormalBar = ({
     width: result.normalSettings.width,
     height: result.normalSettings.height,
     margin: result.normalSettings.margin,
-    padding: result.normalSettings.padding
+    padding: result.normalSettings.padding,
   });
 
   result.normalSettings.width = checkedSize.width;

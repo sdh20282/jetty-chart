@@ -18,8 +18,8 @@ export const DrawXAxisGridLine = ({
     translateDuration,
     translateStartDelay,
     translateItemDelay,
-    translateTimingFunction
-  }
+    translateTimingFunction,
+  },
 }) => {
   const prevXAxis = useRef({});
   const prevXAxisTemp = useRef({});
@@ -103,7 +103,7 @@ export const DrawXAxisGridLine = ({
               }px`,
               "--animation-duration": `${renderDuration}s`,
               "--animation-timing-function": "ease",
-              "--animation-delay": `${renderStartDelay + renderItemDelay * (animationXAxisStart === "left" ? 0 : xAxis.length + 1)}s`
+              "--animation-delay": `${renderStartDelay + renderItemDelay * (animationXAxisStart === "left" ? 0 : xAxis.length + 1)}s`,
             }}
           ></path>
         </g>
@@ -165,7 +165,7 @@ export const DrawXAxisGridLine = ({
                     (useTranslate ? translateItemDelay : renderItemDelay) * (animationXAxisStart === "left" ? idx : xAxis.length - 1 - idx) +
                     (showEndLine && !useTranslate ? renderItemDelay : 0)
                   }s`,
-                  "--width-offset": horizontal ? `0px,${translate}px` : `${translate}px`
+                  "--width-offset": horizontal ? `0px,${translate}px` : `${translate}px`,
                 }}
               ></path>
             );
@@ -194,7 +194,7 @@ export const DrawXAxisGridLine = ({
               }px`,
               "--animation-duration": `${renderDuration}s`,
               "--animation-timing-function": "ease",
-              "--animation-delay": `${renderStartDelay + renderItemDelay * (animationXAxisStart === "left" ? xAxis.length + 1 : 0)}s`
+              "--animation-delay": `${renderStartDelay + renderItemDelay * (animationXAxisStart === "left" ? xAxis.length + 1 : 0)}s`,
             }}
           ></path>
         </g>

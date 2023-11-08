@@ -1,7 +1,7 @@
 export const DrawXAxisLegend = ({
   xLegend,
   normalSettings: { totalWidth, totalHeight, horizontal },
-  legendSettings: { useLegend, legendOnBottom, legendMargin, legendSize, legendWeight, legendOpacity, legendColor, legendReverse, legendMove }
+  legendSettings: { useLegend, legendOnBottom, legendMargin, legendSize, legendWeight, legendOpacity, legendColor, legendReverse, legendMove },
 }) => {
   if (!xLegend || !useLegend) {
     return;

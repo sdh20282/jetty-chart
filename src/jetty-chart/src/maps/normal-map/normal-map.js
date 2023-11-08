@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "./normal-map.module.css";
 import { checkMapChart } from "../../common/map-common/exception/check-normal-map-exception";
+
 /* eslint-disable complexity */
-const MapChart = ({
+const NormalMap = ({
   data,
   normalSetting,
   gagueBarSetting,
@@ -11,22 +12,25 @@ const MapChart = ({
   const result = checkMapChart({
     normalSetting,
     gagueBarSetting,
-    tooltipSetting})
+    tooltipSetting,
+  });
     
-  const { backgroundColor,
-  divide,
-  colorCode,
-  width,
-  zoomMagnification,
-  usePercentageColor,
-  zoomOn,
-  animationOn,
-  marginTop,
-  marginBottom,
-  marginLeft,
-  marginRight} = result.normalSetting
+  const { 
+    backgroundColor,
+    divide,
+    colorCode,
+    width,
+    zoomMagnification,
+    usePercentageColor,
+    zoomOn,
+    animationOn,
+    marginTop,
+    marginBottom,
+    marginLeft,
+    marginRight,
+  } = result.normalSetting;
   
-  const{
+  const {
     useGagueBar,
     useValueLavel,
     pointerSize,
@@ -37,27 +41,28 @@ const MapChart = ({
     gagueValueFontFamily,
     gagueValueFontWeight,
     valueLavel,
-  } = result.gagueBarSetting
+  } = result.gagueBarSetting;
 
   const {useFollowColor,
-        useKorea,
-        tooltipWidth,
-        tooltipBackGroundColor,
-        tooltipBorderRadius,
-        tooltipBorder,
-        tooltipBoxShadow,
-        cityNameFontSize,
-        cityNameColor,
-        cityNameFontWeight,
-        cityValueColor,
-        cityValueFontWeight,
-        cityValueFontSize,
-        descriptionColor,
-        descriptionFontSize,
-        descriptionFontWeight,
-        descriptionFontFamily,
-        tooltipOpacity,
-        useTooltipCol} = result.tooltipSetting
+    useKorea,
+    tooltipWidth,
+    tooltipBackGroundColor,
+    tooltipBorderRadius,
+    tooltipBorder,
+    tooltipBoxShadow,
+    cityNameFontSize,
+    cityNameColor,
+    cityNameFontWeight,
+    cityValueColor,
+    cityValueFontWeight,
+    cityValueFontSize,
+    descriptionColor,
+    descriptionFontSize,
+    descriptionFontWeight,
+    descriptionFontFamily,
+    tooltipOpacity,
+    useTooltipCol,
+  } = result.tooltipSetting;
 
   const colorPallette = [
     ["#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6"],
@@ -80,6 +85,7 @@ const MapChart = ({
     ["#FEC5BB", "#FCD5CE", "#FAE1DD", "#F8EDEB", "#E8E8E4", "#D8E2DC", "#ECE4DB", "#FFE5D9", "#FFD7BA", "#FEC89A"],
     ["#03071E", "#370617", "#6A040F", "#9D0208", "#D00000" , "#DC2F02", "#E85D04", "#F48C06", "#FAA307", "#FFBA08"],
   ];
+
   // 컬러코드 0: 파랑 , 1: 오렌지, 2: 레드, 3: 블루그레이, 4: 그린
   const color = colorPallette[colorCode];
   let useColor;
@@ -89,8 +95,10 @@ const MapChart = ({
   if (divide === 2) {
     useColor = [color[0], color[2]];
     let y = 1000;
+
     for (let i = 0; i < divide; i++) {
       const z = y - (200 + gagueBarHeight) / divide;
+
       zMap.push([y, z]);
       y = z;
     }
@@ -100,8 +108,10 @@ const MapChart = ({
   if (divide === 3) {
     useColor = [color[0], color[2], color[4]];
     let y = 1000;
+    
     for (let i = 0; i < divide; i++) {
       const z = y - (200 + gagueBarHeight) / divide;
+
       zMap.push([y, z]);
       y = z;
     }
@@ -110,8 +120,10 @@ const MapChart = ({
   if (divide === 4) {
     useColor = [color[1], color[2], color[3], color[4]];
     let y = 1000;
+
     for (let i = 0; i < divide; i++) {
       const z = y - (200 + gagueBarHeight) / divide;
+
       zMap.push([y, z]);
       y = z;
     }
@@ -120,8 +132,10 @@ const MapChart = ({
   if (divide === 5) {
     useColor = color;
     let y = 1000;
+    
     for (let i = 0; i < divide; i++) {
       const z = y - (200 + gagueBarHeight) / divide;
+
       zMap.push([y, z]);
       y = z;
     }
@@ -145,6 +159,7 @@ const MapChart = ({
 
   const citycolor = data.map((city) => {
     const percentage = (city.value / max) * 100;
+    
     if (divide === 5) {
       if (percentage.toFixed(0) >= 20) {
         city.colorCode = 1;
@@ -205,6 +220,7 @@ const MapChart = ({
   const [scale,setScale] = useState(1);
   const [firstX,setFirstX] = useState();
   const [targetColor,setTargetColor] =useState("");
+
   let ToolW = tooltipWidth/scale;
   let ToolH = 1064/scale;
 
@@ -212,22 +228,17 @@ const MapChart = ({
   let cityValueFontS = cityValueFontSize/scale;
   let decripFontS = descriptionFontSize/scale;
 
-  
   const svgRef =useRef(null);
   const mapRef = useRef(null);
   const PathelementsRef = useRef([]);
   const tooltipRef = useRef(null);
   const tooltipDiv = useRef(null);
 
-
   const pathRef = (el) => {
     if (el && !PathelementsRef.current.includes(el)) {
       PathelementsRef.current.push(el);
     }
   };
-
-
-
 
   function convertHexToRGBA(hexCode, opacity) {
     // 헥사 코드에서 R, G, B 값을 추출합니다.
@@ -238,7 +249,6 @@ const MapChart = ({
     // RGBA 형식의 색상 문자열을 반환합니다.
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
-
 
   function pathEvent(e) {
     const pathId = e.target.id;
@@ -255,7 +265,6 @@ const MapChart = ({
         cityName = value[0].inKorea;
       }else{
         cityName = value[0].name;
-
       }
       
       let color = e.target.getAttribute('fill')
@@ -294,10 +303,7 @@ const MapChart = ({
 
   }, [data]);
 
-
-
   function tooltipMove(e){
-
     const main = mapRef.current;
     // 적용될 svg 태그의 .id 값을 선택합니다.
     const tooltipObject = tooltipRef.current;
@@ -354,7 +360,6 @@ const MapChart = ({
     
   }, [tooltipOn, scale, width, firstX]);
 
-  
   useEffect(() => {
     if(zoomOn){
       const mapSvg = svgRef.current;
@@ -381,8 +386,6 @@ const MapChart = ({
           }).join(' ');
           
           // 현재viewBox 값을 map 함수로 돌면서 좌표 x, y , viewX, viewY 에  목표 (ViewBox값 xDest, yDest , viewX Dest , viewY Dest - 현재값) * 진행정도 만큼 더해준다.
-         
-          
 
           mapSvg.setAttribute('viewBox', currentViewBox);
           // 위에서 정해준 값이 다시 현재의 viewBox 값이 된다.
@@ -428,7 +431,6 @@ const MapChart = ({
       };
     }
   }, [zoomMagnification, zoomOn]);
- 
 
   return (
     // width 랑 height 데이타 값으로 받기
@@ -664,7 +666,6 @@ const MapChart = ({
             ""
           )}
         </g>
-
         <g ref={tooltipRef} id="tooltipBox">
           <foreignObject id="foreingObject" x="0" y="0" width={ToolW} height={ToolH} >
             <div
@@ -693,7 +694,6 @@ const MapChart = ({
                   : { visibility: "hidden" }
               }
             >
-              
               <p
                 style={{
                   margin: "0px",
@@ -727,15 +727,13 @@ const MapChart = ({
               >
                 {tooltipDescription}
               </p> : "" }
-
             </div>
           </foreignObject>
         </g>
         {useValueLavel && scale===1 ? <text fontFamily={gagueValueFontFamily} fontWeight={gagueValueFontWeight} x="1048" y="1060" fill="black" fontSize="30px" textAnchor="end" >{valueLavel}</text> : ""}
-        
       </svg>
     </div>
   );
 };
 
-export { MapChart };
+export { NormalMap };

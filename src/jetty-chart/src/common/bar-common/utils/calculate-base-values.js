@@ -42,7 +42,7 @@ export const calculateBase = ({ horizontal, height, margin, width, scopeResult, 
     barWidth,
     halfBarWidth,
     halfBarRealWidth,
-    zeroHeight
+    zeroHeight,
   };
 };
 
@@ -59,7 +59,7 @@ export const calculateBarBase = ({
   totalScope,
   barBorderRadius,
   barOnlyUpperRadius,
-  halfBarRealWidth
+  halfBarRealWidth,
 }) => {
   const center = (drawWidth / length) * idx + drawWidth / length / 2;
   const valueRatio = Math.abs(value) / totalScope;
@@ -130,7 +130,7 @@ export const calculateStackedLabelLocation = ({
   labelMargin,
   rectWidth,
   rectHeight,
-  nowPosition
+  nowPosition,
 }) => {
   const horizontalLabelLocation =
     labelPosition === "over"

@@ -15,7 +15,7 @@ import {
   calculateBarTo,
   calculateLabelTransform,
   calculateLabelFrom,
-  calculateLabelTo
+  calculateLabelTo,
 } from "../../common/bar-common/utils/calculate-bar-positions";
 
 import styles from "./normal-bar.module.css";
@@ -40,7 +40,7 @@ const NormalBar = ({
   topLegendSettings,
   legendSettings,
   barSettings,
-  animationSettings
+  animationSettings,
 }) => {
   const prevBars = useRef({});
   const prevBarsTemp = useRef({});
@@ -64,7 +64,7 @@ const NormalBar = ({
     topLegendSettings,
     legendSettings,
     barSettings,
-    animationSettings
+    animationSettings,
   });
 
   const { width, height, margin, innerMargin, padding, reverse, horizontal, colorPalette, useVariousColors } = result.normalSettings;
@@ -88,7 +88,7 @@ const NormalBar = ({
     labelWeight,
     labelOpacity,
     labelColor,
-    labelInvisibleHeight
+    labelInvisibleHeight,
   } = result.barSettings;
 
   const {
@@ -110,7 +110,7 @@ const NormalBar = ({
     translateDuration,
     translateStartDelay,
     translateItemDelay,
-    translateTimingFunction
+    translateTimingFunction,
   } = result.animationSettings.barSettings;
 
   const scopeResult = autoScope ? getAutoScope({ data: data.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
@@ -150,7 +150,7 @@ const NormalBar = ({
         xAxisInitialPosition: halfBarWidth,
         xAxisWidth: barWidth,
         yAxisHeight: lineHeight,
-        showTopScope
+        showTopScope,
       }}
       axisXGridLineSettings={result.axisXGridLineSettings}
       axisYGridLineSettings={result.axisYGridLineSettings}
@@ -186,7 +186,7 @@ const NormalBar = ({
             totalScope,
             barBorderRadius,
             barOnlyUpperRadius,
-            halfBarRealWidth
+            halfBarRealWidth,
           });
 
           const { horizontalLabelLocation, verticalLabelLocation } = calculateLabelLocation({
@@ -194,14 +194,14 @@ const NormalBar = ({
             realHeight,
             checkPositive,
             labelPosition,
-            labelMargin
+            labelMargin,
           });
 
           prevBarsTemp.current[nowData.label] = {
             center,
             width: rectWidth,
             height: rectHeight,
-            zeroHeight
+            zeroHeight,
           };
 
           let useTranslate = false;
@@ -213,7 +213,7 @@ const NormalBar = ({
                 center: center - prevBars.current[nowData.label].center,
                 width: rectWidth - prevBars.current[nowData.label].width,
                 height: rectHeight - prevBars.current[nowData.label].height,
-                zeroHeight: zeroHeight - prevBars.current[nowData.label].zeroHeight
+                zeroHeight: zeroHeight - prevBars.current[nowData.label].zeroHeight,
               };
               useTranslate = true;
             }
@@ -232,7 +232,7 @@ const NormalBar = ({
                   center,
                   halfBarRealWidth,
                   drawHeight,
-                  barHeight
+                  barHeight,
                 })}
                 className={useAnimation && useTranslate ? styles.translateGroup : ""}
                 style={{
@@ -245,12 +245,12 @@ const NormalBar = ({
                     rectHeight,
                     rectWidth,
                     drawHeight,
-                    barHeight
+                    barHeight,
                   }),
                   "--group-to": calculateBarWrapperTo({ horizontal, zeroHeight, translate, center, drawHeight, barHeight, halfBarRealWidth }),
                   "--animation-duration": `${translateDuration}s`,
                   "--animation-timing-function": translateTimingFunction,
-                  "--animation-delay": `${translateStartDelay + translateItemDelay * (renderStartFrom === "left" ? idx : data.length - 1 - idx)}s`
+                  "--animation-delay": `${translateStartDelay + translateItemDelay * (renderStartFrom === "left" ? idx : data.length - 1 - idx)}s`,
                 }}
               >
                 <rect
@@ -275,7 +275,7 @@ const NormalBar = ({
                     checkPositive,
                     barOnlyUpperRadius,
                     borderRadius,
-                    barHeight
+                    barHeight,
                   })}
                   fill={useVariousColors ? colorPalette[idx % colorPalette.length] : colorPalette[0]}
                   fillOpacity={barOpacity}
@@ -306,7 +306,7 @@ const NormalBar = ({
                       barHeight,
                       barOnlyUpperRadius,
                       drawHeight,
-                      zeroHeight
+                      zeroHeight,
                     }),
                     "--bar-to": calculateBarTo({
                       useTranslate,
@@ -318,7 +318,7 @@ const NormalBar = ({
                       barHeight,
                       barOnlyUpperRadius,
                       drawHeight,
-                      zeroHeight
+                      zeroHeight,
                     }),
                     "--width-from": useTranslate ? `${rectWidth - translate.width}px` : horizontal ? `0px` : `${rectWidth}px`,
                     "--width-to": `${rectWidth}px`,
@@ -331,7 +331,7 @@ const NormalBar = ({
                       (useTranslate ? translateStartDelay : renderStartDelay) +
                       (useTranslate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? idx : data.length - 1 - idx)
                     }s`,
-                    "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction
+                    "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction,
                   }}
                 ></rect>
                 {useLabel && realHeight > labelInvisibleHeight && (
@@ -346,7 +346,7 @@ const NormalBar = ({
                       renderType,
                       drawHeight,
                       barHeight,
-                      zeroHeight
+                      zeroHeight,
                     })}
                   >
                     <text
@@ -381,7 +381,7 @@ const NormalBar = ({
                           labelMargin,
                           rectHeight,
                           borderRadius,
-                          barHeight
+                          barHeight,
                         }),
                         "--text-to": calculateLabelTo({
                           useTranslate,
@@ -391,7 +391,7 @@ const NormalBar = ({
                           barHeight,
                           labelMargin,
                           translate,
-                          halfBarRealWidth
+                          halfBarRealWidth,
                         }),
                         "--animation-duration": useTranslate
                           ? `${translateDuration}s`
@@ -400,7 +400,7 @@ const NormalBar = ({
                           (useTranslate ? translateStartDelay : textRenderStartDelay) +
                           (useTranslate ? translateItemDelay : textRenderItemDelay) * (textRenderStartFrom === "left" ? idx : data.length - 1 - idx)
                         }s`,
-                        "--animation-timing-function": useTranslate ? translateTimingFunction : textRenderTimingFunction
+                        "--animation-timing-function": useTranslate ? translateTimingFunction : textRenderTimingFunction,
                       }}
                     >
                       {reverse ? -nowData.value : nowData.value}
