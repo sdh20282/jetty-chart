@@ -1,7 +1,7 @@
 import { checkNormalPoint } from "../../common/scatter-common/exception/check-point-exception";
 import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // X 좌표 위치 계산
 function calculateXPosition(value, scopeResult, totalWidth, xReverse) {
@@ -23,8 +23,38 @@ function calculateYPosition(value, scopeResult, totalHeight, yReverse) {
   return totalHeight - ((value - minScope) / (maxScope - minScope)) * totalHeight;
 }
 
-function CircleWithTooltip({ x, y, xPos, yPos, group, pointSize, groupColor, pointBorderWidth }) {
+function CircleWithTooltip({
+  x,
+  y,
+  xPos,
+  yPos,
+  group,
+  pointSize,
+  groupColor,
+  pointBorderWidth,
+  tooltipOn,
+  xName,
+  yName,
+  xLegend,
+  yLegend,
+  groupIdx,
+  renderTime
+}) {
   const [showTooltip, setShowTooltip] = useState(false);
+  const [opacity, setOpacity] = useState(0);
+
+  useEffect(() => {
+    const timeout = setTimeout(
+      () => {
+        setOpacity(1);
+      },
+      groupIdx * 1000 * renderTime
+    );
+
+    return () => clearTimeout(timeout);
+  }, [groupIdx]);
+
+  console.log(renderTime);
 
   const handleMouseEnter = () => {
     setShowTooltip(true);
@@ -42,19 +72,29 @@ function CircleWithTooltip({ x, y, xPos, yPos, group, pointSize, groupColor, poi
     borderRadius: "5px",
     position: "absolute",
     top: `${yPos}px`,
-    left: `${xPos}px`
+    left: `${xPos}px`,
+    zIndex: "9999"
+  };
+  const pointStyle = {
+    opacity
   };
 
   return (
     <g transform={`translate(${xPos},${yPos})`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <circle cx={0} cy={0} r={pointSize} fill={groupColor} stroke={groupColor} strokeWidth={pointBorderWidth} />
-      {showTooltip && <text style={tooltipStyle}>{`${group.id}, x: ${x.toFixed(1)}, y: ${y.toFixed(1)}`}</text>}
+      <circle style={pointStyle} cx={0} cy={0} r={pointSize} fill={groupColor} stroke={groupColor} strokeWidth={pointBorderWidth} />
+      {tooltipOn && showTooltip && (
+        <text style={tooltipStyle}>{`${group.id}, ${xName ? xName : xLegend ? xLegend : "x"}: ${x.toFixed(1)}, ${
+          yName ? yName : yLegend ? yLegend : "y"
+        }: ${y.toFixed(1)}`}</text>
+      )}
     </g>
   );
 }
 
 const NormalScatter = ({
   data,
+  xLegend,
+  yLegend,
   normalSettings,
   scopeSettings,
   legendSettings,
@@ -99,7 +139,7 @@ const NormalScatter = ({
     ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.y)) })
     : getUserScope({ maxScope: yMaxScope, minScope: yMinScope });
 
-  const { pointSize, pointBorderWidth } = result.pointSettings;
+  const { pointSize, tooltipOn, xName, yName, pointRenderTime } = result.pointSettings;
 
   if (!xReverse) {
     xScopeResult.scope.reverse();
@@ -123,6 +163,8 @@ const NormalScatter = ({
       keys={data.map((d) => d.id)}
       xAxis={xScopeResult.scope}
       yAxis={yScopeResult.scope}
+      xLegend={xLegend}
+      yLegend={yLegend}
       normalSettings={{
         ...result.normalSettings,
         // xScope: newGridX.scope,
@@ -165,7 +207,13 @@ const NormalScatter = ({
                 group={{ id: group.id }}
                 pointSize={pointSize}
                 groupColor={groupColor}
-                pointBorderWidth={pointBorderWidth}
+                tooltipOn={tooltipOn}
+                xName={xName}
+                yName={yName}
+                xLegend={xLegend}
+                yLegend={yLegend}
+                groupIdx={groupIdx}
+                renderTime={pointRenderTime}
               />
             );
           });
