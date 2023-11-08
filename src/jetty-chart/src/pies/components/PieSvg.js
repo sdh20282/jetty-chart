@@ -2,22 +2,11 @@ import getPiePiece from "../getPiePiece";
 import PiePiece from "./PiePiece";
 import { getDivideRatio } from "../utils/getDivideRatio";
 import { PieDebugMode } from "../testFile/PieDebugMode";
-import { getMaxWidthRadius } from "../utils/getMaxWidthRadius";
 
 const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
   data = getDivideRatio({ data });
-  data = [
-    { ratio: 0.1 },
-    { ratio: 0.1 },
-    { ratio: 0.1 },
-    { ratio: 0.1 },
-    { ratio: 0.2 },
-    { ratio: 0.2 },
-    { ratio: 0.2 },
-  ];
-  data.map((test) => {
-    console.log(getMaxWidthRadius({ innerRadius: pieSettings.innerRadius, ratio: test.ratio }));
-  });
+  data = [{ ratio: 0.6 }, { ratio: 0.1 }, { ratio: 0.1 }, { ratio: 0.2 }];
+
   const pieceData = getPiePiece({
     data,
     pieRadius: pieSettings.pieRadius,
@@ -52,22 +41,31 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
             calcPos={piece.calcPos}
             pieRadius={piece.pieRadius}
             cornerRadius={piece.cornerRadius}
+            cornerInnerRadius={piece.cornerInnerRadius}
             innerRadius={piece.innerRadius}
             tangentLineCoordinate1={piece.tangentLineCoordinate1}
             tangentLineCoordinate2={piece.tangentLineCoordinate2}
             tangentLineCoordinate3={piece.tangentLineCoordinate3}
             tangentLineCoordinate4={piece.tangentLineCoordinate4}
             color={pieSettings.color[index]}
+            ratio={piece.ratio}
+            value={piece.value}
+            label={piece.label}
             key={index}
           />
           {debugTool && (
             <PieDebugMode
               cornerRadius={pieSettings.cornerRadius}
+              cornerInnerRadius={piece.cornerInnerRadius}
               innerRadius={pieSettings.innerRadius}
-              accumulatedPercent={piece.accumulatedPercent}
+              accumulatedAngle={piece.accumulatedAngle}
               percent={piece.ratio}
               vertex={piece.vertex}
               calcPos={piece.calcPos}
+              tangentLineCoordinate1={piece.tangentLineCoordinate1}
+              tangentLineCoordinate2={piece.tangentLineCoordinate2}
+              tangentLineCoordinate3={piece.tangentLineCoordinate3}
+              tangentLineCoordinate4={piece.tangentLineCoordinate4}
               cornerCoordinate1={piece.cornerCoordinate1}
               cornerCoordinate2={piece.cornerCoordinate2}
               cornerCoordinate3={piece.cornerCoordinate3}

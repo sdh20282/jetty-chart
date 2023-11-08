@@ -8,47 +8,64 @@ import { getInnerTangentCircle } from "./utils/getInnerTangentCircle";
 import { getOuterTangentLine } from "./utils/getOuterTangentLine";
 import { getInnerTangentLine } from "./utils/getInnerTangentLine";
 import { getOuterTangentCircle } from "./utils/getOuterTangentCircle";
+import { exceptionCornerRadius } from "./exceptions/exceptionCornerRadius";
 
 const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle }) => {
-  let accumulatedPercent = startAngle;
+  let accumulatedAngle = startAngle % 360;
   const pieceData = data.map(({ value, ratio, label }) => {
+    const vertex = getCoordinatesVertex({
+      ratio,
+      startAngle: accumulatedAngle % 360,
+      pieRadius,
+      innerRadius,
+    });
+    const cornerInnerRadius = exceptionCornerRadius({
+      innerRadius,
+      x: vertex.pos4.x,
+      y: vertex.pos4.y,
+      ratio,
+      startAngle,
+      pieRadius,
+      plusAngle: accumulatedAngle,
+      cornerRadius,
+    });
     const tangentLineCoordinate1 = getInnerTangentLine({
       pieRadius,
       innerRadius,
-      cornerRadius,
-      angle: (accumulatedPercent + ratio * 360) % 360,
+      cornerRadius: cornerInnerRadius,
+      angle: (accumulatedAngle + ratio * 360) % 360,
     });
     const tangentLineCoordinate2 = getInnerTangentLine({
       pieRadius,
       innerRadius,
-      cornerRadius,
-      angle: accumulatedPercent % 360,
+      cornerRadius: cornerInnerRadius,
+      angle: accumulatedAngle % 360,
     });
     const tangentLineCoordinate3 = getOuterTangentLine({
       pieRadius,
       innerRadius,
       cornerRadius,
-      angle: (accumulatedPercent + ratio * 360) % 360,
+      angle: (accumulatedAngle + ratio * 360) % 360,
     });
     const tangentLineCoordinate4 = getOuterTangentLine({
       pieRadius,
       innerRadius,
       cornerRadius,
-      angle: accumulatedPercent % 360,
+      angle: accumulatedAngle % 360,
     });
     const candidates1 = getInnerCornerCandidates({
       pieRadius,
       innerRadius,
-      cornerRadius,
-      refAngle: (accumulatedPercent + ratio * 360) % 360,
+      cornerRadius: cornerInnerRadius,
+      refAngle: (accumulatedAngle + ratio * 360) % 360,
       tangentX: tangentLineCoordinate1.x,
       tangentY: tangentLineCoordinate1.y,
     });
     const candidates2 = getInnerCornerCandidates({
       pieRadius,
       innerRadius,
-      cornerRadius,
-      refAngle: accumulatedPercent % 360,
+      cornerRadius: cornerInnerRadius,
+      refAngle: accumulatedAngle % 360,
       tangentX: tangentLineCoordinate2.x,
       tangentY: tangentLineCoordinate2.y,
     });
@@ -56,7 +73,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       pieRadius,
       innerRadius,
       cornerRadius,
-      refAngle: (accumulatedPercent + ratio * 360) % 360,
+      refAngle: (accumulatedAngle + ratio * 360) % 360,
       tangentX: tangentLineCoordinate3.x,
       tangentY: tangentLineCoordinate3.y,
     });
@@ -64,12 +81,12 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       pieRadius,
       innerRadius,
       cornerRadius,
-      refAngle: accumulatedPercent % 360,
+      refAngle: accumulatedAngle % 360,
       tangentX: tangentLineCoordinate4.x,
       tangentY: tangentLineCoordinate4.y,
     });
     const referenceCoordinates = getReferenceCoordinates({
-      startAngle: accumulatedPercent,
+      startAngle: accumulatedAngle,
       percent: ratio,
       pieRadius,
     });
@@ -126,7 +143,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       circle2: {
         x: cornerCoordinate1.x,
         y: cornerCoordinate1.y,
-        r: cornerRadius,
+        r: cornerInnerRadius,
       },
     });
     const tangentCircleCoordinate2 = getInnerTangentCircle({
@@ -138,7 +155,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       circle2: {
         x: cornerCoordinate2.x,
         y: cornerCoordinate2.y,
-        r: cornerRadius,
+        r: cornerInnerRadius,
       },
     });
     const tangentCircleCoordinate3 = getOuterTangentCircle({
@@ -165,16 +182,6 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
         r: cornerRadius,
       },
     });
-    const vertex = getCoordinatesVertex({
-      ratio: ratio,
-      startAngle: accumulatedPercent % 360,
-      pieRadius,
-      innerRadius,
-      tangentLineCoordinate1,
-      tangentLineCoordinate2,
-      tangentLineCoordinate3,
-      tangentLineCoordinate4,
-    });
     const calcPos = getCoordinatesCalcPos({
       vertex,
       pieRadius,
@@ -186,7 +193,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       tangentCircleCoordinate4,
     });
 
-    accumulatedPercent += ratio * 360;
+    accumulatedAngle += ratio * 360;
     // const isLargeArcFlag = ratio > 0.5 ? "1" : "0";
     // const targetRad = 2 * Math.PI * ratio * (1 - pieSettings.padSpace / 100);
     // const targetSpace = (2 * Math.PI * ratio * pieSettings.padSpace) / 100 / 2;
@@ -195,6 +202,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
     return {
       vertex,
       cornerRadius,
+      cornerInnerRadius,
       innerRadius,
       pieRadius,
       tangentLineCoordinate1,
@@ -210,19 +218,13 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       cornerCoordinate3,
       cornerCoordinate4,
       referenceCoordinates,
-      accumulatedPercent,
+      accumulatedAngle,
       calcPos,
       value,
       ratio,
       label,
     };
   });
-
-  console.log(pieceData);
-  console.log(pieceData[0].cornerCoordinate3);
-  console.log(pieceData[0].cornerCoordinate4);
-  console.log(pieceData[0].tangentCircleCoordinate3);
-  console.log(pieceData[0].tangentCircleCoordinate4);
 
   return pieceData;
 };

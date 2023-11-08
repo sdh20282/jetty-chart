@@ -2,16 +2,21 @@ import React from "react";
 import { pointBetweenTwoPoints } from "../utils/pointBetweenTwoPoints";
 
 export const PieDebugMode = ({
-  accumulatedPercent,
+  accumulatedAngle,
   percent,
   vertex,
   calcPos,
   cornerRadius,
+  cornerInnerRadius,
   innerRadius,
   cornerCoordinate1,
   cornerCoordinate2,
   cornerCoordinate3,
   cornerCoordinate4,
+  tangentLineCoordinate1,
+  tangentLineCoordinate2,
+  tangentLineCoordinate3,
+  tangentLineCoordinate4,
   tangentCircleCoordinate1,
   tangentCircleCoordinate2,
   tangentCircleCoordinate3,
@@ -29,112 +34,21 @@ export const PieDebugMode = ({
       <circle cx={calcPos.pos2.x} cy={calcPos.pos2.y} r={pointSize} fill="#40E62E" opacity={0.9} />
       <circle cx={calcPos.pos3.x} cy={calcPos.pos3.y} r={pointSize} fill="#5ECC52" opacity={0.9} />
       <circle cx={calcPos.pos4.x} cy={calcPos.pos4.y} r={pointSize} fill="#72B36B" opacity={0.9} />
-      <circle
-        cx={
-          pointBetweenTwoPoints({
-            x1: vertex.pos1.x,
-            y1: vertex.pos1.y,
-            x2: vertex.pos4.x,
-            y2: vertex.pos4.y,
-            cornerRadius,
-          }).split(",")[0]
-        }
-        cy={
-          pointBetweenTwoPoints({
-            x1: vertex.pos1.x,
-            y1: vertex.pos1.y,
-            x2: vertex.pos4.x,
-            y2: vertex.pos4.y,
-            cornerRadius,
-          }).split(",")[1]
-        }
-        r={pointSize}
-        fill="#FFF200"
-        opacity={0.9}
-      />
-      <circle
-        cx={
-          pointBetweenTwoPoints({
-            x1: vertex.pos2.x,
-            y1: vertex.pos2.y,
-            x2: vertex.pos3.x,
-            y2: vertex.pos3.y,
-            cornerRadius,
-          }).split(",")[0]
-        }
-        cy={
-          pointBetweenTwoPoints({
-            x1: vertex.pos2.x,
-            y1: vertex.pos2.y,
-            x2: vertex.pos3.x,
-            y2: vertex.pos3.y,
-            cornerRadius,
-          }).split(",")[1]
-        }
-        r={pointSize}
-        fill="#E6DC2E"
-        opacity={0.9}
-      />
-      <circle
-        cx={
-          pointBetweenTwoPoints({
-            x1: vertex.pos3.x,
-            y1: vertex.pos3.y,
-            x2: vertex.pos2.x,
-            y2: vertex.pos2.y,
-            cornerRadius,
-          }).split(",")[0]
-        }
-        cy={
-          pointBetweenTwoPoints({
-            x1: vertex.pos3.x,
-            y1: vertex.pos3.y,
-            x2: vertex.pos2.x,
-            y2: vertex.pos2.y,
-            cornerRadius,
-          }).split(",")[1]
-        }
-        r={pointSize}
-        fill="#CCC652"
-        opacity={0.9}
-      />
-      <circle
-        cx={
-          pointBetweenTwoPoints({
-            x1: vertex.pos4.x,
-            y1: vertex.pos4.y,
-            x2: vertex.pos1.x,
-            y2: vertex.pos1.y,
-            cornerRadius,
-          }).split(",")[0]
-        }
-        cy={
-          pointBetweenTwoPoints({
-            x1: vertex.pos4.x,
-            y1: vertex.pos4.y,
-            x2: vertex.pos1.x,
-            y2: vertex.pos1.y,
-            cornerRadius,
-          }).split(",")[1]
-        }
-        r={pointSize}
-        fill="#B3AF6B"
-        opacity={0.9}
-      />
+
       <circle cx={0} cy={0} r={innerRadius} fill="#aaaaaa" opacity={0.2} />
       <circle cx={0} cy={0} r={0.05} fill="pink" opacity={0.5} />
 
       <circle
         cx={cornerCoordinate1.x}
         cy={cornerCoordinate1.y}
-        r={cornerRadius}
+        r={cornerInnerRadius}
         fill={"red"}
         opacity={0.3}
       />
       <circle
         cx={cornerCoordinate2.x}
         cy={cornerCoordinate2.y}
-        r={cornerRadius}
+        r={cornerInnerRadius}
         fill={"blue"}
         opacity={0.3}
       />
@@ -156,8 +70,8 @@ export const PieDebugMode = ({
       <line
         x1={0}
         y1={0}
-        x2={Math.cos((((accumulatedPercent - percent * 360 + 360) % 360) * Math.PI) / 180)}
-        y2={Math.sin((((accumulatedPercent - percent * 360 + 360) % 360) * Math.PI) / 180)}
+        x2={Math.cos((((accumulatedAngle - percent * 360 + 360) % 360) * Math.PI) / 180)}
+        y2={Math.sin((((accumulatedAngle - percent * 360 + 360) % 360) * Math.PI) / 180)}
         stroke="yellow"
         strokeWidth="0.003"
         opacity={0.8}
@@ -165,8 +79,8 @@ export const PieDebugMode = ({
       <line
         x1={0}
         y1={0}
-        x2={Math.cos((accumulatedPercent * Math.PI) / 180)}
-        y2={Math.sin((accumulatedPercent * Math.PI) / 180)}
+        x2={Math.cos((accumulatedAngle * Math.PI) / 180)}
+        y2={Math.sin((accumulatedAngle * Math.PI) / 180)}
         stroke="red"
         strokeWidth="0.003"
         opacity={0.8}
@@ -181,32 +95,61 @@ export const PieDebugMode = ({
       <circle
         cx={tangentCircleCoordinate1.x}
         cy={tangentCircleCoordinate1.y}
-        r={0.05}
+        r={0.02}
         fill="cyan"
         opacity={0.5}
       />
       <circle
         cx={tangentCircleCoordinate2.x}
         cy={tangentCircleCoordinate2.y}
-        r={0.05}
+        r={0.02}
         fill="cyan"
         opacity={0.5}
       />
       <circle
         cx={tangentCircleCoordinate3.x}
         cy={tangentCircleCoordinate3.y}
-        r={0.05}
+        r={0.02}
         fill="blue"
         opacity={0.5}
       />
       <circle
         cx={tangentCircleCoordinate4.x}
         cy={tangentCircleCoordinate4.y}
-        r={0.05}
+        r={0.02}
         fill="red"
         opacity={0.5}
       />
       <circle cx={0} cy={0} r={1} fill="gray" opacity={0.1} />
+
+      <circle
+        cx={tangentLineCoordinate1.x}
+        cy={tangentLineCoordinate1.y}
+        r={0.02}
+        fill={"red"}
+        opacity={0.5}
+      />
+      <circle
+        cx={tangentLineCoordinate2.x}
+        cy={tangentLineCoordinate2.y}
+        r={0.015}
+        fill={"yellow"}
+        opacity={0.5}
+      />
+      <circle
+        cx={tangentLineCoordinate3.x}
+        cy={tangentLineCoordinate3.y}
+        r={0.02}
+        fill={"red"}
+        opacity={0.5}
+      />
+      <circle
+        cx={tangentLineCoordinate4.x}
+        cy={tangentLineCoordinate4.y}
+        r={0.015}
+        fill={"yellow"}
+        opacity={0.5}
+      />
     </>
   );
 };
