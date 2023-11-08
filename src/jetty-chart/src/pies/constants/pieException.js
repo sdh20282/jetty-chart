@@ -1,0 +1,2 @@
+const PERCENT_MAX = 0.999;
+const PERCENT_MIN = 0.001;

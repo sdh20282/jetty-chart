@@ -9,6 +9,7 @@ import { getOuterTangentLine } from "./utils/getOuterTangentLine";
 import { getInnerTangentLine } from "./utils/getInnerTangentLine";
 import { getOuterTangentCircle } from "./utils/getOuterTangentCircle";
 import { exceptionCornerRadius } from "./exceptions/exceptionCornerRadius";
+import { getIsLargeArc } from "./utils/getIsLargeArc";
 
 const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle }) => {
   let accumulatedAngle = startAngle % 360;
@@ -204,6 +205,22 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       tangentCircleCoordinate4,
     });
 
+    const isLargeArcInner = getIsLargeArc({
+      ratio,
+      x1: vertex.pos3.x,
+      y1: vertex.pos3.y,
+      x2: calcPos.pos3.x,
+      y2: calcPos.pos3.y,
+    });
+
+    const isLargeArcOuter = getIsLargeArc({
+      ratio,
+      x1: vertex.pos1.x,
+      y1: vertex.pos1.y,
+      x2: calcPos.pos1.x,
+      y2: calcPos.pos1.y,
+    });
+
     accumulatedAngle += ratio * 360;
     // const isLargeArcFlag = ratio > 0.5 ? "1" : "0";
     // const targetRad = 2 * Math.PI * ratio * (1 - pieSettings.padSpace / 100);
@@ -230,6 +247,8 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       cornerCoordinate4,
       referenceCoordinates,
       accumulatedAngle,
+      isLargeArcInner,
+      isLargeArcOuter,
       calcPos,
       value,
       ratio,
