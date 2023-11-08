@@ -21,8 +21,7 @@ const normalPointSetting = {
     xMaxScope: 100,
     xMinScope: 0,
     yMaxScope: 100,
-    yMinScope: 0,
-    showTopScope: true
+    yMinScope: 0
   },
   // y축 라인 세팅
   axisYGridLineSettings: {
@@ -185,17 +184,10 @@ const normalPointSetting = {
   // 포인트 세팅
   pointSettings: {
     pointSize: 1,
-    pointColor: "#8EA3BC",
-    pointBorderColor: "#666",
-    pointBorderWidth: 2,
-    enablePointLabel: true,
-    pointLabelColor: "#666",
-    pointLabelSize: 8,
-    pointLabelOffsetX: 0,
-    pointLabelOffsetY: -10,
-    pointLabelWeight: 500,
-    enableArea: false,
-    areaOpacity: 0.5
+    tooltipOn: true,
+    xName: "",
+    yName: "",
+    pointRenderTime: 0.1
   },
   // 애니메이션 세팅
   animationSettings: {
