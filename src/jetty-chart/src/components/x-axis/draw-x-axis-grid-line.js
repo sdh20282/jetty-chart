@@ -29,7 +29,7 @@ export const DrawXAxisGridLine = ({
       let linePath = "";
 
       if (lineDash) {
-        let path = horizontal ? `M 0,${location - translate} ` : `M ${location - translate},0 `;
+        let path = horizontal ? `M 0,${location - (useAnimation ? translate : 0)} ` : `M ${location - (useAnimation ? translate : 0)},0 `;
         let pathLength = 0;
 
         while (pathLength < height) {
@@ -48,11 +48,11 @@ export const DrawXAxisGridLine = ({
       } else {
         linePath = horizontal
           ? `
-        M 0,${location - translate}
+        M 0,${location - (useAnimation ? translate : 0)}
         h ${height}
       `
           : `
-        M ${location - translate},0
+        M ${location - (useAnimation ? translate : 0)},0
         v ${height}
       `;
       }
