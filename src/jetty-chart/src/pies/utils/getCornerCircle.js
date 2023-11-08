@@ -23,19 +23,19 @@ export const getCoordinatesNear = ({ circles, referenceCoordinate }) => {
 export const getCornerCircleGroup = ({ candidatesGroup, referenceCoordinate }) => {
   const cornerCircleGroup = [];
   cornerCircleGroup[0] = getCoordinatesNear({
-    circles: candidatesGroup[3],
-    referenceCoordinate,
-  });
-  cornerCircleGroup[1] = getCoordinatesNear({
-    circles: candidatesGroup[2],
-    referenceCoordinate,
-  });
-  cornerCircleGroup[2] = getCoordinatesNear({
     circles: candidatesGroup[0],
     referenceCoordinate,
   });
-  cornerCircleGroup[3] = getCoordinatesNear({
+  cornerCircleGroup[1] = getCoordinatesNear({
     circles: candidatesGroup[1],
+    referenceCoordinate,
+  });
+  cornerCircleGroup[2] = getCoordinatesNear({
+    circles: candidatesGroup[2],
+    referenceCoordinate,
+  });
+  cornerCircleGroup[3] = getCoordinatesNear({
+    circles: candidatesGroup[3],
     referenceCoordinate,
   });
 

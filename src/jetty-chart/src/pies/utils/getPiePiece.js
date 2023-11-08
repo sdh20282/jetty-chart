@@ -69,7 +69,6 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
     // const targetRad = 2 * Math.PI * ratio * (1 - pieSettings.padSpace / 100);
     // const targetSpace = (2 * Math.PI * ratio * pieSettings.padSpace) / 100 / 2;
     // const targetRestRad = 2 * Math.PI * (1 - ratio);
-
     return {
       pieRadius,
       cornerInnerRadius,
@@ -81,6 +80,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       cornerCircleGroup,
       accumulatedAngle,
       isLargeArcGroup,
+      referenceCoordinate,
       value,
       ratio,
       label,

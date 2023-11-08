@@ -19,21 +19,20 @@ const getIsLargeArc = ({ ratio, x1, y1, x2, y2 }) => {
 };
 
 export const getIsLargeArcGroup = ({ ratio, vertexGroup, calcVertexGroup }) => {
+  const outer = getIsLargeArc({
+    ratio,
+    x1: vertexGroup[0].x,
+    y1: vertexGroup[0].y,
+    x2: calcVertexGroup[0].x,
+    y2: calcVertexGroup[0].y,
+  });
   const inner = getIsLargeArc({
     ratio,
-    x1: vertexGroup.pos3.x,
-    y1: vertexGroup.pos3.y,
+    x1: vertexGroup[2].x,
+    y1: vertexGroup[2].y,
     x2: calcVertexGroup[2].x,
     y2: calcVertexGroup[2].y,
   });
 
-  const outer = getIsLargeArc({
-    ratio,
-    x1: vertexGroup.pos1.x,
-    y1: vertexGroup.pos1.y,
-    x2: calcVertexGroup[0].x,
-    y2: calcVertexGroup[0].y,
-  });
-
-  return { inner, outer };
+  return { outer, inner };
 };

@@ -1,3 +1,5 @@
+import { getCoordinateReference } from "../utils/getCoordinate";
+
 export const PieDebugMode = ({
   debugTool,
   accumulatedAngle,
@@ -9,35 +11,38 @@ export const PieDebugMode = ({
   innerRadius,
   cornerCircleGroup,
   tangentLineGroup,
+  startAngle,
+  pieRadius,
+  referenceCoordinate,
 }) => {
   const pointSize = 0.02;
   return (
     debugTool && (
       <>
         <circle
-          cx={vertexGroup.pos1.x}
-          cy={vertexGroup.pos1.y}
+          cx={vertexGroup[0].x}
+          cy={vertexGroup[0].y}
           r={pointSize}
           fill="#FF1100"
           opacity={0.9}
         />
         <circle
-          cx={vertexGroup.pos2.x}
-          cy={vertexGroup.pos2.y}
+          cx={vertexGroup[1].x}
+          cy={vertexGroup[1].y}
           r={pointSize}
           fill="#E63A2E"
           opacity={0.9}
         />
         <circle
-          cx={vertexGroup.pos3.x}
-          cy={vertexGroup.pos3.y}
+          cx={vertexGroup[2].x}
+          cy={vertexGroup[2].y}
           r={pointSize}
           fill="#CC5A52"
           opacity={0.9}
         />
         <circle
-          cx={vertexGroup.pos4.x}
-          cy={vertexGroup.pos4.y}
+          cx={vertexGroup[3].x}
+          cy={vertexGroup[3].y}
           r={pointSize}
           fill="#B3706B"
           opacity={0.9}
@@ -121,7 +126,7 @@ export const PieDebugMode = ({
           strokeWidth="0.003"
           opacity={0.8}
         />
-        <circle cx={0} cy={0} r={1} fill="lightgray" opacity={0.1} />
+        <circle cx={0} cy={0} r={pieRadius} fill="lightgray" opacity={0.1} />
 
         <circle
           cx={tangentLineGroup[0].x}
@@ -149,6 +154,13 @@ export const PieDebugMode = ({
           cy={tangentLineGroup[3].y}
           r={0.015}
           fill={"yellow"}
+          opacity={0.5}
+        />
+        <circle
+          cx={referenceCoordinate.x}
+          cy={referenceCoordinate.y}
+          r={0.05}
+          fill="purple"
           opacity={0.5}
         />
       </>

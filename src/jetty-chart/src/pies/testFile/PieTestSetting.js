@@ -117,7 +117,7 @@ const PieTestSetting = ({
           <label>pieRadius</label>
           <input
             type={"range"}
-            min="0.1"
+            min="0"
             max={"1"}
             step={"0.01"}
             style={{ margin: "10px" }}
@@ -139,7 +139,7 @@ const PieTestSetting = ({
           <label>innerRadius</label>
           <input
             type={"range"}
-            min="0.1"
+            min="0"
             max={"1"}
             step={"0.01"}
             style={{ margin: "10px" }}
@@ -161,7 +161,7 @@ const PieTestSetting = ({
           <label>cornerRadius</label>
           <input
             type={"range"}
-            min="0.1"
+            min="0"
             max={"1"}
             step={"0.01"}
             style={{ margin: "10px" }}

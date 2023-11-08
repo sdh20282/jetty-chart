@@ -10,22 +10,10 @@ export const getCornerRadius = ({
   accumulatedAngle,
 }) => {
   return {
-    cornerInnerRadius: exceptionCornerRadius({
-      r: innerRadius,
-      x: vertexGroup.pos4.x,
-      y: vertexGroup.pos4.y,
-      ratio,
-      startAngle,
-      pieRadius,
-      innerRadius,
-      cornerRadius,
-      plusAngle: accumulatedAngle,
-      isInner: true,
-    }),
     cornerOuterRadius: exceptionCornerRadius({
       r: pieRadius,
-      x: vertexGroup.pos1.x,
-      y: vertexGroup.pos1.y,
+      x: vertexGroup[0].x,
+      y: vertexGroup[0].y,
       ratio,
       startAngle,
       pieRadius,
@@ -33,6 +21,18 @@ export const getCornerRadius = ({
       cornerRadius,
       plusAngle: accumulatedAngle,
       isInner: false,
+    }),
+    cornerInnerRadius: exceptionCornerRadius({
+      r: innerRadius,
+      x: vertexGroup[3].x,
+      y: vertexGroup[3].y,
+      ratio,
+      startAngle,
+      pieRadius,
+      innerRadius,
+      cornerRadius,
+      plusAngle: accumulatedAngle,
+      isInner: true,
     }),
   };
 };

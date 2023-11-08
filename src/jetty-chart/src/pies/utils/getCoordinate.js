@@ -2,6 +2,7 @@ import { getCornerCircleGroup } from "./getCornerCircle";
 import { getCornerCircleCandidateGroup } from "./getCornerCircleCandidate";
 import { getTangentCircleGroup } from "./getTangentCircle";
 import { getTangentLineGroup } from "./getTangentLine";
+import { getVertexGroup } from "./getVertexGroup";
 
 // startAngle과 ratio에 따라 좌표 구하는 함수, radius = 크기
 export const getCoordinateRatio = ({ ratio, startAngle, radius }) => {
@@ -13,16 +14,9 @@ export const getCoordinateRatio = ({ ratio, startAngle, radius }) => {
 
 // vertex 데이터 받아서 좌표 구하는 함수
 export const getCoordinateVertexGroup = ({ ratio, startAngle, pieRadius, innerRadius }) => {
-  return {
-    pos1: getCoordinateRatio({ ratio: 0, startAngle, radius: pieRadius }),
-    pos2: getCoordinateRatio({ ratio, startAngle, radius: pieRadius }),
-    pos3: getCoordinateRatio({
-      ratio,
-      startAngle,
-      radius: innerRadius,
-    }),
-    pos4: getCoordinateRatio({ ratio: 0, startAngle, radius: innerRadius }),
-  };
+  const vertexGroup = getVertexGroup({ ratio, startAngle, pieRadius, innerRadius });
+
+  return vertexGroup;
 };
 
 export const getCoordinateCalcVertexGroup = ({

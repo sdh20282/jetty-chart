@@ -2,17 +2,13 @@ import getPiePiece from "../utils/getPiePiece";
 import PiePiece from "./PiePiece";
 import { divideRatio } from "../utils/getDivideRatio";
 import { PieDebugMode } from "../testFile/PieDebugMode";
+import { setExceptionValue } from "../utils/setExceptionValue";
 
 const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
   data = divideRatio({ data });
-  data = [
-    { ratio: 0.2 },
-    { ratio: 0.3 },
-    { ratio: 0.1 },
-    { ratio: 0.1 },
-    { ratio: 0.25 },
-    { ratio: 0.05 },
-  ];
+  data = [{ ratio: 0.2 }, { ratio: 0.3 }, { ratio: 0.1 }, { ratio: 0.15 }, { ratio: 0.25 }];
+
+  setExceptionValue({ pieSettings });
 
   const pieceData = getPiePiece({
     data,
@@ -60,6 +56,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
       ))}
       {pieceData.map((piece, index) => (
         <PieDebugMode
+          pieRadius={piece.pieRadius}
           debugTool={debugTool}
           cornerOuterRadius={piece.cornerOuterRadius}
           cornerInnerRadius={piece.cornerInnerRadius}
@@ -70,6 +67,8 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
           calcVertexGroup={piece.calcVertexGroup}
           tangentLineGroup={piece.tangentLineGroup}
           cornerCircleGroup={piece.cornerCircleGroup}
+          startAngle={pieSettings.startAngle}
+          referenceCoordinate={piece.referenceCoordinate}
           key={index}
         />
       ))}

@@ -20,23 +20,23 @@ export const getTangentLineGroup = ({
   const tangentLineGroup = [];
 
   tangentLineGroup[0] = getTangentLine({
-    r1: cornerInnerRadius,
-    r2: innerRadius + cornerInnerRadius,
-    angle: (accumulatedAngle + ratio * 360) % 360,
-  });
-  tangentLineGroup[1] = getTangentLine({
-    r1: cornerInnerRadius,
-    r2: innerRadius + cornerInnerRadius,
+    r1: cornerOuterRadius,
+    r2: pieRadius - cornerOuterRadius,
     angle: accumulatedAngle % 360,
   });
-  tangentLineGroup[2] = getTangentLine({
+  tangentLineGroup[1] = getTangentLine({
     r1: cornerOuterRadius,
-    r2: pieRadius - cornerInnerRadius,
+    r2: pieRadius - cornerOuterRadius,
+    angle: (accumulatedAngle + ratio * 360) % 360,
+  });
+  tangentLineGroup[2] = getTangentLine({
+    r1: cornerInnerRadius,
+    r2: innerRadius + cornerInnerRadius,
     angle: (accumulatedAngle + ratio * 360) % 360,
   });
   tangentLineGroup[3] = getTangentLine({
-    r1: cornerOuterRadius,
-    r2: pieRadius - cornerInnerRadius,
+    r1: cornerInnerRadius,
+    r2: innerRadius + cornerInnerRadius,
     angle: accumulatedAngle % 360,
   });
 

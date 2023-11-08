@@ -1,0 +1,10 @@
+export const DEFAULT_WIDTH = 400;
+export const DEFAULT_HEIGHT = 400;
+export const DEFAULT_BACKGROUND_COLOR = "black";
+export const DEFAULT_PADDING = 10;
+export const DEFAULT_PIE_RADIUS = 1;
+export const DEFAULT_INNER_RADIUS = 0.1;
+export const DEFAULT_CORNER_RADIUS = 0.1;
+export const DEFAULT_START_ANGLE = 0;
+export const DEFAULT_PAD_SIZE = 100;
+export const DEFAULT_PAD_SPACE = 1;

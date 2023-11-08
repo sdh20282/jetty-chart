@@ -3,28 +3,40 @@ import { useState } from "react";
 // import TestFile from "./testFile/TestFile";
 import PieSvg from "./components/PieSvg";
 import PieTestSetting from "./testFile/PieTestSetting";
+import {
+  DEFAULT_BACKGROUND_COLOR,
+  DEFAULT_CORNER_RADIUS,
+  DEFAULT_HEIGHT,
+  DEFAULT_INNER_RADIUS,
+  DEFAULT_PADDING,
+  DEFAULT_PAD_SIZE,
+  DEFAULT_PAD_SPACE,
+  DEFAULT_PIE_RADIUS,
+  DEFAULT_START_ANGLE,
+  DEFAULT_WIDTH,
+} from "./constants/pieSetting";
 
 const Pie = ({
   data,
   generalSettings = {
-    width: 400,
-    height: 400,
-    backgroundColor: "#000000",
+    width: DEFAULT_WIDTH,
+    height: DEFAULT_HEIGHT,
+    backgroundColor: DEFAULT_BACKGROUND_COLOR,
     padding: {
-      top: "10",
-      bottom: "10",
-      left: "10",
-      right: "10",
+      top: DEFAULT_PADDING,
+      bottom: DEFAULT_PADDING,
+      left: DEFAULT_PADDING,
+      right: DEFAULT_PADDING,
     },
   },
   pieSettings = {
     color: ["#ffeaa7", "#81ecec", "#fab1a0", "#74b9ff", "#ff7675", "#a29bfe", "#fd79a8", "#55efc4"],
-    pieRadius: 1, // 파이 반지름, default 1
-    innerRadius: 0.2, // 내부원 크기, default 0
-    cornerRadius: 0.1, // 조각 둥글기, default 0
-    startAngle: 0, // 시작 위치 각도, default 0
-    padSize: 100, // 조각 크기, default 100
-    padSpace: 1, // 조각 여백 default 0
+    pieRadius: DEFAULT_PIE_RADIUS, // 파이 반지름, default 1
+    innerRadius: DEFAULT_INNER_RADIUS, // 내부원 크기, default 0
+    cornerRadius: DEFAULT_CORNER_RADIUS, // 조각 둥글기, default 0
+    startAngle: DEFAULT_START_ANGLE, // 시작 위치 각도, default 0
+    padSize: DEFAULT_PAD_SIZE, // 조각 크기, default 100
+    padSpace: DEFAULT_PAD_SPACE, // 조각 여백 default 0
   },
 }) => {
   // 테스트용
