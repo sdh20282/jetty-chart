@@ -24,6 +24,7 @@ const MultiLine = ({
   legendSettings,
   lineSettings,
   animationSettings,
+  isStacked,
 }) => {
   if (!dataSet || dataSet.length === 0) {
     return;
@@ -54,7 +55,6 @@ const MultiLine = ({
     lineWidth,
     enablePoint,
     pointSize,
-    // pointColor,
     pointBorderColor,
     pointBorderWidth,
     enablePointLabel,
@@ -84,6 +84,7 @@ const MultiLine = ({
   });
 
   const scopeResult = autoScope ? getAutoScope({ data: combinedData.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
+
   if (reverse) {
     scopeResult.scope.reverse();
   }
@@ -128,6 +129,7 @@ const MultiLine = ({
 
       const center = pointGapWidth * idx;
       const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
+
       if (horizontal) {
         return [zeroHeight + height, center];
       }
@@ -137,12 +139,14 @@ const MultiLine = ({
     dataSetCoords.push(coords);
   });
 
-  const linePathArray = [];
-  const areaPathArray = [];
+  let linePathArray = [];
+  const lastPoints = [];
+  const startZeroPoints = [];
+  const endZeroPoints = [];
 
   dataSetCoords.forEach((coords) => {
     let pathString = ``;
-    let areaPathString = "";
+    let lastPoint = "";
 
     if (enableCurve) {
       pathString = coords.reduce((acc, curr, idx, arr) => {
@@ -152,6 +156,11 @@ const MultiLine = ({
 
         const [cpsX, cpsY] = getControlPoint(arr[idx - 2], arr[idx - 1], curr, { smoothDegree, angleDegree, isEndControlPoint: false });
         const [cpeX, cpeY] = getControlPoint(arr[idx - 1], curr, arr[idx + 1], { smoothDegree, angleDegree, isEndControlPoint: true });
+
+        if (idx === arr.length - 1) {
+          lastPoint = `C  ${curr[0]} ${curr[1]} ${curr[0]} ${curr[1]} ${curr[0]} ${curr[1]}`;
+        }
+
         return `${acc} C ${cpsX}, ${cpsY}, ${cpeX}, ${cpeY} ${curr[0]}, ${curr[1]}`;
       }, "");
     } else {
@@ -159,7 +168,7 @@ const MultiLine = ({
         const isFirstPoint = idx === 0;
 
         let tempPath = "";
-
+        if (idx === coords.length - 1) lastPoint = `L ${curr[0]} ${curr[1]}`;
         if (!isFirstPoint) tempPath += ` L`;
 
         tempPath += ` ${curr[0]} ${curr[1]}`;
@@ -167,23 +176,57 @@ const MultiLine = ({
       }, "");
     }
 
-    if (enableArea) {
-      areaPathString = horizontal
-        ? `M ${zeroHeight} ${0} L` + pathString + `L ${zeroHeight} ${drawWidth}`
-        : `M ${0} ${zeroHeightFromTop} L` + pathString + `L ${drawWidth} ${zeroHeightFromTop}`;
-    }
-
-    pathString = "M " + pathString;
+    startZeroPoints.push(horizontal ? `M ${zeroHeight} ${0} L` : `M ${0} ${zeroHeightFromTop} L`);
+    endZeroPoints.push(horizontal ? `L ${zeroHeight} ${drawWidth}` : `L ${drawWidth} ${zeroHeightFromTop}`);
 
     linePathArray.push(pathString);
-    areaPathArray.push(areaPathString);
+    lastPoints.push(lastPoint);
   });
 
-  const { useAnimation, appearType, appearDuration, appearStartDelay, appearItemDelay, appearTimingFunction } = result.animationSettings.lineSettings;
+  const {
+    useAnimation,
+    renderType,
+    renderDuration,
+    renderStartDelay,
+    renderItemDelay,
+    renderTimingFunction,
+    translateLine,
+    translateDuration,
+    translateStartDelay,
+    translateItemDelay,
+    translateTimingFunction,
+  } = result.animationSettings.lineSettings;
 
+  const prevPath = useRef({});
+  const nowPath = useRef({});
   const pathRefs = useRef([]);
 
-  const pointPosition = Array.from({ length: dataLength }, () => []);
+  if (useAnimation) {
+    prevPath.current = { ...nowPath.current };
+    nowPath.current = [];
+  }
+
+  const useSmooth = useAnimation && translateLine && prevPath.current.dataLength != undefined;
+  // console.log(useSmooth);
+  nowPath.current = {
+    dataLength,
+    linePathArray,
+    lastPoints,
+    startZeroPoints,
+    endZeroPoints,
+  };
+
+  // console.log(prevPath.current);
+  // console.log(nowPath.current);
+
+  const pointPosition = [];
+
+  const prevPoints = useRef({});
+  const prevPointTemp = useRef([]);
+
+  if (useAnimation) {
+    prevPoints.current = { ...prevPointTemp.current };
+  }
 
   dataSet.forEach((data, index) => {
     data.data.forEach((d, idx) => {
@@ -197,19 +240,45 @@ const MultiLine = ({
 
       const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
 
-      pointPosition[idx].push({
+      const pos = {
         x: positionX,
         y: totalHeight - height - zeroHeight,
         horizontalX: zeroHeight + height,
         horizontalY: positionX,
-        animationDelay: appearStartDelay + index * appearItemDelay + (idx * appearItemDelay) / dataLength,
+        animationDelay: renderStartDelay + index * renderItemDelay + (idx * renderItemDelay) / dataLength,
         value: d.value,
-      });
+      };
+
+      pointPosition[`${idx}-${index}`] = pos;
     });
   });
+  prevPointTemp.current = { ...pointPosition };
 
-  console.log(dataSetCoords);
-  console.log(pointPosition);
+  const lineColors = [...Array(dataSet.length).keys()].map((idx) => colorPalette[idx % colorPalette.length]);
+
+  const ms = new Date().valueOf();
+
+  const diffLength = dataLength - prevPath.current.dataLength;
+  // console.log(diffLength, prevPath.current);
+  if (diffLength > 0) {
+    prevPath.current.linePathArray.forEach((pathString, idx) => {
+      for (let i = 0; i < diffLength; i++) {
+        prevPath.current.linePathArray[idx] += lastPoints[idx];
+      }
+    });
+  } else if (diffLength < 0) {
+    linePathArray = linePathArray.map((pathString, idx) => {
+      let temp = pathString;
+      for (let i = 0; i < -diffLength; i++) {
+        temp += lastPoints[idx];
+      }
+      return temp;
+    });
+  }
+
+  let areaPathArray = linePathArray.map((pathString, idx) => {
+    return startZeroPoints[idx] + pathString + endZeroPoints[idx];
+  });
 
   useEffect(() => {
     pathRefs.current?.forEach((pathElement) => {
@@ -219,11 +288,6 @@ const MultiLine = ({
     });
     pathRefs.current = [];
   }, [pathRefs.current]);
-
-  const lineColors = [...Array(dataSet.length).keys()].map((idx) => colorPalette[idx % colorPalette.length]);
-
-  const ms = new Date().valueOf();
-
   return (
     <LabelValueCommon
       keys={keys}
@@ -256,11 +320,32 @@ const MultiLine = ({
       <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
         {enableArea &&
           areaPathArray.map((d, idx) => {
+            const useMove = useSmooth && prevPath.current.startZeroPoints.length > idx;
+
             return (
               <g key={`area-multi-${ms}-${idx}`}>
                 <defs>
                   <mask id={`mask-multi-${ms}-${idx}`}>
-                    <path d={d} fill={lineColors[idx]} />
+                    <path
+                      className={useMove ? `${styles.moveLine}` : ""}
+                      d={d}
+                      fill={lineColors[idx]}
+                      strokeLinejoin={strokeLinejoin}
+                      strokeLinecap={strokeLinecap}
+                      style={{
+                        "--prev-path": `"${
+                          useMove
+                            ? prevPath.current.startZeroPoints[idx] + prevPath.current.linePathArray[idx] + prevPath.current.endZeroPoints[idx]
+                            : ""
+                        }"`,
+                        "--curr-path": `"${d}"`,
+                        "--animation-duration": `${useMove ? translateDuration : renderDuration}s`,
+                        "--animation-timing-function": useMove ? translateTimingFunction : renderTimingFunction,
+                        "--animation-delay": `${
+                          useMove ? translateStartDelay + idx * translateItemDelay : renderStartDelay + idx * renderItemDelay
+                        }s`,
+                      }}
+                    />
                   </mask>
                 </defs>
                 <rect
@@ -272,38 +357,51 @@ const MultiLine = ({
                   width={horizontal ? totalHeight : 0}
                   height={horizontal ? 0 : totalHeight}
                   className={
-                    useAnimation
-                      ? appearType === "draw"
+                    useMove
+                      ? styles.moveArea
+                      : useAnimation
+                      ? renderType === "draw"
                         ? horizontal
                           ? styles.drawAreaHoriziontal
                           : styles.drawArea
-                        : appearType === "fade"
+                        : renderType === "fade"
                         ? styles.fadeArea
                         : ""
                       : ""
                   }
-                  fill={lineColors[idx % colorPalette.length]}
+                  fill={lineColors[idx]}
                   fillOpacity={enableArea ? areaOpacity : 0}
                   style={{
                     "--line-width": `${drawWidth}px`,
                     "--line-heght": `${totalHeight}px`,
-                    "--animation-duration": `${appearDuration}s`,
-                    "--animation-timing-function": appearTimingFunction,
-                    "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`,
+                    "--animation-duration": `${renderDuration}s`,
+                    "--animation-timing-function": renderTimingFunction,
+                    "--animation-delay": `${renderStartDelay + idx * renderItemDelay}s`,
                   }}
                 />
               </g>
             );
           })}
-        {linePathArray.map((d, idx) => {
+        {linePathArray.map((pathString, idx) => {
+          const useMove = useSmooth && prevPath.current.startZeroPoints.length > idx;
           return (
             <path
               key={`line-multi-${ms}-${idx}`}
               ref={(el) => {
                 pathRefs.current[idx] = el;
               }}
-              d={d}
-              className={useAnimation ? (appearType === "draw" ? styles.drawLine : appearType === "fade" ? styles.fadeLine : "") : ""}
+              d={"M" + pathString}
+              className={
+                useMove
+                  ? `${styles.moveLine}`
+                  : useAnimation
+                  ? renderType === "draw"
+                    ? `${styles.drawLine}`
+                    : renderType === "fade"
+                    ? styles.fadeLine
+                    : ""
+                  : ""
+              }
               stroke={lineColors[idx]}
               strokeWidth={lineWidth}
               strokeOpacity={lineOpacity}
@@ -311,46 +409,76 @@ const MultiLine = ({
               strokeLinecap={strokeLinecap}
               fillOpacity={0}
               style={{
-                "--animation-duration": `${appearDuration}s`,
-                "--animation-timing-function": appearTimingFunction,
-                "--animation-delay": `${appearStartDelay + idx * appearItemDelay}s`,
+                "--prev-path": `"${useMove ? "M " + prevPath.current.linePathArray[idx] : " "}"`,
+                "--curr-path": `"${"M " + pathString}"`,
+                "--animation-duration": `${useMove ? translateDuration : renderDuration}s`,
+                "--animation-timing-function": useMove ? translateTimingFunction : renderTimingFunction,
+                "--animation-delay": `${useMove ? translateStartDelay + idx * translateItemDelay : renderStartDelay + idx * renderItemDelay}s`,
               }}
             />
           );
         })}
       </g>
-      {pointPosition.map((data, index) => {
+      {Object.keys(pointPosition).map((key) => {
+        const [idx, index] = key.split("-");
+        const useMove = useSmooth && prevPath.current.startZeroPoints.length > index && prevPath.current.dataLength > idx;
+        const d = pointPosition[key];
+        let startXoffset = useSmooth
+          ? horizontal
+            ? prevPoints.current[key]?.horizontalX
+            : prevPoints.current[key]?.x
+          : horizontal
+          ? d.horizontalX
+          : d.x;
+        let startYoffset = useSmooth
+          ? horizontal
+            ? prevPoints.current[key]?.horizontalY
+            : prevPoints.current[key]?.y
+          : horizontal
+          ? d.horizontalY
+          : d.y;
+        console.log(idx, index, prevPoints.current[key]);
+        if (useMove && prevPoints.current[key]) {
+          let lastPos = prevPoints.current[key];
+          startXoffset ??= horizontal ? lastPos.horizontalX : lastPos.x;
+          startYoffset ??= horizontal ? lastPos.horizontalY : lastPos.y;
+        }
+
         return (
-          <g key={`g-${ms}-${index}`} transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
-            {data.map((d, idx) => {
-              return (
-                <g
-                  key={"point-multi-" + idx}
-                  className={useAnimation ? (appearType === "draw" ? styles.drawPoint : appearType === "fade" ? styles.fadeLine : "") : ""}
-                  transform={horizontal ? `translate(${d.horizontalX},${d.x})` : `translate(${d.horizontalY},${d.y})`}
-                  style={{
-                    "--pos-x": `${horizontal ? d.horizontalX : d.x}px`,
-                    "--pos-y": `${horizontal ? d.horizontalY : d.y}px`,
-                    "--start-x-offset": `${horizontal ? d.horizontalX - 10 : d.x}px`,
-                    "--start-y-offset": `${horizontal ? d.horizontalY : d.y - 10}px`,
-                    "--animation-duration": `${appearDuration}s`,
-                    "--animation-timing-function": appearTimingFunction,
-                    "--animation-delay": `${d.animationDelay}s`,
-                  }}
-                >
-                  {enablePoint && (
-                    <circle
-                      cx={0}
-                      cy={0}
-                      r={pointSize}
-                      fill={lineColors[idx % colorPalette.length]}
-                      stroke={pointBorderColor}
-                      strokeWidth={pointBorderWidth}
-                    />
-                  )}
-                </g>
-              );
-            })}
+          <g
+            key={`point-${ms}-${index}-${idx}`}
+            className={
+              useMove
+                ? styles.movePoint
+                : useAnimation
+                ? renderType === "draw"
+                  ? styles.drawPoint
+                  : renderType === "fade"
+                  ? styles.fadeLine
+                  : ""
+                : ""
+            }
+            transform={horizontal ? `translate(${d.horizontalX},${d.x + padding})` : `translate(${d.horizontalY + padding},${d.y})`}
+            style={{
+              "--pos-x": `${horizontal ? d.horizontalX : d.x}px`,
+              "--pos-y": `${horizontal ? d.horizontalY : d.y}px`,
+              "--start-x-offset": `${useMove ? startXoffset : horizontal ? d.horizontalX : d.x}px`,
+              "--start-y-offset": `${useMove ? startYoffset : horizontal ? d.horizontalY : d.y}px`,
+              "--animation-duration": `${useMove ? translateDuration : renderDuration}s`,
+              "--animation-timing-function": useSmooth ? translateTimingFunction : renderTimingFunction,
+              "--animation-delay": `${useMove ? translateStartDelay + index * translateItemDelay : d.animationDelay}s`,
+            }}
+          >
+            {enablePoint && (
+              <circle
+                cx={0}
+                cy={0}
+                r={pointSize}
+                fill={lineColors[index % colorPalette.length]}
+                stroke={pointBorderColor}
+                strokeWidth={pointBorderWidth}
+              />
+            )}
           </g>
         );
       })}
