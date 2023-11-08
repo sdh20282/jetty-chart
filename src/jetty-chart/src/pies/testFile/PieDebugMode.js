@@ -1,12 +1,9 @@
-import React from "react";
-import { pointBetweenTwoPoints } from "../utils/pointBetweenTwoPoints";
-
 export const PieDebugMode = ({
   debugTool,
   accumulatedAngle,
   percent,
   vertex,
-  calcPos,
+  calcVertex,
   cornerOuterRadius,
   cornerInnerRadius,
   innerRadius,
@@ -33,29 +30,29 @@ export const PieDebugMode = ({
         <circle cx={vertex.pos3.x} cy={vertex.pos3.y} r={pointSize} fill="#CC5A52" opacity={0.9} />
         <circle cx={vertex.pos4.x} cy={vertex.pos4.y} r={pointSize} fill="#B3706B" opacity={0.9} />
         <circle
-          cx={calcPos.pos1.x}
-          cy={calcPos.pos1.y}
+          cx={calcVertex[0].x}
+          cy={calcVertex[0].y}
           r={pointSize}
           fill="#1AFF00"
           opacity={0.9}
         />
         <circle
-          cx={calcPos.pos2.x}
-          cy={calcPos.pos2.y}
+          cx={calcVertex[1].x}
+          cy={calcVertex[1].y}
           r={pointSize}
           fill="#40E62E"
           opacity={0.9}
         />
         <circle
-          cx={calcPos.pos3.x}
-          cy={calcPos.pos3.y}
+          cx={calcVertex[2].x}
+          cy={calcVertex[2].y}
           r={pointSize}
           fill="#5ECC52"
           opacity={0.9}
         />
         <circle
-          cx={calcPos.pos4.x}
-          cy={calcPos.pos4.y}
+          cx={calcVertex[3].x}
+          cy={calcVertex[3].y}
           r={pointSize}
           fill="#72B36B"
           opacity={0.9}

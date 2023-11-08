@@ -1,6 +1,6 @@
-export const getOuterTangentCircle = ({ circle1, circle2 }) => {
-  const { x: x1, y: y1, r: r1 } = circle1;
-  const { x: x2, y: y2, r: r2 } = circle2;
+export const getOuterTangentCircle = ({ r1, x2, y2, r2 }) => {
+  const x1 = 0;
+  const y1 = 0;
 
   const d = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
 

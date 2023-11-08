@@ -37,7 +37,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
       {pieceData.map((piece, index) => (
         <PiePiece
           vertex={piece.vertex}
-          calcPos={piece.calcPos}
+          calcVertex={piece.calcVertex}
           pieRadius={piece.pieRadius}
           cornerOuterRadius={piece.cornerOuterRadius}
           cornerInnerRadius={piece.cornerInnerRadius}
@@ -64,7 +64,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
           accumulatedAngle={piece.accumulatedAngle}
           percent={piece.ratio}
           vertex={piece.vertex}
-          calcPos={piece.calcPos}
+          calcVertex={piece.calcVertex}
           tangentLineCoordinate1={piece.tangentLineCoordinate1}
           tangentLineCoordinate2={piece.tangentLineCoordinate2}
           tangentLineCoordinate3={piece.tangentLineCoordinate3}

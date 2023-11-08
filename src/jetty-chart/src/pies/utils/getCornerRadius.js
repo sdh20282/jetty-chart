@@ -1,17 +1,38 @@
-const distanceBetweenTwoPoints = ({ x1, y1, x2, y2 }) => {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  return Math.sqrt(dx * dx + dy * dy);
-};
+import { exceptionCornerRadius } from "../exceptions/exceptionCornerRadius";
 
-export const getCornerRadius = ({ x1, y1, x2, y2 }) => {
-  console.log(x1, y1, x2, y2);
-  const cornerRadius = distanceBetweenTwoPoints({
-    x1,
-    y1,
-    x2,
-    y2
-  });
-  console.log(cornerRadius);
-  return cornerRadius + "," + cornerRadius;
+export const getCornerRadius = ({
+  pieRadius,
+  innerRadius,
+  cornerRadius,
+  vertex,
+  ratio,
+  startAngle,
+  accumulatedAngle,
+}) => {
+  return {
+    cornerInnerRadius: exceptionCornerRadius({
+      r: innerRadius,
+      x: vertex.pos4.x,
+      y: vertex.pos4.y,
+      ratio,
+      startAngle,
+      pieRadius,
+      innerRadius,
+      cornerRadius,
+      plusAngle: accumulatedAngle,
+      isInner: true,
+    }),
+    cornerOuterRadius: exceptionCornerRadius({
+      r: pieRadius,
+      x: vertex.pos1.x,
+      y: vertex.pos1.y,
+      ratio,
+      startAngle,
+      pieRadius,
+      innerRadius,
+      cornerRadius,
+      plusAngle: accumulatedAngle,
+      isInner: false,
+    }),
+  };
 };
