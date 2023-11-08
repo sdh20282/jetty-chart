@@ -6,7 +6,7 @@ export const PieDebugMode = ({
   percent,
   vertex,
   calcPos,
-  cornerRadius,
+  cornerOuterRadius,
   cornerInnerRadius,
   innerRadius,
   cornerCoordinate1,
@@ -55,14 +55,14 @@ export const PieDebugMode = ({
       <circle
         cx={cornerCoordinate3.x}
         cy={cornerCoordinate3.y}
-        r={cornerRadius}
+        r={cornerOuterRadius}
         fill={"brown"}
         opacity={0.5}
       />
       <circle
         cx={cornerCoordinate4.x}
         cy={cornerCoordinate4.y}
-        r={cornerRadius}
+        r={cornerOuterRadius}
         fill={"brown"}
         opacity={0.5}
       />

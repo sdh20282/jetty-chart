@@ -20,10 +20,6 @@ const calcIntersection = ({ x, y, radius, cornerRadius, dir }) => {
 
 // 두 원 사이에 교점 구하기, 데이터 입력
 export const getCoordinatesCalcPos = ({
-  vertex,
-  pieRadius,
-  innerRadius,
-  cornerRadius,
   tangentCircleCoordinate1,
   tangentCircleCoordinate2,
   tangentCircleCoordinate3,

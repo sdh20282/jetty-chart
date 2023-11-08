@@ -40,7 +40,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
             vertex={piece.vertex}
             calcPos={piece.calcPos}
             pieRadius={piece.pieRadius}
-            cornerRadius={piece.cornerRadius}
+            cornerOuterRadius={piece.cornerOuterRadius}
             cornerInnerRadius={piece.cornerInnerRadius}
             innerRadius={piece.innerRadius}
             tangentLineCoordinate1={piece.tangentLineCoordinate1}
@@ -55,7 +55,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
           />
           {debugTool && (
             <PieDebugMode
-              cornerRadius={pieSettings.cornerRadius}
+              cornerOuterRadius={piece.cornerOuterRadius}
               cornerInnerRadius={piece.cornerInnerRadius}
               innerRadius={pieSettings.innerRadius}
               accumulatedAngle={piece.accumulatedAngle}

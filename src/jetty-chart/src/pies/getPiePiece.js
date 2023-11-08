@@ -1,4 +1,4 @@
-import { getCoordinatesVertex } from "./utils/getCoordinates";
+import { getCoordinatesForRatio, getCoordinatesVertex } from "./utils/getCoordinates";
 import { getCoordinatesCalcPos } from "./utils/getCoordinatesCalcPos";
 import { getCoordinatesNear } from "./utils/getCoordinatesNear";
 import { getInnerCornerCandidates } from "./utils/getInnerCornerCandidates";
@@ -20,15 +20,30 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       innerRadius,
     });
     const cornerInnerRadius = exceptionCornerRadius({
-      innerRadius,
+      r: innerRadius,
       x: vertex.pos4.x,
       y: vertex.pos4.y,
       ratio,
       startAngle,
       pieRadius,
-      plusAngle: accumulatedAngle,
+      innerRadius,
       cornerRadius,
+      plusAngle: accumulatedAngle,
+      isInner: true,
     });
+    const cornerOuterRadius = exceptionCornerRadius({
+      r: pieRadius,
+      x: vertex.pos1.x,
+      y: vertex.pos1.y,
+      ratio,
+      startAngle,
+      pieRadius,
+      innerRadius,
+      cornerRadius,
+      plusAngle: accumulatedAngle,
+      isInner: false,
+    });
+
     const tangentLineCoordinate1 = getInnerTangentLine({
       pieRadius,
       innerRadius,
@@ -44,13 +59,13 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
     const tangentLineCoordinate3 = getOuterTangentLine({
       pieRadius,
       innerRadius,
-      cornerRadius,
+      cornerRadius: cornerOuterRadius,
       angle: (accumulatedAngle + ratio * 360) % 360,
     });
     const tangentLineCoordinate4 = getOuterTangentLine({
       pieRadius,
       innerRadius,
-      cornerRadius,
+      cornerRadius: cornerOuterRadius,
       angle: accumulatedAngle % 360,
     });
     const candidates1 = getInnerCornerCandidates({
@@ -72,7 +87,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
     const candidates3 = getOuterCornerCandidates({
       pieRadius,
       innerRadius,
-      cornerRadius,
+      cornerRadius: cornerOuterRadius,
       refAngle: (accumulatedAngle + ratio * 360) % 360,
       tangentX: tangentLineCoordinate3.x,
       tangentY: tangentLineCoordinate3.y,
@@ -80,7 +95,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
     const candidates4 = getOuterCornerCandidates({
       pieRadius,
       innerRadius,
-      cornerRadius,
+      cornerRadius: cornerOuterRadius,
       refAngle: accumulatedAngle % 360,
       tangentX: tangentLineCoordinate4.x,
       tangentY: tangentLineCoordinate4.y,
@@ -167,7 +182,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       circle2: {
         x: cornerCoordinate3.x,
         y: cornerCoordinate3.y,
-        r: cornerRadius,
+        r: cornerOuterRadius,
       },
     });
     const tangentCircleCoordinate4 = getOuterTangentCircle({
@@ -179,14 +194,10 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       circle2: {
         x: cornerCoordinate4.x,
         y: cornerCoordinate4.y,
-        r: cornerRadius,
+        r: cornerOuterRadius,
       },
     });
     const calcPos = getCoordinatesCalcPos({
-      vertex,
-      pieRadius,
-      innerRadius,
-      cornerRadius,
       tangentCircleCoordinate1,
       tangentCircleCoordinate2,
       tangentCircleCoordinate3,
@@ -201,8 +212,8 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
 
     return {
       vertex,
-      cornerRadius,
       cornerInnerRadius,
+      cornerOuterRadius,
       innerRadius,
       pieRadius,
       tangentLineCoordinate1,

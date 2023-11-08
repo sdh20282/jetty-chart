@@ -1,15 +1,15 @@
 import { getCoordinatesForRatio } from "../utils/getCoordinates";
 
 const exceptionCornerRadiusWidth = ({
-  innerRadius,
+  r,
   x,
   y,
   ratio,
   startAngle,
   pieRadius,
   plusAngle,
+  minus,
 }) => {
-  const r = innerRadius;
   const calcPos = getCoordinatesForRatio({
     ratio: ratio / 2,
     startAngle: (startAngle + plusAngle) % 360,
@@ -18,7 +18,8 @@ const exceptionCornerRadiusWidth = ({
   const m = calcPos.y / calcPos.x;
 
   const alpha = ((x ** 2 + y ** 2) * (1 + m ** 2)) / (y - x * m) ** 2;
-  const result = (2 * r + Math.sqrt(4 * r ** 2 + 4 * (alpha - 1) * r ** 2)) / (2 * alpha - 2);
+  const result =
+    (minus * 2 * r + Math.sqrt(4 * r ** 2 + 4 * (alpha - 1) * r ** 2)) / (2 * alpha - 2);
 
   return result;
 };
@@ -32,24 +33,27 @@ const exceptionCornerRadiusHeight = ({ pieRadius, innerRadius, cornerRadius }) =
 };
 
 export const exceptionCornerRadius = ({
-  innerRadius,
+  r,
   x,
   y,
   ratio,
   startAngle,
-  pieRadius,
   plusAngle,
+  pieRadius,
   cornerRadius,
+  innerRadius,
+  isInner,
 }) => {
   return Math.min(
     exceptionCornerRadiusWidth({
-      innerRadius,
+      r,
       x,
       y,
       ratio,
       startAngle,
       pieRadius,
       plusAngle,
+      minus: isInner ? 1 : -1,
     }),
     exceptionCornerRadiusHeight({ pieRadius, innerRadius, cornerRadius })
   );
