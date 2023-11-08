@@ -1,9 +1,9 @@
 import React from "react";
 import { NormalLine } from "..";
 
-function TestNormalLine(data) {
+function TestNormalLine({ data }) {
   return (
-    <div>
+    <div style={{ display: "flex", flexWrap: "wrap", width: "1600px" }}>
       <NormalLine
         data={data}
         keys={["dataSet"]}
@@ -48,16 +48,16 @@ function TestNormalLine(data) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 1,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.5,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "draw",
+            renderDuration: 10,
+            renderStartDelay: 0.1,
+            renderItemDelay: 1,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 0.5,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -104,17 +104,17 @@ function TestNormalLine(data) {
         }}
         animationSettings={{
           lineSettings: {
-            useAnimation: true,
-            appearType: "draw",
-            appearDuration: 1,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.5,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            useAnimation: false,
+            renderType: "draw",
+            renderDuration: 1,
+            renderStartDelay: 0.1,
+            renderItemDelay: 0.5,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 0.5,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -189,16 +189,16 @@ function TestNormalLine(data) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "fade",
-            appearDuration: 1,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.5,
-            appearTimingFunction: "ease-in",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "fade",
+            renderDuration: 1,
+            renderStartDelay: 0.1,
+            renderItemDelay: 0.5,
+            renderTimingFunction: "ease-in",
+            translateLine: false,
+            translateDuration: 0.5,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -246,16 +246,16 @@ function TestNormalLine(data) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 1,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.5,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "fade",
+            renderDuration: 5,
+            renderStartDelay: 0.1,
+            renderItemDelay: 1,
+            renderTimingFunction: "ease",
+            translateLine: false,
+            translateDuration: 0.5,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -303,16 +303,16 @@ function TestNormalLine(data) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 1,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.5,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "draw",
+            renderDuration: 1,
+            renderStartDelay: 0.1,
+            renderItemDelay: 0.5,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 0.5,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -360,16 +360,16 @@ function TestNormalLine(data) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 1,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.5,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "draw",
+            renderDuration: 1,
+            renderStartDelay: 0.1,
+            renderItemDelay: 0.5,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 0.5,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />

@@ -1,9 +1,9 @@
 import React from "react";
 import { MultiLine } from "../multi-line/multi-line";
 
-function TestMultiLine(dataSet) {
+function TestMultiLine({ dataSet }) {
   return (
-    <div>
+    <div style={{ display: "flex", flexWrap: "wrap", width: "1600px" }}>
       <MultiLine
         dataSet={dataSet}
         keys={dataSet.map((data) => data.id)}
@@ -48,16 +48,16 @@ function TestMultiLine(dataSet) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 1,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.5,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "draw",
+            renderDuration: 1,
+            renderStartDelay: 0.1,
+            renderItemDelay: 0.5,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 1,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -106,16 +106,16 @@ function TestMultiLine(dataSet) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 1,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.5,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "draw",
+            renderDuration: 1,
+            renderStartDelay: 0.1,
+            renderItemDelay: 0.5,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 1,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -164,16 +164,16 @@ function TestMultiLine(dataSet) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "fade",
-            appearDuration: 1.5,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.8,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "fade",
+            renderDuration: 1.5,
+            renderStartDelay: 0.1,
+            renderItemDelay: 0.8,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 1,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -222,16 +222,16 @@ function TestMultiLine(dataSet) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 2,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "draw",
+            renderDuration: 2,
+            renderStartDelay: 0.1,
+            renderItemDelay: 0,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 1,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -280,16 +280,16 @@ function TestMultiLine(dataSet) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 1,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.5,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "draw",
+            renderDuration: 1,
+            renderStartDelay: 0.1,
+            renderItemDelay: 0.5,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 1,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -338,16 +338,16 @@ function TestMultiLine(dataSet) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 1.5,
-            appearStartDelay: 0.5,
-            appearItemDelay: 0.2,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "draw",
+            renderDuration: 1.5,
+            renderStartDelay: 0.5,
+            renderItemDelay: 0.2,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 1,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />

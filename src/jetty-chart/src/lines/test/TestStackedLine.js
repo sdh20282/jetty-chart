@@ -1,9 +1,9 @@
 import React from "react";
 import { StackedLine } from "../stacked-line/stacked-line";
 
-function TestStackedLine(dataSet) {
+function TestStackedLine({ dataSet }) {
   return (
-    <div>
+    <div style={{ display: "flex", flexWrap: "wrap", width: "1600px" }}>
       <StackedLine
         dataSet={dataSet}
         keys={dataSet.map((data) => data.id)}
@@ -38,7 +38,7 @@ function TestStackedLine(dataSet) {
           pointLabelWeight: 500,
           enableArea: false,
           areaColor: null,
-          areaOpacity: 0.5,
+          areaOpacity: 1,
           enableCurve: false,
           smoothDegree: 0.15,
           angleDegree: 1,
@@ -48,16 +48,16 @@ function TestStackedLine(dataSet) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 1,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.5,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "draw",
+            renderDuration: 1,
+            renderStartDelay: 0.1,
+            renderItemDelay: 0.5,
+            renderTimingFunction: "ease",
+            translateLine: false,
+            translateDuration: 1,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -96,7 +96,7 @@ function TestStackedLine(dataSet) {
           pointLabelWeight: 500,
           enableArea: true,
           areaColor: null,
-          areaOpacity: 0.5,
+          areaOpacity: 1,
           enableCurve: false,
           smoothDegree: 0.15,
           angleDegree: 1,
@@ -106,16 +106,16 @@ function TestStackedLine(dataSet) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 1,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.5,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "draw",
+            renderDuration: 1,
+            renderStartDelay: 0.1,
+            renderItemDelay: 2,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 1,
+            translateStartDelay: 0,
+            translateItemDelay: 1,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -154,7 +154,7 @@ function TestStackedLine(dataSet) {
           pointLabelWeight: 500,
           enableArea: false,
           areaColor: null,
-          areaOpacity: 0.5,
+          areaOpacity: 1,
           enableCurve: false,
           smoothDegree: 0.15,
           angleDegree: 1,
@@ -164,16 +164,16 @@ function TestStackedLine(dataSet) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "fade",
-            appearDuration: 1.5,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.8,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "fade",
+            renderDuration: 1.5,
+            renderStartDelay: 0.1,
+            renderItemDelay: 0.8,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 1,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -212,7 +212,7 @@ function TestStackedLine(dataSet) {
           pointLabelWeight: 500,
           enableArea: false,
           areaColor: null,
-          areaOpacity: 0.5,
+          areaOpacity: 1,
           enableCurve: true,
           smoothDegree: 0.15,
           angleDegree: 1,
@@ -222,16 +222,16 @@ function TestStackedLine(dataSet) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 2,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "draw",
+            renderDuration: 2,
+            renderStartDelay: 0.1,
+            renderItemDelay: 0,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 1,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -270,7 +270,7 @@ function TestStackedLine(dataSet) {
           pointLabelWeight: 500,
           enableArea: true,
           areaColor: null,
-          areaOpacity: 0.5,
+          areaOpacity: 1,
           enableCurve: true,
           smoothDegree: 0.15,
           angleDegree: 1,
@@ -280,16 +280,16 @@ function TestStackedLine(dataSet) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 1,
-            appearStartDelay: 0.1,
-            appearItemDelay: 0.5,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "draw",
+            renderDuration: 1,
+            renderStartDelay: 0.1,
+            renderItemDelay: 0.5,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 1,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
@@ -328,7 +328,7 @@ function TestStackedLine(dataSet) {
           pointLabelWeight: 500,
           enableArea: false,
           areaColor: null,
-          areaOpacity: 0.5,
+          areaOpacity: 1,
           enableCurve: true,
           smoothDegree: 0.15,
           angleDegree: 1,
@@ -338,16 +338,16 @@ function TestStackedLine(dataSet) {
         animationSettings={{
           lineSettings: {
             useAnimation: true,
-            appearType: "draw",
-            appearDuration: 1.5,
-            appearStartDelay: 0.5,
-            appearItemDelay: 0.2,
-            appearTimingFunction: "ease",
-            moveLine: true,
-            moveDuration: 2,
-            moveStartDelay: 0,
-            moveItemDelay: 0,
-            moveTimingFunction: "ease",
+            renderType: "draw",
+            renderDuration: 1.5,
+            renderStartDelay: 0.5,
+            renderItemDelay: 0.2,
+            renderTimingFunction: "ease",
+            translateLine: true,
+            translateDuration: 1,
+            translateStartDelay: 0,
+            translateItemDelay: 0,
+            translateTimingFunction: "ease",
           },
         }}
       />
