@@ -27,9 +27,15 @@ const exceptionCornerRadiusWidth = ({
 const exceptionCornerRadiusHeight = ({ pieRadius, innerRadius, cornerRadius }) => {
   if (cornerRadius > (pieRadius - innerRadius) / 2) {
     return (pieRadius - innerRadius) / 2;
-  } else {
-    return cornerRadius;
   }
+  return cornerRadius;
+};
+
+const exceptionCornerRadiusInnerNatural = ({ innerRadius, radius, isInner }) => {
+  if (innerRadius < radius && isInner) {
+    return innerRadius;
+  }
+  return radius;
 };
 
 export const exceptionCornerRadius = ({
@@ -44,7 +50,7 @@ export const exceptionCornerRadius = ({
   innerRadius,
   isInner,
 }) => {
-  return Math.min(
+  const newCornerRadius = Math.min(
     exceptionCornerRadiusWidth({
       r,
       x,
@@ -57,4 +63,6 @@ export const exceptionCornerRadius = ({
     }),
     exceptionCornerRadiusHeight({ pieRadius, innerRadius, cornerRadius })
   );
+
+  return exceptionCornerRadiusInnerNatural({ innerRadius, radius: newCornerRadius, isInner });
 };
