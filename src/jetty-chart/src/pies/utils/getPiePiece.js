@@ -12,7 +12,7 @@ import { getCornerRadius } from "./getCornerRadius";
 const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle }) => {
   let accumulatedAngle = startAngle % 360;
   const pieceData = data.map(({ value, ratio, label }) => {
-    const vertex = getCoordinateVertexGroup({
+    const vertexGroup = getCoordinateVertexGroup({
       ratio,
       startAngle: accumulatedAngle % 360,
       pieRadius,
@@ -22,7 +22,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       pieRadius,
       innerRadius,
       cornerRadius,
-      vertex,
+      vertexGroup,
       ratio,
       startAngle,
       accumulatedAngle,
@@ -54,7 +54,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       referenceCoordinate,
     });
 
-    const calcVertex = getCoordinateCalcVertexGroup({
+    const calcVertexGroup = getCoordinateCalcVertexGroup({
       pieRadius,
       innerRadius,
       cornerInnerRadius,
@@ -62,7 +62,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       cornerCircleGroup,
     });
 
-    const isLargeArcGroup = getIsLargeArcGroup({ ratio, vertex, calcVertex });
+    const isLargeArcGroup = getIsLargeArcGroup({ ratio, vertexGroup, calcVertexGroup });
 
     accumulatedAngle += ratio * 360;
     // const isLargeArcFlag = ratio > 0.5 ? "1" : "0";
@@ -71,27 +71,16 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
     // const targetRestRad = 2 * Math.PI * (1 - ratio);
 
     return {
-      vertex,
+      pieRadius,
       cornerInnerRadius,
       cornerOuterRadius,
       innerRadius,
-      pieRadius,
-      tangentLineCoordinate1: tangentLineGroup[0],
-      tangentLineCoordinate2: tangentLineGroup[1],
-      tangentLineCoordinate3: tangentLineGroup[2],
-      tangentLineCoordinate4: tangentLineGroup[3],
-      tangentCircleCoordinate1: calcVertex[0],
-      tangentCircleCoordinate2: calcVertex[1],
-      tangentCircleCoordinate3: calcVertex[2],
-      tangentCircleCoordinate4: calcVertex[3],
-      cornerCoordinate1: cornerCircleGroup[0],
-      cornerCoordinate2: cornerCircleGroup[1],
-      cornerCoordinate3: cornerCircleGroup[2],
-      cornerCoordinate4: cornerCircleGroup[3],
-      referenceCoordinate,
+      vertexGroup,
+      tangentLineGroup,
+      calcVertexGroup,
+      cornerCircleGroup,
       accumulatedAngle,
       isLargeArcGroup,
-      calcVertex,
       value,
       ratio,
       label,

@@ -5,7 +5,14 @@ import { PieDebugMode } from "../testFile/PieDebugMode";
 
 const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
   data = divideRatio({ data });
-  data = [{ ratio: 0.7 }, { ratio: 0.3 }];
+  data = [
+    { ratio: 0.2 },
+    { ratio: 0.3 },
+    { ratio: 0.1 },
+    { ratio: 0.1 },
+    { ratio: 0.25 },
+    { ratio: 0.05 },
+  ];
 
   const pieceData = getPiePiece({
     data,
@@ -36,16 +43,13 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
     >
       {pieceData.map((piece, index) => (
         <PiePiece
-          vertex={piece.vertex}
-          calcVertex={piece.calcVertex}
-          pieRadius={piece.pieRadius}
-          cornerOuterRadius={piece.cornerOuterRadius}
+          vertexGroup={piece.vertexGroup}
           cornerInnerRadius={piece.cornerInnerRadius}
+          cornerOuterRadius={piece.cornerOuterRadius}
+          calcVertexGroup={piece.calcVertexGroup}
+          pieRadius={piece.pieRadius}
           innerRadius={piece.innerRadius}
-          tangentLineCoordinate1={piece.tangentLineCoordinate1}
-          tangentLineCoordinate2={piece.tangentLineCoordinate2}
-          tangentLineCoordinate3={piece.tangentLineCoordinate3}
-          tangentLineCoordinate4={piece.tangentLineCoordinate4}
+          tangentLineGroup={piece.tangentLineGroup}
           isLargeArcGroup={piece.isLargeArcGroup}
           color={pieSettings.color[index]}
           ratio={piece.ratio}
@@ -62,21 +66,10 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
           innerRadius={pieSettings.innerRadius}
           accumulatedAngle={piece.accumulatedAngle}
           percent={piece.ratio}
-          vertex={piece.vertex}
-          calcVertex={piece.calcVertex}
-          tangentLineCoordinate1={piece.tangentLineCoordinate1}
-          tangentLineCoordinate2={piece.tangentLineCoordinate2}
-          tangentLineCoordinate3={piece.tangentLineCoordinate3}
-          tangentLineCoordinate4={piece.tangentLineCoordinate4}
-          cornerCoordinate1={piece.cornerCoordinate1}
-          cornerCoordinate2={piece.cornerCoordinate2}
-          cornerCoordinate3={piece.cornerCoordinate3}
-          cornerCoordinate4={piece.cornerCoordinate4}
-          tangentCircleCoordinate1={piece.tangentCircleCoordinate1}
-          tangentCircleCoordinate2={piece.tangentCircleCoordinate2}
-          tangentCircleCoordinate3={piece.tangentCircleCoordinate3}
-          tangentCircleCoordinate4={piece.tangentCircleCoordinate4}
-          referenceCoordinate={piece.referenceCoordinate}
+          vertexGroup={piece.vertexGroup}
+          calcVertexGroup={piece.calcVertexGroup}
+          tangentLineGroup={piece.tangentLineGroup}
+          cornerCircleGroup={piece.cornerCircleGroup}
           key={index}
         />
       ))}
