@@ -7,6 +7,10 @@
   --animation-timing-function: "linear";
   --animation-delay: "0s";
   --height-offset: "0px";
+  --start-x-offset : "0px";
+  --start-y-offset : "0px";
+  --prev-path : "";
+  --curr-path : "";
 }
 
 .drawLine {
@@ -42,7 +46,20 @@
 }
 
 .moveLine {
+  opacity: 1;
+  d : path(var(--prev-path));
   animation: move-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
+.movePoint{
+  transform: translate(var(--start-x-offset), var(--start-y-offset));
+  animation: move-point var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
+.moveArea{
+  width: var(--line-width);
+  height: var(--line-heght);
+  opacity: 1;
 }
 
 @keyframes draw-line {
@@ -67,13 +84,12 @@
 }
 
 @keyframes move-line {
-  0% {
-    transform: translate(0px, 0px);
+  from {
+    d : path(var(--prev-path));
   }
 
-  100% {
-    transform: translate(var(--height-offset));
-    opacity: 1;
+  to {
+    d : path(var(--curr-path));
   }
 }
 
@@ -102,6 +118,16 @@
   100% {
     transform: translate(var(--pos-x), var(--pos-y));
     opacity: 1;
+  }
+}
+
+@keyframes move-point{
+  0% {
+    transform: translate(var(--start-x-offset), var(--start-y-offset));
+  }
+
+  100% {
+    transform: translate(var(--pos-x), var(--pos-y));
   }
 }
 
