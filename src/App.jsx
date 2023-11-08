@@ -1,37 +1,5 @@
-// import { NormalBar } from "./jetty-chart/src";
-import { MapChart } from "./jetty-chart/src/maps/normal-map/normal-map";
-// const data = [
-//   {
-//     value: 1.1,
-//     label: "test1"
-//   },
-//   {
-//     value: 0.01,
-//     label: "test1"
-//   },
-//   {
-//     value: 1.4,
-//     label: "test1"
-//   },
-//   {
-//     value: 5,
-//     label: "test1"
-//   },
-//   {
-//     value: 1.9,
-//     label: "test1"
-//   },
-//   {
-//     value: 0.9,
-//     label: "test1"
-//   },
-//   {
-//     value: -1.7,
-//     label: "test1"
-//   }
-// ];
-
-const data1 = [
+import { NormalBar, StackedBar, NormalMap } from "./jetty-chart/src";
+const data = [
   {
     name: "northChungcheong",
     value: Math.floor(Math.random() * 1001),
@@ -105,7 +73,7 @@ const data1 = [
     inKorea: "대전",
   },
   {
-    name: "deagu",
+    name: "daegu",
     value: Math.floor(Math.random() * 1001),
     color: "#F35F40",
     colorCode: 0,
@@ -170,18 +138,12 @@ const data1 = [
   },
 ];
 
-// const myNormalBar = ({ data }) => {
-//   return <NormalBar data={data} normalSettings={{ horizontal: false, reverse: false, margin: { right: 10 } }} />;
-// };
-
+const chartData = [{id:"daegu", chartData:[{lavel:"달서구",value:100},{lavel:"중구",value:100}]},{id:"jeju", chartData:[{lavel:"서귀포",value:200},{lavel:"제주시",value:500}]}]
 
 function App() {
   return (
-    <div>
-      {/* {myNormalBar({ data })} */}
-      <div>
-        <MapChart data={data1} />
-      </div>
+    <div style={{position:"absolute", left:"300px"}}>
+      <NormalMap data={data} chartData={chartData} normalSetting={{zoomMagnification:1.8, marginLeft:200, width:500,useChart:true}}/>
     </div>
   );
 }

@@ -1,9 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "./normal-map.module.css";
 import { checkMapChart } from "../../common/map-common/exception/check-normal-map-exception";
+import { NormalBar } from "../../bars/bars";
+
 /* eslint-disable complexity */
-const MapChart = ({
+const NormalMap = ({
   data,
+  chartData,
   normalSetting,
   gagueBarSetting,
   tooltipSetting,
@@ -11,22 +14,26 @@ const MapChart = ({
   const result = checkMapChart({
     normalSetting,
     gagueBarSetting,
-    tooltipSetting})
+    tooltipSetting,
+  });
     
-  const { backgroundColor,
-  divide,
-  colorCode,
-  width,
-  zoomMagnification,
-  usePercentageColor,
-  zoomOn,
-  animationOn,
-  marginTop,
-  marginBottom,
-  marginLeft,
-  marginRight} = result.normalSetting
+  const { 
+    backgroundColor,
+    divide,
+    colorCode,
+    width,
+    zoomMagnification,
+    usePercentageColor,
+    zoomOn,
+    animationOn,
+    marginTop,
+    marginBottom,
+    marginLeft,
+    marginRight,
+    useChart,
+  } = result.normalSetting;
   
-  const{
+  const {
     useGagueBar,
     useValueLavel,
     pointerSize,
@@ -37,27 +44,28 @@ const MapChart = ({
     gagueValueFontFamily,
     gagueValueFontWeight,
     valueLavel,
-  } = result.gagueBarSetting
+  } = result.gagueBarSetting;
 
   const {useFollowColor,
-        useKorea,
-        tooltipWidth,
-        tooltipBackGroundColor,
-        tooltipBorderRadius,
-        tooltipBorder,
-        tooltipBoxShadow,
-        cityNameFontSize,
-        cityNameColor,
-        cityNameFontWeight,
-        cityValueColor,
-        cityValueFontWeight,
-        cityValueFontSize,
-        descriptionColor,
-        descriptionFontSize,
-        descriptionFontWeight,
-        descriptionFontFamily,
-        tooltipOpacity,
-        useTooltipCol} = result.tooltipSetting
+    useKorea,
+    tooltipWidth,
+    tooltipBackGroundColor,
+    tooltipBorderRadius,
+    tooltipBorder,
+    tooltipBoxShadow,
+    cityNameFontSize,
+    cityNameColor,
+    cityNameFontWeight,
+    cityValueColor,
+    cityValueFontWeight,
+    cityValueFontSize,
+    descriptionColor,
+    descriptionFontSize,
+    descriptionFontWeight,
+    descriptionFontFamily,
+    tooltipOpacity,
+    useTooltipCol,
+  } = result.tooltipSetting;
 
   const colorPallette = [
     ["#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6"],
@@ -80,6 +88,7 @@ const MapChart = ({
     ["#FEC5BB", "#FCD5CE", "#FAE1DD", "#F8EDEB", "#E8E8E4", "#D8E2DC", "#ECE4DB", "#FFE5D9", "#FFD7BA", "#FEC89A"],
     ["#03071E", "#370617", "#6A040F", "#9D0208", "#D00000" , "#DC2F02", "#E85D04", "#F48C06", "#FAA307", "#FFBA08"],
   ];
+
   // 컬러코드 0: 파랑 , 1: 오렌지, 2: 레드, 3: 블루그레이, 4: 그린
   const color = colorPallette[colorCode];
   let useColor;
@@ -89,8 +98,10 @@ const MapChart = ({
   if (divide === 2) {
     useColor = [color[0], color[2]];
     let y = 1000;
+
     for (let i = 0; i < divide; i++) {
       const z = y - (200 + gagueBarHeight) / divide;
+
       zMap.push([y, z]);
       y = z;
     }
@@ -100,8 +111,10 @@ const MapChart = ({
   if (divide === 3) {
     useColor = [color[0], color[2], color[4]];
     let y = 1000;
+    
     for (let i = 0; i < divide; i++) {
       const z = y - (200 + gagueBarHeight) / divide;
+
       zMap.push([y, z]);
       y = z;
     }
@@ -110,8 +123,10 @@ const MapChart = ({
   if (divide === 4) {
     useColor = [color[1], color[2], color[3], color[4]];
     let y = 1000;
+
     for (let i = 0; i < divide; i++) {
       const z = y - (200 + gagueBarHeight) / divide;
+
       zMap.push([y, z]);
       y = z;
     }
@@ -120,8 +135,10 @@ const MapChart = ({
   if (divide === 5) {
     useColor = color;
     let y = 1000;
+    
     for (let i = 0; i < divide; i++) {
       const z = y - (200 + gagueBarHeight) / divide;
+
       zMap.push([y, z]);
       y = z;
     }
@@ -145,6 +162,7 @@ const MapChart = ({
 
   const citycolor = data.map((city) => {
     const percentage = (city.value / max) * 100;
+    
     if (divide === 5) {
       if (percentage.toFixed(0) >= 20) {
         city.colorCode = 1;
@@ -205,29 +223,27 @@ const MapChart = ({
   const [scale,setScale] = useState(1);
   const [firstX,setFirstX] = useState();
   const [targetColor,setTargetColor] =useState("");
+  const [chartOn,setChartOn] = useState(false);
+  const [chartDataSetting,setChartDataSetting] = useState();
+
+
   let ToolW = tooltipWidth/scale;
   let ToolH = 1064/scale;
-
   let cityFontS =  cityNameFontSize/scale; 
   let cityValueFontS = cityValueFontSize/scale;
   let decripFontS = descriptionFontSize/scale;
 
-  
   const svgRef =useRef(null);
   const mapRef = useRef(null);
   const PathelementsRef = useRef([]);
   const tooltipRef = useRef(null);
   const tooltipDiv = useRef(null);
 
-
   const pathRef = (el) => {
     if (el && !PathelementsRef.current.includes(el)) {
       PathelementsRef.current.push(el);
     }
   };
-
-
-
 
   function convertHexToRGBA(hexCode, opacity) {
     // 헥사 코드에서 R, G, B 값을 추출합니다.
@@ -239,65 +255,62 @@ const MapChart = ({
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
 
-
   function pathEvent(e) {
-    const pathId = e.target.id;
-    const value = citycolor.filter((city) => {
-      return city.name === pathId;
-    });
-    setTooltipOn(true);
-    if (value.length > 0) {
-      const cityValue = value[0].value;
-      
-      let cityName
+  
+      const pathId = e.target.id;
+      const value = citycolor.filter((city) => {
+        return city.name === pathId;
+      });
     
-      if(useKorea){
-        cityName = value[0].inKorea;
-      }else{
-        cityName = value[0].name;
-
+      setTooltipOn(true);
+      if (value.length > 0) {
+        const cityValue = value[0].value;
+        let cityName
+        if(useKorea){
+          cityName = value[0].inKorea;
+        }else{
+          cityName = value[0].name;
+        }
+        
+        let color = e.target.getAttribute('fill')
+        let opacolor = convertHexToRGBA(color,0.5)
+        const cityDescription = value[0].description;
+        const mousePercentage = (200 + gagueBarHeight) * (cityValue / max);
+        setTargetColor(opacolor)
+        setMousePointer(mousePercentage);
+        setTooltipCity(cityName);
+        setTooltipValue(cityValue);
+        settooltipDescription(cityDescription);
+      } else {
+        console.log("");
       }
-      
-      let color = e.target.getAttribute('fill')
-      let opacolor = convertHexToRGBA(color,0.5)
-      const cityDescription = value[0].description;
-      const mousePercentage = (200 + gagueBarHeight) * (cityValue / max);
-      setTargetColor(opacolor)
-      setMousePointer(mousePercentage);
-      setTooltipCity(cityName);
-      setTooltipValue(cityValue);
-      settooltipDescription(cityDescription);
-    } else {
-      console.log("");
-    }
+    
   }
 
   function pathOut() {
     setTooltipOn(false);
   }
 
+
   useEffect(() => {
     if (!data) {
       return;
     }
-
     const mySVG = svgRef.current
     setFirstX(mySVG.getBoundingClientRect().x);
     const mapSvg = PathelementsRef;
-
+    const outMap = mapRef;
+   
     mapSvg.current.forEach((path) => {
       path.addEventListener("mouseover", pathEvent);
     });
-    const outMap = mapRef;
     outMap.current.addEventListener("mouseout", pathOut);
-
-
+    
   }, [data]);
 
 
 
   function tooltipMove(e){
-
     const main = mapRef.current;
     // 적용될 svg 태그의 .id 값을 선택합니다.
     const tooltipObject = tooltipRef.current;
@@ -347,16 +360,18 @@ const MapChart = ({
     if (!svgRef.current) {
       return
     }
+    
     svgRef.current.addEventListener("mousemove",tooltipMove);
+
     return () => {
       svgRef.current.removeEventListener("mousemove",tooltipMove);
     }
     
+    
   }, [tooltipOn, scale, width, firstX]);
 
-  
   useEffect(() => {
-    if(zoomOn){
+    if(zoomOn && !useChart){
       const mapSvg = svgRef.current;
       let onZoom = true;
       let animationFrameId;
@@ -381,8 +396,6 @@ const MapChart = ({
           }).join(' ');
           
           // 현재viewBox 값을 map 함수로 돌면서 좌표 x, y , viewX, viewY 에  목표 (ViewBox값 xDest, yDest , viewX Dest , viewY Dest - 현재값) * 진행정도 만큼 더해준다.
-         
-          
 
           mapSvg.setAttribute('viewBox', currentViewBox);
           // 위에서 정해준 값이 다시 현재의 viewBox 값이 된다.
@@ -399,6 +412,8 @@ const MapChart = ({
       }
       // eslint-disable-next-line no-inner-declarations
       function zoomin(e) {
+        
+        setTooltipOn(false)
         let pt = mapSvg.createSVGPoint();
         pt.x = e.clientX;
         pt.y = e.clientY;
@@ -427,13 +442,111 @@ const MapChart = ({
         }
       };
     }
+
+    //여기서 부터는 차트속차트에 들어가는 줌아웃 기능 
+    if(useChart){
+      const mapSvg = svgRef.current;
+      let onZoom = true;
+      let animationFrameId;
+      
+      // eslint-disable-next-line no-inner-declarations
+      function animateViewBox(targetViewBox, duration) {
+        const startTime = performance.now();
+        const initialViewBox = mapSvg.getAttribute('viewBox').split(' ').map(Number);
+        // 현재 뷰박스 값 얻어서 숫자로 받기  [0, 0, 1048, 1064] 이렇게 배열로 옴 
+
+        const targetViewBoxValues = targetViewBox.split(' ').map(Number);
+        //  목표 뷰박스 값 얻어서 숫자로 받기  [316.73062472873266, -93.81126234266492, 582.2222222222222, 591.1111111111111] 이렇게 배열로 옴
+
+        function step(timestamp) {
+          const elapsedTime = timestamp - startTime;
+          const progress = Math.min(elapsedTime / duration, 1);
+          // 애니메이션 진행정도 0엣 1사이 값 0 시작 1이 되면 종료 
+          
+          const currentViewBox = initialViewBox.map((initialValue, index) => {
+            const targetValue = targetViewBoxValues[index];
+            return initialValue + (targetValue - initialValue) * progress; 
+          }).join(' ');
+          
+          // 현재viewBox 값을 map 함수로 돌면서 좌표 x, y , viewX, viewY 에  목표 (ViewBox값 xDest, yDest , viewX Dest , viewY Dest - 현재값) * 진행정도 만큼 더해준다.
+
+          mapSvg.setAttribute('viewBox', currentViewBox);
+          // 위에서 정해준 값이 다시 현재의 viewBox 값이 된다.
+
+          if (progress < 1) {
+            animationFrameId = requestAnimationFrame(step);
+          }
+          // 만약 progress가 1 즉 , 완료되지 않았다면 재귀적으로 requestAnimationFrame(step) 를 불러온다. 
+        }
+  
+        animationFrameId = requestAnimationFrame(step);
+        // 처음 한번 실행 될 때 requestAnimationFrame에 (step) 함수를 예약한다. 그리고 animationFrameId 이 return 받는값은 식별자로 사용하고 애니매이션 중지시에 사용할 수 있다.
+      }
+      // eslint-disable-next-line no-inner-declarations
+      function zoomin(e) {
+
+        const mapSvg = PathelementsRef;
+        const outMap = mapRef;
+        setTooltipOn(false)
+
+        const chartValue = chartData.filter((data)=>{
+          return data.id === e.target.id;
+        })
+        
+        if(e.target.id != "BigSvg"){
+
+          setChartOn(true)
+          onZoom = true
+          mapSvg.current.forEach((path) => {
+            path.removeEventListener("mouseover", pathEvent);
+          });
+          outMap.current.removeEventListener("mouseout", pathOut);
+
+          if(chartValue.length > 0){
+            let chartDataValue = chartValue[0].chartData
+            setChartDataSetting(chartDataValue)
+            console.log(e.target.id)
+          }
+
+
+        }else{
+
+          setChartOn(false)
+          onZoom = false
+          setChartDataSetting(0);
+          svgRef.current.addEventListener("mousemove",tooltipMove);
+
+          mapSvg.current.forEach((path) => {
+            path.addEventListener("mouseover", pathEvent);
+          });
+          
+          outMap.current.addEventListener("mouseout", pathOut);
+
+        }
+
+
+        let newScale = onZoom ? 0.4 : 1;
+        let targetViewBox = onZoom ? `${-1680} ${-1590} ${2620} ${2650}` : '0 0 1048 1064';
+        animateViewBox(targetViewBox, 350); // << 여기서 두번째 숫자가 duration 애니메이션 지연시간
+        setScale(newScale);
+      }
+  
+      mapSvg.addEventListener("click", zoomin);
+      
+      return () => {
+        mapSvg.removeEventListener("click", zoomin);
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+        }
+      };
+    }
   }, [zoomMagnification, zoomOn]);
- 
+
 
   return (
     // width 랑 height 데이타 값으로 받기
     <div style={{ width: `${width}px`, height: `100%`, backgroundColor: `${backgroundColor}`, marginTop: `${marginTop}px`, marginLeft: `${marginLeft}px`, marginRight:`${marginRight}px`, marginBottom:`${marginBottom}px`}}>
-      <svg ref={svgRef} fill="none" viewBox="0 0 1048 1064">
+      <svg id="BigSvg" ref={svgRef} fill="none" viewBox="0 0 1048 1064">
         <g ref={mapRef}>
           <path
             ref={pathRef}
@@ -580,7 +693,7 @@ const MapChart = ({
             />
           </g>
           <path
-            id="deagu"
+            id="daegu"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[9].colorCode] : citycolor[9].color}
             stroke="white"
@@ -664,7 +777,6 @@ const MapChart = ({
             ""
           )}
         </g>
-
         <g ref={tooltipRef} id="tooltipBox">
           <foreignObject id="foreingObject" x="0" y="0" width={ToolW} height={ToolH} >
             <div
@@ -693,7 +805,6 @@ const MapChart = ({
                   : { visibility: "hidden" }
               }
             >
-              
               <p
                 style={{
                   margin: "0px",
@@ -702,6 +813,7 @@ const MapChart = ({
                   color: `${cityNameColor}`,
                   fontSize: `${cityFontS}px`,
                   fontWeight: `${cityNameFontWeight}`,
+                  textAlign: "center",
                 }}
               >
                 {tooltipCity} {useTooltipCol ? ":" : ""}{" "}
@@ -727,15 +839,21 @@ const MapChart = ({
               >
                 {tooltipDescription}
               </p> : "" }
-
             </div>
           </foreignObject>
         </g>
         {useValueLavel && scale===1 ? <text fontFamily={gagueValueFontFamily} fontWeight={gagueValueFontWeight} x="1048" y="1060" fill="black" fontSize="30px" textAnchor="end" >{valueLavel}</text> : ""}
-        
+      {chartOn && scale==0.4 && chartDataSetting  ? <>
+        <foreignObject id="InnerChart" x="-1080" y="-1290" width="1000" height="50%">
+          <div id="InnerChart">
+          <NormalBar data={chartDataSetting} normalSettings={{width:1000, height:1000}} />
+          </div>
+
+        </foreignObject>
+      </> : ""}
       </svg>
     </div>
   );
 };
 
-export { MapChart };
+export { NormalMap };
