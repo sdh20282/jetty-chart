@@ -25,7 +25,6 @@ const NormalLine = ({
   lineSettings,
   animationSettings,
 }) => {
-
   if (!data || data.length === 0) {
     return;
   }
@@ -124,7 +123,7 @@ const NormalLine = ({
   });
 
   let pathString = ``;
-  let areaPathString = "";
+  let lastPoint = "";
 
   if (enableCurve) {
     pathString = coords.reduce((acc, curr, idx, arr) => {
@@ -136,10 +135,9 @@ const NormalLine = ({
 
       const [cpeX, cpeY] = getControlPoint(arr[idx - 1], curr, arr[idx + 1], { smoothDegree, angleDegree, isEndControlPoint: true });
 
-      // const midX = (arr[idx - 1][0] + curr[0]) / 2;
-
-      // const [cpsX, cpsY] = [midX, arr[idx - 1][1]];
-      // const [cpeX, cpeY] = [midX, curr[1]];
+      if (idx === arr.length - 1) {
+        lastPoint = `C  ${curr[0]} ${curr[1]} ${curr[0]} ${curr[1]} ${curr[0]} ${curr[1]}`;
+      }
 
       return `${acc} C ${cpsX}, ${cpsY}, ${cpeX}, ${cpeY} ${curr[0]}, ${curr[1]}`;
     }, "");
@@ -152,24 +150,28 @@ const NormalLine = ({
       if (!isFirstPoint) tempPath += ` L`;
 
       tempPath += ` ${curr[0]} ${curr[1]}`;
+      if (idx === data.length - 1) lastPoint = `L ${curr[0]} ${curr[1]}`;
       return acc + tempPath;
     }, "");
   }
 
   const zeroHeightFromTop = totalHeight - zeroHeight;
+  const startZeroPoint = horizontal ? `M ${zeroHeight} ${0} L` : `M ${0} ${zeroHeightFromTop} L`;
+  const endZeroPoint = horizontal ? `L ${zeroHeight} ${drawWidth}` : `L ${drawWidth} ${zeroHeightFromTop}`;
+  const areaPathString = startZeroPoint + pathString + endZeroPoint;
 
-  areaPathString = horizontal
-    ? `M${zeroHeight} ${0} L` + pathString + `L ${zeroHeight} ${drawWidth}`
-    : `M${0} ${zeroHeightFromTop} L` + pathString + `L ${drawWidth} ${zeroHeightFromTop}`;
-
-  pathString = "M " + pathString;
-
-  // console.log(pathString);
-
-  const { useAnimation, appearType, appearDuration, appearStartDelay, appearItemDelay, appearTimingFunction,
-      moveDuration,
-      moveStartDelay,
-      moveTimingFunction, } = result.animationSettings.lineSettings;
+  const {
+    useAnimation,
+    renderType,
+    renderDuration,
+    renderStartDelay,
+    renderItemDelay,
+    renderTimingFunction,
+    translateLine,
+    translateDuration,
+    translateStartDelay,
+    translateTimingFunction,
+  } = result.animationSettings.lineSettings;
 
   const prevPath = useRef({});
   const nowPath = useRef({});
@@ -178,30 +180,21 @@ const NormalLine = ({
     prevPath.current = { ...nowPath.current };
     nowPath.current = {};
   }
-  
-  const useSmooth = prevPath.current.d !== undefined;
-  const prevPathString = prevPath.current.d ??= "";
-  const prevAreaString = prevPath.current.area ??= "";
 
-  nowPath.current = { d : pathString, area: areaPathString };
+  const useSmooth = useAnimation && translateLine && prevPath.current.d !== undefined;
+  let prevPathString = (prevPath.current.d ??= "");
 
-
-  useEffect(() => {
-    if (!pathRef.current) {
-      return;
-    }
-
-    const pathElement = pathRef.current;
-    const pathLength = pathElement?.getTotalLength();
-
-    pathElement?.style.setProperty(`--line-length`, `${pathLength}px`);
-    pathElement?.style.setProperty(`--line-offset`, `${pathLength}px`);
-  }, [data]);
+  nowPath.current = {
+    d: pathString,
+    lastPoint,
+    startZeroPoint,
+    endZeroPoint,
+  };
 
   const prevPoints = useRef({});
   const prevPointTemp = useRef({});
 
-    if (useAnimation) {
+  if (useAnimation) {
     prevPoints.current = { ...prevPointTemp.current };
   }
   const pointPosition = [];
@@ -222,13 +215,36 @@ const NormalLine = ({
       y: totalHeight - height - zeroHeight,
       horizontalX: zeroHeight + height,
       horizontalY: positionX,
-      animationDelay: appearStartDelay + (idx * appearItemDelay) / data.length,
+      animationDelay: renderStartDelay + (idx * renderItemDelay) / data.length,
       value: d.value,
     });
   });
 
-  prevPointTemp.current = {...pointPosition};
+  prevPointTemp.current = { ...pointPosition };
   const ms = new Date().valueOf();
+
+  const diffLength = data.length - Object.keys(prevPoints.current).length;
+  if (diffLength > 0) {
+    for (let i = 0; i < diffLength; i++) {
+      prevPathString += prevPath.current.lastPoint;
+    }
+  } else if (diffLength < 0) {
+    for (let i = 0; i < -diffLength; i++) {
+      pathString += lastPoint;
+    }
+  }
+
+  useEffect(() => {
+    if (!pathRef.current) {
+      return;
+    }
+
+    const pathElement = pathRef.current;
+    const pathLength = pathElement?.getTotalLength();
+
+    pathElement?.style.setProperty(`--line-length`, `${pathLength}px`);
+    pathElement?.style.setProperty(`--line-offset`, `${pathLength}px`);
+  }, [data]);
 
   return (
     <LabelValueCommon
@@ -260,25 +276,24 @@ const NormalLine = ({
       legendSettings={result.legendSettings}
       animationSettings={result.animationSettings}
     >
-      <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}
-      className={styles.g}>
+      <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`} className={styles.g}>
         {enableArea && (
           <g key={`area-normal-${ms}`}>
             <defs>
               <mask id={`mask-normal-${ms}`}>
                 <path
-                className={useSmooth ? `${styles.moveLine}` : ""}
+                  className={useSmooth ? `${styles.moveLine}` : ""}
                   d={areaPathString}
                   fill={areaColor}
                   strokeLinejoin={strokeLinejoin}
                   strokeLinecap={strokeLinecap}
-                  fillOpacity={enableArea ? areaOpacity : 0}
+                  // fillOpacity={enableArea ? areaOpacity : 0}
                   style={{
-                    "--prev-path" : `"${prevAreaString}"`,
-                    "--curr-path" : `"${areaPathString}"`,
-                    "--animation-duration": `${useSmooth ? moveDuration : appearDuration}s`,
-                    "--animation-timing-function": useSmooth ? moveTimingFunction : appearTimingFunction,
-                    "--animation-delay": `${useSmooth ? moveStartDelay :appearStartDelay}s`,
+                    "--prev-path": `"${prevPath.current.startZeroPoint + prevPathString + prevPath.current.endZeroPoint}"`,
+                    "--curr-path": `"${startZeroPoint + pathString + endZeroPoint}"`,
+                    "--animation-duration": `${useSmooth ? translateDuration : renderDuration}s`,
+                    "--animation-timing-function": useSmooth ? translateTimingFunction : renderTimingFunction,
+                    "--animation-delay": `${useSmooth ? translateStartDelay : renderStartDelay}s`,
                   }}
                 />
               </mask>
@@ -291,13 +306,15 @@ const NormalLine = ({
               ry={0}
               width={horizontal ? totalHeight : 0}
               height={horizontal ? 0 : totalHeight}
-              className={useSmooth ? styles.moveArea :
-                useAnimation
-                  ? appearType === "draw"
+              className={
+                useSmooth
+                  ? styles.moveArea
+                  : useAnimation
+                  ? renderType === "draw"
                     ? horizontal
                       ? styles.drawAreaHoriziontal
                       : styles.drawArea
-                    : appearType === "fade"
+                    : renderType === "fade"
                     ? styles.fadeArea
                     : ""
                   : ""
@@ -307,9 +324,9 @@ const NormalLine = ({
               style={{
                 "--line-width": `${drawWidth}px`,
                 "--line-heght": `${totalHeight}px`,
-                "--animation-duration": `${appearDuration}s`,
-                "--animation-timing-function": appearTimingFunction,
-                "--animation-delay": `${appearStartDelay}s`,
+                "--animation-duration": `${renderDuration}s`,
+                "--animation-timing-function": renderTimingFunction,
+                "--animation-delay": `${renderStartDelay}s`,
               }}
             />
           </g>
@@ -317,36 +334,75 @@ const NormalLine = ({
         <path
           key={`path-normal=${ms}`}
           ref={pathRef}
-          className={useSmooth ? `${styles.moveLine}` : useAnimation ? (appearType === "draw" ? `${styles.drawLine}` : appearType === "fade" ? styles.fadeLine : "") : ""}
+          className={
+            useSmooth
+              ? `${styles.moveLine}`
+              : useAnimation
+              ? renderType === "draw"
+                ? `${styles.drawLine}`
+                : renderType === "fade"
+                ? styles.fadeLine
+                : ""
+              : ""
+          }
           stroke={lineColor}
-          d={pathString}
+          d={"M " + pathString}
           strokeWidth={lineWidth}
           strokeOpacity={lineOpacity}
           strokeLinejoin={strokeLinejoin}
           strokeLinecap={strokeLinecap}
           fillOpacity={0}
           style={{
-            "--prev-path" : `"${prevPathString}"`,
-            "--curr-path" : `"${pathString}"`,
-            "--animation-duration": `${useSmooth ? moveDuration : appearDuration}s`,
-            "--animation-timing-function": useSmooth ? moveTimingFunction : appearTimingFunction,
-            "--animation-delay": `${useSmooth ? moveStartDelay :appearStartDelay}s`,
+            "--prev-path": `"${"M " + prevPathString}"`,
+            "--curr-path": `"${"M " + pathString}"`,
+            "--animation-duration": `${useSmooth ? translateDuration : renderDuration}s`,
+            "--animation-timing-function": useSmooth ? translateTimingFunction : renderTimingFunction,
+            "--animation-delay": `${useSmooth ? translateStartDelay : renderStartDelay}s`,
           }}
         />
         {pointPosition.map((d, idx) => {
+          let startXoffset = useSmooth
+            ? horizontal
+              ? prevPoints.current[idx]?.horizontalX
+              : prevPoints.current[idx]?.x
+            : horizontal
+            ? d.horizontalX
+            : d.x;
+          let startYoffset = useSmooth
+            ? horizontal
+              ? prevPoints.current[idx]?.horizontalY
+              : prevPoints.current[idx]?.y
+            : horizontal
+            ? d.horizontalY
+            : d.y;
+          if (useAnimation) {
+            let lastPos = prevPoints.current[Object.keys(prevPoints.current).length - 1];
+            startXoffset ??= horizontal ? lastPos.horizontalX : lastPos.x;
+            startYoffset ??= horizontal ? lastPos.horizontalY : lastPos.y;
+          }
           return (
             <g
               key={"point-normal-" + ms + idx}
-              className={useSmooth ? styles.movePoint : useAnimation ? (appearType === "draw" ? styles.drawPoint : appearType === "fade" ? styles.fadeLine : "") : ""}
+              className={
+                useSmooth
+                  ? styles.movePoint
+                  : useAnimation
+                  ? renderType === "draw"
+                    ? styles.drawPoint
+                    : renderType === "fade"
+                    ? styles.fadeLine
+                    : ""
+                  : ""
+              }
               transform={horizontal ? `translate(${d.horizontalX},${d.x + padding})` : `translate(${d.horizontalY + padding},${d.y})`}
               style={{
                 "--pos-x": `${horizontal ? d.horizontalX : d.x}px`,
                 "--pos-y": `${horizontal ? d.horizontalY : d.y}px`,
-                "--start-x-offset": `${useSmooth ? (horizontal ? prevPoints.current[idx].horizontalX : prevPoints.current[idx].x) : horizontal ? d.horizontalX - 10 : d.x}px`,
-                "--start-y-offset": `${useSmooth ? horizontal ? prevPoints.current[idx].horizontalY : prevPoints.current[idx].y : horizontal ? d.horizontalY : d.y - 10}px`,
-            "--animation-duration": `${useSmooth ? moveDuration : appearDuration}s`,
-            "--animation-timing-function": useSmooth ? moveTimingFunction : appearTimingFunction,
-            "--animation-delay": `${useSmooth ? moveStartDelay :appearStartDelay}s`,
+                "--start-x-offset": `${startXoffset}px`,
+                "--start-y-offset": `${startYoffset}px`,
+                "--animation-duration": `${useSmooth ? translateDuration : renderDuration * 0.1}s`,
+                "--animation-timing-function": useSmooth ? translateTimingFunction : renderTimingFunction,
+                "--animation-delay": `${useSmooth ? translateStartDelay : ((renderDuration * 0.9) / (data.length - 1)) * idx}s`,
               }}
             >
               {enablePoint && <circle cx={0} cy={0} r={pointSize} fill={pointColor} stroke={pointBorderColor} strokeWidth={pointBorderWidth} />}
