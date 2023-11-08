@@ -1,10 +1,10 @@
-import getPiePiece from "../getPiePiece";
+import getPiePiece from "../utils/getPiePiece";
 import PiePiece from "./PiePiece";
-import { getDivideRatio } from "../utils/getDivideRatio";
+import { divideRatio } from "../utils/getDivideRatio";
 import { PieDebugMode } from "../testFile/PieDebugMode";
 
 const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
-  data = getDivideRatio({ data });
+  data = divideRatio({ data });
   data = [{ ratio: 0.7 }, { ratio: 0.3 }];
 
   const pieceData = getPiePiece({
@@ -46,8 +46,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
           tangentLineCoordinate2={piece.tangentLineCoordinate2}
           tangentLineCoordinate3={piece.tangentLineCoordinate3}
           tangentLineCoordinate4={piece.tangentLineCoordinate4}
-          isLargeArcOuter={piece.isLargeArcOuter}
-          isLargeArcInner={piece.isLargeArcInner}
+          isLargeArcGroup={piece.isLargeArcGroup}
           color={pieSettings.color[index]}
           ratio={piece.ratio}
           value={piece.value}
@@ -77,7 +76,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
           tangentCircleCoordinate2={piece.tangentCircleCoordinate2}
           tangentCircleCoordinate3={piece.tangentCircleCoordinate3}
           tangentCircleCoordinate4={piece.tangentCircleCoordinate4}
-          referenceCoordinates={piece.referenceCoordinates}
+          referenceCoordinate={piece.referenceCoordinate}
           key={index}
         />
       ))}

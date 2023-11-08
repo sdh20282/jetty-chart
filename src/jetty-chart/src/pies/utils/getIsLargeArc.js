@@ -11,11 +11,29 @@ const calcTwoLineRatio = ({ x1, y1, x2, y2 }) => {
   const angleDegrees = angleRadians * (180 / Math.PI);
   const minusRatio = (angleDegrees / 360) * 2;
 
-  console.log(minusRatio);
   return minusRatio;
 };
 
-export const getIsLargeArc = ({ ratio, x1, y1, x2, y2 }) => {
-  console.log(ratio);
+const getIsLargeArc = ({ ratio, x1, y1, x2, y2 }) => {
   return ratio - calcTwoLineRatio({ x1, y1, x2, y2 }) > 0.5 ? 1 : 0;
+};
+
+export const getIsLargeArcGroup = ({ ratio, vertex, calcVertex }) => {
+  const inner = getIsLargeArc({
+    ratio,
+    x1: vertex.pos3.x,
+    y1: vertex.pos3.y,
+    x2: calcVertex[2].x,
+    y2: calcVertex[2].y,
+  });
+
+  const outer = getIsLargeArc({
+    ratio,
+    x1: vertex.pos1.x,
+    y1: vertex.pos1.y,
+    x2: calcVertex[0].x,
+    y2: calcVertex[0].y,
+  });
+
+  return { inner, outer };
 };

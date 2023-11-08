@@ -19,7 +19,7 @@ export const PieDebugMode = ({
   tangentCircleCoordinate2,
   tangentCircleCoordinate3,
   tangentCircleCoordinate4,
-  referenceCoordinates,
+  referenceCoordinate,
 }) => {
   const pointSize = 0.02;
   return (
@@ -64,28 +64,28 @@ export const PieDebugMode = ({
         <circle
           cx={cornerCoordinate1.x}
           cy={cornerCoordinate1.y}
-          r={cornerInnerRadius}
+          r={cornerOuterRadius}
           fill={"red"}
           opacity={0.3}
         />
         <circle
           cx={cornerCoordinate2.x}
           cy={cornerCoordinate2.y}
-          r={cornerInnerRadius}
+          r={cornerOuterRadius}
           fill={"blue"}
           opacity={0.3}
         />
         <circle
           cx={cornerCoordinate3.x}
           cy={cornerCoordinate3.y}
-          r={cornerOuterRadius}
+          r={cornerInnerRadius}
           fill={"brown"}
           opacity={0.5}
         />
         <circle
           cx={cornerCoordinate4.x}
           cy={cornerCoordinate4.y}
-          r={cornerOuterRadius}
+          r={cornerInnerRadius}
           fill={"brown"}
           opacity={0.5}
         />
@@ -109,8 +109,8 @@ export const PieDebugMode = ({
           opacity={0.8}
         />
         <circle
-          cx={referenceCoordinates.x}
-          cy={referenceCoordinates.y}
+          cx={referenceCoordinate.x}
+          cy={referenceCoordinate.y}
           r="0.03"
           fill="purple"
           opacity={0.5}

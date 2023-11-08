@@ -1,4 +1,4 @@
-import { getCoordinatesForRatio } from "../utils/getCoordinates";
+import { getCoordinateRatio } from "../utils/getCoordinate";
 
 const exceptionCornerRadiusWidth = ({
   r,
@@ -10,13 +10,12 @@ const exceptionCornerRadiusWidth = ({
   plusAngle,
   minus,
 }) => {
-  const calcPos = getCoordinatesForRatio({
+  const calcPos = getCoordinateRatio({
     ratio: ratio / 2,
     startAngle: (startAngle + plusAngle) % 360,
     radius: pieRadius,
   });
   const m = calcPos.y / calcPos.x;
-
   const alpha = ((x ** 2 + y ** 2) * (1 + m ** 2)) / (y - x * m) ** 2;
   const result =
     (minus * 2 * r + Math.sqrt(4 * r ** 2 + 4 * (alpha - 1) * r ** 2)) / (2 * alpha - 2);

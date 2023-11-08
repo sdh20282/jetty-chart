@@ -30,39 +30,36 @@ const calcOuterTangentCircle = ({ r1, x2, y2, r2 }) => {
   return { x: tx, y: ty };
 };
 
-export const getTangentCircleCoordinatesGroup = ({
+export const getTangentCircleGroup = ({
   pieRadius,
   innerRadius,
   cornerInnerRadius,
   cornerOuterRadius,
-  cornerCoordinate1,
-  cornerCoordinate2,
-  cornerCoordinate3,
-  cornerCoordinate4,
+  cornerCircleGroup,
 }) => {
   const tangentCircleGroup = [];
   tangentCircleGroup[0] = calcOuterTangentCircle({
     r1: pieRadius,
-    x2: cornerCoordinate1.x,
-    y2: cornerCoordinate1.y,
+    x2: cornerCircleGroup[0].x,
+    y2: cornerCircleGroup[0].y,
     r2: cornerOuterRadius,
   });
   tangentCircleGroup[1] = calcOuterTangentCircle({
     r1: pieRadius,
-    x2: cornerCoordinate2.x,
-    y2: cornerCoordinate2.y,
+    x2: cornerCircleGroup[1].x,
+    y2: cornerCircleGroup[1].y,
     r2: cornerOuterRadius,
   });
   tangentCircleGroup[2] = calcInnerTangentCircle({
     r1: innerRadius,
-    x2: cornerCoordinate3.x,
-    y2: cornerCoordinate3.y,
+    x2: cornerCircleGroup[2].x,
+    y2: cornerCircleGroup[2].y,
     r2: cornerInnerRadius,
   });
   tangentCircleGroup[3] = calcInnerTangentCircle({
     r1: innerRadius,
-    x2: cornerCoordinate4.x,
-    y2: cornerCoordinate4.y,
+    x2: cornerCircleGroup[3].x,
+    y2: cornerCircleGroup[3].y,
     r2: cornerInnerRadius,
   });
 

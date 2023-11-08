@@ -1,8 +1,5 @@
-const getOuterTangentLine = ({ angle, pieRadius, cornerRadius }) => {
-  const r1 = pieRadius;
-  const r2 = cornerRadius;
-
-  const len = Math.sqrt((r1 - r2) ** 2 - r2 ** 2);
+const getTangentLine = ({ r1, r2, angle }) => {
+  const len = Math.sqrt(r2 ** 2 - r1 ** 2);
   const tx = Math.cos(angle * (Math.PI / 180)) * len;
   const ty = Math.sin(angle * (Math.PI / 180)) * len;
 
@@ -12,21 +9,7 @@ const getOuterTangentLine = ({ angle, pieRadius, cornerRadius }) => {
   };
 };
 
-const getInnerTangentLine = ({ angle, pieRadius, innerRadius, cornerRadius }) => {
-  const r1 = innerRadius;
-  const r2 = cornerRadius;
-
-  const len = Math.sqrt((r1 + r2) ** 2 - r2 ** 2);
-  const tx = Math.cos(angle * (Math.PI / 180)) * len;
-  const ty = Math.sin(angle * (Math.PI / 180)) * len;
-
-  return {
-    x: tx,
-    y: ty,
-  };
-};
-
-export const getTangentLineCoordinatesGroup = ({
+export const getTangentLineGroup = ({
   pieRadius,
   innerRadius,
   cornerInnerRadius,
@@ -34,32 +17,28 @@ export const getTangentLineCoordinatesGroup = ({
   ratio,
   accumulatedAngle,
 }) => {
-  const tangetnLineGroup = [];
+  const tangentLineGroup = [];
 
-  tangetnLineGroup[0] = getInnerTangentLine({
-    pieRadius,
-    innerRadius,
-    cornerRadius: cornerInnerRadius,
+  tangentLineGroup[0] = getTangentLine({
+    r1: cornerInnerRadius,
+    r2: innerRadius + cornerInnerRadius,
     angle: (accumulatedAngle + ratio * 360) % 360,
   });
-  tangetnLineGroup[1] = getInnerTangentLine({
-    pieRadius,
-    innerRadius,
-    cornerRadius: cornerInnerRadius,
+  tangentLineGroup[1] = getTangentLine({
+    r1: cornerInnerRadius,
+    r2: innerRadius + cornerInnerRadius,
     angle: accumulatedAngle % 360,
   });
-  tangetnLineGroup[2] = getOuterTangentLine({
-    pieRadius,
-    innerRadius,
-    cornerRadius: cornerOuterRadius,
+  tangentLineGroup[2] = getTangentLine({
+    r1: cornerOuterRadius,
+    r2: pieRadius - cornerInnerRadius,
     angle: (accumulatedAngle + ratio * 360) % 360,
   });
-  tangetnLineGroup[3] = getOuterTangentLine({
-    pieRadius,
-    innerRadius,
-    cornerRadius: cornerOuterRadius,
+  tangentLineGroup[3] = getTangentLine({
+    r1: cornerOuterRadius,
+    r2: pieRadius - cornerInnerRadius,
     angle: accumulatedAngle % 360,
   });
 
-  return tangetnLineGroup;
+  return tangentLineGroup;
 };
