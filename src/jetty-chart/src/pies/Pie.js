@@ -9,8 +9,8 @@ import {
   DEFAULT_HEIGHT,
   DEFAULT_INNER_RADIUS,
   DEFAULT_PADDING,
+  DEFAULT_PAD_ANGLE,
   DEFAULT_PAD_SIZE,
-  DEFAULT_PAD_SPACE,
   DEFAULT_PIE_RADIUS,
   DEFAULT_START_ANGLE,
   DEFAULT_WIDTH,
@@ -35,8 +35,7 @@ const Pie = ({
     innerRadius: DEFAULT_INNER_RADIUS, // 내부원 크기, default 0
     cornerRadius: DEFAULT_CORNER_RADIUS, // 조각 둥글기, default 0
     startAngle: DEFAULT_START_ANGLE, // 시작 위치 각도, default 0
-    padSize: DEFAULT_PAD_SIZE, // 조각 크기, default 100
-    padSpace: DEFAULT_PAD_SPACE, // 조각 여백 default 0
+    padAngle: DEFAULT_PAD_ANGLE, // 조각 크기, default 100
   },
 }) => {
   // 테스트용

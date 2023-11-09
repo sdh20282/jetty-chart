@@ -13,9 +13,10 @@ import { getCornerRadius } from "./getCornerRadius";
 const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle }) => {
   let accumulatedAngle = startAngle % 360;
   const pieceData = data.map(({ value, ratio, label }) => {
+    console.log("getPiePiece", value, ratio, label, accumulatedAngle);
     const vertexGroup = getCoordinateVertexGroup({
       ratio,
-      startAngle: accumulatedAngle % 360,
+      startAngle: accumulatedAngle,
       pieRadius,
       innerRadius,
     });
@@ -28,6 +29,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       startAngle,
       accumulatedAngle,
     });
+    console.log("cornerRadius", cornerInnerRadius, cornerOuterRadius);
     const tangentLineGroup = getCoordinateTangentLineGroup({
       pieRadius,
       innerRadius,
@@ -36,6 +38,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       ratio,
       accumulatedAngle,
     });
+    console.log("tangetLineGroup", tangentLineGroup);
     const candidatesGroup = getCoordinateCornerCircleCandidateGroup({
       pieRadius,
       innerRadius,
@@ -66,10 +69,8 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
     const isLargeArcGroup = getIsLargeArcGroup({ ratio, vertexGroup, calcVertexGroup });
 
     accumulatedAngle += ratio * 360;
-    // const isLargeArcFlag = ratio > 0.5 ? "1" : "0";
-    // const targetRad = 2 * Math.PI * ratio * (1 - pieSettings.padSpace / 100);
-    // const targetSpace = (2 * Math.PI * ratio * pieSettings.padSpace) / 100 / 2;
-    // const targetRestRad = 2 * Math.PI * (1 - ratio);
+    accumulatedAngle %= 360;
+
     return {
       pieRadius,
       cornerInnerRadius,

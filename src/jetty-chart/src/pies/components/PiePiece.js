@@ -1,19 +1,5 @@
 // 파이 조각을 그리는 컴포넌트
 const PiePiece = ({
-  data,
-  startX,
-  startY,
-  startRoundPos,
-  endRoundPos,
-  startInnerPos,
-  endInnerPos,
-  endX,
-  endY,
-  pieSettings,
-  targetRad,
-  targetSpace,
-  targetRestRad,
-
   ratio,
   value,
   label,

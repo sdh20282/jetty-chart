@@ -6,8 +6,9 @@ import { PieDebugMode } from "../testFile/PieDebugMode";
 import { setExceptionValue } from "../utils/setExceptionValue";
 
 const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
-  data = divideRatio({ data });
-  data = [{ ratio: 0.2 }, { ratio: 0.3 }, { ratio: 0.1 }, { ratio: 0.15 }, { ratio: 0.25 }];
+  data = divideRatio({ data, padAngle: pieSettings.padAngle, startAngle: pieSettings.startAngle });
+  // data = [{ ratio: 0.2 }, { ratio: 0.3 }, { ratio: 0.1 }, { ratio: 0.15 }, { ratio: 0.25 }];
+  // data = [{ ratio: 0.666 }, { ratio: 0.134 }, { ratio: 0.2 }];
 
   setExceptionValue({ pieSettings });
 
@@ -17,6 +18,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
     innerRadius: pieSettings.innerRadius,
     cornerRadius: pieSettings.cornerRadius,
     startAngle: pieSettings.startAngle,
+    padAngle: pieSettings.padAngle,
   });
 
   return (

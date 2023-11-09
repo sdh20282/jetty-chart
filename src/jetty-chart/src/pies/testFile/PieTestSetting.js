@@ -14,8 +14,7 @@ const PieTestSetting = ({
   const [padding, setPadding] = useState(generalSettings.padding);
   const [color, setColor] = useState(pieSettings.color);
   const [startAngle, setStartAngle] = useState(pieSettings.startAngle);
-  const [padSize, setPadSize] = useState(pieSettings.padSize);
-  const [padSpace, setPadSpace] = useState(pieSettings.padSpace);
+  const [padAngle, setPadAngle] = useState(pieSettings.padAngle);
   const [pieRadius, setPieRadius] = useState(pieSettings.pieRadius);
   const [innerRadius, setInnerRadius] = useState(pieSettings.innerRadius);
   const [cornerRadius, setCornerRadius] = useState(pieSettings.cornerRadius);
@@ -31,8 +30,7 @@ const PieTestSetting = ({
     changeNewPieSettings({
       color,
       startAngle,
-      padSize,
-      padSpace,
+      padAngle,
       pieRadius,
       innerRadius,
       cornerRadius,
@@ -100,19 +98,12 @@ const PieTestSetting = ({
             value={startAngle}
             onChange={(e) => setStartAngle(e.target.value)}
           />
-          <label>padSize</label>
+          <label>padAngle</label>
           <input
             size={5}
             style={{ margin: "10px" }}
-            value={padSize}
-            onChange={(e) => setPadSize(e.target.value)}
-          />
-          <label>padSpace</label>
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={padSpace}
-            onChange={(e) => setPadSpace(e.target.value)}
+            value={padAngle}
+            onChange={(e) => setPadAngle(e.target.value)}
           />
           <br />
           <label>pieRadius</label>
