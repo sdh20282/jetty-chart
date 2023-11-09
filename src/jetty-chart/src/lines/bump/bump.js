@@ -31,7 +31,7 @@ const BumpChart = ({
   // 왼쪽에 랭킹 숫자 전부 표시
   // 라벨 붙이지 말고 선 연장해서 선 끝에 표시
 
-  console.log(dataSet);
+  // console.log(dataSet);
 
   const result = checkNormalBump({
     normalSettings,
@@ -76,19 +76,19 @@ const BumpChart = ({
     angleDegree,
     strokeLinejoin,
     strokeLinecap,
-    xPadding,
+    // xPadding,
     xOuterPadding,
-    yOuterPadding,
-    activeLineWidth,
-    inactiveLineWidth,
-    activeOpacity,
-    inactiveOpacity,
-    startLabel,
+    // yOuterPadding,
+    // activeLineWidth,
+    // inactiveLineWidth,
+    // activeOpacity,
+    // inactiveOpacity,
+    // startLabel,
   } = result.lineSettings;
 
   const colorPalette = [...result.normalSettings.colorPalette];
 
-  console.log(xPadding, xOuterPadding, yOuterPadding, activeLineWidth, inactiveLineWidth, activeOpacity, inactiveOpacity, startLabel);
+  // console.log(xPadding, xOuterPadding, yOuterPadding, activeLineWidth, inactiveLineWidth, activeOpacity, inactiveOpacity, startLabel);
 
   let combinedData = [];
   const idArray = [];
@@ -127,7 +127,7 @@ const BumpChart = ({
   //     return acc;
   //   }, 0) * lineHeight;
 
-  console.log(zeroHeight);
+  // console.log(zeroHeight);
 
   const zeroHeightFromTop = totalHeight - zeroHeight;
 
@@ -164,7 +164,7 @@ const BumpChart = ({
         const isFirstPoint = idx === 0;
 
         if (isFirstPoint) return acc + `${curr[0] - xOuterPadding},${curr[1]} L ${curr[0]},${curr[1]}`;
-        console.log(getControlPoint.length, smoothDegree, angleDegree);
+        // console.log(getControlPoint.length, smoothDegree, angleDegree);
 
         // const [cpsX, cpsY] = getControlPoint(arr[idx - 2], arr[idx - 1], curr, { smoothDegree, angleDegree, isEndControlPoint: false });
         // const [cpeX, cpeY] = getControlPoint(arr[idx - 1], curr, arr[idx + 1], { smoothDegree, angleDegree, isEndControlPoint: true });
