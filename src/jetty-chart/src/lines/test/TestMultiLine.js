@@ -1,4 +1,3 @@
-import React from "react";
 import { MultiLine } from "../multi-line/multi-line";
 
 function TestMultiLine({ dataSet }) {
@@ -261,7 +260,7 @@ function TestMultiLine({ dataSet }) {
           pointSize: 0,
           pointBorderColor: "#fff",
           pointBorderWidth: 4,
-          enablePointLabel: true,
+          enablePointLabel: false,
           showLabelOnHover: false,
           pointLabelColor: "#000",
           pointLabelSize: 12,
@@ -319,14 +318,14 @@ function TestMultiLine({ dataSet }) {
           pointSize: 1,
           pointBorderColor: "#fff",
           pointBorderWidth: 4,
-          enablePointLabel: true,
-          showLabelOnHover: true,
+          enablePointLabel: false,
+          showLabelOnHover: false,
           pointLabelColor: "#000",
           pointLabelSize: 12,
           pointLabelOffsetX: 0,
           pointLabelOffsetY: -5,
           pointLabelWeight: 500,
-          enableArea: false,
+          enableArea: true,
           areaColor: null,
           areaOpacity: 0.5,
           enableCurve: true,

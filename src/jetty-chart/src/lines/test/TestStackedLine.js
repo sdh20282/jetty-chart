@@ -1,4 +1,3 @@
-import React from "react";
 import { StackedLine } from "../stacked-line/stacked-line";
 
 function TestStackedLine({ dataSet }) {
@@ -261,7 +260,7 @@ function TestStackedLine({ dataSet }) {
           pointSize: 0,
           pointBorderColor: "#fff",
           pointBorderWidth: 4,
-          enablePointLabel: true,
+          enablePointLabel: false,
           showLabelOnHover: false,
           pointLabelColor: "#000",
           pointLabelSize: 12,
@@ -319,8 +318,8 @@ function TestStackedLine({ dataSet }) {
           pointSize: 1,
           pointBorderColor: "#fff",
           pointBorderWidth: 4,
-          enablePointLabel: true,
-          showLabelOnHover: true,
+          enablePointLabel: false,
+          showLabelOnHover: false,
           pointLabelColor: "#000",
           pointLabelSize: 12,
           pointLabelOffsetX: 0,
