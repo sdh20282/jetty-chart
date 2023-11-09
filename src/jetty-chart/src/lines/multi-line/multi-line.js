@@ -509,7 +509,7 @@ const MultiLine = ({
       {enablePointLabel &&
         Array.apply(null, Array(dataLength)).map((temp, idx) => {
           return (
-            <g key={`debug-${idx}`} style={{ opacity: showLabelOnHover ? 0 : 1 , transition: `all 0.3s ease`}}>
+            <g key={`debug-${idx}`} style={{ opacity: showLabelOnHover ? 0 : 1, transition: `all 0.3s ease` }}>
               {Array.apply(null, Array(dataSet.length)).map((d, index) => {
                 d = pointPosition[`${idx}-${index}`];
                 return (

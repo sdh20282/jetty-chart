@@ -115,7 +115,7 @@
   0% {
     height: 0px;
   }
-  
+
   100% {
     height: var(--line-heght);
     opacity: 1;
