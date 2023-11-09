@@ -300,7 +300,8 @@ const normalLineSetting = {
     pointSettings: {
       usePointAnimation: true,
       pointRenderType: "draw",
-      pointRenderDuration: 1,
+      pointRenderDuration: 0.5,
+      pointLineRenderDuration: 1,
       pointRenderStartDelay: 0,
       pointRenderItemDelay: 0,
       pointRenderTimingFunction: "ease",

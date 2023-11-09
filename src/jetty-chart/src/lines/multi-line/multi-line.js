@@ -198,8 +198,15 @@ const MultiLine = ({
   const { useLineAnimation, lineRenderType, lineRenderDuration, lineRenderStartDelay, lineRenderItemDelay, lineRenderTimingFunction } =
     result.animationSettings.lineSettings;
 
-  const { usePointAnimation, pointRenderType, pointRenderDuration, pointRenderStartDelay, pointRenderItemDelay, pointRenderTimingFunction } =
-    result.animationSettings.pointSettings;
+  const {
+    usePointAnimation,
+    pointRenderType,
+    pointRenderDuration,
+    pointLineRenderDuration,
+    pointRenderStartDelay,
+    pointRenderItemDelay,
+    pointRenderTimingFunction,
+  } = result.animationSettings.pointSettings;
 
   const { useAreaAnimation, areaRenderType, areaRenderDuration, areaRenderStartDelay, areaRenderItemDelay, areaRenderTimingFunction } =
     result.animationSettings.areaSettings;
@@ -223,6 +230,7 @@ const MultiLine = ({
   const useSmooth = useAnimation && translateLine && prevPath.current.dataLength != undefined;
   nowPath.current = {
     dataLength,
+    dataSetLength : dataSet.length,
     linePathArray,
     lastPoints,
     startZeroPoints,
@@ -258,8 +266,7 @@ const MultiLine = ({
         animationDelay:
           pointRenderStartDelay +
           (renderReverse ? dataSetLastIdx - index : index) * pointRenderItemDelay +
-          (idx * pointRenderItemDelay) / dataLength +
-          index * lineRenderItemDelay,
+          (idx * pointLineRenderDuration) / dataLength,
         value: d.value,
       };
 
@@ -292,6 +299,8 @@ const MultiLine = ({
   let areaPathArray = linePathArray.map((pathString, idx) => {
     return startZeroPoints[idx] + pathString + endZeroPoints[idx];
   });
+
+  nowPath.current["areaPathArray"] = areaPathArray;
 
   useEffect(() => {
     pathRefs.current?.forEach((pathElement) => {
@@ -333,7 +342,7 @@ const MultiLine = ({
       <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
         {enableArea &&
           areaPathArray.map((d, idx) => {
-            const useMove = useSmooth && prevPath.current.startZeroPoints.length > idx;
+            const useMove = useSmooth && prevPath.current.dataSetLength > idx;
 
             return (
               <g key={`area-multi-${ms}-${idx}`}>
@@ -346,18 +355,14 @@ const MultiLine = ({
                       strokeLinejoin={strokeLinejoin}
                       strokeLinecap={strokeLinecap}
                       style={{
-                        "--prev-path": `"${
-                          useMove
-                            ? prevPath.current.startZeroPoints[idx] + prevPath.current.linePathArray[idx] + prevPath.current.endZeroPoints[idx]
-                            : ""
-                        }"`,
+                        "--prev-path": `"${useMove ? prevPath.current.areaPathArray[idx] : ""}"`,
                         "--curr-path": `"${d}"`,
                         "--animation-duration": `${useMove ? translateDuration : areaRenderDuration}s`,
                         "--animation-timing-function": useMove ? translateTimingFunction : areaRenderTimingFunction,
                         "--animation-delay": `${
                           useMove
                             ? translateStartDelay + (translateReverse ? dataSetLastIdx - idx : idx) * translateItemDelay
-                            : areaRenderStartDelay + idx * areaRenderItemDelay + idx * lineRenderItemDelay
+                            : areaRenderStartDelay + (renderReverse ? dataSetLastIdx - idx : idx) * areaRenderItemDelay
                         }s`,
                       }}
                     />
@@ -391,11 +396,7 @@ const MultiLine = ({
                     "--line-heght": `${totalHeight}px`,
                     "--animation-duration": `${areaRenderDuration}s`,
                     "--animation-timing-function": areaRenderTimingFunction,
-                    "--animation-delay": `${
-                      renderReverse
-                        ? areaRenderStartDelay + (dataSetLastIdx - idx) * areaRenderItemDelay
-                        : areaRenderStartDelay + idx * areaRenderItemDelay + idx * lineRenderItemDelay
-                    }s`,
+                    "--animation-delay": `${areaRenderStartDelay + (renderReverse ? dataSetLastIdx - idx : idx) * areaRenderItemDelay}s`,
                   }}
                 />
               </g>
@@ -487,22 +488,13 @@ const MultiLine = ({
               "--start-x-offset": `${useMove ? startXoffset : horizontal ? d.horizontalX : d.x}px`,
               "--start-y-offset": `${useMove ? startYoffset : horizontal ? d.horizontalY : d.y}px`,
               "--animation-duration": `${useMove ? translateDuration : pointRenderDuration}s`,
-              "--animation-timing-function": useSmooth ? translateTimingFunction : pointRenderTimingFunction,
+              "--animation-timing-function": useMove ? translateTimingFunction : pointRenderTimingFunction,
               "--animation-delay": `${
                 useMove ? translateStartDelay + (translateReverse ? dataSetLastIdx - index : index) * translateItemDelay : d.animationDelay
               }s`,
             }}
           >
-            {enablePoint && (
-              <circle
-                cx={0}
-                cy={0}
-                r={pointSize}
-                fill={lineColors[index % colorPalette.length]}
-                stroke={pointBorderColor}
-                strokeWidth={pointBorderWidth}
-              />
-            )}
+            {enablePoint && <circle cx={0} cy={0} r={pointSize} fill={lineColors[index]} stroke={pointBorderColor} strokeWidth={pointBorderWidth} />}
           </g>
         );
       })}
