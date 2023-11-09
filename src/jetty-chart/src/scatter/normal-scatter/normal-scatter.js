@@ -20,7 +20,7 @@ function CircleWithTooltip({
   xLegend,
   yLegend,
   groupIdx,
-  renderTime
+  renderTime,
 }) {
   const [showTooltip, setShowTooltip] = useState(false);
   const [opacity, setOpacity] = useState(0);
@@ -55,10 +55,10 @@ function CircleWithTooltip({
     position: "absolute",
     top: `${yPos}px`,
     left: `${xPos}px`,
-    zIndex: "9999"
+    zIndex: "9999",
   };
   const pointStyle = {
-    opacity
+    opacity,
   };
 
   return (
@@ -91,7 +91,7 @@ const NormalScatter = ({
   bottomLabelSettings,
   topLabelSettings,
   pointSettings,
-  animationSettings
+  animationSettings,
 }) => {
   const result = checkNormalPoint({
     normalSettings,
@@ -108,7 +108,7 @@ const NormalScatter = ({
     bottomLabelSettings,
     topLabelSettings,
     pointSettings,
-    animationSettings
+    animationSettings,
   });
 
   const { width, height, margin, padding, xReverse, yReverse, colorPalette } = result.normalSettings;
@@ -153,7 +153,7 @@ const NormalScatter = ({
         totalWidth,
         totalHeight,
         xAxisWidth: AreaWidth,
-        yAxisHeight: lineHeight
+        yAxisHeight: lineHeight,
       }}
       axisXGridLineSettings={result.axisXGridLineSettings}
       axisYGridLineSettings={result.axisYGridLineSettings}

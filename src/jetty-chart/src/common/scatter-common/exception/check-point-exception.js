@@ -12,7 +12,7 @@ const normalPointSetting = {
     padding: 0,
     xReverse: false,
     yReverse: false,
-    showTopScope: true
+    showTopScope: true,
   },
   // 범위 세팅
   scopeSettings: {
@@ -21,7 +21,7 @@ const normalPointSetting = {
     xMaxScope: 100,
     xMinScope: 0,
     yMaxScope: 100,
-    yMinScope: 0
+    yMinScope: 0,
   },
   // y축 라인 세팅
   axisYGridLineSettings: {
@@ -32,7 +32,7 @@ const normalPointSetting = {
     lineDash: false,
     lineDashWidth: 5,
     lineDashGap: 3,
-    lineRound: false
+    lineRound: false,
   },
   // x축 라인 세팅
   axisXGridLineSettings: {
@@ -44,7 +44,7 @@ const normalPointSetting = {
     lineDashWidth: 5,
     lineDashGap: 3,
     lineRound: false,
-    showEndLine: false
+    showEndLine: false,
   },
   // 왼쪽 라벨 세팅
   leftLabelSettings: {
@@ -61,7 +61,7 @@ const normalPointSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2
+    sideLineWidth: 2,
   },
   // 오른쪽 라벨 세팅
   rightLabelSettings: {
@@ -78,7 +78,7 @@ const normalPointSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2
+    sideLineWidth: 2,
   },
   // 아래쪽 라벨 세팅
   bottomLabelSettings: {
@@ -95,7 +95,7 @@ const normalPointSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2
+    sideLineWidth: 2,
   },
   // 위쪽 라벨 세팅
   topLabelSettings: {
@@ -112,7 +112,7 @@ const normalPointSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2
+    sideLineWidth: 2,
   },
   // 왼쪽 설명 세팅
   leftLegendSettings: {
@@ -124,7 +124,7 @@ const normalPointSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0
+    legendMove: 0,
   },
   // 오른쪽 설명 세팅
   rightLegendSettings: {
@@ -136,7 +136,7 @@ const normalPointSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0
+    legendMove: 0,
   },
   // 아래쪽 설명 세팅
   bottomLegendSettings: {
@@ -148,7 +148,7 @@ const normalPointSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0
+    legendMove: 0,
   },
   // 위쪽 설명 세팅
   topLegendSettings: {
@@ -160,7 +160,7 @@ const normalPointSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0
+    legendMove: 0,
   },
   // 설명 세팅
   legendSettings: {
@@ -179,7 +179,7 @@ const normalPointSetting = {
     legendWeight: 400,
     legendOpacity: 1,
     legendColor: "#aaa",
-    legendOnStart: true
+    legendOnStart: true,
   },
   // 포인트 세팅
   pointSettings: {
@@ -187,7 +187,7 @@ const normalPointSetting = {
     tooltipOn: true,
     xName: "",
     yName: "",
-    pointRenderTime: 0.1
+    pointRenderTime: 0.1,
   },
   // 애니메이션 세팅
   animationSettings: {
@@ -203,7 +203,7 @@ const normalPointSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease"
+      translateTimingFunction: "ease",
     },
     axisXGridLineSettings: {
       useAnimation: true,
@@ -217,7 +217,7 @@ const normalPointSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease"
+      translateTimingFunction: "ease",
     },
     axisYLabelSettings: {
       useAnimation: true,
@@ -231,7 +231,7 @@ const normalPointSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease"
+      translateTimingFunction: "ease",
     },
     axisXLabelSettings: {
       useAnimation: true,
@@ -245,9 +245,9 @@ const normalPointSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease"
-    }
-  }
+      translateTimingFunction: "ease",
+    },
+  },
 };
 
 export const checkNormalPoint = ({
@@ -260,7 +260,7 @@ export const checkNormalPoint = ({
   bottomLabelSettings,
   topLabelSettings,
   pointSettings,
-  animationSettings
+  animationSettings,
 }) => {
   const result = {
     normalSettings,
@@ -272,7 +272,7 @@ export const checkNormalPoint = ({
     bottomLabelSettings,
     topLabelSettings,
     pointSettings,
-    animationSettings
+    animationSettings,
   };
 
   Object.keys(normalPointSetting).forEach((setting) => {
@@ -303,7 +303,7 @@ export const checkNormalPoint = ({
     width: result.normalSettings.width,
     height: result.normalSettings.height,
     margin: result.normalSettings.margin,
-    padding: result.normalSettings.padding
+    padding: result.normalSettings.padding,
   });
 
   result.normalSettings.width = checkedSize.width;
