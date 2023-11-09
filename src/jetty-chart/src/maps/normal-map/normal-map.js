@@ -31,6 +31,7 @@ const NormalMap = ({
     marginLeft,
     marginRight,
     useChart,
+    innerChartText,
   } = result.normalSetting;
   
   const {
@@ -225,7 +226,7 @@ const NormalMap = ({
   const [targetColor,setTargetColor] =useState("");
   const [chartOn,setChartOn] = useState(false);
   const [chartDataSetting,setChartDataSetting] = useState();
-
+  const [innerChartId,setInnerChartId]  = useState("");
 
   let ToolW = tooltipWidth/scale;
   let ToolH = 1064/scale;
@@ -495,6 +496,16 @@ const NormalMap = ({
         
         if(e.target.id != "BigSvg"){
 
+          console.log(chartValue)
+          if(chartValue.length > 0 ){
+            let chartDataValue = chartValue[0].chartData
+            setChartDataSetting(chartDataValue)
+            setInnerChartId(chartValue[0].id)
+          }
+          if(chartValue == []){
+            return
+          }
+          
           setChartOn(true)
           onZoom = true
           mapSvg.current.forEach((path) => {
@@ -502,12 +513,8 @@ const NormalMap = ({
           });
           outMap.current.removeEventListener("mouseout", pathOut);
 
-          if(chartValue.length > 0){
-            let chartDataValue = chartValue[0].chartData
-            setChartDataSetting(chartDataValue)
-            console.log(e.target.id)
-          }
-
+          
+          
 
         }else{
 
@@ -844,9 +851,11 @@ const NormalMap = ({
         </g>
         {useValueLavel && scale===1 ? <text fontFamily={gagueValueFontFamily} fontWeight={gagueValueFontWeight} x="1048" y="1060" fill="black" fontSize="30px" textAnchor="end" >{valueLavel}</text> : ""}
       {chartOn && scale==0.4 && chartDataSetting  ? <>
-        <foreignObject id="InnerChart" x="-1080" y="-1290" width="1000" height="50%">
-          <div id="InnerChart">
-          <NormalBar data={chartDataSetting} normalSettings={{width:1000, height:1000}} />
+        <foreignObject x="-1480" y="-1340" width="1400" height="100%">
+        
+          <div style={{backgroundColor:"white",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center", borderRadius:"10px"}}>
+          <p style={{fontSize:"80px", margin:"0", marginBottom:"60px"}}>{innerChartId} {innerChartText}</p>
+          <NormalBar  data={chartDataSetting} normalSettings={{width:1300, height:2000, horizontal:false}} barSettings={{labelSize:55, labelWeight:"bold", useLabel:true }} bottomLabelSettings={{labelSize: 55}} />
           </div>
 
         </foreignObject>

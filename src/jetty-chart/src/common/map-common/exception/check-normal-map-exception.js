@@ -16,6 +16,7 @@ const normalMapSetting = {
     marginLeft:0,
     marginRight:0,
     useChart:false,
+    innerChartText:"",
   },
   gagueBarSetting:{
     useGagueBar: true,

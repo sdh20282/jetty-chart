@@ -128,7 +128,6 @@ const NormalBar = ({
   const { totalWidth, totalHeight, totalScope, drawWidth, drawHeight, lineHeight, barWidth, halfBarWidth, halfBarRealWidth, zeroHeight } =
     calculateBase({ horizontal, height, margin, width, scopeResult, autoScope, innerMargin, padding, length: data.length, barGap });
 
-  const prevBarsKeys = Object.keys(prevBars.current);
   const ms = new Date().valueOf();
 
   if (translateBar) {
@@ -197,7 +196,9 @@ const NormalBar = ({
             labelMargin,
           });
 
-          prevBarsTemp.current[nowData.label] = {
+          const nowKey = `bar-${idx}`;
+
+          prevBarsTemp.current[nowKey] = {
             center,
             width: rectWidth,
             height: rectHeight,
@@ -208,12 +209,12 @@ const NormalBar = ({
           let translate = { center: 0, width: 0, height: 0, zeroHeight: 0 };
 
           if (translateBar && useAnimation) {
-            if (prevBarsKeys.includes(String(nowData.label))) {
+            if (Object.keys(prevBars.current).includes(String(nowKey))) {
               translate = {
-                center: center - prevBars.current[nowData.label].center,
-                width: rectWidth - prevBars.current[nowData.label].width,
-                height: rectHeight - prevBars.current[nowData.label].height,
-                zeroHeight: zeroHeight - prevBars.current[nowData.label].zeroHeight,
+                center: center - prevBars.current[nowKey].center,
+                width: rectWidth - prevBars.current[nowKey].width,
+                height: rectHeight - prevBars.current[nowKey].height,
+                zeroHeight: zeroHeight - prevBars.current[nowKey].zeroHeight,
               };
               useTranslate = true;
             }
@@ -222,7 +223,7 @@ const NormalBar = ({
           return (
             display && (
               <g
-                key={"data-" + ms + "-" + nowData.label}
+                key={"bar-" + ms + "-" + idx}
                 transform={calculateBarWrapperTransform({
                   useAnimation,
                   useTranslate,
