@@ -1,3 +1,5 @@
-import { NormalBar } from "./bars/bars";
+import { NormalBar, StackedBar } from "./bars/bars";
+import { NormalMap } from "./maps/maps";
+import { NormalScatter } from "./scatter/scatter";
 
-export { NormalBar };
+export { NormalBar, StackedBar, NormalMap, NormalScatter };

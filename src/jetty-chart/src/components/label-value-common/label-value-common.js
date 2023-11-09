@@ -27,7 +27,7 @@ const LabelValueCommon = ({
     xAxisWidth,
     yAxisHeight,
     showTopScope,
-    colorPalette
+    colorPalette,
   },
   axisXGridLineSettings,
   axisYGridLineSettings,
@@ -41,7 +41,7 @@ const LabelValueCommon = ({
   topLegendSettings,
   legendSettings,
   animationSettings,
-  children
+  children,
 }) => {
   if (horizontal) {
     yAxis.reverse();
@@ -72,7 +72,7 @@ const LabelValueCommon = ({
                 yAxis,
                 width: totalWidth,
                 yAxisHeight,
-                showTopScope
+                showTopScope,
               }}
               lineSettings={axisYGridLineSettings}
               animationSettings={animationSettings.axisYGridLineSettings}
@@ -84,7 +84,7 @@ const LabelValueCommon = ({
                 yAxis,
                 width: totalWidth,
                 yAxisHeight,
-                showTopScope
+                showTopScope,
               }}
               labelSettings={leftLabelSettings}
               animationSettings={animationSettings.axisYLabelSettings}
@@ -96,7 +96,7 @@ const LabelValueCommon = ({
                 yAxis,
                 width: totalWidth,
                 yAxisHeight,
-                showTopScope
+                showTopScope,
               }}
               labelSettings={rightLabelSettings}
               animationSettings={animationSettings.axisYLabelSettings}
@@ -112,7 +112,7 @@ const LabelValueCommon = ({
                 height: totalHeight,
                 padding,
                 xAxisInitialPosition,
-                xAxisWidth
+                xAxisWidth,
               }}
               lineSettings={axisXGridLineSettings}
               animationSettings={animationSettings.axisXGridLineSettings}
@@ -125,7 +125,7 @@ const LabelValueCommon = ({
                 height: totalHeight,
                 padding,
                 xAxisInitialPosition,
-                xAxisWidth
+                xAxisWidth,
               }}
               labelSettings={bottomLabelSettings}
               animationSettings={animationSettings.axisXLabelSettings}
@@ -138,7 +138,7 @@ const LabelValueCommon = ({
                 height: totalHeight,
                 padding,
                 xAxisInitialPosition,
-                xAxisWidth
+                xAxisWidth,
               }}
               labelSettings={topLabelSettings}
               animationSettings={animationSettings.axisXLabelSettings}

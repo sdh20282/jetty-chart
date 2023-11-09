@@ -2,9 +2,21 @@ import { useRef } from "react";
 
 import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
 
-import { checkNormalBar } from "../../common/utils/exception/check-normal-bar-exception";
+import { checkNormalBar } from "../../common/bar-common/exception/check-normal-bar-exception";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
-import { checkBarBorderRadius } from "../../common/utils/exception/check-common-exception";
+import { calculateBase, calculateBarBase, calculateLabelLocation } from "../../common/bar-common/utils/calculate-base-values";
+import {
+  calculateWarpperTransform,
+  calculateBarWrapperTransform,
+  calculateBarWrapperFrom,
+  calculateBarWrapperTo,
+  calculateBarTransform,
+  calculateBarFrom,
+  calculateBarTo,
+  calculateLabelTransform,
+  calculateLabelFrom,
+  calculateLabelTo,
+} from "../../common/bar-common/utils/calculate-bar-positions";
 
 import styles from "./normal-bar.module.css";
 
@@ -24,9 +36,11 @@ const NormalBar = ({
   topLabelSettings,
   leftLegendSettings,
   rightLegendSettings,
+  bottomLegendSettings,
+  topLegendSettings,
   legendSettings,
   barSettings,
-  animationSettings
+  animationSettings,
 }) => {
   const prevBars = useRef({});
   const prevBarsTemp = useRef({});
@@ -46,19 +60,20 @@ const NormalBar = ({
     topLabelSettings,
     leftLegendSettings,
     rightLegendSettings,
+    bottomLegendSettings,
+    topLegendSettings,
     legendSettings,
     barSettings,
-    animationSettings
+    animationSettings,
   });
 
-  const { width, height, margin, innerMargin, padding, reverse, horizontal, colorPalette } = result.normalSettings;
+  const { width, height, margin, innerMargin, padding, reverse, horizontal, colorPalette, useVariousColors } = result.normalSettings;
   const { autoScope, maxScope, minScope } = result.scopeSettings;
   let { showTopScope } = result.scopeSettings;
   const {
     barOpacity,
     barGap,
     barOnlyUpperRadius,
-    useBarBorderRadius,
     barBorderRadius,
     useBarBorder,
     barBorderWidth,
@@ -73,16 +88,33 @@ const NormalBar = ({
     labelWeight,
     labelOpacity,
     labelColor,
-    labelInvisibleHeight
+    labelInvisibleHeight,
   } = result.barSettings;
 
-  const { useAnimation, renderType, renderDuration, renderStartDelay, renderItemDelay, renderTimingFunction, renderStartFrom, translateBar } =
-    result.animationSettings.barSettings;
+  const {
+    useAnimation,
+    renderType,
+    renderDuration,
+    renderStartDelay,
+    renderItemDelay,
+    renderTimingFunction,
+    renderStartFrom,
+    textRender,
+    textRenderType,
+    textRenderDuration,
+    textRenderStartDelay,
+    textRenderItemDelay,
+    textRenderTimingFunction,
+    textRenderStartFrom,
+    translateBar,
+    translateDuration,
+    translateStartDelay,
+    translateItemDelay,
+    translateTimingFunction,
+  } = result.animationSettings.barSettings;
 
   const scopeResult = autoScope ? getAutoScope({ data: data.map((d) => d.value) }) : getUserScope({ maxScope, minScope });
   let display = true;
-
-  console.log(renderDuration, renderStartDelay, renderItemDelay, renderTimingFunction, renderStartFrom);
 
   if (reverse) {
     scopeResult.scope.reverse();
@@ -93,46 +125,15 @@ const NormalBar = ({
     showTopScope = false;
   }
 
-  const totalWidth = horizontal ? height - margin.bottom - margin.top : width - margin.left - margin.right;
-  const totalHeight = horizontal ? width - margin.left - margin.right : height - margin.bottom - margin.top;
-  const totalScope = scopeResult.maxScope - scopeResult.minScope;
+  const { totalWidth, totalHeight, totalScope, drawWidth, drawHeight, lineHeight, barWidth, halfBarWidth, halfBarRealWidth, zeroHeight } =
+    calculateBase({ horizontal, height, margin, width, scopeResult, autoScope, innerMargin, padding, length: data.length, barGap });
 
-  if (!autoScope && scopeResult.display) {
-    innerMargin.top = scopeResult.topMarginRatio * totalHeight;
-    innerMargin.bottom = scopeResult.bottomMarginRatio * totalHeight;
-  }
-
-  const drawWidth = totalWidth - padding - padding;
-  const drawHeight = totalHeight - innerMargin.top - innerMargin.bottom;
-  const lineHeight = drawHeight / (scopeResult.scope.length - 1);
-
-  const barWidth = drawWidth / data.length;
-  const halfBarWidth = barWidth / 2;
-  const halfBarRealWidth = halfBarWidth - barGap * halfBarWidth;
-
-  const zeroHeight =
-    scopeResult.scope.reduce((acc, cur) => {
-      if (cur !== 0) {
-        acc += 1;
-      }
-
-      if (cur === 0) {
-        acc = 0;
-      }
-
-      return acc;
-    }, 0) * lineHeight;
-
-  const prevBarsKeys = Object.keys(prevBars.current);
   const ms = new Date().valueOf();
 
   if (translateBar) {
     prevBars.current = { ...prevBarsTemp.current };
     prevBarsTemp.current = [];
   }
-
-  console.log(prevBars, prevBarsKeys);
-  console.log(scopeResult.scope, zeroHeight);
 
   return (
     <LabelValueCommon
@@ -148,7 +149,7 @@ const NormalBar = ({
         xAxisInitialPosition: halfBarWidth,
         xAxisWidth: barWidth,
         yAxisHeight: lineHeight,
-        showTopScope
+        showTopScope,
       }}
       axisXGridLineSettings={result.axisXGridLineSettings}
       axisYGridLineSettings={result.axisYGridLineSettings}
@@ -163,13 +164,7 @@ const NormalBar = ({
       legendSettings={result.legendSettings}
       animationSettings={result.animationSettings}
     >
-      <g
-        transform={
-          horizontal
-            ? `translate(${reverse ? innerMargin.top : innerMargin.bottom},${padding})`
-            : `translate(${padding}, ${reverse ? innerMargin.bottom : innerMargin.top})`
-        }
-      >
+      <g transform={calculateWarpperTransform({ horizontal, reverse, innerMargin, padding })}>
         {data.map((d, idx) => {
           const nowData = { ...d };
 
@@ -177,157 +172,184 @@ const NormalBar = ({
             nowData.value = -nowData.value;
           }
 
-          const center = (drawWidth / data.length) * idx + drawWidth / data.length / 2;
-          const valueRatio = Math.abs(nowData.value) / totalScope;
-          let barHeight = valueRatio * drawHeight;
+          const { center, valueRatio, barHeight, borderRadius, realHeight, rectWidth, rectHeight, checkPositive } = calculateBarBase({
+            horizontal,
+            reverse,
+            value: nowData.value,
+            length: data.length,
+            idx,
+            drawWidth,
+            drawHeight,
+            useMinHeight,
+            minHeight,
+            totalScope,
+            barBorderRadius,
+            barOnlyUpperRadius,
+            halfBarRealWidth,
+          });
 
-          if (useMinHeight && barHeight < minHeight) {
-            barHeight = minHeight;
-          }
+          const { horizontalLabelLocation, verticalLabelLocation } = calculateLabelLocation({
+            barHeight,
+            realHeight,
+            checkPositive,
+            labelPosition,
+            labelMargin,
+          });
 
-          let barHeightWithoutRadius = barHeight > barBorderRadius ? barHeight - barBorderRadius : barHeight;
+          const nowKey = `bar-${idx}`;
 
-          if (useMinHeight && barHeightWithoutRadius < minHeight) {
-            barHeightWithoutRadius = minHeight;
-          }
-
-          const borderRadius = useBarBorderRadius
-            ? checkBarBorderRadius({ halfWidth: halfBarRealWidth, height: barHeightWithoutRadius, borderRadius: barBorderRadius })
-            : 0;
-
-          const barTotalWidth = halfBarRealWidth + halfBarRealWidth;
-          const barWidthWithoutRadius = barTotalWidth - borderRadius - borderRadius;
-          const realHeight = barHeightWithoutRadius + borderRadius;
-
-          prevBarsTemp.current[nowData.label] = { center, halfWidth: halfBarRealWidth, height: barHeightWithoutRadius };
+          prevBarsTemp.current[nowKey] = {
+            center,
+            width: rectWidth,
+            height: rectHeight,
+            zeroHeight,
+          };
 
           let useTranslate = false;
-          let translate = { center: 0, halfWidth: 0, height: 0 };
+          let translate = { center: 0, width: 0, height: 0, zeroHeight: 0 };
 
-          if (translateBar) {
-            if (prevBarsKeys.includes(String(nowData.label))) {
+          if (translateBar && useAnimation) {
+            if (Object.keys(prevBars.current).includes(String(nowKey))) {
               translate = {
-                center: center - prevBars.current[nowData.label].center,
-                halfWidth: halfBarRealWidth - prevBars.current[nowData.label].halfWidth,
-                height: barHeightWithoutRadius - prevBars.current[nowData.label].height
+                center: center - prevBars.current[nowKey].center,
+                width: rectWidth - prevBars.current[nowKey].width,
+                height: rectHeight - prevBars.current[nowKey].height,
+                zeroHeight: zeroHeight - prevBars.current[nowKey].zeroHeight,
               };
               useTranslate = true;
             }
           }
 
-          console.log(translate, useTranslate);
-
-          console.log(barHeightWithoutRadius, borderRadius);
-
           return (
             display && (
               <g
-                key={"data-" + ms + "-" + nowData.label}
-                transform={
-                  useAnimation && renderType.includes("grow")
-                    ? ""
-                    : horizontal
-                    ? `translate(${zeroHeight},${center - halfBarRealWidth})`
-                    : `translate(${center - halfBarRealWidth},${drawHeight - barHeight - zeroHeight})`
-                }
-                className={useAnimation && renderType.includes("grow") ? styles.translateGroup : ""}
+                key={"bar-" + ms + "-" + idx}
+                transform={calculateBarWrapperTransform({
+                  useAnimation,
+                  useTranslate,
+                  renderType,
+                  horizontal,
+                  zeroHeight,
+                  center,
+                  halfBarRealWidth,
+                  drawHeight,
+                  barHeight,
+                })}
+                className={useAnimation && useTranslate ? styles.translateGroup : ""}
                 style={{
-                  "--bar-from": horizontal
-                    ? nowData.value >= 0
-                      ? `${zeroHeight}px,${center - halfBarRealWidth}px`
-                      : `${zeroHeight}px,${center - halfBarRealWidth}px`
-                    : nowData.value >= 0
-                    ? `${center - halfBarRealWidth}px,${drawHeight - zeroHeight}px`
-                    : `${center - halfBarRealWidth}px,${drawHeight - zeroHeight}px`,
-                  "--bar-to": horizontal
-                    ? nowData.value >= 0
-                      ? `${zeroHeight}px,${center - halfBarRealWidth}px`
-                      : `${zeroHeight}px,${center - halfBarRealWidth}px`
-                    : nowData.value >= 0
-                    ? `${center - halfBarRealWidth}px,${drawHeight - barHeight - zeroHeight}px`
-                    : `${center - halfBarRealWidth}px,${drawHeight - zeroHeight}px`,
-                  "--scale-from": horizontal ? "scaleX(0)" : "scaleY(0)",
-                  "--scale-to": horizontal ? "scaleX(1)" : "scaleY(1)",
-                  "--animation-duration": `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`
+                  "--group-from": calculateBarWrapperFrom({
+                    horizontal,
+                    zeroHeight,
+                    translate,
+                    borderRadius,
+                    center,
+                    rectHeight,
+                    rectWidth,
+                    drawHeight,
+                    barHeight,
+                  }),
+                  "--group-to": calculateBarWrapperTo({ horizontal, zeroHeight, translate, center, drawHeight, barHeight, halfBarRealWidth }),
+                  "--animation-duration": `${translateDuration}s`,
+                  "--animation-timing-function": translateTimingFunction,
+                  "--animation-delay": `${translateStartDelay + translateItemDelay * (renderStartFrom === "left" ? idx : data.length - 1 - idx)}s`,
                 }}
               >
-                {barOnlyUpperRadius && useBarBorderRadius ? (
-                  <path
-                    d={
-                      horizontal
-                        ? nowData.value > 0 || (!reverse && nowData.value === 0)
-                          ? `
-                          M 0,0
-                          h ${barHeightWithoutRadius}
-                          q ${borderRadius},0 ${borderRadius},${borderRadius}
-                          v ${barWidthWithoutRadius}
-                          q 0,${borderRadius} -${borderRadius},${borderRadius}
-                          h -${barHeightWithoutRadius}
-                          v -${barTotalWidth}
-                          z`
-                          : `
-                          M 0,0
-                          h -${barHeightWithoutRadius}
-                          q -${borderRadius},0 -${borderRadius},${borderRadius}
-                          v ${barWidthWithoutRadius}
-                          q 0,${borderRadius} ${borderRadius},${borderRadius}
-                          h ${barHeightWithoutRadius}
-                          v -${barTotalWidth}
-                          z`
-                        : nowData.value > 0 || (!reverse && nowData.value === 0)
-                        ? `
-                          M 0,${barHeight}
-                          v -${barHeightWithoutRadius}
-                          q 0,-${borderRadius} ${borderRadius},-${borderRadius}
-                          h ${barWidthWithoutRadius}
-                          q ${borderRadius},0 ${borderRadius},${borderRadius}
-                          v ${barHeightWithoutRadius}
-                          h -${barTotalWidth}
-                          z`
-                        : `
-                          M 0,${barHeight}
-                          v ${barHeightWithoutRadius}
-                          q 0,${borderRadius} ${borderRadius},${borderRadius}
-                          h ${barWidthWithoutRadius}
-                          q ${borderRadius},0 ${borderRadius},-${borderRadius}
-                          v -${barHeightWithoutRadius}
-                          h -${barTotalWidth}
-                          z`
-                    }
-                    fill={colorPalette[0]}
-                    opacity={barOpacity}
-                    stroke={useBarBorder ? barBorderColor : ""}
-                    strokeOpacity={barBorderOpacity}
-                    strokeWidth={useBarBorder ? barBorderWidth : "0"}
-                    className={useAnimation ? (renderType.includes("grow") ? styles.growBar : renderType === "fade" ? styles.fadeBar : "") : ""}
-                    style={{
-                      "--animation-duration": `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`
-                    }}
-                  />
-                ) : (
-                  <rect
-                    width={
-                      horizontal ? (useMinHeight ? (barHeight < minHeight ? minHeight : barHeight) : barHeight) : halfBarRealWidth + halfBarRealWidth
-                    }
-                    height={
-                      horizontal ? halfBarRealWidth + halfBarRealWidth : useMinHeight ? (barHeight < minHeight ? minHeight : barHeight) : barHeight
-                    }
-                    transform={
-                      horizontal
-                        ? `translate(${nowData.value >= 0 ? 0 : -(useMinHeight ? (barHeight < minHeight ? minHeight : barHeight) : barHeight)})`
-                        : `translate(0,${nowData.value >= 0 ? 0 : useMinHeight ? (barHeight < minHeight ? minHeight : barHeight) : 0})`
-                    }
-                    fill={colorPalette[0]}
-                    opacity={barOpacity}
-                    rx={borderRadius}
-                    ry={borderRadius}
-                    stroke={useBarBorder ? barBorderColor : ""}
-                    strokeOpacity={barBorderOpacity}
-                    strokeWidth={useBarBorder ? barBorderWidth : "0"}
-                  ></rect>
-                )}
+                <rect
+                  width={rectWidth}
+                  height={rectHeight}
+                  clipPath={
+                    barOnlyUpperRadius
+                      ? horizontal
+                        ? checkPositive
+                          ? `inset(0px 0px 0px ${borderRadius}px)`
+                          : `inset(0px ${borderRadius}px 0px 0px)`
+                        : checkPositive
+                        ? `inset(0px 0px ${borderRadius}px 0px)`
+                        : `inset(${borderRadius}px 0px 0px 0px)`
+                      : ""
+                  }
+                  transform={calculateBarTransform({
+                    useAnimation,
+                    renderType,
+                    useTranslate,
+                    horizontal,
+                    checkPositive,
+                    barOnlyUpperRadius,
+                    borderRadius,
+                    barHeight,
+                  })}
+                  fill={useVariousColors ? colorPalette[idx % colorPalette.length] : colorPalette[0]}
+                  fillOpacity={barOpacity}
+                  rx={borderRadius}
+                  ry={borderRadius}
+                  stroke={useBarBorder ? barBorderColor : ""}
+                  strokeOpacity={barBorderOpacity}
+                  strokeWidth={useBarBorder ? barBorderWidth : "0"}
+                  className={
+                    useAnimation
+                      ? useTranslate
+                        ? styles.translateBar
+                        : renderType.includes("grow")
+                        ? styles.growBar
+                        : renderType === "fade"
+                        ? styles.fadeBar
+                        : ""
+                      : ""
+                  }
+                  style={{
+                    "--bar-from": calculateBarFrom({
+                      useTranslate,
+                      horizontal,
+                      checkPositive,
+                      borderRadius,
+                      rectWidth,
+                      translate,
+                      barHeight,
+                      barOnlyUpperRadius,
+                      drawHeight,
+                      zeroHeight,
+                    }),
+                    "--bar-to": calculateBarTo({
+                      useTranslate,
+                      horizontal,
+                      checkPositive,
+                      borderRadius,
+                      rectWidth,
+                      translate,
+                      barHeight,
+                      barOnlyUpperRadius,
+                      drawHeight,
+                      zeroHeight,
+                    }),
+                    "--width-from": useTranslate ? `${rectWidth - translate.width}px` : horizontal ? `0px` : `${rectWidth}px`,
+                    "--width-to": `${rectWidth}px`,
+                    "--height-from": useTranslate ? `${rectHeight - translate.height}px` : horizontal ? `${rectHeight}px` : `0px`,
+                    "--height-to": `${rectHeight}px`,
+                    "--animation-duration": useTranslate
+                      ? `${translateDuration}s`
+                      : `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`,
+                    "--animation-delay": `${
+                      (useTranslate ? translateStartDelay : renderStartDelay) +
+                      (useTranslate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? idx : data.length - 1 - idx)
+                    }s`,
+                    "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction,
+                  }}
+                ></rect>
                 {useLabel && realHeight > labelInvisibleHeight && (
-                  <g>
+                  <g
+                    transform={calculateLabelTransform({
+                      useAnimation,
+                      useTranslate,
+                      horizontal,
+                      horizontalLabelLocation,
+                      halfBarRealWidth,
+                      verticalLabelLocation,
+                      renderType,
+                      drawHeight,
+                      barHeight,
+                      zeroHeight,
+                    })}
+                  >
                     <text
                       fontSize={labelSize}
                       fontWeight={labelWeight}
@@ -337,23 +359,50 @@ const NormalBar = ({
                         horizontal ? "middle" : labelPosition === "over" ? "ideographic" : labelPosition === "under" ? "hanging" : "middle"
                       }
                       textAnchor={horizontal ? (labelPosition === "over" ? "start" : labelPosition === "under" ? "end" : "middle") : "middle"}
-                      transform={
-                        horizontal
-                          ? `translate(${
-                              labelPosition === "over"
-                                ? (nowData.value > 0 || (!reverse && nowData.value === 0) ? realHeight : 0) + labelMargin
-                                : labelPosition === "under"
-                                ? (nowData.value > 0 || (!reverse && nowData.value === 0) ? 0 : -realHeight) - labelMargin
-                                : (nowData.value > 0 || (!reverse && nowData.value === 0) ? realHeight / 2 : -realHeight / 2) + 0
-                            },${halfBarRealWidth})`
-                          : `translate(${halfBarRealWidth},${
-                              labelPosition === "over"
-                                ? barHeight - (nowData.value > 0 || (!reverse && nowData.value === 0) ? realHeight : 0) - labelMargin
-                                : labelPosition === "under"
-                                ? barHeight + (nowData.value > 0 || (!reverse && nowData.value === 0) ? 0 : realHeight) + labelMargin
-                                : barHeight + (nowData.value > 0 || (!reverse && nowData.value === 0) ? -realHeight / 2 : realHeight / 2)
-                            })`
+                      className={
+                        textRender && useAnimation
+                          ? useTranslate
+                            ? styles.translateText
+                            : textRenderType.includes("grow")
+                            ? styles.growText
+                            : textRenderType === "fade"
+                            ? styles.fadeText
+                            : ""
+                          : ""
                       }
+                      style={{
+                        "--text-from": calculateLabelFrom({
+                          useTranslate,
+                          horizontal,
+                          labelPosition,
+                          checkPositive,
+                          rectWidth,
+                          translate,
+                          barBorderRadius,
+                          labelMargin,
+                          rectHeight,
+                          borderRadius,
+                          barHeight,
+                        }),
+                        "--text-to": calculateLabelTo({
+                          useTranslate,
+                          horizontal,
+                          labelPosition,
+                          checkPositive,
+                          barHeight,
+                          labelMargin,
+                          translate,
+                          halfBarRealWidth,
+                        }),
+                        "--animation-duration": useTranslate
+                          ? `${translateDuration}s`
+                          : `${renderType === "grow" ? textRenderDuration * valueRatio : textRenderDuration}s`,
+                        "--animation-delay": `${
+                          (useTranslate ? translateStartDelay : textRenderStartDelay) +
+                          (useTranslate ? translateItemDelay : textRenderItemDelay) * (textRenderStartFrom === "left" ? idx : data.length - 1 - idx)
+                        }s`,
+                        "--animation-timing-function": useTranslate ? translateTimingFunction : textRenderTimingFunction,
+                      }}
                     >
                       {reverse ? -nowData.value : nowData.value}
                     </text>

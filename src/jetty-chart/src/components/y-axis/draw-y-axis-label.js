@@ -19,7 +19,7 @@ export const DrawYAxisLabel = ({
     sideLineVisible,
     sideLineOpacity,
     sideLineColor,
-    sideLineWidth
+    sideLineWidth,
   },
   animationSettings: {
     useAnimation,
@@ -33,8 +33,8 @@ export const DrawYAxisLabel = ({
     translateDuration,
     translateStartDelay,
     translateItemDelay,
-    translateTimingFunction
-  }
+    translateTimingFunction,
+  },
 }) => {
   const prevYAxis = useRef({});
   const prevYAxisTemp = useRef({});
@@ -45,7 +45,6 @@ export const DrawYAxisLabel = ({
 
   const totalLabelMargin = labelMargin + sideLineSize;
   const labelLocation = width + totalLabelMargin;
-  const prevYAxisKeys = Object.keys(prevYAxis.current);
   const ms = new Date().valueOf();
 
   if (translateLabel) {
@@ -68,8 +67,10 @@ export const DrawYAxisLabel = ({
 
         const location = yAxisHeight * idx;
 
+        const nowKey = `y-axis-label-${c}`
+
         // 현재 위치 정보 저장
-        prevYAxisTemp.current[c] = location;
+        prevYAxisTemp.current[nowKey] = location;
 
         // 라인 리렌더링을 안할 경우
         let useTranslate = false;
@@ -77,8 +78,8 @@ export const DrawYAxisLabel = ({
 
         if (translateLabel) {
           // 이전 위치에 현재 위치가 포함되는지 확인
-          if (prevYAxisKeys.includes(String(c))) {
-            translate = location - prevYAxis.current[c];
+          if (Object.keys(prevYAxis.current).includes(nowKey)) {
+            translate = location - prevYAxis.current[nowKey];
             useTranslate = true;
           }
         }
@@ -101,7 +102,7 @@ export const DrawYAxisLabel = ({
                   ((!horizontal && renderStartFrom === "bottom") || (horizontal && renderStartFrom !== "bottom") ? yAxis.length - 1 - idx : idx)
               }s`,
               "--translate-from": horizontal ? `${location - translate}px` : `0px,${location - translate}px`,
-              "--translate-to": horizontal ? `${location}px` : `0px,${location}px`
+              "--translate-to": horizontal ? `${location}px` : `0px,${location}px`,
             }}
           >
             <g transform={`translate(${horizontal ? labelMove : 0},${horizontal ? 0 : -labelMove}) rotate(${labelRotate})`}>
