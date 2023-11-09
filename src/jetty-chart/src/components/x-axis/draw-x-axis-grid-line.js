@@ -18,8 +18,8 @@ export const DrawXAxisGridLine = ({
     translateDuration,
     translateStartDelay,
     translateItemDelay,
-    translateTimingFunction
-  }
+    translateTimingFunction,
+  },
 }) => {
   const prevXAxis = useRef({});
   const prevXAxisTemp = useRef({});
@@ -29,7 +29,7 @@ export const DrawXAxisGridLine = ({
       let linePath = "";
 
       if (lineDash) {
-        let path = horizontal ? `M 0,${location - translate} ` : `M ${location - translate},0 `;
+        let path = horizontal ? `M 0,${location - (useAnimation ? translate : 0)} ` : `M ${location - (useAnimation ? translate : 0)},0 `;
         let pathLength = 0;
 
         while (pathLength < height) {
@@ -48,11 +48,11 @@ export const DrawXAxisGridLine = ({
       } else {
         linePath = horizontal
           ? `
-        M 0,${location - translate}
+        M 0,${location - (useAnimation ? translate : 0)}
         h ${height}
       `
           : `
-        M ${location - translate},0
+        M ${location - (useAnimation ? translate : 0)},0
         v ${height}
       `;
       }
@@ -103,7 +103,7 @@ export const DrawXAxisGridLine = ({
               }px`,
               "--animation-duration": `${renderDuration}s`,
               "--animation-timing-function": "ease",
-              "--animation-delay": `${renderStartDelay + renderItemDelay * (animationXAxisStart === "left" ? 0 : xAxis.length + 1)}s`
+              "--animation-delay": `${renderStartDelay + renderItemDelay * (animationXAxisStart === "left" ? 0 : xAxis.length + 1)}s`,
             }}
           ></path>
         </g>
@@ -165,7 +165,7 @@ export const DrawXAxisGridLine = ({
                     (useTranslate ? translateItemDelay : renderItemDelay) * (animationXAxisStart === "left" ? idx : xAxis.length - 1 - idx) +
                     (showEndLine && !useTranslate ? renderItemDelay : 0)
                   }s`,
-                  "--width-offset": horizontal ? `0px,${translate}px` : `${translate}px`
+                  "--width-offset": horizontal ? `0px,${translate}px` : `${translate}px`,
                 }}
               ></path>
             );
@@ -194,7 +194,7 @@ export const DrawXAxisGridLine = ({
               }px`,
               "--animation-duration": `${renderDuration}s`,
               "--animation-timing-function": "ease",
-              "--animation-delay": `${renderStartDelay + renderItemDelay * (animationXAxisStart === "left" ? xAxis.length + 1 : 0)}s`
+              "--animation-delay": `${renderStartDelay + renderItemDelay * (animationXAxisStart === "left" ? xAxis.length + 1 : 0)}s`,
             }}
           ></path>
         </g>

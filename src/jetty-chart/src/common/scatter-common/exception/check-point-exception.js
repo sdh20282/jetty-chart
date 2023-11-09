@@ -1,42 +1,27 @@
-import { checkSize } from "../../utils/exception/check-common-exception";
+import { checkMargin, checkSize } from "../../utils/exception/check-common-exception";
 
-const checkMargin = ({ margin }) => {
-  margin.top ??= 60;
-  margin.bottom ??= 70;
-  margin.left ??= 80;
-  margin.right ??= 120;
-
-  return margin;
-};
-
-const checkInnerMargin = ({ innerMargin }) => {
-  innerMargin.top = 0;
-  innerMargin.bottom = 0;
-
-  return innerMargin;
-};
-
-const stackedBarSetting = {
+const normalPointSetting = {
   // 기본 세팅
   normalSettings: {
     width: 500,
     height: 400,
     backgroundColor: "#fff",
-    margin: { top: 60, bottom: 70, left: 80, right: 120 },
+    margin: { top: 60, bottom: 60, left: 70, right: 120 },
     innerMargin: { top: 0, bottom: 0 },
-    colorPalette: ["#669dfe", "#876697", "#520592", "#24c391", "#d2c919", "#d12305"],
-    useVariousColors: false,
-    padding: 20,
-    reverse: false,
-    horizontal: false,
-    reverseOrder: false,
+    colorPalette: ["#93c5fd", "#fdba74", "#fca5a5", "#cbd5e1", "#86efac"],
+    padding: 0,
+    xReverse: false,
+    yReverse: false,
+    showTopScope: true
   },
   // 범위 세팅
   scopeSettings: {
-    autoScope: true,
-    maxScope: 700,
-    minScope: -100,
-    showTopScope: true,
+    xAutoScope: true,
+    yAutoScope: true,
+    xMaxScope: 100,
+    xMinScope: 0,
+    yMaxScope: 100,
+    yMinScope: 0
   },
   // y축 라인 세팅
   axisYGridLineSettings: {
@@ -47,11 +32,11 @@ const stackedBarSetting = {
     lineDash: false,
     lineDashWidth: 5,
     lineDashGap: 3,
-    lineRound: false,
+    lineRound: false
   },
   // x축 라인 세팅
   axisXGridLineSettings: {
-    lineVisible: false,
+    lineVisible: true,
     lineOpacity: 1,
     lineColor: "#d4d4d4",
     lineWidth: 1,
@@ -59,7 +44,7 @@ const stackedBarSetting = {
     lineDashWidth: 5,
     lineDashGap: 3,
     lineRound: false,
-    showEndLine: false,
+    showEndLine: false
   },
   // 왼쪽 라벨 세팅
   leftLabelSettings: {
@@ -76,7 +61,7 @@ const stackedBarSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2,
+    sideLineWidth: 2
   },
   // 오른쪽 라벨 세팅
   rightLabelSettings: {
@@ -93,7 +78,7 @@ const stackedBarSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2,
+    sideLineWidth: 2
   },
   // 아래쪽 라벨 세팅
   bottomLabelSettings: {
@@ -110,7 +95,7 @@ const stackedBarSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2,
+    sideLineWidth: 2
   },
   // 위쪽 라벨 세팅
   topLabelSettings: {
@@ -127,7 +112,7 @@ const stackedBarSetting = {
     sideLineVisible: true,
     sideLineOpacity: 1,
     sideLineColor: "#aaa",
-    sideLineWidth: 2,
+    sideLineWidth: 2
   },
   // 왼쪽 설명 세팅
   leftLegendSettings: {
@@ -139,7 +124,7 @@ const stackedBarSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0,
+    legendMove: 0
   },
   // 오른쪽 설명 세팅
   rightLegendSettings: {
@@ -151,7 +136,7 @@ const stackedBarSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0,
+    legendMove: 0
   },
   // 아래쪽 설명 세팅
   bottomLegendSettings: {
@@ -163,7 +148,7 @@ const stackedBarSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0,
+    legendMove: 0
   },
   // 위쪽 설명 세팅
   topLegendSettings: {
@@ -175,14 +160,14 @@ const stackedBarSetting = {
     legendOpacity: 1,
     legendColor: "#333",
     legendReverse: false,
-    legendMove: 0,
+    legendMove: 0
   },
   // 설명 세팅
   legendSettings: {
     useLegend: true,
     position: "bottom-right", // bottom center top - left center right
-    xLocation: 16,
-    yLocation: 0,
+    xLocation: 20,
+    yLocation: -30,
     directionColumn: true,
     itemWidth: 80,
     itemMargin: 2,
@@ -194,29 +179,17 @@ const stackedBarSetting = {
     legendWeight: 400,
     legendOpacity: 1,
     legendColor: "#aaa",
-    legendOnStart: true,
+    legendOnStart: true
   },
-  // 바 세팅
-  barSettings: {
-    barOpacity: 1,
-    barGap: 0.15,
-    barOnlyUpperRadius: false,
-    barBorderRadius: 0,
-    useBarBorder: false,
-    barBorderWidth: 2,
-    barBorderColor: "#000",
-    barBorderOpacity: 1,
-    useMinHeight: false,
-    minHeight: 1,
-    useLabel: true,
-    labelPosition: "center", // over, center,
-    labelMargin: 5,
-    labelSize: 11,
-    labelWeight: 500,
-    labelOpacity: 1,
-    labelColor: "#ccc",
-    labelInvisibleHeight: 0,
+  // 포인트 세팅
+  pointSettings: {
+    pointSize: 1,
+    tooltipOn: true,
+    xName: "",
+    yName: "",
+    pointRenderTime: 0.1
   },
+  // 애니메이션 세팅
   animationSettings: {
     axisYGridLineSettings: {
       useAnimation: true,
@@ -230,7 +203,7 @@ const stackedBarSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease",
+      translateTimingFunction: "ease"
     },
     axisXGridLineSettings: {
       useAnimation: true,
@@ -244,7 +217,7 @@ const stackedBarSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease",
+      translateTimingFunction: "ease"
     },
     axisYLabelSettings: {
       useAnimation: true,
@@ -258,7 +231,7 @@ const stackedBarSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease",
+      translateTimingFunction: "ease"
     },
     axisXLabelSettings: {
       useAnimation: true,
@@ -272,40 +245,12 @@ const stackedBarSetting = {
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
-      translateTimingFunction: "ease",
-    },
-    barSettings: {
-      useAnimation: true,
-      renderType: "grow", // fade, grow, grow-async
-      renderDuration: 1,
-      renderStartDelay: 0,
-      renderItemDelay: 0.1,
-      renderTimingFunction: "ease",
-      renderStartFrom: "left",
-      textRender: true,
-      textRenderType: "grow", // fade, grow, grow-async
-      textRenderDuration: 1,
-      textRenderStartDelay: 0,
-      textRenderItemDelay: 0.1,
-      textRenderTimingFunction: "ease",
-      textRenderStartFrom: "left",
-      translateBar: true,
-      translateDuration: 0.3,
-      translateStartDelay: 0,
-      translateItemDelay: 0,
-      translateTimingFunction: "ease",
-    },
-  },
+      translateTimingFunction: "ease"
+    }
+  }
 };
 
-const normalBarTypes = {
-  scopeSettings: {
-    minScope: "nevative-number",
-    maxScope: "positive-number",
-  },
-};
-
-export const checkStackedBar = ({
+export const checkNormalPoint = ({
   normalSettings,
   scopeSettings,
   axisXGridLineSettings,
@@ -314,13 +259,8 @@ export const checkStackedBar = ({
   rightLabelSettings,
   bottomLabelSettings,
   topLabelSettings,
-  leftLegendSettings,
-  rightLegendSettings,
-  bottomLegendSettings,
-  topLegendSettings,
-  legendSettings,
-  barSettings,
-  animationSettings,
+  pointSettings,
+  animationSettings
 }) => {
   const result = {
     normalSettings,
@@ -331,72 +271,45 @@ export const checkStackedBar = ({
     rightLabelSettings,
     bottomLabelSettings,
     topLabelSettings,
-    leftLegendSettings,
-    rightLegendSettings,
-    bottomLegendSettings,
-    topLegendSettings,
-    legendSettings,
-    barSettings,
-    animationSettings,
+    pointSettings,
+    animationSettings
   };
 
-  Object.keys(stackedBarSetting).forEach((setting) => {
+  Object.keys(normalPointSetting).forEach((setting) => {
     result[setting] ??= {};
 
     if (setting === "animationSettings") {
-      Object.keys(stackedBarSetting[setting]).forEach((animation) => {
+      Object.keys(normalPointSetting[setting]).forEach((animation) => {
         result[setting][animation] ??= {};
 
-        Object.keys(stackedBarSetting[setting][animation]).forEach((detail) => {
-          result[setting][animation][detail] ??= stackedBarSetting[setting][animation][detail];
+        Object.keys(normalPointSetting[setting][animation]).forEach((detail) => {
+          result[setting][animation][detail] ??= normalPointSetting[setting][animation][detail];
         });
       });
     } else {
-      Object.keys(stackedBarSetting[setting]).forEach((detail) => {
-        result[setting][detail] ??= stackedBarSetting[setting][detail];
+      Object.keys(normalPointSetting[setting]).forEach((detail) => {
+        result[setting][detail] ??= normalPointSetting[setting][detail];
       });
     }
+
+    // Object.keys(normalPointSetting[setting]).forEach((detail) => {
+    //   result[setting][detail] ??= normalPointSetting[setting][detail];
+    // });
   });
 
   result.normalSettings.margin = checkMargin({ margin: result.normalSettings.margin });
-  result.normalSettings.innerMargin = checkInnerMargin({ innerMargin: result.normalSettings.innerMargin });
 
   const checkedSize = checkSize({
     width: result.normalSettings.width,
     height: result.normalSettings.height,
     margin: result.normalSettings.margin,
-    padding: result.normalSettings.padding,
+    padding: result.normalSettings.padding
   });
 
   result.normalSettings.width = checkedSize.width;
   result.normalSettings.height = checkedSize.height;
   result.normalSettings.margin = checkedSize.margin;
   result.normalSettings.padding = checkedSize.padding;
-
-  result.barSettings.useBarBorder = false;
-
-  Object.keys(normalBarTypes).forEach((setting) => {
-    Object.keys(normalBarTypes[setting]).forEach((detail) => {
-      switch (normalBarTypes[setting][detail]) {
-        case "nevative-number":
-          if (result[setting][detail] <= 0) {
-            break;
-          }
-
-          result[setting][detail] = 0;
-
-          break;
-        case "positive-number":
-          if (result[setting][detail] >= 0) {
-            break;
-          }
-
-          result[setting][detail] = 0;
-          break;
-        default:
-      }
-    });
-  });
 
   return result;
 };

@@ -18,8 +18,8 @@ export const DrawYAxisGridLine = ({
     translateDuration,
     translateStartDelay,
     translateItemDelay,
-    translateTimingFunction
-  }
+    translateTimingFunction,
+  },
 }) => {
   const prevYAxis = useRef({});
   const prevYAxisTemp = useRef({});
@@ -66,7 +66,7 @@ export const DrawYAxisGridLine = ({
         let linePath = "";
 
         if (lineDash) {
-          let path = horizontal ? `M ${location - translate},0 ` : `M 0,${location - translate} `;
+          let path = horizontal ? `M ${location - (useAnimation ? translate : 0)},0 ` : `M 0,${location - (useAnimation ? translate : 0)} `;
           let pathLength = 0;
 
           while (pathLength < width) {
@@ -85,11 +85,11 @@ export const DrawYAxisGridLine = ({
         } else {
           linePath = horizontal
             ? `
-            M ${location - translate},0
+            M ${location - (useAnimation ? translate : 0)},0
             v ${width}
           `
             : `
-            M 0,${location - translate}
+            M 0,${location - (useAnimation ? translate : 0)}
             h ${width}
           `;
         }
@@ -125,7 +125,7 @@ export const DrawYAxisGridLine = ({
                     ? yAxis.length - 1 - idx
                     : idx)
               }s`,
-              "--height-offset": horizontal ? `${translate}px` : `0px,${translate}px`
+              "--height-offset": horizontal ? `${translate}px` : `0px,${translate}px`,
             }}
           ></path>
         );

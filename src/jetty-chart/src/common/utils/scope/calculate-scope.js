@@ -156,6 +156,6 @@ export const getUserScope = ({ maxScope, minScope }) => {
     minScope: minScope === scopeResult[scopeResult.length - 1] ? minScope : scopeResult[scopeResult.length - 2],
     topMarginRatio,
     bottomMarginRatio,
-    display: true
+    display: true,
   };
 };

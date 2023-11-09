@@ -8,7 +8,7 @@ import {
   calculateBase,
   calculateBarBase,
   calculateStackedBarBase,
-  calculateStackedLabelLocation
+  calculateStackedLabelLocation,
 } from "../../common/bar-common/utils/calculate-base-values";
 import {
   calculateWarpperTransform,
@@ -20,7 +20,7 @@ import {
   calculateLabelTransform,
   calculateStackedBarFrom,
   calculateStackedLabelFrom,
-  calculateStackedLabelTo
+  calculateStackedLabelTo,
 } from "../../common/bar-common/utils/calculate-bar-positions";
 
 import styles from "./stacked-bar.module.css";
@@ -45,7 +45,7 @@ const StackedBar = ({
   topLegendSettings,
   legendSettings,
   barSettings,
-  animationSettings
+  animationSettings,
 }) => {
   const prevBars = useRef({});
   const prevBarsTemp = useRef({});
@@ -72,7 +72,7 @@ const StackedBar = ({
     topLegendSettings,
     legendSettings,
     barSettings,
-    animationSettings
+    animationSettings,
   });
 
   const { width, height, margin, innerMargin, padding, reverse, horizontal, colorPalette, reverseOrder } = result.normalSettings;
@@ -95,7 +95,7 @@ const StackedBar = ({
     labelWeight,
     labelOpacity,
     labelColor,
-    labelInvisibleHeight
+    labelInvisibleHeight,
   } = result.barSettings;
 
   const {
@@ -117,7 +117,7 @@ const StackedBar = ({
     translateDuration,
     translateStartDelay,
     translateItemDelay,
-    translateTimingFunction
+    translateTimingFunction,
   } = result.animationSettings.barSettings;
 
   const scopeResult = autoScope
@@ -126,7 +126,7 @@ const StackedBar = ({
           d.value.reduce((acc, cur) => {
             return acc + cur;
           }, 0)
-        )
+        ),
       })
     : getUserScope({ maxScope, minScope });
   let display = true;
@@ -168,7 +168,7 @@ const StackedBar = ({
         xAxisInitialPosition: halfBarWidth,
         xAxisWidth: barWidth,
         yAxisHeight: lineHeight,
-        showTopScope
+        showTopScope,
       }}
       axisXGridLineSettings={result.axisXGridLineSettings}
       axisYGridLineSettings={result.axisYGridLineSettings}
@@ -208,14 +208,14 @@ const StackedBar = ({
             totalScope,
             barBorderRadius: 0,
             barOnlyUpperRadius,
-            halfBarRealWidth
+            halfBarRealWidth,
           });
 
           prevBarsTemp.current[nowData.label] = {
             center,
             width: rectWidth,
             height: rectHeight,
-            zeroHeight
+            zeroHeight,
           };
 
           let useTranslate = false;
@@ -227,7 +227,7 @@ const StackedBar = ({
                 center: center - prevBars.current[nowData.label].center,
                 width: rectWidth - prevBars.current[nowData.label].width,
                 height: rectHeight - prevBars.current[nowData.label].height,
-                zeroHeight: zeroHeight - prevBars.current[nowData.label].zeroHeight
+                zeroHeight: zeroHeight - prevBars.current[nowData.label].zeroHeight,
               };
               useTranslate = true;
             }
@@ -246,7 +246,7 @@ const StackedBar = ({
                   center,
                   halfBarRealWidth,
                   drawHeight,
-                  barHeight
+                  barHeight,
                 })}
                 className={useAnimation && useTranslate ? styles.translateGroup : ""}
                 style={{
@@ -259,12 +259,12 @@ const StackedBar = ({
                     rectHeight,
                     rectWidth,
                     drawHeight,
-                    barHeight
+                    barHeight,
                   }),
                   "--group-to": calculateBarWrapperTo({ horizontal, zeroHeight, translate, center, drawHeight, barHeight, halfBarRealWidth }),
                   "--animation-duration": `${translateDuration}s`,
                   "--animation-timing-function": translateTimingFunction,
-                  "--animation-delay": `${translateStartDelay + translateItemDelay * (renderStartFrom === "left" ? index : data.length - 1 - index)}s`
+                  "--animation-delay": `${translateStartDelay + translateItemDelay * (renderStartFrom === "left" ? index : data.length - 1 - index)}s`,
                 }}
               >
                 {nowData.value.map((d, idx) => {
@@ -273,7 +273,7 @@ const StackedBar = ({
                     values: nowData.value,
                     idx: horizontal ? nowData.value.length - 1 - idx : idx,
                     totalValue: nowTotalValue,
-                    reverseOrder
+                    reverseOrder,
                   });
 
                   if (nowTotalValue < 0) {
@@ -295,7 +295,7 @@ const StackedBar = ({
                     labelMargin,
                     rectWidth: nowRectWidth,
                     rectHeight: nowRectHeight,
-                    nowPosition
+                    nowPosition,
                   });
 
                   const cur = `${nowData.label}_${idx}`;
@@ -306,7 +306,7 @@ const StackedBar = ({
                     height: nowRectHeight,
                     zeroHeight,
                     position: nowPosition,
-                    totalHeight: barHeight
+                    totalHeight: barHeight,
                   };
 
                   let useTranslate = false;
@@ -320,7 +320,7 @@ const StackedBar = ({
                         height: nowRectHeight - pervBarItem.current[cur].height,
                         zeroHeight: zeroHeight - pervBarItem.current[cur].zeroHeight,
                         position: nowPosition - pervBarItem.current[cur].position,
-                        totalHeight: barHeight - pervBarItem.current[cur].totalHeight
+                        totalHeight: barHeight - pervBarItem.current[cur].totalHeight,
                       };
                       useTranslate = true;
                     }
@@ -340,7 +340,7 @@ const StackedBar = ({
                           barOnlyUpperRadius,
                           borderRadius,
                           barHeight,
-                          nowPosition
+                          nowPosition,
                         })}
                         fill={colorPalette[idx % colorPalette.length]}
                         fillOpacity={barOpacity}
@@ -372,7 +372,7 @@ const StackedBar = ({
                             barOnlyUpperRadius,
                             drawHeight,
                             zeroHeight,
-                            nowPosition
+                            nowPosition,
                           }),
                           "--bar-to": calculateBarTo({
                             useTranslate,
@@ -385,7 +385,7 @@ const StackedBar = ({
                             barOnlyUpperRadius,
                             drawHeight,
                             zeroHeight,
-                            nowPosition
+                            nowPosition,
                           }),
                           "--width-from": useTranslate ? `${nowRectWidth - translate.width}px` : horizontal ? `0px` : `${nowRectWidth}px`,
                           "--width-to": `${nowRectWidth}px`,
@@ -398,7 +398,7 @@ const StackedBar = ({
                             (useTranslate ? translateStartDelay : renderStartDelay) +
                             (useTranslate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? index : data.length - 1 - index)
                           }s`,
-                          "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction
+                          "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction,
                         }}
                       ></rect>
                       {useLabel && realHeight > labelInvisibleHeight && (
@@ -413,7 +413,7 @@ const StackedBar = ({
                             renderType,
                             drawHeight,
                             barHeight,
-                            zeroHeight
+                            zeroHeight,
                           })}
                         >
                           <text
@@ -449,7 +449,7 @@ const StackedBar = ({
                                 labelMargin,
                                 borderRadius,
                                 barHeight,
-                                nowPosition
+                                nowPosition,
                               }),
                               "--text-to": calculateStackedLabelTo({
                                 useTranslate,
@@ -462,7 +462,7 @@ const StackedBar = ({
                                 halfBarRealWidth,
                                 nowPosition,
                                 rectWidth: nowRectWidth,
-                                rectHeight: nowRectHeight
+                                rectHeight: nowRectHeight,
                               }),
                               "--animation-duration": useTranslate
                                 ? `${translateDuration}s`
@@ -472,7 +472,7 @@ const StackedBar = ({
                                 (useTranslate ? translateItemDelay : textRenderItemDelay) *
                                   (textRenderStartFrom === "left" ? index : data.length - 1 - index)
                               }s`,
-                              "--animation-timing-function": useTranslate ? translateTimingFunction : textRenderTimingFunction
+                              "--animation-timing-function": useTranslate ? translateTimingFunction : textRenderTimingFunction,
                             }}
                           >
                             {nowData.value[idx]}

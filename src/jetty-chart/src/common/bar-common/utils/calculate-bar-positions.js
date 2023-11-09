@@ -13,7 +13,7 @@ export const calculateBarWrapperTransform = ({
   center,
   halfBarRealWidth,
   drawHeight,
-  barHeight
+  barHeight,
 }) => {
   return useAnimation && useTranslate
     ? "translate(0,0)"
@@ -35,7 +35,7 @@ export const calculateBarWrapperFrom = ({
   rectHeight,
   rectWidth,
   drawHeight,
-  barHeight
+  barHeight,
 }) => {
   return horizontal
     ? `${zeroHeight - translate.zeroHeight - borderRadius}px,${center - translate.center - (rectHeight - translate.height) / 2}px`
@@ -57,7 +57,7 @@ export const calculateBarTransform = ({
   barOnlyUpperRadius,
   borderRadius,
   barHeight,
-  nowPosition
+  nowPosition,
 }) => {
   nowPosition ??= 0;
 
@@ -78,7 +78,7 @@ export const calculateBarFrom = ({
   barHeight,
   barOnlyUpperRadius,
   drawHeight,
-  zeroHeight
+  zeroHeight,
 }) => {
   return useTranslate
     ? horizontal
@@ -99,7 +99,7 @@ export const calculateStackedBarFrom = ({
   barOnlyUpperRadius,
   drawHeight,
   zeroHeight,
-  nowPosition
+  nowPosition,
 }) => {
   return useTranslate
     ? horizontal
@@ -125,7 +125,7 @@ export const calculateBarTo = ({
   barOnlyUpperRadius,
   drawHeight,
   zeroHeight,
-  nowPosition
+  nowPosition,
 }) => {
   nowPosition ??= 0;
 
@@ -148,7 +148,7 @@ export const calculateLabelTransform = ({
   renderType,
   drawHeight,
   barHeight,
-  zeroHeight
+  zeroHeight,
 }) => {
   return useAnimation && useTranslate
     ? ``
@@ -171,7 +171,7 @@ export const calculateLabelFrom = ({
   labelMargin,
   rectHeight,
   borderRadius,
-  barHeight
+  barHeight,
 }) => {
   return useTranslate
     ? horizontal
@@ -219,7 +219,7 @@ export const calculateStackedLabelFrom = ({
   labelMargin,
   rectHeight,
   barHeight,
-  nowPosition
+  nowPosition,
 }) => {
   nowPosition ??= 0;
 
@@ -294,7 +294,7 @@ export const calculateStackedLabelTo = ({
   halfBarRealWidth,
   nowPosition,
   rectWidth,
-  rectHeight
+  rectHeight,
 }) => {
   nowPosition ??= 0;
 
