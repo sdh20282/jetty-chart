@@ -1,3 +1,4 @@
+// 라운딩 처리를 위해서 두 원의 외접을 구하는 함수
 const calcInnerTangentCircle = ({ r1, x2, y2, r2 }) => {
   const x1 = 0;
   const y1 = 0;

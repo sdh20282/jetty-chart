@@ -1,3 +1,4 @@
+// 기본 데이터의 범위를 벗어나는 값이 들어왔을 때, 예외처리를 해주는 함수
 import { MAX_PERCENT, MIN_PERCENT } from "../constants/pieException";
 import { exceptionValueRange } from "../exceptions/exceptionValueRange";
 

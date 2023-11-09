@@ -1,5 +1,4 @@
-import { getCoordinateReference } from "../utils/getCoordinate";
-
+// 파이 차트의 디버깅 모드를 표시하는 컴포넌트
 export const PieDebugMode = ({
   debugTool,
   accumulatedAngle,

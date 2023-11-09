@@ -1,3 +1,4 @@
+// 파이 조각의 기본 좌표를 구하는 함수
 import { getCoordinateRatio } from "./getCoordinate";
 
 export const getVertexGroup = ({ ratio, startAngle, pieRadius, innerRadius }) => {

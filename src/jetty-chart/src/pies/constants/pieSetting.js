@@ -1,3 +1,4 @@
+// 파이 차트 기본 설정값 상수
 export const DEFAULT_WIDTH = 400;
 export const DEFAULT_HEIGHT = 400;
 export const DEFAULT_BACKGROUND_COLOR = "black";

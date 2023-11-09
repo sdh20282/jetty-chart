@@ -1,3 +1,4 @@
+// 꼭지점에 위치할 수 있는 원의 후보들을 구함
 import {
   exceptionFloatingPointCompare,
   exceptionFloatingPointSlice,

@@ -1,3 +1,4 @@
+// 꼭지점 라운딩 처리를 위해 안쪽과 바깥쪽의 각각 반지름을 계산
 import { exceptionCornerRadius } from "../exceptions/exceptionCornerRadius";
 
 export const getCornerRadius = ({

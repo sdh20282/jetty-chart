@@ -1,3 +1,4 @@
+// 파이 차트의 SVG를 그리는 컴포넌트
 import getPiePiece from "../utils/getPiePiece";
 import PiePiece from "./PiePiece";
 import { divideRatio } from "../utils/getDivideRatio";

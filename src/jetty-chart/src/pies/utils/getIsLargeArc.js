@@ -1,3 +1,4 @@
+// 안쪽과 바깥쪽의 각도가 180도 이상인지 확인하는 함수
 const calcTwoLineRatio = ({ x1, y1, x2, y2 }) => {
   const dotProduct = x1 * x2 + y1 * y2;
 

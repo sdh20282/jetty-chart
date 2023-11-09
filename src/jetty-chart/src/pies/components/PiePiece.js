@@ -1,3 +1,4 @@
+// 파이 조각을 그리는 컴포넌트
 const PiePiece = ({
   data,
   startX,

@@ -1,3 +1,4 @@
+// 부동 소수점 예외 처리 함수
 import { EXCEPTION_FLOATING_POINT } from "../constants/pieException";
 
 export const exceptionFloatingPointSlice = ({ num }) => {

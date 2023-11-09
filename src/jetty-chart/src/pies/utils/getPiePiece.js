@@ -1,3 +1,4 @@
+// 파이 조각을 구성하는 데이터를 계산하여 반환하는 함수
 import {
   getCoordinateVertexGroup,
   getCoordinateCalcVertexGroup,

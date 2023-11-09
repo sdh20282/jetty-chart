@@ -1,3 +1,4 @@
+// 라운딩을 위한 꼭지점 최대 반지름을 넘지 않게 예외처리 하는 함수
 import { getCoordinateRatio } from "../utils/getCoordinate";
 
 const exceptionCornerRadiusWidth = ({

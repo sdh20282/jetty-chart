@@ -1,3 +1,4 @@
+// 좌표를 구하는 함수들을 모아놓은 파일
 import { getCornerCircleGroup } from "./getCornerCircle";
 import { getCornerCircleCandidateGroup } from "./getCornerCircleCandidate";
 import { getTangentCircleGroup } from "./getTangentCircle";

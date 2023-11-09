@@ -1,3 +1,4 @@
+// 파이 차트를 페이지에서 테스트 할 수 있도록 하는 컴포넌트
 import { useState, useEffect } from "react";
 
 const PieTestSetting = ({
