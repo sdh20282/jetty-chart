@@ -7,10 +7,20 @@
   --animation-timing-function: "linear";
   --animation-delay: "0s";
   --height-offset: "0px";
-  --start-x-offset : "0px";
-  --start-y-offset : "0px";
-  --prev-path : "";
-  --curr-path : "";
+  --start-x-offset: "0px";
+  --start-y-offset: "0px";
+  --prev-path: "";
+  --curr-path: "";
+}
+
+.debug {
+  opacity: 0;
+  transition: all linear 0.5s;
+}
+
+.drawPoint {
+  opacity: 0;
+  animation: draw-point var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
 .drawLine {
@@ -25,38 +35,28 @@
   animation: draw-area var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
-.drawPoint {
-  opacity: 0;
-  animation: draw-point var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
-}
-
 .drawAreaHoriziontal {
   opacity: 0;
   animation: draw-area-horiziontal var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
-.fadeLine {
+.fade {
   opacity: 0;
-  animation: fade-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+  animation: fade var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
-.fadeArea {
-  opacity: 0;
-  animation: fade-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
-}
-
-.moveLine {
-  opacity: 1;
-  d : path(var(--prev-path));
-  animation: move-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
-}
-
-.movePoint{
+.movePoint {
   transform: translate(var(--start-x-offset), var(--start-y-offset));
   animation: move-point var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
-.moveArea{
+.moveLine {
+  opacity: 1;
+  d: path(var(--prev-path));
+  animation: move-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
+.moveArea {
   width: var(--line-width);
   height: var(--line-heght);
   opacity: 1;
@@ -73,33 +73,12 @@
   }
 }
 
-@keyframes fade-line {
+@keyframes fade {
   0% {
     opacity: 0;
   }
 
   100% {
-    opacity: 1;
-  }
-}
-
-@keyframes move-line {
-  from {
-    d : path(var(--prev-path));
-  }
-
-  to {
-    d : path(var(--curr-path));
-  }
-}
-
-@keyframes draw-area {
-  0% {
-    width: 0px;
-  }
-
-  100% {
-    width: var(--line-width);
     opacity: 1;
   }
 }
@@ -121,13 +100,14 @@
   }
 }
 
-@keyframes move-point{
+@keyframes draw-area {
   0% {
-    transform: translate(var(--start-x-offset), var(--start-y-offset));
+    width: 0px;
   }
 
   100% {
-    transform: translate(var(--pos-x), var(--pos-y));
+    width: var(--line-width);
+    opacity: 1;
   }
 }
 
@@ -135,7 +115,7 @@
   0% {
     height: 0px;
   }
-
+  
   100% {
     height: var(--line-heght);
     opacity: 1;
@@ -152,18 +132,22 @@
   }
 }
 
-.debug {
-  opacity: 0;
-  transition: all linear 0.5s;
+@keyframes move-line {
+  from {
+    d: path(var(--prev-path));
+  }
+
+  to {
+    d: path(var(--curr-path));
+  }
 }
 
-.pointLabel.hovered {
-  transition: all 0.25s ease 0s;
-}
+@keyframes move-point {
+  0% {
+    transform: translate(var(--start-x-offset), var(--start-y-offset));
+  }
 
-.point {
-  transition: all linear 1s;
-}
-.line {
-  transition: all ease-out 1s;
+  100% {
+    transform: translate(var(--pos-x), var(--pos-y));
+  }
 }
