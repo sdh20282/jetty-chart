@@ -1,12 +1,11 @@
-import React from "react";
-import { NormalLine } from "..";
+import { SingleLine } from "..";
 
 function TestNormalLine({ data }) {
   return (
     <div style={{ display: "flex", flexWrap: "wrap", width: "1600px" }}>
-      <NormalLine
+      <SingleLine
         data={data}
-        keys={["dataSet"]}
+        title={"dataSet"}
         xLegend={"types"}
         yLegend={"values"}
         normalSettings={{
@@ -29,7 +28,7 @@ function TestNormalLine({ data }) {
           pointSize: 4,
           pointBorderColor: "#fff",
           pointBorderWidth: 1,
-          enablePointLabel: true,
+          enablePointLabel: false,
           showLabelOnHover: true,
           pointLabelColor: "#000",
           pointLabelSize: 12,
@@ -61,9 +60,9 @@ function TestNormalLine({ data }) {
           },
         }}
       />
-      <NormalLine
+      <SingleLine
         data={data}
-        keys={["dataSet"]}
+        title={["dataSet"]}
         xLegend={"types"}
         yLegend={"values"}
         normalSettings={{
@@ -86,7 +85,7 @@ function TestNormalLine({ data }) {
           pointSize: 3,
           pointBorderColor: "#fff",
           pointBorderWidth: 2,
-          enablePointLabel: true,
+          enablePointLabel: false,
           showLabelOnHover: true,
           pointLabelColor: "#000",
           pointLabelSize: 12,
@@ -118,9 +117,9 @@ function TestNormalLine({ data }) {
           },
         }}
       />
-      <NormalLine
+      <SingleLine
         data={data}
-        keys={["dataSet"]}
+        title={["dataSet"]}
         xLegend={"types"}
         yLegend={"values"}
         normalSettings={{
@@ -159,7 +158,7 @@ function TestNormalLine({ data }) {
           pointSize: 3,
           pointBorderColor: "#fff",
           pointBorderWidth: 2,
-          enablePointLabel: true,
+          enablePointLabel: false,
           showLabelOnHover: true,
           pointLabelColor: "#000",
           pointLabelSize: 12,
@@ -202,9 +201,9 @@ function TestNormalLine({ data }) {
           },
         }}
       />
-      <NormalLine
+      <SingleLine
         data={data}
-        keys={["dataSet"]}
+        title={["dataSet"]}
         xLegend={"types"}
         yLegend={"values"}
         normalSettings={{
@@ -227,7 +226,7 @@ function TestNormalLine({ data }) {
           pointSize: 6,
           pointBorderColor: "#fff",
           pointBorderWidth: 0,
-          enablePointLabel: true,
+          enablePointLabel: false,
           showLabelOnHover: true,
           pointLabelColor: "#000",
           pointLabelSize: 12,
@@ -259,9 +258,9 @@ function TestNormalLine({ data }) {
           },
         }}
       />
-      <NormalLine
+      <SingleLine
         data={data}
-        keys={["dataSet"]}
+        title={["dataSet"]}
         xLegend={"types"}
         yLegend={"values"}
         normalSettings={{
@@ -284,7 +283,7 @@ function TestNormalLine({ data }) {
           pointSize: 4,
           pointBorderColor: "#5DADE2",
           pointBorderWidth: 1,
-          enablePointLabel: true,
+          enablePointLabel: false,
           showLabelOnHover: true,
           pointLabelColor: "#5DADE2",
           pointLabelSize: 12,
@@ -316,9 +315,9 @@ function TestNormalLine({ data }) {
           },
         }}
       />
-      <NormalLine
+      <SingleLine
         data={data}
-        keys={["dataSet"]}
+        title={["dataSet"]}
         xLegend={"types"}
         yLegend={"values"}
         normalSettings={{
@@ -341,7 +340,7 @@ function TestNormalLine({ data }) {
           pointSize: 1,
           pointBorderColor: "#000",
           pointBorderWidth: 3,
-          enablePointLabel: true,
+          enablePointLabel: false,
           showLabelOnHover: false,
           pointLabelColor: "#000",
           pointLabelSize: 12,

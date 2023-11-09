@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { NormalBar } from "./jetty-chart/src";
 import {} from "./jetty-chart/src/lines/bump/bump";
-import { BumpChart, TestMultiLine, TestNormalLine, TestStackedLine } from "./jetty-chart/src/lines";
+import { BumpChart, TestMultiLine, TestSingleLine, TestStackedLine } from "./jetty-chart/src/lines";
 
 const counts = [5, 7];
 
@@ -104,7 +104,7 @@ function App() {
   return (
     <div style={{ marginTop: "50px", paddingLeft: "200px" }}>
       {norender && myNormalBar({ data })}
-      {render1 && <TestNormalLine data={data} />}
+      {render1 && <TestSingleLine data={data} />}
       {render2 && <TestMultiLine dataSet={multiDataSet} />}
       {render3 && <TestStackedLine dataSet={multiDataSet} />}
       {render4 && (
