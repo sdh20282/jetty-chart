@@ -1,5 +1,5 @@
 // 좌표를 구하는 함수들을 모아놓은 파일
-import { exceptionFloatingPointSlice } from "../exceptions/exceptionFloatingPoint";
+import { exceptionFloatingPointSliceSet } from "../exceptions/exceptionFloatingPoint";
 import { getCornerCircleGroup } from "./getCornerCircle";
 import { getCornerCircleCandidateGroup } from "./getCornerCircleCandidate";
 import { getTangentCircleGroup } from "./getTangentCircle";
@@ -8,14 +8,12 @@ import { getVertexGroup } from "./getVertexGroup";
 
 // startAngle과 ratio에 따라 좌표 구하는 함수, radius = 크기
 export const getCoordinateRatio = ({ ratio, startAngle, radius }) => {
-  const x = exceptionFloatingPointSlice({
+  const x = exceptionFloatingPointSliceSet({
     num: Math.cos(2 * Math.PI * ratio + (Math.PI * startAngle) / 180) * radius,
   });
-  const y = exceptionFloatingPointSlice({
+  const y = exceptionFloatingPointSliceSet({
     num: Math.sin(2 * Math.PI * ratio + (Math.PI * startAngle) / 180) * radius,
   });
-
-  console.log("getCoordinateRatio", ratio, startAngle, radius, x, y);
 
   return { x, y };
 };

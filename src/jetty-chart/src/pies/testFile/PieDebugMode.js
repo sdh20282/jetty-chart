@@ -106,16 +106,6 @@ export const PieDebugMode = ({
           fill={"brown"}
           opacity={0.5}
         />
-
-        <line
-          x1={0}
-          y1={0}
-          x2={Math.cos((((accumulatedAngle - percent * 360 + 360) % 360) * Math.PI) / 180)}
-          y2={Math.sin((((accumulatedAngle - percent * 360 + 360) % 360) * Math.PI) / 180)}
-          stroke="yellow"
-          strokeWidth="0.003"
-          opacity={0.8}
-        />
         <line
           x1={0}
           y1={0}

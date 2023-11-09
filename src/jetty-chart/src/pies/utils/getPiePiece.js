@@ -11,9 +11,8 @@ import { getIsLargeArcGroup } from "./getIsLargeArc";
 import { getCornerRadius } from "./getCornerRadius";
 
 const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle }) => {
-  let accumulatedAngle = startAngle % 360;
-  const pieceData = data.map(({ value, ratio, label }) => {
-    console.log("getPiePiece", value, ratio, label, accumulatedAngle);
+  // let accumulatedAngle = startAngle % 360;
+  const pieceData = data.map(({ value, ratio, label, accumulatedAngle }) => {
     const vertexGroup = getCoordinateVertexGroup({
       ratio,
       startAngle: accumulatedAngle,
@@ -27,24 +26,22 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       vertexGroup,
       ratio,
       startAngle,
-      accumulatedAngle,
+      accumulatedAngle: accumulatedAngle,
     });
-    console.log("cornerRadius", cornerInnerRadius, cornerOuterRadius);
     const tangentLineGroup = getCoordinateTangentLineGroup({
       pieRadius,
       innerRadius,
       cornerInnerRadius: cornerInnerRadius,
       cornerOuterRadius: cornerOuterRadius,
       ratio,
-      accumulatedAngle,
+      accumulatedAngle: accumulatedAngle,
     });
-    console.log("tangetLineGroup", tangentLineGroup);
     const candidatesGroup = getCoordinateCornerCircleCandidateGroup({
       pieRadius,
       innerRadius,
       cornerInnerRadius,
       cornerOuterRadius,
-      accumulatedAngle,
+      accumulatedAngle: accumulatedAngle,
       tangentLineGroup,
       ratio,
     });
@@ -68,8 +65,8 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
 
     const isLargeArcGroup = getIsLargeArcGroup({ ratio, vertexGroup, calcVertexGroup });
 
-    accumulatedAngle += ratio * 360;
-    accumulatedAngle %= 360;
+    // accumulatedAngle += ratio * 360 + padAngle;
+    // accumulatedAngle %= 360;
 
     return {
       pieRadius,
@@ -80,7 +77,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       tangentLineGroup,
       calcVertexGroup,
       cornerCircleGroup,
-      accumulatedAngle,
+      accumulatedAngle: accumulatedAngle,
       isLargeArcGroup,
       referenceCoordinate,
       value,

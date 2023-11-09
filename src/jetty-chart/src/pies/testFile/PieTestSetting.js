@@ -41,21 +41,21 @@ const PieTestSetting = ({
       <p>Pie Test</p>
       <div>
         <div>
-          <label style={{ color: "red" }}>width</label>
+          <label style={{ color: "black" }}>width</label>
           <input
             size={5}
             style={{ margin: "10px" }}
             value={width}
             onChange={(e) => setWidth(e.target.value)}
           />
-          <label style={{ color: "red" }}>height</label>
+          <label style={{ color: "black" }}>height</label>
           <input
             size={5}
             style={{ margin: "10px" }}
             value={height}
             onChange={(e) => setHeight(e.target.value)}
           />
-          <label style={{ color: "red" }}>backgroundColor</label>
+          <label style={{ color: "black" }}>backgroundColor</label>
           <input
             size={5}
             style={{ margin: "10px" }}
@@ -91,19 +91,45 @@ const PieTestSetting = ({
           />
         </div>
         <div>
-          <label style={{ color: "red" }}>startAngle</label>
+          <br />
+          <label style={{ color: "black" }}>startAngle</label>
+          <input
+            type={"range"}
+            min={"0"}
+            max={"360"}
+            step={"1"}
+            style={{ margin: "10px" }}
+            value={startAngle}
+            onChange={(e) => {
+              setStartAngle(e.target.value);
+              setTestToggle(!testToggle);
+            }}
+          />
           <input
             size={5}
             style={{ margin: "10px" }}
             value={startAngle}
             onChange={(e) => setStartAngle(e.target.value)}
           />
+          <br />
           <label>padAngle</label>
+          <input
+            type={"range"}
+            min={"0"}
+            max={"100"}
+            step={"0.01"}
+            style={{ margin: "10px" }}
+            value={padAngle}
+            onChange={(e) => {
+              setPadAngle(Number(e.target.value));
+              setTestToggle(!testToggle);
+            }}
+          />
           <input
             size={5}
             style={{ margin: "10px" }}
             value={padAngle}
-            onChange={(e) => setPadAngle(e.target.value)}
+            onChange={(e) => setPadAngle(Number(e.target.value))}
           />
           <br />
           <label>pieRadius</label>

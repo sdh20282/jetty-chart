@@ -2,7 +2,7 @@
 import { MAX_PERCENT, MIN_PERCENT } from "../constants/pieException";
 import { exceptionValueRange } from "../exceptions/exceptionValueRange";
 
-export const setExceptionValue = ({ pieSettings }) => {
+export const setExceptionValue = ({ pieSettings, length }) => {
   pieSettings.innerRadius = exceptionValueRange({
     num: pieSettings.innerRadius,
     max: MAX_PERCENT,
@@ -18,4 +18,10 @@ export const setExceptionValue = ({ pieSettings }) => {
     max: MAX_PERCENT,
     min: MIN_PERCENT,
   });
+  pieSettings.padAngle = exceptionValueRange({
+    num: pieSettings.padAngle,
+    max: 300 / length,
+    min: 0,
+  });
+  pieSettings.startAngle = Math.round(pieSettings.startAngle);
 };

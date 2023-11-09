@@ -4,14 +4,15 @@ export const divideRatio = ({ data, padAngle = 0, startAngle }) => {
   for (let i = 0; i < data.length; i++) {
     sum += data[i].value;
   }
-
   let accumulatedAngle = startAngle % 360;
+  let prevRatio = 0;
   return data.map((item, index) => {
     const ratio = (item.value / sum / 360) * (360 - padAngle * data.length);
     if (index > 0) {
-      accumulatedAngle += ratio * 360 + padAngle;
+      accumulatedAngle += prevRatio * 360 + padAngle;
       accumulatedAngle %= 360;
     }
+    prevRatio = ratio;
     return {
       ...item,
       ratio: ratio,

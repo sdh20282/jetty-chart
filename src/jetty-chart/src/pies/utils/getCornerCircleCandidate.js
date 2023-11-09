@@ -1,7 +1,7 @@
 // 꼭지점에 위치할 수 있는 원의 후보들을 구함
 import {
   exceptionFloatingPointCompare,
-  exceptionFloatingPointSlice,
+  exceptionFloatingPointSliceCheck,
 } from "../exceptions/exceptionFloatingPoint";
 
 export const calcCornerCircleCandidate = ({ r1, r2, a, b }) => {
@@ -43,49 +43,68 @@ export const calcCornerCircleCandidate = ({ r1, r2, a, b }) => {
     { x: xp.minus, y: -yp.minus },
   ]
     .filter((candidate) => {
-      const x = exceptionFloatingPointSlice({ num: candidate.x });
-      const y = exceptionFloatingPointSlice({ num: candidate.y });
+      const x = exceptionFloatingPointSliceCheck({ num: candidate.x });
+      const y = exceptionFloatingPointSliceCheck({ num: candidate.y });
 
-      console.log("CHECK1: ", x, y);
       for (let i = 0; i < checkX.length; i++) {
         if (
           exceptionFloatingPointCompare({ num1: x, num2: checkX[i] }) &&
           exceptionFloatingPointCompare({ num1: y, num2: checkY[i] })
         ) {
-          console.log("CHECK1", false);
+          console.log("CHECK1 FALSE");
           return false;
         }
       }
       checkX.push(x);
       checkY.push(y);
-      console.log("CHECK1", true);
+      console.log("CHECK1 TRUE");
       return true;
     })
     .filter((candidate) => {
-      const result = exceptionFloatingPointSlice({
+      const result = exceptionFloatingPointSliceCheck({
         num: (a - candidate.x) ** 2 + (b - candidate.y) ** 2,
       });
-      const target = exceptionFloatingPointSlice({
+      const target = exceptionFloatingPointSliceCheck({
         num: r1 ** 2,
       });
 
-      console.log("CHECK2", result, target);
-      console.log((a - candidate.x) ** 2 + (b - candidate.y) ** 2, r1 ** 2);
-
+      console.log(
+        "CHECK2",
+        candidate.x ** 2 + candidate.y ** 2,
+        r2 ** 2,
+        result,
+        target,
+        exceptionFloatingPointCompare({ num1: result, num2: target })
+      );
       return exceptionFloatingPointCompare({ num1: result, num2: target });
     })
     .filter((candidate) => {
-      const result = exceptionFloatingPointSlice({
+      const result = exceptionFloatingPointSliceCheck({
         num: candidate.x ** 2 + candidate.y ** 2,
       });
-      const target = exceptionFloatingPointSlice({
+      const target = exceptionFloatingPointSliceCheck({
         num: r2 ** 2,
       });
 
-      console.log("CHECK3", result, target);
+      console.log(
+        "CHECK3",
+        candidate.x ** 2 + candidate.y ** 2,
+        r2 ** 2,
+        result,
+        target,
+        exceptionFloatingPointCompare({ num1: result, num2: target })
+      );
       return exceptionFloatingPointCompare({ num1: result, num2: target });
     });
-  console.log(candidates);
+  console.log("CANDIDATES", candidates);
+  if (candidates.length === 0) {
+    console.error("CANNOT FIND CANDIDATE1");
+    return { x1: 0, y1: 0, x2: 0, y2: 0 };
+  }
+  if (candidates.length === 1) {
+    console.error("CANNOT FIND CANDIDATE2");
+    return { x1: 0, y1: 0, x2: 0, y2: 0 };
+  }
   return { x1: candidates[0].x, y1: candidates[0].y, x2: candidates[1].x, y2: candidates[1].y };
 };
 
