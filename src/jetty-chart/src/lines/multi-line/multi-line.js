@@ -183,20 +183,21 @@ const MultiLine = ({
     lastPoints.push(lastPoint);
   });
 
-  const {
-    useAnimation,
-    useGridAnimation,
-    renderReverse,
-    translateReverse,
-    translateItemDelay,
-    translateLine,
-    translateDuration,
-    translateStartDelay,
-    translateTimingFunction,
-  } = result.animationSettings.generalSettings;
+  const { useAnimation, useGridAnimation, renderReverse, translateReverse } = result.animationSettings.generalSettings;
 
-  const { useLineAnimation, lineRenderType, lineRenderDuration, lineRenderStartDelay, lineRenderItemDelay, lineRenderTimingFunction } =
-    result.animationSettings.lineSettings;
+  const {
+    useLineAnimation,
+    lineRenderType,
+    lineRenderDuration,
+    lineRenderStartDelay,
+    lineRenderItemDelay,
+    lineRenderTimingFunction,
+    translateLine,
+    translateLineItemDelay,
+    translateLineDuration,
+    translateLineStartDelay,
+    translateLineTimingFunction,
+  } = result.animationSettings.lineSettings;
 
   const {
     usePointAnimation,
@@ -206,10 +207,26 @@ const MultiLine = ({
     pointRenderStartDelay,
     pointRenderItemDelay,
     pointRenderTimingFunction,
+    translatePoint,
+    translatePointItemDelay,
+    translatePointDuration,
+    translatePointStartDelay,
+    translatePointTimingFunction,
   } = result.animationSettings.pointSettings;
 
-  const { useAreaAnimation, areaRenderType, areaRenderDuration, areaRenderStartDelay, areaRenderItemDelay, areaRenderTimingFunction } =
-    result.animationSettings.areaSettings;
+  const {
+    useAreaAnimation,
+    areaRenderType,
+    areaRenderDuration,
+    areaRenderStartDelay,
+    areaRenderItemDelay,
+    areaRenderTimingFunction,
+    translateArea,
+    translateAreaItemDelay,
+    translateAreaDuration,
+    translateAreaStartDelay,
+    translateAreaTimingFunction,
+  } = result.animationSettings.areaSettings;
 
   if (!useGridAnimation) {
     result.animationSettings.axisYGridLineSettings = { ...result.animationSettings.axisYGridLineSettings, useAnimation: useGridAnimation };
@@ -227,10 +244,14 @@ const MultiLine = ({
     nowPath.current = [];
   }
 
-  const useSmooth = useAnimation && translateLine && prevPath.current.dataLength != undefined;
+  const isChanged = useAnimation && prevPath.current.dataLength != undefined;
+  const useTranslateLine = translateLine && isChanged;
+  const useTranslatePoint = translatePoint && isChanged;
+  const useTranslateArea = translateArea && isChanged;
+
   nowPath.current = {
     dataLength,
-    dataSetLength : dataSet.length,
+    dataSetLength: dataSet.length,
     linePathArray,
     lastPoints,
     startZeroPoints,
@@ -342,7 +363,7 @@ const MultiLine = ({
       <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
         {enableArea &&
           areaPathArray.map((d, idx) => {
-            const useMove = useSmooth && prevPath.current.dataSetLength > idx;
+            const useMove = useTranslateArea && prevPath.current.dataSetLength > idx;
 
             return (
               <g key={`area-multi-${ms}-${idx}`}>
@@ -357,11 +378,11 @@ const MultiLine = ({
                       style={{
                         "--prev-path": `"${useMove ? prevPath.current.areaPathArray[idx] : ""}"`,
                         "--curr-path": `"${d}"`,
-                        "--animation-duration": `${useMove ? translateDuration : areaRenderDuration}s`,
-                        "--animation-timing-function": useMove ? translateTimingFunction : areaRenderTimingFunction,
+                        "--animation-duration": `${useMove ? translateAreaDuration : areaRenderDuration}s`,
+                        "--animation-timing-function": useMove ? translateAreaTimingFunction : areaRenderTimingFunction,
                         "--animation-delay": `${
-                          useMove
-                            ? translateStartDelay + (translateReverse ? dataSetLastIdx - idx : idx) * translateItemDelay
+                          useMove   
+                            ? translateAreaStartDelay + (translateReverse ? dataSetLastIdx - idx : idx) * translateAreaItemDelay
                             : areaRenderStartDelay + (renderReverse ? dataSetLastIdx - idx : idx) * areaRenderItemDelay
                         }s`,
                       }}
@@ -403,7 +424,7 @@ const MultiLine = ({
             );
           })}
         {linePathArray.map((pathString, idx) => {
-          const useMove = useSmooth && prevPath.current.startZeroPoints.length > idx;
+          const useMove = useTranslateLine && prevPath.current.startZeroPoints.length > idx;
           return (
             <path
               key={`line-multi-${ms}-${idx}`}
@@ -431,11 +452,11 @@ const MultiLine = ({
               style={{
                 "--prev-path": `"${useMove ? "M " + prevPath.current.linePathArray[idx] : " "}"`,
                 "--curr-path": `"${"M " + pathString}"`,
-                "--animation-duration": `${useMove ? translateDuration : lineRenderDuration}s`,
-                "--animation-timing-function": useMove ? translateTimingFunction : lineRenderTimingFunction,
+                "--animation-duration": `${useMove ? translateLineDuration : lineRenderDuration}s`,
+                "--animation-timing-function": useMove ? translateLineTimingFunction : lineRenderTimingFunction,
                 "--animation-delay": `${
                   useMove
-                    ? translateStartDelay + (translateReverse ? dataSetLastIdx - idx : idx) * translateItemDelay
+                    ? translateLineStartDelay + (translateReverse ? dataSetLastIdx - idx : idx) * translateLineItemDelay
                     : lineRenderStartDelay + (renderReverse ? dataSetLastIdx - idx : idx) * lineRenderItemDelay
                 }s`,
               }}
@@ -445,7 +466,7 @@ const MultiLine = ({
       </g>
       {Object.keys(pointPosition).map((key) => {
         const [idx, index] = key.split("-");
-        const useMove = useSmooth && prevPath.current.startZeroPoints.length > index && prevPath.current.dataLength > idx;
+        const useMove = useTranslatePoint && prevPath.current.startZeroPoints.length > index && prevPath.current.dataLength > idx;
         const d = pointPosition[key];
         let startXoffset = useMove
           ? horizontal
@@ -487,10 +508,10 @@ const MultiLine = ({
               "--pos-y": `${horizontal ? d.horizontalY : d.y}px`,
               "--start-x-offset": `${useMove ? startXoffset : horizontal ? d.horizontalX : d.x}px`,
               "--start-y-offset": `${useMove ? startYoffset : horizontal ? d.horizontalY : d.y}px`,
-              "--animation-duration": `${useMove ? translateDuration : pointRenderDuration}s`,
-              "--animation-timing-function": useMove ? translateTimingFunction : pointRenderTimingFunction,
+              "--animation-duration": `${useMove ? translatePointDuration : pointRenderDuration}s`,
+              "--animation-timing-function": useMove ? translatePointTimingFunction : pointRenderTimingFunction,
               "--animation-delay": `${
-                useMove ? translateStartDelay + (translateReverse ? dataSetLastIdx - index : index) * translateItemDelay : d.animationDelay
+                useMove ? translatePointStartDelay + (translateReverse ? dataSetLastIdx - index : index) * translatePointItemDelay : d.animationDelay
               }s`,
             }}
           >
