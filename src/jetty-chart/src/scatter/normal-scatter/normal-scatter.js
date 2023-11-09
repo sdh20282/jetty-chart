@@ -19,24 +19,9 @@ function CircleWithTooltip({
   yName,
   xLegend,
   yLegend,
-  groupIdx,
-  renderTime
+  pointStyle,
 }) {
   const [showTooltip, setShowTooltip] = useState(false);
-  const [opacity, setOpacity] = useState(0);
-
-  useEffect(() => {
-    const timeout = setTimeout(
-      () => {
-        setOpacity(1);
-      },
-      groupIdx * 1000 * renderTime
-    );
-
-    return () => clearTimeout(timeout);
-  }, [groupIdx]);
-
-  console.log(renderTime);
 
   const handleMouseEnter = () => {
     setShowTooltip(true);
@@ -55,10 +40,7 @@ function CircleWithTooltip({
     position: "absolute",
     top: `${yPos}px`,
     left: `${xPos}px`,
-    zIndex: "9999"
-  };
-  const pointStyle = {
-    opacity
+    zIndex: "9999",
   };
 
   return (
@@ -91,7 +73,7 @@ const NormalScatter = ({
   bottomLabelSettings,
   topLabelSettings,
   pointSettings,
-  animationSettings
+  animationSettings,
 }) => {
   const result = checkNormalPoint({
     normalSettings,
@@ -108,7 +90,7 @@ const NormalScatter = ({
     bottomLabelSettings,
     topLabelSettings,
     pointSettings,
-    animationSettings
+    animationSettings,
   });
 
   const { width, height, margin, padding, xReverse, yReverse, colorPalette } = result.normalSettings;
@@ -153,7 +135,7 @@ const NormalScatter = ({
         totalWidth,
         totalHeight,
         xAxisWidth: AreaWidth,
-        yAxisHeight: lineHeight
+        yAxisHeight: lineHeight,
       }}
       axisXGridLineSettings={result.axisXGridLineSettings}
       axisYGridLineSettings={result.axisYGridLineSettings}
@@ -172,9 +154,26 @@ const NormalScatter = ({
         {data.flatMap((group, groupIdx) => {
           // 그룹에 색상 할당
           const groupColor = colorPalette[groupIdx % colorPalette.length];
-          setTimeout(() => {
-            // 아무 코드도 작성하지 않음
-          }, 1000);
+
+          const [opacity, setOpacity] = useState(0);
+
+          useEffect(() => {
+            const timeout = setTimeout(
+              () => {
+                setOpacity(1);
+              },
+              groupIdx * 1000 * pointRenderTime
+            );
+        
+            return () => {
+              clearTimeout(timeout)
+              setOpacity(0)};
+          }, [data]);
+
+          const pointStyle = {
+            opacity,
+          };
+
           return group.data.map((item, idx) => {
             const xPos = calculateXPosition(item.x, xScopeResult, totalWidth, xReverse);
             const yPos = calculateYPosition(item.y, yScopeResult, totalHeight, yReverse);
@@ -195,7 +194,7 @@ const NormalScatter = ({
                 xLegend={xLegend}
                 yLegend={yLegend}
                 groupIdx={groupIdx}
-                renderTime={pointRenderTime}
+                pointStyle={pointStyle}
               />
             );
           });
