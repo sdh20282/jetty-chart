@@ -10,7 +10,6 @@ import {
   DEFAULT_INNER_RADIUS,
   DEFAULT_PADDING,
   DEFAULT_PAD_ANGLE,
-  DEFAULT_PAD_SIZE,
   DEFAULT_PIE_RADIUS,
   DEFAULT_START_ANGLE,
   DEFAULT_WIDTH,
@@ -46,7 +45,7 @@ const Pie = ({
     setDebugTool(!debugTool);
   };
   return (
-    <>
+    <div style={{ display: "flex" }}>
       <PieTestSetting
         generalSettings={generalSettings}
         pieSettings={pieSettings}
@@ -60,7 +59,7 @@ const Pie = ({
         pieSettings={newPieSettings}
         debugTool={debugTool}
       />
-    </>
+    </div>
   );
 };
 

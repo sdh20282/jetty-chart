@@ -18,6 +18,7 @@ export const PieDebugMode = ({
   return (
     debugTool && (
       <>
+        <circle cx={0} cy={0} r={pieRadius} fill="lightgray" opacity={0.03} />
         <circle
           cx={vertexGroup[0].x}
           cy={vertexGroup[0].y}
@@ -115,7 +116,15 @@ export const PieDebugMode = ({
           strokeWidth="0.003"
           opacity={0.8}
         />
-        <circle cx={0} cy={0} r={pieRadius} fill="lightgray" opacity={0.1} />
+        <line
+          x1={0}
+          y1={0}
+          x2={Math.cos(((accumulatedAngle + percent * 360) * Math.PI) / 180)}
+          y2={Math.sin(((accumulatedAngle + percent * 360) * Math.PI) / 180)}
+          stroke="yellow"
+          strokeWidth="0.003"
+          opacity={0.8}
+        />
 
         <circle
           cx={tangentLineGroup[0].x}

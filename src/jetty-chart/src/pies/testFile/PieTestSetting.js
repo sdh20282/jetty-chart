@@ -38,8 +38,8 @@ const PieTestSetting = ({
   }, [testToggle]);
   return (
     <>
-      <p>Pie Test</p>
       <div>
+        <p>Pie Test</p>
         <div>
           <label style={{ color: "black" }}>width</label>
           <input
@@ -209,8 +209,6 @@ const PieTestSetting = ({
             }}
           />
         </div>
-      </div>
-      <div>
         <button style={{ margin: "10px" }} onClick={() => setTestToggle(!testToggle)}>
           Test
         </button>

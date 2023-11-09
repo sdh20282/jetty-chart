@@ -6,7 +6,7 @@ import { PieDebugMode } from "../testFile/PieDebugMode";
 import { setExceptionValue } from "../utils/setExceptionValue";
 
 const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
-  data = [{ value: 0.85 }, { value: 0.15 }];
+  // data = [{ value: 0.85 }, { value: 0.15 }]; //153
   // data = [
   //   { value: 0.2 },
   //   { value: 0.3 },
