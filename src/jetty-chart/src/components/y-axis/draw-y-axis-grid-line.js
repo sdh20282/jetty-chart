@@ -30,7 +30,6 @@ export const DrawYAxisGridLine = ({
 
   const animationXAxisStart = renderStartFrom.split("-")[0];
   const animationYAxisStart = renderStartFrom.split("-")[1];
-  const prevYAxisKeys = Object.keys(prevYAxis.current);
   const ms = new Date().valueOf();
 
   if (translateLine) {
@@ -48,8 +47,10 @@ export const DrawYAxisGridLine = ({
         // 현재 위치 계산
         const location = yAxisHeight * idx;
 
+        const nowKey = `y-axis-grid-line-${c}`;
+
         // 현재 위치 정보 저장
-        prevYAxisTemp.current[c] = location;
+        prevYAxisTemp.current[nowKey] = location;
 
         // 라인 리렌더링을 안할 경우
         let useTranslate = false;
@@ -57,8 +58,8 @@ export const DrawYAxisGridLine = ({
 
         if (translateLine) {
           // 이전 위치에 현재 위치가 포함되는지 확인
-          if (prevYAxisKeys.includes(String(c))) {
-            translate = location - prevYAxis.current[c];
+          if (Object.keys(prevYAxis.current).includes(nowKey)) {
+            translate = location - prevYAxis.current[nowKey];
             useTranslate = true;
           }
         }
@@ -96,7 +97,7 @@ export const DrawYAxisGridLine = ({
 
         return (
           <path
-            key={"background-line-y-" + ms + "-" + c}
+            key={"background-line-y-" + ms + "-" + idx}
             d={linePath}
             stroke={lineColor}
             strokeOpacity={lineOpacity}
