@@ -143,8 +143,6 @@ const StackedBar = ({
   const { totalWidth, totalHeight, totalScope, drawWidth, drawHeight, lineHeight, barWidth, halfBarWidth, halfBarRealWidth, zeroHeight } =
     calculateBase({ horizontal, height, margin, width, scopeResult, autoScope, innerMargin, padding, length: data.length, barGap });
 
-  const prevBarsKeys = Object.keys(prevBars.current);
-  const prevBarItemKeys = Object.keys(pervBarItem.current);
   const ms = new Date().valueOf();
 
   if (translateBar) {
@@ -211,7 +209,9 @@ const StackedBar = ({
             halfBarRealWidth,
           });
 
-          prevBarsTemp.current[nowData.label] = {
+          const nowGroupKey = `group-${index}`;
+
+          prevBarsTemp.current[nowGroupKey] = {
             center,
             width: rectWidth,
             height: rectHeight,
@@ -222,12 +222,12 @@ const StackedBar = ({
           let translate = { center: 0, width: 0, height: 0, zeroHeight: 0 };
 
           if (translateBar && useAnimation) {
-            if (prevBarsKeys.includes(String(nowData.label))) {
+            if (Object.keys(prevBars.current).includes(String(nowGroupKey))) {
               translate = {
-                center: center - prevBars.current[nowData.label].center,
-                width: rectWidth - prevBars.current[nowData.label].width,
-                height: rectHeight - prevBars.current[nowData.label].height,
-                zeroHeight: zeroHeight - prevBars.current[nowData.label].zeroHeight,
+                center: center - prevBars.current[nowGroupKey].center,
+                width: rectWidth - prevBars.current[nowGroupKey].width,
+                height: rectHeight - prevBars.current[nowGroupKey].height,
+                zeroHeight: zeroHeight - prevBars.current[nowGroupKey].zeroHeight,
               };
               useTranslate = true;
             }
@@ -236,7 +236,7 @@ const StackedBar = ({
           return (
             display && (
               <g
-                key={"data-" + ms + "-" + nowData.label}
+                key={"group-" + ms + "-" + index}
                 transform={calculateBarWrapperTransform({
                   useAnimation,
                   useTranslate,
@@ -298,9 +298,9 @@ const StackedBar = ({
                     nowPosition,
                   });
 
-                  const cur = `${nowData.label}_${idx}`;
+                  const nowBarKey = `bar-${index}-${idx}`;
 
-                  prevBarItemTemp.current[cur] = {
+                  prevBarItemTemp.current[nowBarKey] = {
                     center,
                     width: nowRectWidth,
                     height: nowRectHeight,
@@ -313,21 +313,21 @@ const StackedBar = ({
                   let translate = { center: 0, width: 0, height: 0, zeroHeight: 0, position: 0, totalHeight: 0 };
 
                   if (translateBar && useAnimation) {
-                    if (prevBarItemKeys.includes(cur)) {
+                    if (Object.keys(pervBarItem.current).includes(nowBarKey)) {
                       translate = {
-                        center: center - pervBarItem.current[cur].center,
-                        width: nowRectWidth - pervBarItem.current[cur].width,
-                        height: nowRectHeight - pervBarItem.current[cur].height,
-                        zeroHeight: zeroHeight - pervBarItem.current[cur].zeroHeight,
-                        position: nowPosition - pervBarItem.current[cur].position,
-                        totalHeight: barHeight - pervBarItem.current[cur].totalHeight,
+                        center: center - pervBarItem.current[nowBarKey].center,
+                        width: nowRectWidth - pervBarItem.current[nowBarKey].width,
+                        height: nowRectHeight - pervBarItem.current[nowBarKey].height,
+                        zeroHeight: zeroHeight - pervBarItem.current[nowBarKey].zeroHeight,
+                        position: nowPosition - pervBarItem.current[nowBarKey].position,
+                        totalHeight: barHeight - pervBarItem.current[nowBarKey].totalHeight,
                       };
                       useTranslate = true;
                     }
                   }
 
                   return (
-                    <g key={"rect-" + ms + "-" + nowData.label + "-" + idx}>
+                    <g key={"rect-" + ms + "-" + index + "-" + idx}>
                       <rect
                         width={nowRectWidth}
                         height={nowRectHeight}
