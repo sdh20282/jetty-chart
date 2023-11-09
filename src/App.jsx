@@ -1,4 +1,4 @@
-import { NormalBar, StackedBar, NormalMap } from "./jetty-chart/src";
+import { NormalBar, StackedBar, NormalMap, NormalScatter, BumpChart, SingleLine, MultiLine, StackedLine } from "./jetty-chart/src";
 
 function App() {
 
