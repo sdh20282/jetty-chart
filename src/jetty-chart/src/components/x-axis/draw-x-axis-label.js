@@ -19,7 +19,7 @@ export const DrawXAxisLabel = ({
     sideLineVisible,
     sideLineOpacity,
     sideLineColor,
-    sideLineWidth
+    sideLineWidth,
   },
   animationSettings: {
     useAnimation,
@@ -33,8 +33,8 @@ export const DrawXAxisLabel = ({
     translateDuration,
     translateStartDelay,
     translateItemDelay,
-    translateTimingFunction
-  }
+    translateTimingFunction,
+  },
 }) => {
   const prevXAxis = useRef({});
   const prevXAxisTemp = useRef({});
@@ -45,7 +45,6 @@ export const DrawXAxisLabel = ({
 
   const totalLabelMargin = labelMargin + sideLineSize;
   const labelLocation = height + totalLabelMargin;
-  const prevXAxisKeys = Object.keys(prevXAxis.current);
   const ms = new Date().valueOf();
 
   padding ??= 0;
@@ -67,8 +66,10 @@ export const DrawXAxisLabel = ({
       {xAxis.map((d, idx) => {
         const x = xAxisWidth * idx + xAxisInitialPosition;
 
+        const nowKey = `x-axis-label-${idx}`;
+
         // 현재 위치 정보 저장
-        prevXAxisTemp.current[d] = x;
+        prevXAxisTemp.current[nowKey] = x;
 
         // 라인 리렌더링을 안할 경우
         let useTranlate = false;
@@ -76,15 +77,15 @@ export const DrawXAxisLabel = ({
 
         if (translateLabel) {
           // 이전 위치에 현재 위치가 포함되는지 확인
-          if (prevXAxisKeys.includes(String(d))) {
-            translate = x - prevXAxis.current[d];
+          if (Object.keys(prevXAxis.current).includes(nowKey)) {
+            translate = x - prevXAxis.current[nowKey];
             useTranlate = true;
           }
         }
 
         return (
           <g
-            key={"category-" + ms + "-" + d}
+            key={"category-" + ms + "-" + idx}
             transform={horizontal ? `translate(0, ${x})` : `translate(${x})`}
             className={useAnimation ? (useTranlate ? styles.translateLabel : renderType === "fade" ? styles.fadeLabel : "") : ""}
             style={{
@@ -95,7 +96,7 @@ export const DrawXAxisLabel = ({
                 (useTranlate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? idx : xAxis.length - 1 - idx)
               }s`,
               "--translate-from": horizontal ? `0px,${x - translate}px` : `${x - translate}px`,
-              "--translate-to": horizontal ? `0px,${x}px` : `${x}px`
+              "--translate-to": horizontal ? `0px,${x}px` : `${x}px`,
             }}
           >
             {sideLineVisible && (

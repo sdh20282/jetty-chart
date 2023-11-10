@@ -35,7 +35,7 @@ export const checkSize = ({ width, height, margin, padding }) => {
     margin = {
       ...margin,
       left: margin.left - over,
-      right: margin.right - over
+      right: margin.right - over,
     };
 
     if (padding) {
@@ -49,7 +49,7 @@ export const checkSize = ({ width, height, margin, padding }) => {
     margin = {
       ...margin,
       top: margin.top - over,
-      bottom: margin.bottom - over
+      bottom: margin.bottom - over,
     };
   }
 

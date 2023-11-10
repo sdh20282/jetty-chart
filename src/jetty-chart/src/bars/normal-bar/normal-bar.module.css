@@ -1,43 +1,89 @@
 :root {
   --bar-from: 0,0;
   --bar-to: 0,0;
-  --scale-from: "";
-  --scale-to: "";
+  --text-from: 0,0;
+  --text-to: 0,0;
+  --width-from: 0;
+  --width-to: 0;
+  --height-from: 0;
+  --height-to: 0;
+  --group-from: 0,0;
+  --group-to: 0,0;
   --animation-duration: 0s;
-}
-
-.translateGroup {
-  transform: translate(var(--bar-from));
-  animation: translate-group var(--animation-duration) linear forwards;
+  --animation-delay: 0s;
+  --animation-timing-function: linear;
 }
 
 .growBar {
-  /* transform: scaleY(0.2); */
-  /* transform-origin: center bottom; */
-  animation: grow-bar var(--animation-duration) linear forwards;
+  width: var(--width-from);
+  height: var(--height-from);
+  transform: translate(var(--bar-from));
+
+  animation: grow-bar var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
+.growText {
+  transform: translate(var(--text-from));
+  fill-opacity: 0;
+
+  animation: grow-text var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
 .fadeBar {
-  animation: fade-bar var(--animation-duration) linear forwards;
+  opacity: 0;
+
+  animation: fade-bar var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
-@keyframes translate-group{
-  0% {
-    transform: translate(var(--bar-from));
-  }
+.fadeText {
+  fill-opacity: 0;
 
-  100% {
-    transform: translate(var(--bar-to));
-  }
+  animation: fade-text var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
+.translateGroup {
+  transform: translate(var(--group-from));
+  
+  animation: translate-group var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
+.translateBar {
+  width: var(--width-from);
+  height: var(--height-from);
+  transform: translate(var(--bar-from));
+
+  animation: translate-bar var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
+.translateText {
+  transform: translate(var(--text-from));
+
+  animation: translate-text var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
 @keyframes grow-bar {
   0% {
-    transform: var(--scale-from) scaleZ(0);
+    width: var(--width-from);
+    height: var(--height-from);
+    transform: translate(var(--bar-from));
   }
 
   100% {
-    transform: var(--scale-to) scaleZ(0);
+    width: var(--width-to);
+    height: var(--height-to);
+    transform: translate(var(--bar-to));
+  }
+}
+
+@keyframes grow-text {
+  0% {
+    transform: translate(var(--text-from));
+    fill-opacity: 0;
+  }
+
+  100% {
+    transform: translate(var(--text-to));
+    fill-opacity: 1;
   }
 }
 
@@ -48,5 +94,49 @@
 
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes fade-text {
+  0% {
+    fill-opacity: 0;
+  }
+
+  100% {
+    fill-opacity: 1;
+  }
+}
+
+@keyframes translate-group {
+  0% {
+    transform: translate(var(--group-from));
+  }
+
+  100% {
+    transform: translate(var(--group-to));
+  }
+}
+
+@keyframes translate-bar {
+  0% {
+    width: var(--width-from);
+    height: var(--height-from);
+    transform: translate(var(--bar-from));
+  }
+
+  100% {
+    width: var(--width-to);
+    height: var(--height-to);
+    transform: translate(var(--bar-to));
+  }
+}
+
+@keyframes translate-text {
+  0% {
+    transform: translate(var(--text-from));
+  }
+
+  100% {
+    transform: translate(var(--text-to));
   }
 }

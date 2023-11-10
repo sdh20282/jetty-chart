@@ -18,8 +18,8 @@ export const DrawXAxisGridLine = ({
     translateDuration,
     translateStartDelay,
     translateItemDelay,
-    translateTimingFunction
-  }
+    translateTimingFunction,
+  },
 }) => {
   const prevXAxis = useRef({});
   const prevXAxisTemp = useRef({});
@@ -29,7 +29,7 @@ export const DrawXAxisGridLine = ({
       let linePath = "";
 
       if (lineDash) {
-        let path = horizontal ? `M 0,${location - translate} ` : `M ${location - translate},0 `;
+        let path = horizontal ? `M 0,${location - (useAnimation ? translate : 0)} ` : `M ${location - (useAnimation ? translate : 0)},0 `;
         let pathLength = 0;
 
         while (pathLength < height) {
@@ -48,11 +48,11 @@ export const DrawXAxisGridLine = ({
       } else {
         linePath = horizontal
           ? `
-        M 0,${location - translate}
+        M 0,${location - (useAnimation ? translate : 0)}
         h ${height}
       `
           : `
-        M ${location - translate},0
+        M ${location - (useAnimation ? translate : 0)},0
         v ${height}
       `;
       }
@@ -68,7 +68,6 @@ export const DrawXAxisGridLine = ({
 
   const animationXAxisStart = renderStartFrom.split("-")[0];
   const animationYAxisStart = renderStartFrom.split("-")[1];
-  const prevXAxisKeys = Object.keys(prevXAxis.current);
   const ms = new Date().valueOf();
 
   padding ??= 0;
@@ -103,7 +102,7 @@ export const DrawXAxisGridLine = ({
               }px`,
               "--animation-duration": `${renderDuration}s`,
               "--animation-timing-function": "ease",
-              "--animation-delay": `${renderStartDelay + renderItemDelay * (animationXAxisStart === "left" ? 0 : xAxis.length + 1)}s`
+              "--animation-delay": `${renderStartDelay + renderItemDelay * (animationXAxisStart === "left" ? 0 : xAxis.length + 1)}s`,
             }}
           ></path>
         </g>
@@ -113,8 +112,10 @@ export const DrawXAxisGridLine = ({
           {xAxis.map((d, idx) => {
             const x = xAxisWidth * idx + xAxisInitialPosition;
 
+            const nowKey = `x-axis-grid-line-${idx}`;
+
             // 현재 위치 정보 저장
-            prevXAxisTemp.current[d] = x;
+            prevXAxisTemp.current[nowKey] = x;
 
             // 라인 리렌더링을 안할 경우
             let useTranslate = false;
@@ -122,8 +123,8 @@ export const DrawXAxisGridLine = ({
 
             if (translateLine) {
               // 이전 위치에 현재 위치가 포함되는지 확인
-              if (prevXAxisKeys.includes(String(d))) {
-                translate = x - prevXAxis.current[d];
+              if (Object.keys(prevXAxis.current).includes(nowKey)) {
+                translate = x - prevXAxis.current[nowKey];
                 useTranslate = true;
               }
             }
@@ -132,7 +133,7 @@ export const DrawXAxisGridLine = ({
 
             return (
               <path
-                key={"background-line-x-" + ms + "-" + d}
+                key={"x-axis-grid-line-x-" + ms + "-" + idx}
                 d={linePath}
                 stroke={lineColor}
                 strokeOpacity={lineOpacity}
@@ -165,7 +166,7 @@ export const DrawXAxisGridLine = ({
                     (useTranslate ? translateItemDelay : renderItemDelay) * (animationXAxisStart === "left" ? idx : xAxis.length - 1 - idx) +
                     (showEndLine && !useTranslate ? renderItemDelay : 0)
                   }s`,
-                  "--width-offset": horizontal ? `0px,${translate}px` : `${translate}px`
+                  "--width-offset": horizontal ? `0px,${translate}px` : `${translate}px`,
                 }}
               ></path>
             );
@@ -194,7 +195,7 @@ export const DrawXAxisGridLine = ({
               }px`,
               "--animation-duration": `${renderDuration}s`,
               "--animation-timing-function": "ease",
-              "--animation-delay": `${renderStartDelay + renderItemDelay * (animationXAxisStart === "left" ? xAxis.length + 1 : 0)}s`
+              "--animation-delay": `${renderStartDelay + renderItemDelay * (animationXAxisStart === "left" ? xAxis.length + 1 : 0)}s`,
             }}
           ></path>
         </g>
