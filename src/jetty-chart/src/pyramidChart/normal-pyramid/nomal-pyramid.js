@@ -26,7 +26,7 @@ const NormalPyramid = ({
   rightLegendSettings,
   legendSettings,
   barSettings,
-  animationSettings
+  animationSettings,
 }) => {
   const prevBars = useRef({});
   const prevBarsTemp = useRef({});
@@ -48,7 +48,7 @@ const NormalPyramid = ({
     rightLegendSettings,
     legendSettings,
     barSettings,
-    animationSettings
+    animationSettings,
   });
 
   const { width, height, margin, innerMargin, padding, colorPalette, xReverse, yReverse } = result.normalSettings;
@@ -72,7 +72,7 @@ const NormalPyramid = ({
     labelWeight,
     labelOpacity,
     labelColor,
-    labelInvisibleHeight
+    labelInvisibleHeight,
   } = result.barSettings;
 
   const {
@@ -94,7 +94,7 @@ const NormalPyramid = ({
     translateDuration,
     translateStartDelay,
     translateItemDelay,
-    translateTimingFunction
+    translateTimingFunction,
   } = result.animationSettings.barSettings;
 
   const scopeResult = autoScope
@@ -106,6 +106,7 @@ const NormalPyramid = ({
   const newScope = [...scopeResult.scope, ...scopeResult.scope.slice(0, scopeResult.scope.length - 1).reverse()];
 
   scopeResult.scope = newScope;
+  const scopeMaxNum = scopeResult.scope[0]
 
   if (!autoScope && !scopeResult.display) {
     display = false;
@@ -168,7 +169,7 @@ const NormalPyramid = ({
         xAxisInitialPosition: halfBarWidth,
         xAxisWidth: barWidth,
         yAxisHeight: lineHeight,
-        showTopScope
+        showTopScope,
       }}
       axisXGridLineSettings={result.axisXGridLineSettings}
       axisYGridLineSettings={result.axisYGridLineSettings}
@@ -221,23 +222,35 @@ const NormalPyramid = ({
 
             const horizontalLabelLocation =
               labelPosition === "over"
-                ? checkPositive
-                  ? realHeight / 2 + labelMargin
-                  : -realHeight / 2 - labelMargin * 4
+                ? nowData.value >= 0 ? 
+                  (checkPositive ? 
+                    (nowData.value < scopeMaxNum * 0.8 ? realHeight / 2 + totalHeight * 0.01 : realHeight / 2 - totalHeight * 0.08) 
+                    : (nowData.value < scopeMaxNum * 0.8 ? -realHeight / 2 - totalHeight * 0.08 : -realHeight / 2 + realHeight * 0.01))
+                  : (checkPositive ? 
+                    (-nowData.value < scopeMaxNum * 0.8 ? realHeight / 2 + totalHeight * 0.01 : realHeight / 2 - totalHeight * 0.1) 
+                    : (-nowData.value < scopeMaxNum * 0.8 ? -realHeight / 2 - totalHeight * 0.1 : -realHeight / 2 + totalHeight * 0.01))
                 : labelPosition === "under"
-                ? checkPositive
-                  ? labelMargin * 6
-                  : 0
-                : checkPositive
-                ? realHeight / 4
-                : -realHeight / 4;
+                ? nowData.value >= 0 ? 
+                  (checkPositive ? 
+                    (nowData.value > scopeMaxNum * 0.2 ? labelMargin * 7 : realHeight / 2 + totalHeight * 0.08) 
+                    : (nowData.value > scopeMaxNum * 0.2 ? -labelMargin * 2 : -realHeight / 2 - totalHeight * 0.01))
+                  : (checkPositive ? 
+                    (-nowData.value > scopeMaxNum * 0.2 ? labelMargin * 8 : realHeight / 2 + totalHeight * 0.08) 
+                    : (-nowData.value > scopeMaxNum * 0.2 ? -labelMargin * 2  : -realHeight / 2 - totalHeight * 0.03))
+                : nowData.value >= 0 ? 
+                  (checkPositive ? 
+                    (nowData.value > scopeMaxNum * 0.2 ? realHeight / 4 : realHeight / 2 + totalHeight * 0.05) 
+                    : (nowData.value > scopeMaxNum * 0.2 ? -realHeight / 4 : -realHeight / 2 - totalHeight * 0.05))
+                  : (checkPositive ? 
+                    (-nowData.value > scopeMaxNum * 0.2 ? realHeight / 4 : realHeight / 2 + totalHeight * 0.05) 
+                    : (-nowData.value > scopeMaxNum * 0.2 ? -realHeight / 4 : -realHeight / 2 - totalHeight * 0.05))
 
             prevBarsTemp.current[nowData.label] = {
               center,
               width: halfBarRealWidth + halfBarRealWidth,
               height: rectHeight,
               zeroHeight,
-              prevPosition: `translate(${zeroHeight}px,${center - halfBarRealWidth}px)`
+              prevPosition: `translate(${zeroHeight}px,${center - halfBarRealWidth}px)`,
             };
 
             let useTranslate = false;
@@ -250,14 +263,11 @@ const NormalPyramid = ({
                   width: rectWidth - prevBars.current[nowData.label].width,
                   height: rectHeight - prevBars.current[nowData.label].height,
                   zeroHeight: zeroHeight - prevBars.current[nowData.label].zeroHeight,
-                  prevPosition: prevBars.current[nowData.label].prevPosition
+                  prevPosition: prevBars.current[nowData.label].prevPosition,
                 };
                 useTranslate = true;
               }
             }
-
-            console.log("ㅂㅂㅂㅂㅂ", useTranslate);
-            console.log("ㅁㅁㅁㅁㅁ", barOnlyUpperRadius);
 
             return (
               display && (
@@ -265,32 +275,43 @@ const NormalPyramid = ({
                   key={"data-" + ms + "-" + group.id + "-" + nowData.label}
                   transform={
                     useAnimation && useTranslate
-                      ? `translate(0,0)`
+                      ? `translate(0px, 0px)`
+                      // ? `translate(${barOnlyUpperRadius ? (checkPositive ? -borderRadius : borderRadius) : 0},0)`
                       : useAnimation && renderType.includes("grow")
-                      ? `translate(${zeroHeight},${center - halfBarRealWidth})`
-                      : `translate(${zeroHeight},${center - halfBarRealWidth})`
+                      ? `translate(${barOnlyUpperRadius ? (checkPositive ? zeroHeight - borderRadius : zeroHeight + borderRadius) : zeroHeight},${center - halfBarRealWidth})`
+                      : `translate(${barOnlyUpperRadius ? (checkPositive ? zeroHeight : zeroHeight - borderRadius) : zeroHeight},${center - halfBarRealWidth})`
+                      // `${barOnlyUpperRadius ? (checkPositive ? zeroHeight - borderRadius : zeroHeight + borderRadius) : zeroHeight}px,0px`
+                      // ? `translate(${zeroHeight},${center - halfBarRealWidth})`
+                      // : `translate(${zeroHeight},${center - halfBarRealWidth})`
+                    // useAnimation && useTranslate
+                    //   ? `translate(0,0)`
+                    //   : useAnimation && renderType.includes("grow")
+                    //   ? `translate(${checkPositive ? zeroHeight - borderRadius : zeroHeight + borderRadius},${center - halfBarRealWidth})`
+                    //   : `translate(${checkPositive ? zeroHeight + borderRadius : zeroHeight - borderRadius},${center - halfBarRealWidth})`
                   }
                   className={useAnimation && useTranslate ? styles.translateGroup : ""}
                   style={{
-                    "--group-from": `${zeroHeight - translate.zeroHeight}px,${center - translate.center - halfBarRealWidth}px`,
-                    "--group-to": `${zeroHeight}px,${center - halfBarRealWidth}px`,
+                    "--group-from": `${useTranslate ? (barOnlyUpperRadius ? (zeroHeight - translate.zeroHeight - borderRadius) : (zeroHeight - translate.zeroHeight)) : zeroHeight - translate.zeroHeight}px,${center - translate.center - halfBarRealWidth}px`,
+                    "--group-to": `${useTranslate ? (barOnlyUpperRadius ? (checkPositive ? zeroHeight - borderRadius : zeroHeight + borderRadius) : zeroHeight) : zeroHeight}px,${center - halfBarRealWidth}px`,
                     "--animation-duration": `${translateDuration}s`,
                     "--animation-timing-function": translateTimingFunction,
                     "--animation-delay": `${
                       translateStartDelay + translateItemDelay * (renderStartFrom === "left" ? groupIdx : data.length - 1 - groupIdx)
-                    }s`
+                    }s`,
                   }}
                 >
                   <rect
-                    width={rectWidth}
+                    width={rectWidth + borderRadius}
                     height={rectHeight}
                     clipPath={
                       barOnlyUpperRadius ? (checkPositive ? `inset(0px 0px 0px ${borderRadius}px)` : `inset(0px ${borderRadius}px 0px 0px)`) : ""
                     }
                     transform={
                       (useAnimation && renderType.includes("grow")) || (useAnimation && useTranslate)
-                        ? ""
-                        : `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight - borderRadius})`
+                        ? `translate()`
+                        // : `translate(0)`
+                        : `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : (barOnlyUpperRadius ? -rectWidth + borderRadius : -rectWidth)})`
+                        // : `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius * 2 : -borderRadius) : (barOnlyUpperRadius ? -rectWidth + borderRadius * 2 : -rectWidth + borderRadius * 2)})`
                     }
                     fill={nowData.label === keys[0] ? colorPalette[0] : colorPalette[1]}
                     opacity={barOpacity}
@@ -312,11 +333,11 @@ const NormalPyramid = ({
                     }
                     style={{
                       "--bar-from": useTranslate
-                        ? `${checkPositive ? -borderRadius : -rectWidth + borderRadius}px, 0px`
-                        : `trans${barOnlyUpperRadius ? (checkPositive ? -borderRadius : borderRadius) : 0}px,0px`,
+                        ? `${barOnlyUpperRadius ? (checkPositive ? -borderRadius : borderRadius) : 0}px,0px`
+                        : `${barOnlyUpperRadius ? (checkPositive ? -borderRadius : 0) : 0}px,0px`,
                       "--bar-to": useTranslate
-                        ? `${checkPositive ? -borderRadius : -rectWidth + borderRadius}px, 0px`
-                        : `${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : -barHeight / 2 + 2}px,0px`,
+                        ? `${barOnlyUpperRadius ? (checkPositive ? 0 : -rectWidth) : (checkPositive ? 0 : -rectWidth)}px, 0px`
+                        : `${barOnlyUpperRadius ? (checkPositive ? 0 : -rectWidth) : (checkPositive ? 0 : -rectWidth)}px,0px`,
                       "--width-from": useTranslate ? `` : `0px`,
                       "--width-to": `${rectWidth}px`,
                       "--height-from": useTranslate ? `` : `${rectHeight}px`,
@@ -328,15 +349,15 @@ const NormalPyramid = ({
                         (useTranslate ? translateStartDelay : renderStartDelay) +
                         (useTranslate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? groupIdx : data.length - 1 - groupIdx)
                       }s`,
-                      "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction
+                      "--animation-timing-function": useTranslate ? translateTimingFunction : renderTimingFunction,
                     }}
                   ></rect>
                   {useLabel && realHeight > labelInvisibleHeight && (
                     <g
                       transform={
                         useAnimation && useTranslate
-                          ? `translate(${horizontalLabelLocation - 3},${halfBarRealWidth})`
-                          : `translate(${horizontalLabelLocation - 3},${halfBarRealWidth})`
+                          ? `translate(${horizontalLabelLocation},${halfBarRealWidth})`
+                          : `translate(${horizontalLabelLocation},${halfBarRealWidth})`
                       }
                     >
                       <text
@@ -359,11 +380,7 @@ const NormalPyramid = ({
                         }
                         style={{
                           "--text-from": useTranslate
-                            ? labelPosition === "over"
-                              ? ``
-                              : labelPosition === "under"
-                              ? ``
-                              : ``
+                            ? ``
                             : labelPosition === "over"
                             ? `${checkPositive ? -barHeight : 0}px,0px`
                             : labelPosition === "under"
@@ -378,7 +395,7 @@ const NormalPyramid = ({
                             (useTranslate ? translateItemDelay : textRenderItemDelay) *
                               (textRenderStartFrom === "left" ? groupIdx : data.length - 1 - groupIdx)
                           }s`,
-                          "--animation-timing-function": useTranslate ? translateTimingFunction : textRenderTimingFunction
+                          "--animation-timing-function": useTranslate ? translateTimingFunction : textRenderTimingFunction,
                         }}
                       >
                         {nowData.value}
