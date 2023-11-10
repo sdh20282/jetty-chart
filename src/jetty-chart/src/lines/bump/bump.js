@@ -1,13 +1,11 @@
-import { checkNormalBump } from "../../common/utils/exception/check-bump-exception";
+import { checkNormalBump } from "../../common/line-common/exception/check-bump-exception";
 import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
-import { getControlPoint } from "../../common/utils/curve/calulate-curve";
 
 import styles from "./bump.module.css";
 import { useEffect, useRef } from "react";
 
 const BumpChart = ({
   dataSet,
-  keys,
   xLegend,
   yLegend,
   normalSettings,
@@ -72,8 +70,6 @@ const BumpChart = ({
     enableArea,
     areaOpacity,
     enableCurve,
-    smoothDegree,
-    angleDegree,
     strokeLinejoin,
     strokeLinecap,
     // xPadding,
@@ -113,21 +109,6 @@ const BumpChart = ({
 
   const pointGapWidth = drawWidth / (dataLength - 1);
   const zeroHeight = 0;
-
-  // const zeroHeight =
-  //   scopeResult.scope.reduce((acc, cur) => {
-  //     if (cur !== 0) {
-  //       acc += 1;
-  //     }
-
-  //     if (cur === 0) {
-  //       acc = 0;
-  //     }
-
-  //     return acc;
-  //   }, 0) * lineHeight;
-
-  // console.log(zeroHeight);
 
   const zeroHeightFromTop = totalHeight - zeroHeight;
 
@@ -223,7 +204,7 @@ const BumpChart = ({
         y: totalHeight - height - zeroHeight,
         horizontalX: zeroHeight + height,
         horizontalY: positionX,
-        animationDelay: appearStartDelay + index * appearItemDelay + (idx * appearItemDelay) / dataLength,
+        animationDelay: appearStartDelay + index * appearItemDelay + (idx * appearDuration) / dataLength,
         value: d.value,
       });
     });
@@ -244,7 +225,7 @@ const BumpChart = ({
 
   return (
     <LabelValueCommon
-      keys={keys}
+      keys={idArray}
       xAxis={dataSet[0].data.map((d) => d.label)}
       yAxis={scopeResult.scope}
       xLegend={xLegend}
@@ -350,9 +331,9 @@ const BumpChart = ({
                     style={{
                       "--pos-x": `${horizontal ? d.horizontalX : d.x}px`,
                       "--pos-y": `${horizontal ? d.horizontalY : d.y}px`,
-                      "--start-x-offset": `${horizontal ? d.horizontalX - 10 : d.x}px`,
-                      "--start-y-offset": `${horizontal ? d.horizontalY : d.y - 10}px`,
-                      "--animation-duration": `${appearDuration}s`,
+                      "--start-x-offset": `${horizontal ? d.horizontalX : d.x}px`,
+                      "--start-y-offset": `${horizontal ? d.horizontalY : d.y}px`,
+                      "--animation-duration": `${appearDuration / dataLength}s`,
                       "--animation-timing-function": appearTimingFunction,
                       "--animation-delay": `${d.animationDelay}s`,
                     }}
@@ -361,8 +342,8 @@ const BumpChart = ({
                       cx={0}
                       cy={0}
                       r={pointSize}
-                      fill={pointColor ?? lineColors[idx % colorPalette.length]}
-                      stroke={pointBorderColor ?? lineColors[idx % colorPalette.length]}
+                      fill={pointColor ?? lineColors[idx]}
+                      stroke={pointBorderColor ?? lineColors[idx]}
                       strokeWidth={pointBorderWidth}
                     />
                   </g>
