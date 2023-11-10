@@ -68,7 +68,6 @@ export const DrawXAxisGridLine = ({
 
   const animationXAxisStart = renderStartFrom.split("-")[0];
   const animationYAxisStart = renderStartFrom.split("-")[1];
-  const prevXAxisKeys = Object.keys(prevXAxis.current);
   const ms = new Date().valueOf();
 
   padding ??= 0;
@@ -113,8 +112,10 @@ export const DrawXAxisGridLine = ({
           {xAxis.map((d, idx) => {
             const x = xAxisWidth * idx + xAxisInitialPosition;
 
+            const nowKey = `x-axis-grid-line-${idx}`;
+
             // 현재 위치 정보 저장
-            prevXAxisTemp.current[d] = x;
+            prevXAxisTemp.current[nowKey] = x;
 
             // 라인 리렌더링을 안할 경우
             let useTranslate = false;
@@ -122,8 +123,8 @@ export const DrawXAxisGridLine = ({
 
             if (translateLine) {
               // 이전 위치에 현재 위치가 포함되는지 확인
-              if (prevXAxisKeys.includes(String(d))) {
-                translate = x - prevXAxis.current[d];
+              if (Object.keys(prevXAxis.current).includes(nowKey)) {
+                translate = x - prevXAxis.current[nowKey];
                 useTranslate = true;
               }
             }
@@ -132,7 +133,7 @@ export const DrawXAxisGridLine = ({
 
             return (
               <path
-                key={"background-line-x-" + ms + "-" + d}
+                key={"x-axis-grid-line-x-" + ms + "-" + idx}
                 d={linePath}
                 stroke={lineColor}
                 strokeOpacity={lineOpacity}

@@ -1,27 +1,40 @@
-import { checkMargin, checkSize } from "../../utils/exception/check-common-exception";
+import { checkSize } from "./check-common-exception";
 
-const normalPointSetting = {
+const checkMargin = ({ margin }) => {
+  margin.top ??= 60;
+  margin.bottom ??= 70;
+  margin.left ??= 80;
+  margin.right ??= 120;
+
+  return margin;
+};
+
+const checkInnerMargin = ({ innerMargin }) => {
+  innerMargin.top ??= 0;
+  innerMargin.bottom ??= 0;
+
+  return innerMargin;
+};
+
+const normalLineSetting = {
   // 기본 세팅
   normalSettings: {
     width: 500,
     height: 400,
     backgroundColor: "#fff",
-    margin: { top: 60, bottom: 60, left: 70, right: 120 },
+    margin: { top: 60, bottom: 70, left: 80, right: 100 },
     innerMargin: { top: 0, bottom: 0 },
-    colorPalette: ["#93c5fd", "#fdba74", "#fca5a5", "#cbd5e1", "#86efac"],
+    colorPalette: ["#5DADE2", "#F1948A", "#82E0AA", "#D7BDE2"],
     padding: 0,
-    xReverse: false,
-    yReverse: false,
-    showTopScope: true,
+    reverse: false,
+    horizontal: false,
   },
   // 범위 세팅
   scopeSettings: {
-    xAutoScope: true,
-    yAutoScope: true,
-    xMaxScope: 100,
-    xMinScope: 0,
-    yMaxScope: 100,
-    yMinScope: 0,
+    autoScope: true,
+    maxScope: 700,
+    minScope: -100,
+    showTopScope: false,
   },
   // y축 라인 세팅
   axisYGridLineSettings: {
@@ -118,7 +131,7 @@ const normalPointSetting = {
   leftLegendSettings: {
     useLegend: true,
     legendOnLeft: true,
-    legendMargin: 40,
+    legendMargin: 50,
     legendSize: 14,
     legendWeight: 700,
     legendOpacity: 1,
@@ -167,7 +180,7 @@ const normalPointSetting = {
     useLegend: true,
     position: "bottom-right", // bottom center top - left center right
     xLocation: 20,
-    yLocation: -30,
+    yLocation: 0,
     directionColumn: true,
     itemWidth: 80,
     itemMargin: 2,
@@ -181,15 +194,32 @@ const normalPointSetting = {
     legendColor: "#aaa",
     legendOnStart: true,
   },
-  // 포인트 세팅
-  pointSettings: {
-    pointSize: 1,
-    tooltipOn: true,
-    xName: "",
-    yName: "",
-    pointRenderTime: 0.1,
+  // 라인 세팅
+  lineSettings: {
+    lineColor: "#F1948A",
+    lineOpacity: 1,
+    lineWidth: 2,
+    enablePoint: true,
+    pointColor: null,
+    pointSize: 2,
+    pointBorderColor: "#666",
+    pointBorderWidth: 2,
+    enablePointLabel: false,
+    showLabelOnHover: false,
+    pointLabelColor: "#000",
+    pointLabelSize: 12,
+    pointLabelOffsetX: 0,
+    pointLabelOffsetY: -5,
+    pointLabelWeight: 500,
+    enableArea: false,
+    areaColor: null,
+    areaOpacity: 0.5,
+    enableCurve: false,
+    smoothDegree: 0.15,
+    angleDegree: 1,
+    strokeLinejoin: "miter", // "miter" | "round" | "bevel"
+    strokeLinecap: "butt", // "butt" | "round" | "square"
   },
-  // 애니메이션 세팅
   animationSettings: {
     axisYGridLineSettings: {
       useAnimation: true,
@@ -247,10 +277,57 @@ const normalPointSetting = {
       translateItemDelay: 0,
       translateTimingFunction: "ease",
     },
+    generalSettings: {
+      useAnimation: true,
+      useGridAnimation: true,
+      renderReverse: false,
+      // renderLineSingly: true,
+      translateReverse: false,
+    },
+    lineSettings: {
+      useLineAnimation: true,
+      lineRenderType: "draw",
+      lineRenderDuration: 1,
+      lineRenderStartDelay: 0,
+      lineRenderItemDelay: 0,
+      lineRenderTimingFunction: "ease",
+      translateLine: true,
+      translateLineItemDelay: 0,
+      translateLineDuration: 0.5,
+      translateLineStartDelay: 0,
+      translateLineTimingFunction: "ease",
+    },
+    pointSettings: {
+      usePointAnimation: true,
+      pointRenderType: "draw",
+      pointRenderDuration: 0.5,
+      pointLineRenderDuration: 1,
+      pointRenderStartDelay: 0,
+      pointRenderItemDelay: 0,
+      pointRenderTimingFunction: "ease",
+      translatePoint: true,
+      translatePointItemDelay: 0,
+      translatePointDuration: 0.5,
+      translatePointStartDelay: 0,
+      translatePointTimingFunction: "ease",
+    },
+    areaSettings: {
+      useAreaAnimation: true,
+      areaRenderType: "draw",
+      areaRenderDuration: 1,
+      areaRenderStartDelay: 0,
+      areaRenderItemDelay: 0,
+      areaRenderTimingFunction: "ease",
+      translateArea: true,
+      translateAreaItemDelay: 0,
+      translateAreaDuration: 0.5,
+      translateAreaStartDelay: 0,
+      translateAreaTimingFunction: "ease",
+    },
   },
 };
 
-export const checkNormalPoint = ({
+export const checkNormalLine = ({
   normalSettings,
   scopeSettings,
   axisXGridLineSettings,
@@ -259,7 +336,12 @@ export const checkNormalPoint = ({
   rightLabelSettings,
   bottomLabelSettings,
   topLabelSettings,
-  pointSettings,
+  leftLegendSettings,
+  rightLegendSettings,
+  bottomLegendSettings,
+  topLegendSettings,
+  legendSettings,
+  lineSettings,
   animationSettings,
 }) => {
   const result = {
@@ -271,33 +353,39 @@ export const checkNormalPoint = ({
     rightLabelSettings,
     bottomLabelSettings,
     topLabelSettings,
-    pointSettings,
+    leftLegendSettings,
+    rightLegendSettings,
+    bottomLegendSettings,
+    topLegendSettings,
+    legendSettings,
+    lineSettings,
     animationSettings,
   };
 
-  Object.keys(normalPointSetting).forEach((setting) => {
+  Object.keys(normalLineSetting).forEach((setting) => {
     result[setting] ??= {};
 
     if (setting === "animationSettings") {
-      Object.keys(normalPointSetting[setting]).forEach((animation) => {
+      Object.keys(normalLineSetting[setting]).forEach((animation) => {
         result[setting][animation] ??= {};
 
-        Object.keys(normalPointSetting[setting][animation]).forEach((detail) => {
-          result[setting][animation][detail] ??= normalPointSetting[setting][animation][detail];
+        Object.keys(normalLineSetting[setting][animation]).forEach((detail) => {
+          result[setting][animation][detail] ??= normalLineSetting[setting][animation][detail];
         });
       });
     } else {
-      Object.keys(normalPointSetting[setting]).forEach((detail) => {
-        result[setting][detail] ??= normalPointSetting[setting][detail];
+      Object.keys(normalLineSetting[setting]).forEach((detail) => {
+        result[setting][detail] ??= normalLineSetting[setting][detail];
       });
     }
-
-    // Object.keys(normalPointSetting[setting]).forEach((detail) => {
-    //   result[setting][detail] ??= normalPointSetting[setting][detail];
-    // });
   });
 
   result.normalSettings.margin = checkMargin({ margin: result.normalSettings.margin });
+  result.normalSettings.innerMargin = checkInnerMargin({ innerMargin: result.normalSettings.innerMargin });
+
+  result.lineSettings.lineColor ??= result.normalSettings.colorPalette[0];
+  result.lineSettings.areaColor ??= result.lineSettings.lineColor;
+  result.lineSettings.pointColor ??= result.lineSettings.lineColor;
 
   const checkedSize = checkSize({
     width: result.normalSettings.width,
