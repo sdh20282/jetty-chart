@@ -5,7 +5,6 @@ function TestMultiLine({ dataSet }) {
     <div style={{ display: "flex", flexWrap: "wrap", width: "1600px" }}>
       <MultiLine
         dataSet={dataSet}
-        keys={dataSet.map((data) => data.id)}
         xLegend={"types"}
         yLegend={"values"}
         normalSettings={{
@@ -14,27 +13,26 @@ function TestMultiLine({ dataSet }) {
           backgroundColor: "#fff",
           margin: { top: 60, bottom: 70, left: 80, right: 100 },
           innerMargin: { top: 0, bottom: 0 },
-          colorPalette: ["#5DADE2", "#F1948A", "#82E0AA", "#D7BDE2"],
+          colorPalette: ["#72ddf7", "#8093f1", "#b388eb", "#f7aef8", "#fdc5f5"],
           padding: 0,
           reverse: false,
           horizontal: false,
         }}
         lineSettings={{
-          lineColor: "#F1948A",
           lineOpacity: 1,
           lineWidth: 4,
           enablePoint: true,
-          pointColor: null,
-          pointSize: 3,
-          pointBorderColor: "#666",
-          pointBorderWidth: 2,
-          enablePointLabel: false,
-          showLabelOnHover: false,
+          pointColor: "#fff",
+          pointSize: 6,
+          pointBorderColor: "",
+          pointBorderWidth: 3,
+          enablePointLabel: true,
+          showLabelOnHover: true,
           pointLabelColor: "#000",
           pointLabelSize: 12,
           pointLabelOffsetX: 0,
-          pointLabelOffsetY: -5,
-          pointLabelWeight: 500,
+          pointLabelOffsetY: -10,
+          pointLabelWeight: 1000,
           enableArea: false,
           areaColor: null,
           areaOpacity: 0.5,
@@ -46,24 +44,50 @@ function TestMultiLine({ dataSet }) {
         }}
         animationSettings={{
           lineSettings: {
-            useAnimation: true,
-            renderType: "draw",
-            renderDuration: 1,
-            renderStartDelay: 0.1,
-            renderItemDelay: 0.5,
-            renderTimingFunction: "ease",
+            useLineAnimation: true,
+            lineRenderType: "draw",
+            lineRenderDuration: 1,
+            lineRenderStartDelay: 1,
+            lineRenderItemDelay: 0,
+            lineRenderTimingFunction: "ease",
             translateLine: true,
-            translateDuration: 1,
-            translateStartDelay: 0,
-            translateItemDelay: 0,
-            translateTimingFunction: "ease",
+            translateLineItemDelay: 0,
+            translateLineDuration: 0.5,
+            translateLineStartDelay: 0,
+            translateLineTimingFunction: "ease",
+          },
+          pointSettings: {
+            usePointAnimation: true,
+            pointRenderType: "draw",
+            pointRenderDuration: 1,
+            pointLineRenderDuration: 1,
+            pointRenderStartDelay: 0,
+            pointRenderItemDelay: 0,
+            pointRenderTimingFunction: "ease",
+            translatePoint: true,
+            translatePointItemDelay: 0,
+            translatePointDuration: 0.5,
+            translatePointStartDelay: 0,
+            translatePointTimingFunction: "ease",
+          },
+          areaSettings: {
+            useAreaAnimation: true,
+            areaRenderType: "draw",
+            areaRenderDuration: 1,
+            areaRenderStartDelay: 0,
+            areaRenderItemDelay: 0,
+            areaRenderTimingFunction: "ease",
+            translateArea: true,
+            translateAreaItemDelay: 0,
+            translateAreaDuration: 0.5,
+            translateAreaStartDelay: 0,
+            translateAreaTimingFunction: "ease",
           },
         }}
       />
-
+      {/* 2 */}
       <MultiLine
         dataSet={dataSet}
-        keys={dataSet.map((data) => data.id)}
         xLegend={"types"}
         yLegend={"values"}
         normalSettings={{
@@ -72,22 +96,22 @@ function TestMultiLine({ dataSet }) {
           backgroundColor: "#fff",
           margin: { top: 60, bottom: 70, left: 80, right: 100 },
           innerMargin: { top: 0, bottom: 0 },
-          colorPalette: ["#5DADE2", "#F1948A", "#82E0AA", "#D7BDE2"],
+          colorPalette: ["#72ddf7", "#8093f1", "#b388eb", "#f7aef8", "#fdc5f5"],
           padding: 0,
           reverse: false,
           horizontal: false,
         }}
         lineSettings={{
-          lineColor: "#F1948A",
+          lineColor: "#72ddf7",
           lineOpacity: 1,
-          lineWidth: 4,
+          lineWidth: 8,
           enablePoint: true,
-          pointColor: null,
-          pointSize: 2,
-          pointBorderColor: "#666",
-          pointBorderWidth: 2,
+          pointColor: "",
+          pointSize: 8,
+          pointBorderColor: "#eee",
+          pointBorderWidth: 3,
           enablePointLabel: false,
-          showLabelOnHover: false,
+          showLabelOnHover: true,
           pointLabelColor: "#000",
           pointLabelSize: 12,
           pointLabelOffsetX: 0,
@@ -95,33 +119,170 @@ function TestMultiLine({ dataSet }) {
           pointLabelWeight: 500,
           enableArea: true,
           areaColor: null,
-          areaOpacity: 0.5,
+          areaOpacity: 0.2,
           enableCurve: false,
           smoothDegree: 0.15,
           angleDegree: 1,
-          strokeLinejoin: "miter", // "miter" | "round" | "bevel"
-          strokeLinecap: "butt", // "butt" | "round" | "square"
+          strokeLinejoin: "round", // "miter" | "round" | "bevel"
+          strokeLinecap: "round", // "butt" | "round" | "square"
         }}
         animationSettings={{
           lineSettings: {
-            useAnimation: true,
-            renderType: "draw",
-            renderDuration: 1,
-            renderStartDelay: 0.1,
-            renderItemDelay: 0.5,
-            renderTimingFunction: "ease",
+            useLineAnimation: true,
+            lineRenderType: "draw",
+            lineRenderDuration: 1,
+            lineRenderStartDelay: 0,
+            lineRenderItemDelay: 1.5,
+            lineRenderTimingFunction: "ease",
             translateLine: true,
-            translateDuration: 1,
-            translateStartDelay: 0,
-            translateItemDelay: 0,
-            translateTimingFunction: "ease",
+            translateLineItemDelay: 0,
+            translateLineDuration: 0.5,
+            translateLineStartDelay: 0,
+            translateLineTimingFunction: "ease",
+          },
+          pointSettings: {
+            usePointAnimation: true,
+            pointRenderType: "draw",
+            pointRenderDuration: 1,
+            pointLineRenderDuration: 1,
+            pointRenderStartDelay: 0,
+            pointRenderItemDelay: 1.5,
+            pointRenderTimingFunction: "ease",
+            translatePoint: true,
+            translatePointItemDelay: 0,
+            translatePointDuration: 0.5,
+            translatePointStartDelay: 0,
+            translatePointTimingFunction: "ease",
+          },
+          areaSettings: {
+            useAreaAnimation: true,
+            areaRenderType: "draw",
+            areaRenderDuration: 0.5,
+            areaRenderStartDelay: 1,
+            areaRenderItemDelay: 1.5,
+            areaRenderTimingFunction: "ease",
+            translateArea: true,
+            translateAreaItemDelay: 0,
+            translateAreaDuration: 0.5,
+            translateAreaStartDelay: 0,
+            translateAreaTimingFunction: "ease",
           },
         }}
       />
-
+      {/* 3 */}
       <MultiLine
         dataSet={dataSet}
-        keys={dataSet.map((data) => data.id)}
+        xLegend={"types"}
+        yLegend={"values"}
+        normalSettings={{
+          width: 500,
+          height: 400,
+          backgroundColor: "#fff",
+          margin: { top: 60, bottom: 70, left: 100, right: 100 },
+          innerMargin: { top: 0, bottom: 0 },
+          colorPalette: ["#72ddf7", "#8093f1", "#b388eb", "#f7aef8", "#fdc5f5"],
+          padding: 0,
+          reverse: false,
+          horizontal: true,
+        }}
+        leftLabelSettings={{
+          useLabel: true,
+          labelOnLeft: true,
+          labelMargin: 7,
+          labelSize: 12,
+          labelWeight: 500,
+          labelOpacity: 1,
+          labelColor: "#777",
+          labelRotate: 0,
+          labelMove: 0,
+          sideLineSize: 5,
+          sideLineVisible: true,
+          sideLineOpacity: 1,
+          sideLineColor: "#aaa",
+          sideLineWidth: 2,
+        }}
+        lineSettings={{
+          lineColor: "#b388eb",
+          lineOpacity: 0.6,
+          lineWidth: 8,
+          enablePoint: false,
+          pointColor: null,
+          pointSize: 3,
+          pointBorderColor: "#fff",
+          pointBorderWidth: 2,
+          enablePointLabel: false,
+          showLabelOnHover: true,
+          pointLabelColor: "#000",
+          pointLabelSize: 12,
+          pointLabelOffsetX: 0,
+          pointLabelOffsetY: -5,
+          pointLabelWeight: 500,
+          enableArea: true,
+          areaColor: null,
+          areaOpacity: 0.3,
+          enableCurve: false,
+          smoothDegree: 0.15,
+          angleDegree: 1,
+          strokeLinejoin: "round", // "miter" | "round" | "bevel"
+          strokeLinecap: "round", // "butt" | "round" | "square"
+        }}
+        bottomLegendSettings={{
+          useLegend: true,
+          legendOnBottom: true,
+          legendMargin: 100,
+          legendSize: 20,
+          legendWeight: 700,
+          legendOpacity: 1,
+          legendColor: "#333",
+          legendReverse: false,
+          legendMove: 0,
+        }}
+        animationSettings={{
+          lineSettings: {
+            useLineAnimation: true,
+            lineRenderType: "draw",
+            lineRenderDuration: 1,
+            lineRenderStartDelay: 0,
+            lineRenderItemDelay: 0,
+            lineRenderTimingFunction: "ease",
+            translateLine: true,
+            translateLineItemDelay: 0,
+            translateLineDuration: 0.5,
+            translateLineStartDelay: 0,
+            translateLineTimingFunction: "ease",
+          },
+          pointSettings: {
+            usePointAnimation: true,
+            pointRenderType: "draw",
+            pointRenderDuration: 0.5,
+            pointLineRenderDuration: 1,
+            pointRenderStartDelay: 0,
+            pointRenderItemDelay: 0,
+            pointRenderTimingFunction: "ease",
+            translatePoint: true,
+            translatePointItemDelay: 0,
+            translatePointDuration: 0.5,
+            translatePointStartDelay: 0,
+            translatePointTimingFunction: "ease",
+          },
+          areaSettings: {
+            useAreaAnimation: true,
+            areaRenderType: "draw",
+            areaRenderDuration: 1,
+            areaRenderStartDelay: 0,
+            areaRenderItemDelay: 0,
+            areaRenderTimingFunction: "ease",
+            translateArea: true,
+            translateAreaItemDelay: 0,
+            translateAreaDuration: 0.5,
+            translateAreaStartDelay: 0,
+            translateAreaTimingFunction: "ease",
+          },
+        }}
+      />
+      {/* 4 */}
+      <MultiLine
+        dataSet={dataSet}
         xLegend={"types"}
         yLegend={"values"}
         normalSettings={{
@@ -130,19 +291,186 @@ function TestMultiLine({ dataSet }) {
           backgroundColor: "#fff",
           margin: { top: 60, bottom: 70, left: 80, right: 100 },
           innerMargin: { top: 0, bottom: 0 },
-          colorPalette: ["#5DADE2", "#F1948A", "#82E0AA", "#D7BDE2"],
+          colorPalette: ["#72ddf7", "#8093f1", "#b388eb", "#f7aef8", "#fdc5f5"],
           padding: 0,
           reverse: false,
-          horizontal: true,
+          horizontal: false,
         }}
         lineSettings={{
-          lineColor: "#F1948A",
-          lineOpacity: 0.4,
-          lineWidth: 8,
+          lineColor: "#8093f1",
+          lineOpacity: 1,
+          lineWidth: 4,
+          enablePoint: true,
+          pointColor: null,
+          pointSize: 4,
+          pointBorderColor: "#fff",
+          pointBorderWidth: 0,
+          enablePointLabel: false,
+          showLabelOnHover: true,
+          pointLabelColor: "#000",
+          pointLabelSize: 12,
+          pointLabelOffsetX: 0,
+          pointLabelOffsetY: -5,
+          pointLabelWeight: 500,
+          enableArea: false,
+          areaColor: null,
+          areaOpacity: 0.5,
+          enableCurve: true,
+          smoothDegree: 0.15,
+          angleDegree: 1,
+          strokeLinejoin: "miter", // "miter" | "round" | "bevel"
+          strokeLinecap: "butt", // "butt" | "round" | "square"
+        }}
+        animationSettings={{
+          lineSettings: {
+            useLineAnimation: true,
+            lineRenderType: "draw",
+            lineRenderDuration: 1,
+            lineRenderStartDelay: 0,
+            lineRenderItemDelay: 0.5,
+            lineRenderTimingFunction: "ease",
+            translateLine: false,
+            translateLineItemDelay: 0,
+            translateLineDuration: 0.5,
+            translateLineStartDelay: 0,
+            translateLineTimingFunction: "ease",
+          },
+          pointSettings: {
+            usePointAnimation: true,
+            pointRenderType: "draw",
+            pointRenderDuration: 0.5,
+            pointLineRenderDuration: 1,
+            pointRenderStartDelay: 0,
+            pointRenderItemDelay: 0.5,
+            pointRenderTimingFunction: "ease",
+            translatePoint: true,
+            translatePointItemDelay: 0,
+            translatePointDuration: 0.5,
+            translatePointStartDelay: 0,
+            translatePointTimingFunction: "ease",
+          },
+          areaSettings: {
+            useAreaAnimation: true,
+            areaRenderType: "draw",
+            areaRenderDuration: 1,
+            areaRenderStartDelay: 0,
+            areaRenderItemDelay: 0.5,
+            areaRenderTimingFunction: "ease",
+            translateArea: true,
+            translateAreaItemDelay: 0,
+            translateAreaDuration: 0.5,
+            translateAreaStartDelay: 0,
+            translateAreaTimingFunction: "ease",
+          },
+        }}
+      />
+      {/* 5 */}
+      <MultiLine
+        dataSet={dataSet}
+        xLegend={"types"}
+        yLegend={"values"}
+        normalSettings={{
+          width: 500,
+          height: 400,
+          backgroundColor: "#fff",
+          margin: { top: 60, bottom: 70, left: 80, right: 100 },
+          innerMargin: { top: 0, bottom: 0 },
+          colorPalette: ["#72ddf7", "#8093f1", "#b388eb", "#f7aef8", "#fdc5f5"],
+          padding: 0,
+          reverse: false,
+          horizontal: false,
+        }}
+        lineSettings={{
+          lineOpacity: 1,
+          lineWidth: 6,
+          enablePoint: true,
+          pointColor: "#fff",
+          pointSize: 4,
+          pointBorderColor: "",
+          pointBorderWidth: 1,
+          enablePointLabel: true,
+          showLabelOnHover: true,
+          pointLabelColor: "",
+          pointLabelSize: 12,
+          pointLabelOffsetX: 0,
+          pointLabelOffsetY: -5,
+          pointLabelWeight: 500,
+          enableArea: true,
+          areaColor: null,
+          areaOpacity: 0.2,
+          enableCurve: true,
+          smoothDegree: 0.15,
+          angleDegree: 1,
+          strokeLinejoin: "miter", // "miter" | "round" | "bevel"
+          strokeLinecap: "butt", // "butt" | "round" | "square"
+        }}
+        animationSettings={{
+          lineSettings: {
+            useLineAnimation: true,
+            lineRenderType: "fade",
+            lineRenderDuration: 1,
+            lineRenderStartDelay: 0,
+            lineRenderItemDelay: 1,
+            lineRenderTimingFunction: "ease",
+            translateLine: true,
+            translateLineItemDelay: 0,
+            translateLineDuration: 0.5,
+            translateLineStartDelay: 0,
+            translateLineTimingFunction: "ease",
+          },
+          pointSettings: {
+            usePointAnimation: true,
+            pointRenderType: "fade",
+            pointRenderDuration: 0.5,
+            pointLineRenderDuration: 1,
+            pointRenderStartDelay: 0,
+            pointRenderItemDelay: 1,
+            pointRenderTimingFunction: "ease",
+            translatePoint: false,
+            translatePointItemDelay: 0,
+            translatePointDuration: 0.5,
+            translatePointStartDelay: 0,
+            translatePointTimingFunction: "ease",
+          },
+          areaSettings: {
+            useAreaAnimation: true,
+            areaRenderType: "draw",
+            areaRenderDuration: 1,
+            areaRenderStartDelay: 0,
+            areaRenderItemDelay: 1,
+            areaRenderTimingFunction: "ease",
+            translateArea: false,
+            translateAreaItemDelay: 0,
+            translateAreaDuration: 0.5,
+            translateAreaStartDelay: 0,
+            translateAreaTimingFunction: "ease",
+          },
+        }}
+      />
+      {/* 6 */}
+      <MultiLine
+        dataSet={dataSet}
+        xLegend={"types"}
+        yLegend={"values"}
+        normalSettings={{
+          width: 500,
+          height: 400,
+          backgroundColor: "#fff",
+          margin: { top: 60, bottom: 70, left: 80, right: 100 },
+          innerMargin: { top: 0, bottom: 0 },
+          colorPalette: ["#72ddf7", "#8093f1", "#b388eb", "#f7aef8", "#fdc5f5"],
+          padding: 0,
+          reverse: true,
+          horizontal: false,
+        }}
+        lineSettings={{
+          lineColor: "#b388eb",
+          lineOpacity: 0.5,
+          lineWidth: 6,
           enablePoint: true,
           pointColor: null,
           pointSize: 2,
-          pointBorderColor: "#fff",
+          pointBorderColor: "",
           pointBorderWidth: 3,
           enablePointLabel: false,
           showLabelOnHover: false,
@@ -151,122 +479,6 @@ function TestMultiLine({ dataSet }) {
           pointLabelOffsetX: 0,
           pointLabelOffsetY: -5,
           pointLabelWeight: 500,
-          enableArea: false,
-          areaColor: null,
-          areaOpacity: 0.5,
-          enableCurve: false,
-          smoothDegree: 0.15,
-          angleDegree: 1,
-          strokeLinejoin: "miter", // "miter" | "round" | "bevel"
-          strokeLinecap: "butt", // "butt" | "round" | "square"
-        }}
-        animationSettings={{
-          lineSettings: {
-            useAnimation: true,
-            renderType: "fade",
-            renderDuration: 1.5,
-            renderStartDelay: 0.1,
-            renderItemDelay: 0.8,
-            renderTimingFunction: "ease",
-            translateLine: true,
-            translateDuration: 1,
-            translateStartDelay: 0,
-            translateItemDelay: 0,
-            translateTimingFunction: "ease",
-          },
-        }}
-      />
-
-      <MultiLine
-        dataSet={dataSet}
-        keys={dataSet.map((data) => data.id)}
-        xLegend={"types"}
-        yLegend={"values"}
-        normalSettings={{
-          width: 500,
-          height: 400,
-          backgroundColor: "#fff",
-          margin: { top: 60, bottom: 70, left: 80, right: 100 },
-          innerMargin: { top: 0, bottom: 0 },
-          colorPalette: ["#5DADE2", "#F1948A", "#82E0AA", "#D7BDE2"],
-          padding: 0,
-          reverse: false,
-          horizontal: false,
-        }}
-        lineSettings={{
-          lineColor: "#F1948A",
-          lineOpacity: 1,
-          lineWidth: 4,
-          enablePoint: false,
-          pointColor: null,
-          pointSize: 2,
-          pointBorderColor: "#666",
-          pointBorderWidth: 2,
-          enablePointLabel: false,
-          showLabelOnHover: false,
-          pointLabelColor: "#000",
-          pointLabelSize: 12,
-          pointLabelOffsetX: 0,
-          pointLabelOffsetY: -5,
-          pointLabelWeight: 500,
-          enableArea: false,
-          areaColor: null,
-          areaOpacity: 0.5,
-          enableCurve: true,
-          smoothDegree: 0.15,
-          angleDegree: 1,
-          strokeLinejoin: "miter", // "miter" | "round" | "bevel"
-          strokeLinecap: "butt", // "butt" | "round" | "square"
-        }}
-        animationSettings={{
-          lineSettings: {
-            useAnimation: true,
-            renderType: "draw",
-            renderDuration: 2,
-            renderStartDelay: 0.1,
-            renderItemDelay: 0,
-            renderTimingFunction: "ease",
-            translateLine: true,
-            translateDuration: 1,
-            translateStartDelay: 0,
-            translateItemDelay: 0,
-            translateTimingFunction: "ease",
-          },
-        }}
-      />
-
-      <MultiLine
-        dataSet={dataSet}
-        keys={dataSet.map((data) => data.id)}
-        xLegend={"types"}
-        yLegend={"values"}
-        normalSettings={{
-          width: 500,
-          height: 400,
-          backgroundColor: "#fff",
-          margin: { top: 60, bottom: 70, left: 80, right: 100 },
-          innerMargin: { top: 0, bottom: 0 },
-          colorPalette: ["#5DADE2", "#F1948A", "#82E0AA", "#D7BDE2"],
-          padding: 0,
-          reverse: false,
-          horizontal: false,
-        }}
-        lineSettings={{
-          lineColor: "#F1948A",
-          lineOpacity: 0,
-          lineWidth: 3,
-          enablePoint: true,
-          pointColor: null,
-          pointSize: 0,
-          pointBorderColor: "#fff",
-          pointBorderWidth: 4,
-          enablePointLabel: false,
-          showLabelOnHover: false,
-          pointLabelColor: "#000",
-          pointLabelSize: 12,
-          pointLabelOffsetX: 0,
-          pointLabelOffsetY: -5,
-          pointLabelWeight: 500,
           enableArea: true,
           areaColor: null,
           areaOpacity: 0.5,
@@ -278,75 +490,44 @@ function TestMultiLine({ dataSet }) {
         }}
         animationSettings={{
           lineSettings: {
-            useAnimation: true,
-            renderType: "draw",
-            renderDuration: 1,
-            renderStartDelay: 0.1,
-            renderItemDelay: 0.5,
-            renderTimingFunction: "ease",
+            useLineAnimation: true,
+            lineRenderType: "draw",
+            lineRenderDuration: 0.5,
+            lineRenderStartDelay: 0.5,
+            lineRenderItemDelay: 0,
+            lineRenderTimingFunction: "ease",
             translateLine: true,
-            translateDuration: 1,
-            translateStartDelay: 0,
-            translateItemDelay: 0,
-            translateTimingFunction: "ease",
+            translateLineItemDelay: 0,
+            translateLineDuration: 0.5,
+            translateLineStartDelay: 0,
+            translateLineTimingFunction: "ease",
           },
-        }}
-      />
-
-      <MultiLine
-        dataSet={dataSet}
-        keys={dataSet.map((data) => data.id)}
-        xLegend={"types"}
-        yLegend={"values"}
-        normalSettings={{
-          width: 500,
-          height: 400,
-          backgroundColor: "#fff",
-          margin: { top: 60, bottom: 70, left: 80, right: 100 },
-          innerMargin: { top: 0, bottom: 0 },
-          colorPalette: ["#5DADE2", "#F1948A", "#82E0AA", "#D7BDE2"],
-          padding: 0,
-          reverse: false,
-          horizontal: true,
-        }}
-        lineSettings={{
-          lineColor: "#F1948A",
-          lineOpacity: 1,
-          lineWidth: 10,
-          enablePoint: true,
-          pointColor: null,
-          pointSize: 1,
-          pointBorderColor: "#fff",
-          pointBorderWidth: 4,
-          enablePointLabel: false,
-          showLabelOnHover: false,
-          pointLabelColor: "#000",
-          pointLabelSize: 12,
-          pointLabelOffsetX: 0,
-          pointLabelOffsetY: -5,
-          pointLabelWeight: 500,
-          enableArea: true,
-          areaColor: null,
-          areaOpacity: 0.5,
-          enableCurve: true,
-          smoothDegree: 0.15,
-          angleDegree: 1,
-          strokeLinejoin: "miter", // "miter" | "round" | "bevel"
-          strokeLinecap: "butt", // "butt" | "round" | "square"
-        }}
-        animationSettings={{
-          lineSettings: {
-            useAnimation: true,
-            renderType: "draw",
-            renderDuration: 1.5,
-            renderStartDelay: 0.5,
-            renderItemDelay: 0.2,
-            renderTimingFunction: "ease",
-            translateLine: true,
-            translateDuration: 1,
-            translateStartDelay: 0,
-            translateItemDelay: 0,
-            translateTimingFunction: "ease",
+          pointSettings: {
+            usePointAnimation: true,
+            pointRenderType: "draw",
+            pointRenderDuration: 0.5,
+            pointLineRenderDuration: 0.5,
+            pointRenderStartDelay: 0,
+            pointRenderItemDelay: 0,
+            pointRenderTimingFunction: "ease",
+            translatePoint: true,
+            translatePointItemDelay: 0,
+            translatePointDuration: 0.5,
+            translatePointStartDelay: 0,
+            translatePointTimingFunction: "ease",
+          },
+          areaSettings: {
+            useAreaAnimation: true,
+            areaRenderType: "fade",
+            areaRenderDuration: 0.5,
+            areaRenderStartDelay: 1,
+            areaRenderItemDelay: 0,
+            areaRenderTimingFunction: "ease",
+            translateArea: true,
+            translateAreaItemDelay: 0,
+            translateAreaDuration: 0.5,
+            translateAreaStartDelay: 0,
+            translateAreaTimingFunction: "ease",
           },
         }}
       />
