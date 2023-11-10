@@ -1,4 +1,4 @@
-import { checkSize } from "./check-common-exception";
+import { checkSize } from "../../utils/exception/check-common-exception";
 
 const checkMargin = ({ margin }) => {
   margin.top ??= 60;
@@ -369,10 +369,6 @@ export const checkNormalBump = ({
 
   result.normalSettings.margin = checkMargin({ margin: result.normalSettings.margin });
   result.normalSettings.innerMargin = checkInnerMargin({ innerMargin: result.normalSettings.innerMargin });
-
-  result.lineSettings.lineColor ??= result.normalSettings.colorPalette[0];
-  result.lineSettings.pointBorderColor ??= result.normalSettings.lineColor;
-  result.lineSettings.areaColor ??= result.lineSettings.lineColor;
 
   const checkedSize = checkSize({
     width: result.normalSettings.width,

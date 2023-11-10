@@ -10,7 +10,7 @@
 }
 
 .drawLine {
-  opacity: 0;
+  opacity: 0.9;
   stroke-dasharray: var(--line-length);
   stroke-dashoffset: var(--line-length);
   animation: draw-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
@@ -94,9 +94,9 @@
     opacity: 0;
   }
 
-  50% {
+  20% {
     transform: translate(var(--pos-x), var(--pos-y));
-    opacity: 1;
+    opacity: 0.5;
   }
 
   100% {
