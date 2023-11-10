@@ -220,30 +220,31 @@ const NormalPyramid = ({
               checkPositive = nowData.label === keys[0];
             }
 
+            const marginText = borderRadius + labelMargin
             const horizontalLabelLocation =
               labelPosition === "over"
                 ? nowData.value >= 0 ? 
                   (checkPositive ? 
-                    (nowData.value < scopeMaxNum * 0.8 ? realHeight / 2 + totalHeight * 0.01 : realHeight / 2 - totalHeight * 0.08) 
-                    : (nowData.value < scopeMaxNum * 0.8 ? -realHeight / 2 - totalHeight * 0.08 : -realHeight / 2 + realHeight * 0.01))
+                    (nowData.value >= scopeMaxNum * 0.8 ? realHeight / 2 - marginText : realHeight / 2 + marginText) 
+                    : (nowData.value >= scopeMaxNum * 0.8 ? -realHeight / 2 + marginText : -realHeight / 2 - marginText))
                   : (checkPositive ? 
-                    (-nowData.value < scopeMaxNum * 0.8 ? realHeight / 2 + totalHeight * 0.01 : realHeight / 2 - totalHeight * 0.1) 
-                    : (-nowData.value < scopeMaxNum * 0.8 ? -realHeight / 2 - totalHeight * 0.1 : -realHeight / 2 + totalHeight * 0.01))
+                    (-nowData.value >= scopeMaxNum * 0.8 ? realHeight / 2 - marginText : realHeight / 2 + marginText) 
+                    : (-nowData.value >= scopeMaxNum * 0.8 ? -realHeight / 2 + marginText : -realHeight / 2 - marginText))
                 : labelPosition === "under"
-                ? nowData.value >= 0 ? 
-                  (checkPositive ? 
-                    (nowData.value > scopeMaxNum * 0.2 ? labelMargin * 7 : realHeight / 2 + totalHeight * 0.08) 
-                    : (nowData.value > scopeMaxNum * 0.2 ? -labelMargin * 2 : -realHeight / 2 - totalHeight * 0.01))
-                  : (checkPositive ? 
-                    (-nowData.value > scopeMaxNum * 0.2 ? labelMargin * 8 : realHeight / 2 + totalHeight * 0.08) 
-                    : (-nowData.value > scopeMaxNum * 0.2 ? -labelMargin * 2  : -realHeight / 2 - totalHeight * 0.03))
+                  ? nowData.value >= 0 ? 
+                    (checkPositive ? 
+                      (nowData.value <= scopeMaxNum * 0.2 ? realHeight / 2 + marginText : marginText) 
+                      : (nowData.value <= scopeMaxNum * 0.2 ? -realHeight / 2 - marginText : -marginText))
+                    : (checkPositive ? 
+                      (-nowData.value <= scopeMaxNum * 0.2 ? realHeight / 2 + marginText : marginText) 
+                      : (-nowData.value <= scopeMaxNum * 0.2 ? -realHeight / 2 - marginText : -marginText))
                 : nowData.value >= 0 ? 
                   (checkPositive ? 
-                    (nowData.value > scopeMaxNum * 0.2 ? realHeight / 4 : realHeight / 2 + totalHeight * 0.05) 
-                    : (nowData.value > scopeMaxNum * 0.2 ? -realHeight / 4 : -realHeight / 2 - totalHeight * 0.05))
+                    (nowData.value <= scopeMaxNum * 0.2 ? realHeight / 2 + labelMargin : realHeight / 4 - borderRadius) 
+                    : (nowData.value <= scopeMaxNum * 0.2 ? -realHeight / 2 - labelMargin : -realHeight / 4 + borderRadius))
                   : (checkPositive ? 
-                    (-nowData.value > scopeMaxNum * 0.2 ? realHeight / 4 : realHeight / 2 + totalHeight * 0.05) 
-                    : (-nowData.value > scopeMaxNum * 0.2 ? -realHeight / 4 : -realHeight / 2 - totalHeight * 0.05))
+                    (-nowData.value <= scopeMaxNum * 0.2 ? realHeight / 2 + labelMargin : realHeight / 4 - borderRadius) 
+                    : (-nowData.value <= scopeMaxNum * 0.2 ? -realHeight / 2 - labelMargin : -realHeight / 4 + borderRadius))
 
             prevBarsTemp.current[nowData.label] = {
               center,
@@ -366,7 +367,40 @@ const NormalPyramid = ({
                         fill={labelColor}
                         opacity={labelOpacity}
                         dominantBaseline={"middle"}
-                        textAnchor={labelPosition === "over" ? "start" : labelPosition === "under" ? "end" : "middle"}
+                        textAnchor={
+                          labelPosition === "over"
+                            ? nowData.value >= 0
+                              ? checkPositive
+                                ? nowData.value >= scopeMaxNum * 0.8
+                                  ? "end"
+                                  : "start"
+                                : nowData.value >= scopeMaxNum * 0.8
+                                  ? "start"
+                                  : "end"
+                              : checkPositive
+                                ? -nowData.value >= scopeMaxNum * 0.8
+                                  ? "end"
+                                  : "start"
+                                : -nowData.value >= scopeMaxNum * 0.8
+                                  ? "start"
+                                  : "end"
+                            : labelPosition === "under"
+                              ? nowData.value >= 0
+                                ? checkPositive
+                                  ? "start"
+                                  : "end"
+                                : checkPositive
+                                  ? "start"
+                                  : "end"
+                              : nowData.value >= 0
+                                ? checkPositive
+                                  ? "start"
+                                  : "end"
+                                : checkPositive
+                                  ? "start"
+                                  : "end"
+                        }
+                        
                         className={
                           textRender
                             ? useTranslate
