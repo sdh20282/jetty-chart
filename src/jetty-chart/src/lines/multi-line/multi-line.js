@@ -52,6 +52,7 @@ const MultiLine = ({
     lineOpacity,
     lineWidth,
     enablePoint,
+    pointColor,
     pointSize,
     pointBorderColor,
     pointBorderWidth,
@@ -321,7 +322,7 @@ const MultiLine = ({
     return startZeroPoints[idx] + pathString + endZeroPoints[idx];
   });
 
-  nowPath.current["areaPathArray"] = areaPathArray;
+  nowPath.current.areaPathArray = areaPathArray;
 
   useEffect(() => {
     pathRefs.current?.forEach((pathElement) => {
@@ -376,12 +377,16 @@ const MultiLine = ({
                       strokeLinejoin={strokeLinejoin}
                       strokeLinecap={strokeLinecap}
                       style={{
-                        "--prev-path": `"${useMove ? prevPath.current.areaPathArray[idx] : ""}"`,
+                        "--prev-path": `"${
+                          useMove
+                            ? prevPath.current?.startZeroPoints[idx] + prevPath.current?.linePathArray[idx] + prevPath.current?.endZeroPoints[idx]
+                            : ""
+                        }"`,
                         "--curr-path": `"${d}"`,
                         "--animation-duration": `${useMove ? translateAreaDuration : areaRenderDuration}s`,
                         "--animation-timing-function": useMove ? translateAreaTimingFunction : areaRenderTimingFunction,
                         "--animation-delay": `${
-                          useMove   
+                          useMove
                             ? translateAreaStartDelay + (translateReverse ? dataSetLastIdx - idx : idx) * translateAreaItemDelay
                             : areaRenderStartDelay + (renderReverse ? dataSetLastIdx - idx : idx) * areaRenderItemDelay
                         }s`,
@@ -515,7 +520,16 @@ const MultiLine = ({
               }s`,
             }}
           >
-            {enablePoint && <circle cx={0} cy={0} r={pointSize} fill={lineColors[index]} stroke={pointBorderColor} strokeWidth={pointBorderWidth} />}
+            {enablePoint && (
+              <circle
+                cx={0}
+                cy={0}
+                r={pointSize}
+                fill={pointColor ? pointColor : lineColors[index]}
+                stroke={pointBorderColor ? pointBorderColor : lineColors[index]}
+                strokeWidth={pointBorderWidth}
+              />
+            )}
           </g>
         );
       })}
@@ -544,7 +558,7 @@ const MultiLine = ({
                     }}
                     fontSize={pointLabelSize}
                     fontWeight={pointLabelWeight}
-                    color={pointLabelColor}
+                    fill={pointLabelColor ? pointLabelColor : lineColors[index]}
                   >
                     {d.value}
                   </text>
