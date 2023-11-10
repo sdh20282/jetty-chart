@@ -16,7 +16,6 @@ const normalMapSetting = {
     marginLeft:0,
     marginRight:0,
     useChart:false,
-    innerChartText:"",
   },
   gagueBarSetting:{
     useGagueBar: true,
@@ -51,11 +50,20 @@ const normalMapSetting = {
     tooltipOpacity: 1,
     useTooltipCol:true,
   },
+  innerChartSetting:{
+    innerChartText:"",
+    innernormalSettings: { width: 1150, height: 1600 , margin:{top:120,bottom:120,left:150,right:50}},
+    innerbarSettings: { labelSize: 55, labelWeight: "bold", useLabel: true },
+    innerbottomLabelSettings: { labelSize: 55 },
+    innerleftLabelSettings:{labelSize:55,sideLineSize:10,useLabel:true},
+    innerChartTitleFontSize:85,
+    innerChartTitleFontWeight:"bold",
+  },
 }
 
-export const checkMapChart = ({normalSetting, gagueBarSetting, tooltipSetting})=>{
+export const checkMapChart = ({normalSetting, gagueBarSetting, tooltipSetting,innerChartSetting})=>{
   const result = {
-      normalSetting, gagueBarSetting, tooltipSetting,
+      normalSetting, gagueBarSetting, tooltipSetting,innerChartSetting,
   };
 
   Object.keys(normalMapSetting).forEach((setting)=>{
