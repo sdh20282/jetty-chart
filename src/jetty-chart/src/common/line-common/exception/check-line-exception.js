@@ -1,4 +1,4 @@
-import { checkSize } from "./check-common-exception";
+import { checkSize } from "../../utils/exception/check-common-exception";
 
 const checkMargin = ({ margin }) => {
   margin.top ??= 60;
@@ -196,7 +196,6 @@ const normalLineSetting = {
   },
   // 라인 세팅
   lineSettings: {
-    lineColor: "#F1948A",
     lineOpacity: 1,
     lineWidth: 2,
     enablePoint: true,
@@ -209,7 +208,7 @@ const normalLineSetting = {
     pointLabelColor: "#000",
     pointLabelSize: 12,
     pointLabelOffsetX: 0,
-    pointLabelOffsetY: -5,
+    pointLabelOffsetY: -10,
     pointLabelWeight: 500,
     enableArea: false,
     areaColor: null,
@@ -382,10 +381,6 @@ export const checkNormalLine = ({
 
   result.normalSettings.margin = checkMargin({ margin: result.normalSettings.margin });
   result.normalSettings.innerMargin = checkInnerMargin({ innerMargin: result.normalSettings.innerMargin });
-
-  result.lineSettings.lineColor ??= result.normalSettings.colorPalette[0];
-  result.lineSettings.areaColor ??= result.lineSettings.lineColor;
-  result.lineSettings.pointColor ??= result.lineSettings.lineColor;
 
   const checkedSize = checkSize({
     width: result.normalSettings.width,
