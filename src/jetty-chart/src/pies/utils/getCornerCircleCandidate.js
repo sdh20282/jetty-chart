@@ -4,7 +4,7 @@ import {
   exceptionFloatingPointSliceCheck,
 } from "../exceptions/exceptionFloatingPoint";
 
-export const calcCornerCircleCandidate = ({ r1, r2, a, b }) => {
+export const calcCornerCircleCandidate = ({ r1, r2, a, b, exceptionRotate = 0 }) => {
   const alpha = a ** 2 + b ** 2 + r2 ** 2 - r1 ** 2;
   const xp = {
     plus:
@@ -22,7 +22,7 @@ export const calcCornerCircleCandidate = ({ r1, r2, a, b }) => {
   };
   const checkX = [];
   const checkY = [];
-  console.log([
+  console.log("CANDIDATE", [
     { x: xp.plus, y: yp.plus },
     { x: xp.plus, y: yp.minus },
     { x: xp.minus, y: yp.plus },
@@ -51,13 +51,11 @@ export const calcCornerCircleCandidate = ({ r1, r2, a, b }) => {
           exceptionFloatingPointCompare({ num1: x, num2: checkX[i] }) &&
           exceptionFloatingPointCompare({ num1: y, num2: checkY[i] })
         ) {
-          console.log("CHECK1 FALSE");
           return false;
         }
       }
       checkX.push(x);
       checkY.push(y);
-      console.log("CHECK1 TRUE");
       return true;
     })
     .filter((candidate) => {
@@ -68,14 +66,6 @@ export const calcCornerCircleCandidate = ({ r1, r2, a, b }) => {
         num: r1 ** 2,
       });
 
-      console.log(
-        "CHECK2",
-        candidate.x ** 2 + candidate.y ** 2,
-        r2 ** 2,
-        result,
-        target,
-        exceptionFloatingPointCompare({ num1: result, num2: target })
-      );
       return exceptionFloatingPointCompare({ num1: result, num2: target });
     })
     .filter((candidate) => {
@@ -86,26 +76,41 @@ export const calcCornerCircleCandidate = ({ r1, r2, a, b }) => {
         num: r2 ** 2,
       });
 
-      console.log(
-        "CHECK3",
-        candidate.x ** 2 + candidate.y ** 2,
-        r2 ** 2,
-        result,
-        target,
-        exceptionFloatingPointCompare({ num1: result, num2: target })
-      );
       return exceptionFloatingPointCompare({ num1: result, num2: target });
     });
-  console.log("CANDIDATES", candidates);
-  if (candidates.length === 0) {
-    console.error("CANNOT FIND CANDIDATE1");
-    return { x1: 0, y1: 0, x2: 0, y2: 0 };
+
+  if (candidates.length === 0 || candidates.length === 1) {
+    const { x: newA, y: newB } = getRotatePoint({ x: a, y: b, degrees: 5 });
+    return calcCornerCircleCandidate({
+      r1,
+      r2,
+      a: newA,
+      b: newB,
+      exceptionRotate: exceptionRotate + 5,
+    });
   }
-  if (candidates.length === 1) {
-    console.error("CANNOT FIND CANDIDATE2");
-    return { x1: 0, y1: 0, x2: 0, y2: 0 };
-  }
-  return { x1: candidates[0].x, y1: candidates[0].y, x2: candidates[1].x, y2: candidates[1].y };
+
+  return {
+    x1: candidates[0].x,
+    y1: candidates[0].y,
+    x2: candidates[1].x,
+    y2: candidates[1].y,
+    exceptionRotate: exceptionRotate,
+  };
+};
+
+const getRotatePoint = ({ x, y, degrees }) => {
+  var radians = (degrees * Math.PI) / 180;
+  var xPrime = x * Math.cos(radians) - y * Math.sin(radians);
+  var yPrime = x * Math.sin(radians) + y * Math.cos(radians);
+  return { x: xPrime, y: yPrime };
+};
+
+const getRotateTwoPointCounterclockwise = ({ x1, y1, x2, y2, exceptionRotate }) => {
+  const { x: newX1, y: newY1 } = getRotatePoint({ x: x1, y: y1, degrees: -exceptionRotate });
+  const { x: newX2, y: newY2 } = getRotatePoint({ x: x2, y: y2, degrees: -exceptionRotate });
+
+  return { x1: newX1, y1: newY1, x2: newX2, y2: newY2 };
 };
 
 export const getCornerCircleCandidateGroup = ({
@@ -116,30 +121,38 @@ export const getCornerCircleCandidateGroup = ({
   tangentLineGroup,
 }) => {
   const candidates = [];
-  candidates[0] = calcCornerCircleCandidate({
-    r1: cornerOuterRadius,
-    r2: pieRadius - cornerOuterRadius,
-    a: tangentLineGroup[0].x,
-    b: tangentLineGroup[0].y,
-  });
-  candidates[1] = calcCornerCircleCandidate({
-    r1: cornerOuterRadius,
-    r2: pieRadius - cornerOuterRadius,
-    a: tangentLineGroup[1].x,
-    b: tangentLineGroup[1].y,
-  });
-  candidates[2] = calcCornerCircleCandidate({
-    r1: cornerInnerRadius,
-    r2: innerRadius + cornerInnerRadius,
-    a: tangentLineGroup[2].x,
-    b: tangentLineGroup[2].y,
-  });
-  candidates[3] = calcCornerCircleCandidate({
-    r1: cornerInnerRadius,
-    r2: innerRadius + cornerInnerRadius,
-    a: tangentLineGroup[3].x,
-    b: tangentLineGroup[3].y,
-  });
+  candidates[0] = getRotateTwoPointCounterclockwise(
+    calcCornerCircleCandidate({
+      r1: cornerOuterRadius,
+      r2: pieRadius - cornerOuterRadius,
+      a: tangentLineGroup[0].x,
+      b: tangentLineGroup[0].y,
+    })
+  );
+  candidates[1] = getRotateTwoPointCounterclockwise(
+    calcCornerCircleCandidate({
+      r1: cornerOuterRadius,
+      r2: pieRadius - cornerOuterRadius,
+      a: tangentLineGroup[1].x,
+      b: tangentLineGroup[1].y,
+    })
+  );
+  candidates[2] = getRotateTwoPointCounterclockwise(
+    calcCornerCircleCandidate({
+      r1: cornerInnerRadius,
+      r2: innerRadius + cornerInnerRadius,
+      a: tangentLineGroup[2].x,
+      b: tangentLineGroup[2].y,
+    })
+  );
+  candidates[3] = getRotateTwoPointCounterclockwise(
+    calcCornerCircleCandidate({
+      r1: cornerInnerRadius,
+      r2: innerRadius + cornerInnerRadius,
+      a: tangentLineGroup[3].x,
+      b: tangentLineGroup[3].y,
+    })
+  );
 
   return candidates;
 };

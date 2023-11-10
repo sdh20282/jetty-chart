@@ -14,7 +14,7 @@ export const PieDebugMode = ({
   pieRadius,
   referenceCoordinate,
 }) => {
-  const pointSize = 0.02;
+  const pointSize = 0.01;
   return (
     debugTool && (
       <>
@@ -130,7 +130,7 @@ export const PieDebugMode = ({
           cx={tangentLineGroup[0].x}
           cy={tangentLineGroup[0].y}
           r={0.02}
-          fill={"red"}
+          fill={"yellow"}
           opacity={0.5}
         />
         <circle
@@ -144,14 +144,14 @@ export const PieDebugMode = ({
           cx={tangentLineGroup[2].x}
           cy={tangentLineGroup[2].y}
           r={0.02}
-          fill={"red"}
+          fill={"blue"}
           opacity={0.5}
         />
         <circle
           cx={tangentLineGroup[3].x}
           cy={tangentLineGroup[3].y}
           r={0.015}
-          fill={"yellow"}
+          fill={"blue"}
           opacity={0.5}
         />
         <circle

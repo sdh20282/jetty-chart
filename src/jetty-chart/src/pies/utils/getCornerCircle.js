@@ -40,5 +40,6 @@ export const getCornerCircleGroup = ({ candidatesGroup, referenceCoordinate }) =
     referenceCoordinate,
   });
 
+  console.log("TEST cornerCircleGroup", cornerCircleGroup);
   return cornerCircleGroup;
 };

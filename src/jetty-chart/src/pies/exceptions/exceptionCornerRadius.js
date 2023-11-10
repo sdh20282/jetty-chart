@@ -1,6 +1,5 @@
 // 라운딩을 위한 꼭지점 최대 반지름을 넘지 않게 예외처리 하는 함수
 import { getCoordinateRatio } from "../utils/getCoordinate";
-import { exceptionFloatingPointSliceCheck } from "./exceptionFloatingPoint";
 
 const exceptionCornerRadiusWidth = ({
   r,
@@ -12,56 +11,54 @@ const exceptionCornerRadiusWidth = ({
   plusAngle,
   minus,
 }) => {
-  console.log(
-    "exceptionCornerRadiusWidth",
-    r,
-    x,
-    y,
-    ratio,
-    startAngle,
-    pieRadius,
-    plusAngle,
-    minus
-  );
   let calcPos = getCoordinateRatio({
     ratio: ratio / 2,
     startAngle: (startAngle + plusAngle) % 360,
     radius: pieRadius,
   });
-  if (exceptionFloatingPointSliceCheck({ num: calcPos.x }) === 0) {
-    console.log("EXCEPTION!");
-    calcPos = getCoordinateRatio({
-      ratio: ratio / 2,
-      startAngle: (startAngle + plusAngle + 45) % 360,
-      radius: pieRadius,
-    });
-  }
+
   const m = calcPos.y / calcPos.x;
   const alpha = ((x ** 2 + y ** 2) * (1 + m ** 2)) / (y - x * m) ** 2;
   const result =
     (minus * 2 * r + Math.sqrt(4 * r ** 2 + 4 * (alpha - 1) * r ** 2)) / (2 * alpha - 2);
-  // console.log("(y-x*m)", (y - x * m) ** 2);
-  // console.log("y", y, "x", x, "m", m, "x*m", x * m, "(y-x*m)**2", (y - x * m) ** 2);
 
-  // console.log("ALPHA, RESULT", alpha, result);
-  // if (
-  //   result === Infinity ||
-  //   isNaN(result) ||
-  //   exceptionFloatingPointSliceCheck({ num: y - x * m }) === 0
-  // ) {
-  //   console.log("EXCEPTION2!");
-  //   const newPos = getCoordinateRatio({ ratio, startAngle: startAngle + 20, radius: pieRadius });
-  //   return exceptionCornerRadiusWidth({
-  //     r,
-  //     x: newPos.x,
-  //     y: newPos.y,
-  //     ratio,
-  //     startAngle: (startAngle + 20) % 360,
-  //     pieRadius,
-  //     plusAngle,
-  //     minus,
-  //   });
-  // }
+  if (
+    result === Infinity ||
+    isNaN(result) ||
+    Math.abs(x) < pieRadius * 0.1 ||
+    Math.abs(y) < pieRadius * 0.1 ||
+    Math.abs(x) > pieRadius * 0.9 ||
+    Math.abs(y) > pieRadius * 0.9
+  ) {
+    console.log("EXCEPTION2!");
+    console.log(
+      "TEST x",
+      x,
+      "y",
+      y,
+      "ratio",
+      ratio,
+      "startAngle",
+      startAngle,
+      "plusAngle",
+      plusAngle
+    );
+    const newPos = getCoordinateRatio({
+      ratio,
+      startAngle: (startAngle + plusAngle + 5) % 360,
+      radius: pieRadius,
+    });
+    return exceptionCornerRadiusWidth({
+      r,
+      x: newPos.x,
+      y: newPos.y,
+      ratio,
+      startAngle,
+      pieRadius,
+      plusAngle: (plusAngle + 5) % 360,
+      minus,
+    });
+  }
   return result;
 };
 
