@@ -17,7 +17,6 @@ const exceptionCornerRadiusWidth = ({ r, ratio, pieRadius, minus, exceptionAngle
   const result =
     (minus * 2 * r + Math.sqrt(4 * r ** 2 + 4 * (alpha - 1) * r ** 2)) / (2 * alpha - 2);
 
-  console.log("TEST1-1", x, y, m, r, ratio, exceptionAngle);
   if (exceptionAngle > 360) {
     return;
   }
@@ -31,17 +30,6 @@ const exceptionCornerRadiusWidth = ({ r, ratio, pieRadius, minus, exceptionAngle
     Math.abs(y - x * m) < 0.001 ||
     Math.abs(4 * r ** 2 + 4 * (alpha - 1) * r ** 2) < 0
   ) {
-    console.log(
-      "TEST",
-      result === Infinity,
-      isNaN(result),
-      Math.abs(x) < 0.001,
-      Math.abs(y) < 0.001,
-      Math.abs(x) > 0.999,
-      Math.abs(y) > 0.999,
-      Math.abs(y - x * m) < 0.001,
-      Math.abs(4 * r ** 2 + 4 * (alpha - 1) * r ** 2) < 0
-    );
     return exceptionCornerRadiusWidth({
       r,
       ratio,

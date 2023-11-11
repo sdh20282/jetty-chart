@@ -99,6 +99,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
           cornerCircleGroup={piece.cornerCircleGroup}
           startAngle={pieSettings.startAngle}
           referenceCoordinate={piece.referenceCoordinate}
+          candidatesGroup={piece.candidatesGroup}
           key={index}
         />
       ))}

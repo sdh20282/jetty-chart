@@ -22,6 +22,7 @@ export const setExceptionValue = ({ pieSettings, length }) => {
   pieSettings.padAngle = exceptionValueRange({
     num: pieSettings.padAngle,
     max: 300 / length,
+    // max: Math.min(45, 300 / length),
     min: 0,
   });
   pieSettings.startAngle = Math.round(pieSettings.startAngle);

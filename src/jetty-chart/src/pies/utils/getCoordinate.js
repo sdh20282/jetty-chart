@@ -68,6 +68,7 @@ export const getCoordinateCornerCircleCandidateGroup = ({
   cornerOuterRadius,
   accumulatedAngle,
   tangentLineGroup,
+  referenceCoordinate,
   ratio,
 }) => {
   const candidatesGroup = getCornerCircleCandidateGroup({
@@ -77,6 +78,7 @@ export const getCoordinateCornerCircleCandidateGroup = ({
     cornerOuterRadius,
     accumulatedAngle,
     tangentLineGroup,
+    referenceCoordinate,
     ratio,
   });
 

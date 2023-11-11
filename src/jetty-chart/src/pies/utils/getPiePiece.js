@@ -27,6 +27,12 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       startAngle,
       accumulatedAngle: accumulatedAngle,
     });
+    const referenceCoordinate = getCoordinateReference({
+      startAngle: accumulatedAngle,
+      percent: ratio,
+      pieRadius,
+    });
+    console.log("TEST1 referenceCoordinate", referenceCoordinate, startAngle, accumulatedAngle);
     console.log("TEST1 cornerInnerRadius, cornerOuterRadius", cornerInnerRadius, cornerOuterRadius);
     const tangentLineGroup = getCoordinateTangentLineGroup({
       pieRadius,
@@ -43,12 +49,8 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       cornerOuterRadius,
       accumulatedAngle: accumulatedAngle,
       tangentLineGroup,
+      referenceCoordinate,
       ratio,
-    });
-    const referenceCoordinate = getCoordinateReference({
-      startAngle: accumulatedAngle,
-      percent: ratio,
-      pieRadius,
     });
     const cornerCircleGroup = getCoordinateCornerCircleGroup({
       candidatesGroup,
@@ -67,14 +69,15 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
 
     return {
       pieRadius,
+      innerRadius,
       cornerInnerRadius,
       cornerOuterRadius,
-      innerRadius,
       vertexGroup,
       tangentLineGroup,
+      candidatesGroup,
       calcVertexGroup,
       cornerCircleGroup,
-      accumulatedAngle: accumulatedAngle,
+      accumulatedAngle,
       isLargeArcGroup,
       referenceCoordinate,
       value,

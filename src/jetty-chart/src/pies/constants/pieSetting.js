@@ -8,4 +8,4 @@ export const DEFAULT_INNER_RADIUS = 0.5;
 export const DEFAULT_CORNER_RADIUS = 0.99;
 export const DEFAULT_START_ANGLE = 0;
 export const DEFAULT_PAD_ANGLE = 0;
-export const DEFAULT_DEBUG_TOOL = true;
+export const DEFAULT_DEBUG_TOOL = false;
