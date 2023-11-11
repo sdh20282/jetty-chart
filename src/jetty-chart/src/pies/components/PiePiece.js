@@ -34,7 +34,7 @@ const PiePiece = ({
             }
             A ${cornerOuterRadius},${cornerOuterRadius},0,0,1,
             ${tangentLineGroup[1].x},${tangentLineGroup[1].y}
-            L ${innerRadius < 0.1 ? "0,0" : innerPath}
+            L ${innerRadius <= 0.01 ? "0,0" : innerPath}
             Z
             `}
         fill={color}

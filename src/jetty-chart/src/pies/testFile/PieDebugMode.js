@@ -178,29 +178,29 @@ export const PieDebugMode = ({
               cx={cornerCircleGroup[0].x}
               cy={cornerCircleGroup[0].y}
               r={cornerOuterRadius}
-              fill={"#AA1"}
+              fill={"red"}
               opacity={0.3}
             />
             <circle
               cx={cornerCircleGroup[1].x}
               cy={cornerCircleGroup[1].y}
               r={cornerOuterRadius}
-              fill={"#AA1"}
+              fill={"blue"}
               opacity={0.3}
             />
             <circle
               cx={cornerCircleGroup[2].x}
               cy={cornerCircleGroup[2].y}
               r={cornerInnerRadius}
-              fill={"#AA1"}
-              opacity={0.5}
+              fill={"green"}
+              opacity={0.3}
             />
             <circle
               cx={cornerCircleGroup[3].x}
               cy={cornerCircleGroup[3].y}
               r={cornerInnerRadius}
-              fill={"#AA1"}
-              opacity={0.5}
+              fill={"yellow"}
+              opacity={0.3}
             />
           </>
         )}

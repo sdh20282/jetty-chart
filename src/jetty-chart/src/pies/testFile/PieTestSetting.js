@@ -26,19 +26,20 @@ const PieTestSetting = ({
   const [innerRadius, setInnerRadius] = useState(pieSettings.innerRadius);
   const [cornerRadius, setCornerRadius] = useState(pieSettings.cornerRadius);
   const [testToggle, setTestToggle] = useState(true);
-  const [endAngle, setEndAngle] = useState(pieSettings.endAngle);
+  const [useAngle, setUseAngle] = useState(pieSettings.useAngle);
+  const [sortByValue, setSortByValue] = useState(pieSettings.sortByValue);
   const colorOption = [
-    { value: "transparent", name: "투명" },
-    { value: "black", name: "검정" },
-    { value: "gray", name: "회색" },
-    { value: "white", name: "하양" },
-    { value: "red", name: "빨강" },
-    { value: "blue", name: "파랑" },
-    { value: "green", name: "초록" },
-    { value: "yellow", name: "노랑" },
-    { value: "orange", name: "오렌지" },
-    { value: "purple", name: "보라" },
-    { value: "pink", name: "분홍" },
+    { value: "transparent", name: "▨투명" },
+    { value: "black", name: "⬛검정" },
+    { value: "gray", name: " 🏽회색" },
+    { value: "white", name: "⬜하양" },
+    { value: "red", name: "🟥빨강" },
+    { value: "blue", name: "🟦파랑" },
+    { value: "green", name: "🟩초록" },
+    { value: "yellow", name: "🟨노랑" },
+    { value: "orange", name: "🟧오렌지" },
+    { value: "purple", name: "🟪보라" },
+    { value: "brown", name: "🟫갈색" },
   ];
   useEffect(() => {
     changeNewGeneralSettings({
@@ -58,12 +59,13 @@ const PieTestSetting = ({
       innerRadius,
       cornerRadius,
       strokeWidth,
-      endAngle,
+      useAngle,
+      sortByValue,
     });
   }, [
     testToggle,
     backgroundColor,
-    endAngle,
+    useAngle,
     strokeWidth,
     strokeColor,
     color,
@@ -77,6 +79,7 @@ const PieTestSetting = ({
     padding,
     pieBackgroundColor,
     donutBackgroundColor,
+    sortByValue,
     changeNewGeneralSettings,
     changeNewPieSettings,
   ]);
@@ -187,24 +190,24 @@ const PieTestSetting = ({
             }}
           />
           <br />
-          <label style={{ color: "black" }}>endAngle</label>
+          <label style={{ color: "black" }}>useAngle</label>
           <input
             type={"range"}
             min={"0"}
             max={"360"}
             step={"1"}
             style={{ margin: "10px" }}
-            value={endAngle}
+            value={useAngle}
             onChange={(e) => {
-              setEndAngle(e.target.value);
+              setUseAngle(e.target.value);
             }}
           />
           <input
             size={5}
             style={{ margin: "10px" }}
-            value={endAngle}
+            value={useAngle}
             onChange={(e) => {
-              setEndAngle(e.target.value);
+              setUseAngle(e.target.value);
             }}
           />
           <br />
@@ -320,6 +323,15 @@ const PieTestSetting = ({
             value={false}
             onChange={() => {
               changeDebugTool();
+            }}
+          />
+          <label>sortByValue</label>
+          <input
+            type={"checkbox"}
+            name={"sortByValue"}
+            value={false}
+            onChange={() => {
+              setSortByValue(!sortByValue);
             }}
           />
         </div>

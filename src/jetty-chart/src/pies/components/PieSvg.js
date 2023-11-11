@@ -41,7 +41,8 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
     data,
     padAngle: pieSettings.padAngle,
     startAngle: pieSettings.startAngle,
-    endAngle: pieSettings.endAngle,
+    useAngle: pieSettings.useAngle,
+    sortByValue: pieSettings.sortByValue,
   });
 
   const pieceData = getPiePiece({
