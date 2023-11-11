@@ -7,14 +7,35 @@ import { setExceptionValue } from "../utils/setExceptionValue";
 
 const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
   // data = [{ value: 0.85 }, { value: 0.15 }]; //153
-  data = [
-    { value: 0.2 },
-    { value: 0.3 },
-    { value: 0.1 },
-    { value: 0.15 },
-    { value: 0.15 },
-    { value: 0.1 },
-  ];
+  // data = [{ value: 0.2 }, { value: 0.25 }, { value: 0.25 }, { value: 0.3 }];
+  // data = [{ value: 0.25 }, { value: 0.25 }, { value: 0.25 }, { value: 0.25 }];
+  data = [{ value: 0.01 }, { value: 0.99 }];
+  // data = [{ value: 0.05 }, { value: 0.95 }];
+  // data = [{ value: 0.1 }, { value: 0.9 }];
+  // data = [{ value: 0.2 }, { value: 0.8 }];
+  // data = [{ value: 0.3 }, { value: 0.7 }];
+  // data = [{ value: 0.4 }, { value: 0.6 }];
+  // data = [{ value: 0.5 }, { value: 0.5 }];
+  // data = [
+  //   { value: 0.1 },
+  //   { value: 0.1 },
+  //   { value: 0.1 },
+  //   { value: 0.1 },
+  //   { value: 0.1 },
+  //   { value: 0.1 },
+  //   { value: 0.1 },
+  //   { value: 0.1 },
+  //   { value: 0.1 },
+  //   { value: 0.1 },
+  // ];
+  // data = [
+  //   { value: 0.2 },
+  //   { value: 0.3 },
+  //   { value: 0.1 },
+  //   { value: 0.15 },
+  //   { value: 0.15 },
+  //   { value: 0.1 },
+  // ];
   setExceptionValue({ pieSettings, length: data.length });
   data = divideRatio({ data, padAngle: pieSettings.padAngle, startAngle: pieSettings.startAngle });
   // data = [{ ratio: 0.666 }, { ratio: 0.134 }, { ratio: 0.2 }];

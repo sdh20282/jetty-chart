@@ -1,19 +1,14 @@
 // 라운딩을 위한 꼭지점 최대 반지름을 넘지 않게 예외처리 하는 함수
 import { getCoordinateRatio } from "../utils/getCoordinate";
 
-const exceptionCornerRadiusWidth = ({
-  r,
-  x,
-  y,
-  ratio,
-  startAngle,
-  pieRadius,
-  plusAngle,
-  minus,
-}) => {
+const exceptionCornerRadiusWidth = ({ r, ratio, pieRadius, minus, exceptionAngle = 0 }) => {
+  const x = Math.cos(45 * (Math.PI / 180));
+  const y = Math.sin(45 * (Math.PI / 180));
+  const startAngle = ratio >= 0.5 ? exceptionAngle : 45 + exceptionAngle;
+
   let calcPos = getCoordinateRatio({
     ratio: ratio / 2,
-    startAngle: (startAngle + plusAngle) % 360,
+    startAngle,
     radius: pieRadius,
   });
 
@@ -22,44 +17,41 @@ const exceptionCornerRadiusWidth = ({
   const result =
     (minus * 2 * r + Math.sqrt(4 * r ** 2 + 4 * (alpha - 1) * r ** 2)) / (2 * alpha - 2);
 
+  console.log("TEST1-1", x, y, m, r, ratio, exceptionAngle);
+  if (exceptionAngle > 360) {
+    return;
+  }
   if (
     result === Infinity ||
     isNaN(result) ||
-    Math.abs(x) < pieRadius * 0.1 ||
-    Math.abs(y) < pieRadius * 0.1 ||
-    Math.abs(x) > pieRadius * 0.9 ||
-    Math.abs(y) > pieRadius * 0.9
+    Math.abs(x) < 0.001 ||
+    Math.abs(y) < 0.001 ||
+    Math.abs(x) > 0.999 ||
+    Math.abs(y) > 0.999 ||
+    Math.abs(y - x * m) < 0.001 ||
+    Math.abs(4 * r ** 2 + 4 * (alpha - 1) * r ** 2) < 0
   ) {
-    console.log("EXCEPTION2!");
     console.log(
-      "TEST x",
-      x,
-      "y",
-      y,
-      "ratio",
-      ratio,
-      "startAngle",
-      startAngle,
-      "plusAngle",
-      plusAngle
+      "TEST",
+      result === Infinity,
+      isNaN(result),
+      Math.abs(x) < 0.001,
+      Math.abs(y) < 0.001,
+      Math.abs(x) > 0.999,
+      Math.abs(y) > 0.999,
+      Math.abs(y - x * m) < 0.001,
+      Math.abs(4 * r ** 2 + 4 * (alpha - 1) * r ** 2) < 0
     );
-    const newPos = getCoordinateRatio({
-      ratio,
-      startAngle: (startAngle + plusAngle + 5) % 360,
-      radius: pieRadius,
-    });
     return exceptionCornerRadiusWidth({
       r,
-      x: newPos.x,
-      y: newPos.y,
       ratio,
-      startAngle,
       pieRadius,
-      plusAngle: (plusAngle + 5) % 360,
       minus,
+      exceptionAngle: exceptionAngle + 1,
     });
   }
-  return result;
+
+  return result < 0.001 ? 0.001 : result;
 };
 
 const exceptionCornerRadiusHeight = ({ pieRadius, innerRadius, cornerRadius }) => {
@@ -73,6 +65,9 @@ const exceptionCornerRadiusInnerNatural = ({ innerRadius, radius, isInner }) => 
   if (innerRadius < radius && isInner) {
     return innerRadius;
   }
+  // if (innerRadius * 2 < radius && !isInner) {
+  //   return innerRadius * 2;
+  // }
   return radius;
 };
 
@@ -82,7 +77,6 @@ export const exceptionCornerRadius = ({
   y,
   ratio,
   startAngle,
-  plusAngle,
   pieRadius,
   cornerRadius,
   innerRadius,
@@ -96,7 +90,7 @@ export const exceptionCornerRadius = ({
       ratio,
       startAngle,
       pieRadius,
-      plusAngle,
+      innerRadius,
       minus: isInner ? 1 : -1,
     }),
     exceptionCornerRadiusHeight({ pieRadius, innerRadius, cornerRadius })

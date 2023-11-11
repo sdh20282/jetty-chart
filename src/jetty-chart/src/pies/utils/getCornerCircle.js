@@ -1,10 +1,5 @@
 // 후보들 중 하나의 원을 선택
-export const getTwoPointDistance = ({ point1, point2 }) => {
-  const { x: x1, y: y1 } = point1;
-  const { x: x2, y: y2 } = point2;
-
-  return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
-};
+import { getTwoPointDistance } from "./getCoordinate";
 
 export const getCoordinatesNear = ({ circles, referenceCoordinate }) => {
   const circle1 = {
@@ -40,6 +35,5 @@ export const getCornerCircleGroup = ({ candidatesGroup, referenceCoordinate }) =
     referenceCoordinate,
   });
 
-  console.log("TEST cornerCircleGroup", cornerCircleGroup);
   return cornerCircleGroup;
 };

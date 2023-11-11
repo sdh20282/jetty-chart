@@ -3,8 +3,12 @@ import {
   exceptionFloatingPointCompare,
   exceptionFloatingPointSliceCheck,
 } from "../exceptions/exceptionFloatingPoint";
+import { getRotateDegreePoint } from "./getCoordinate";
 
 export const calcCornerCircleCandidate = ({ r1, r2, a, b, exceptionRotate = 0 }) => {
+  if (exceptionRotate > 360) {
+    return;
+  }
   const alpha = a ** 2 + b ** 2 + r2 ** 2 - r1 ** 2;
   const xp = {
     plus:
@@ -22,16 +26,6 @@ export const calcCornerCircleCandidate = ({ r1, r2, a, b, exceptionRotate = 0 })
   };
   const checkX = [];
   const checkY = [];
-  console.log("CANDIDATE", [
-    { x: xp.plus, y: yp.plus },
-    { x: xp.plus, y: yp.minus },
-    { x: xp.minus, y: yp.plus },
-    { x: xp.minus, y: yp.minus },
-    { x: xp.plus, y: -yp.plus },
-    { x: xp.plus, y: -yp.minus },
-    { x: xp.minus, y: -yp.plus },
-    { x: xp.minus, y: -yp.minus },
-  ]);
   const candidates = [
     { x: xp.plus, y: yp.plus },
     { x: xp.plus, y: yp.minus },
@@ -80,13 +74,14 @@ export const calcCornerCircleCandidate = ({ r1, r2, a, b, exceptionRotate = 0 })
     });
 
   if (candidates.length === 0 || candidates.length === 1) {
-    const { x: newA, y: newB } = getRotatePoint({ x: a, y: b, degrees: 5 });
+    const { x: newA, y: newB } = getRotateDegreePoint({ x: a, y: b, degrees: 5 });
+
     return calcCornerCircleCandidate({
       r1,
       r2,
       a: newA,
       b: newB,
-      exceptionRotate: exceptionRotate + 5,
+      exceptionRotate: exceptionRotate + 1,
     });
   }
 
@@ -99,16 +94,9 @@ export const calcCornerCircleCandidate = ({ r1, r2, a, b, exceptionRotate = 0 })
   };
 };
 
-const getRotatePoint = ({ x, y, degrees }) => {
-  var radians = (degrees * Math.PI) / 180;
-  var xPrime = x * Math.cos(radians) - y * Math.sin(radians);
-  var yPrime = x * Math.sin(radians) + y * Math.cos(radians);
-  return { x: xPrime, y: yPrime };
-};
-
 const getRotateTwoPointCounterclockwise = ({ x1, y1, x2, y2, exceptionRotate }) => {
-  const { x: newX1, y: newY1 } = getRotatePoint({ x: x1, y: y1, degrees: -exceptionRotate });
-  const { x: newX2, y: newY2 } = getRotatePoint({ x: x2, y: y2, degrees: -exceptionRotate });
+  const { x: newX1, y: newY1 } = getRotateDegreePoint({ x: x1, y: y1, degrees: -exceptionRotate });
+  const { x: newX2, y: newY2 } = getRotateDegreePoint({ x: x2, y: y2, degrees: -exceptionRotate });
 
   return { x1: newX1, y1: newY1, x2: newX2, y2: newY2 };
 };

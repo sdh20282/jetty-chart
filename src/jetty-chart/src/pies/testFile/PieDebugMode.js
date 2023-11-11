@@ -14,7 +14,7 @@ export const PieDebugMode = ({
   pieRadius,
   referenceCoordinate,
 }) => {
-  const pointSize = 0.01;
+  const pointSize = 0.02;
   return (
     debugTool && (
       <>

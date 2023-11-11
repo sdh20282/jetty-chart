@@ -27,7 +27,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       startAngle,
       accumulatedAngle: accumulatedAngle,
     });
-    console.log("TEST cornerInnerRadius, cornerOuterRadius", cornerInnerRadius, cornerOuterRadius);
+    console.log("TEST1 cornerInnerRadius, cornerOuterRadius", cornerInnerRadius, cornerOuterRadius);
     const tangentLineGroup = getCoordinateTangentLineGroup({
       pieRadius,
       innerRadius,
@@ -64,9 +64,6 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
     });
 
     const isLargeArcGroup = getIsLargeArcGroup({ ratio, vertexGroup, calcVertexGroup });
-
-    // accumulatedAngle += ratio * 360 + padAngle;
-    // accumulatedAngle %= 360;
 
     return {
       pieRadius,

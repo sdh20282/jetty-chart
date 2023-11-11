@@ -6,6 +6,7 @@ import PieTestSetting from "./testFile/PieTestSetting";
 import {
   DEFAULT_BACKGROUND_COLOR,
   DEFAULT_CORNER_RADIUS,
+  DEFAULT_DEBUG_TOOL,
   DEFAULT_HEIGHT,
   DEFAULT_INNER_RADIUS,
   DEFAULT_PADDING,
@@ -40,12 +41,13 @@ const Pie = ({
   // 테스트용
   const [newGeneralSettings, setNewGeneralSettings] = useState(generalSettings);
   const [newPieSettings, setNewPieSettings] = useState(pieSettings);
-  const [debugTool, setDebugTool] = useState(false);
+  const [debugTool, setDebugTool] = useState(DEFAULT_DEBUG_TOOL);
   const toggleDebugTool = () => {
     setDebugTool(!debugTool);
   };
   return (
     <div style={{ display: "flex" }}>
+      {/* <div> */}
       <PieTestSetting
         generalSettings={generalSettings}
         pieSettings={pieSettings}

@@ -104,3 +104,17 @@ export const getCoordinateCornerCircleGroup = ({ candidatesGroup, referenceCoord
 
   return cornerCircleGroup;
 };
+
+export const getRotateDegreePoint = ({ x, y, degrees }) => {
+  var radians = (degrees * Math.PI) / 180;
+  var xPrime = x * Math.cos(radians) - y * Math.sin(radians);
+  var yPrime = x * Math.sin(radians) + y * Math.cos(radians);
+  return { x: xPrime, y: yPrime };
+};
+
+export const getTwoPointDistance = ({ point1, point2 }) => {
+  const { x: x1, y: y1 } = point1;
+  const { x: x2, y: y2 } = point2;
+
+  return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+};
