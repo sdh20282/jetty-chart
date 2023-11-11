@@ -97,7 +97,6 @@ export const calcCornerCircleCandidate = ({
     });
 
   if (candidates.length === 0 || candidates.length === 1) {
-    console.log("exceptionRotate", exceptionRotate);
     const { x: newA, y: newB } = getRotateDegreePoint({ x: a, y: b, degrees: 1 });
 
     return calcCornerCircleCandidate({
@@ -110,7 +109,6 @@ export const calcCornerCircleCandidate = ({
     });
   }
 
-  console.log("candidates", candidates, referenceCoordinate);
   const twoCandidate = getClosestPoints({
     candidates,
     rx: referenceCoordinate.x,

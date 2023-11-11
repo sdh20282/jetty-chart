@@ -32,8 +32,6 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle })
       percent: ratio,
       pieRadius,
     });
-    console.log("TEST1 referenceCoordinate", referenceCoordinate, startAngle, accumulatedAngle);
-    console.log("TEST1 cornerInnerRadius, cornerOuterRadius", cornerInnerRadius, cornerOuterRadius);
     const tangentLineGroup = getCoordinateTangentLineGroup({
       pieRadius,
       innerRadius,

@@ -13,6 +13,8 @@ const PieTestSetting = ({
   const [backgroundColor, setBackgroundColor] = useState(generalSettings.backgroundColor);
   const [padding, setPadding] = useState(generalSettings.padding);
   const [color, setColor] = useState(pieSettings.color);
+  const [strokeColor, setStrokeColor] = useState(pieSettings.strokeColor);
+  const [strokeWidth, setStrokeWidth] = useState(pieSettings.strokeWidth);
   const [startAngle, setStartAngle] = useState(pieSettings.startAngle);
   const [padAngle, setPadAngle] = useState(pieSettings.padAngle);
   const [pieRadius, setPieRadius] = useState(pieSettings.pieRadius);
@@ -28,12 +30,14 @@ const PieTestSetting = ({
       padding,
     });
     changeNewPieSettings({
+      strokeColor,
       color,
       startAngle,
       padAngle,
       pieRadius,
       innerRadius,
       cornerRadius,
+      strokeWidth,
     });
   }, [testToggle]);
   return (
@@ -109,7 +113,10 @@ const PieTestSetting = ({
             size={5}
             style={{ margin: "10px" }}
             value={startAngle}
-            onChange={(e) => setStartAngle(e.target.value)}
+            onChange={(e) => {
+              setStartAngle(e.target.value);
+              setTestToggle(!testToggle);
+            }}
           />
           <br />
           <label>padAngle</label>
@@ -129,7 +136,10 @@ const PieTestSetting = ({
             size={5}
             style={{ margin: "10px" }}
             value={padAngle}
-            onChange={(e) => setPadAngle(Number(e.target.value))}
+            onChange={(e) => {
+              setPadAngle(Number(e.target.value));
+              setTestToggle(!testToggle);
+            }}
           />
           <br />
           <label>pieRadius</label>
@@ -146,6 +156,7 @@ const PieTestSetting = ({
             }}
           />
           <input
+            size={5}
             style={{ margin: "10px" }}
             value={pieRadius}
             onChange={(e) => {
@@ -168,6 +179,7 @@ const PieTestSetting = ({
             }}
           />
           <input
+            size={5}
             style={{ margin: "10px" }}
             value={innerRadius}
             onChange={(e) => {
@@ -190,6 +202,7 @@ const PieTestSetting = ({
             }}
           />
           <input
+            size={5}
             style={{ margin: "10px" }}
             value={cornerRadius}
             onChange={(e) => {
@@ -205,6 +218,29 @@ const PieTestSetting = ({
             value={false}
             onChange={() => {
               changeDebugTool();
+              setTestToggle(!testToggle);
+            }}
+          />
+          <br />
+          <label>strokeWidth</label>
+          <input
+            type={"range"}
+            min="0"
+            max={"0.1"}
+            step={"0.01"}
+            style={{ margin: "10px" }}
+            value={strokeWidth}
+            onChange={(e) => {
+              setStrokeWidth(Number(e.target.value));
+              setTestToggle(!testToggle);
+            }}
+          />
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={strokeWidth}
+            onChange={(e) => {
+              setStrokeWidth(Number(e.target.value));
               setTestToggle(!testToggle);
             }}
           />

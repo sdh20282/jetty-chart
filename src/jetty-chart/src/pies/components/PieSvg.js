@@ -9,7 +9,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
   // data = [{ value: 0.85 }, { value: 0.15 }]; //153
   // data = [{ value: 0.2 }, { value: 0.25 }, { value: 0.25 }, { value: 0.3 }];
   // data = [{ value: 0.25 }, { value: 0.25 }, { value: 0.25 }, { value: 0.25 }];
-  data = [{ value: 0.01 }, { value: 0.99 }];
+  // data = [{ value: 0.01 }, { value: 0.99 }];
   // data = [{ value: 0.05 }, { value: 0.95 }];
   // data = [{ value: 0.1 }, { value: 0.9 }];
   // data = [{ value: 0.2 }, { value: 0.8 }];
@@ -38,7 +38,6 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
   // ];
   setExceptionValue({ pieSettings, length: data.length });
   data = divideRatio({ data, padAngle: pieSettings.padAngle, startAngle: pieSettings.startAngle });
-  // data = [{ ratio: 0.666 }, { ratio: 0.134 }, { ratio: 0.2 }];
 
   const pieceData = getPiePiece({
     data,
@@ -67,6 +66,38 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
           "px ",
       }}
     >
+      <circle
+        cx={0}
+        cy={0}
+        r={pieSettings.pieRadius}
+        fill={pieSettings.donutBackgroundColor}
+        opacity={1}
+      />
+      <circle
+        cx={0}
+        cy={0}
+        r={pieSettings.pieRadius - (pieSettings.pieRadius - pieSettings.innerRadius) / 2}
+        stroke={pieSettings.pieBackgroundColor}
+        strokeWidth={pieSettings.pieRadius - pieSettings.innerRadius}
+        fill="transparent"
+      />
+      {/* <circle
+        cx={0}
+        cy={0}
+        r={pieSettings.pieRadius - (pieSettings.pieRadius - pieSettings.innerRadius) / 2}
+        stroke={"blue"}
+        strokeWidth={pieSettings.pieRadius - pieSettings.innerRadius}
+        fill="red"
+      />
+      <circle
+        cx={0}
+        cy={0}
+        r={pieSettings.pieRadius - pieSettings.strokeWidth / 2}
+        stroke={"green"}
+        strokeWidth={pieSettings.strokeWidth}
+        fill="yellow"
+        opacity={0.5}
+      /> */}
       {pieceData.map((piece, index) => (
         <PiePiece
           vertexGroup={piece.vertexGroup}
@@ -77,7 +108,9 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
           innerRadius={piece.innerRadius}
           tangentLineGroup={piece.tangentLineGroup}
           isLargeArcGroup={piece.isLargeArcGroup}
-          color={pieSettings.color[index]}
+          color={pieSettings.color[index % data.length]}
+          strokeColor={pieSettings.strokeColor[index % data.length]}
+          strokeWidth={pieSettings.strokeWidth}
           ratio={piece.ratio}
           value={piece.value}
           label={piece.label}
