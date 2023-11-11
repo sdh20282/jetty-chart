@@ -8,6 +8,7 @@ import {
   DEFAULT_CORNER_RADIUS,
   DEFAULT_DEBUG_TOOL,
   DEFAULT_DONUT_BACKGROUND_COLOR,
+  DEFAULT_END_ANGLE,
   DEFAULT_HEIGHT,
   DEFAULT_INNER_RADIUS,
   DEFAULT_PADDING,
@@ -52,6 +53,7 @@ const Pie = ({
     startAngle: DEFAULT_START_ANGLE, // 시작 위치 각도, default 0
     padAngle: DEFAULT_PAD_ANGLE, // 조각 크기, default 100
     strokeWidth: DEFAULT_STROKE_WIDTH,
+    endAngle: DEFAULT_END_ANGLE,
   },
 }) => {
   // 테스트용

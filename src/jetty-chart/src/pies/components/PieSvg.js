@@ -37,7 +37,12 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
   //   { value: 0.1 },
   // ];
   setExceptionValue({ pieSettings, length: data.length });
-  data = divideRatio({ data, padAngle: pieSettings.padAngle, startAngle: pieSettings.startAngle });
+  data = divideRatio({
+    data,
+    padAngle: pieSettings.padAngle,
+    startAngle: pieSettings.startAngle,
+    endAngle: pieSettings.endAngle,
+  });
 
   const pieceData = getPiePiece({
     data,
@@ -70,14 +75,14 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
         cx={0}
         cy={0}
         r={pieSettings.pieRadius}
-        fill={pieSettings.donutBackgroundColor}
+        fill={generalSettings.donutBackgroundColor}
         opacity={1}
       />
       <circle
         cx={0}
         cy={0}
         r={pieSettings.pieRadius - (pieSettings.pieRadius - pieSettings.innerRadius) / 2}
-        stroke={pieSettings.pieBackgroundColor}
+        stroke={generalSettings.pieBackgroundColor}
         strokeWidth={pieSettings.pieRadius - pieSettings.innerRadius}
         fill="transparent"
       />

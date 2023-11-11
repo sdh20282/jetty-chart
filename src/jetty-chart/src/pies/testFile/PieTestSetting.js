@@ -11,7 +11,12 @@ const PieTestSetting = ({
   const [width, setWidth] = useState(generalSettings.width);
   const [height, setHeight] = useState(generalSettings.height);
   const [backgroundColor, setBackgroundColor] = useState(generalSettings.backgroundColor);
+  const [pieBackgroundColor, setPieBackgroundColor] = useState(generalSettings.pieBackgroundColor);
+  const [donutBackgroundColor, setDonutBackgroundColor] = useState(
+    generalSettings.donutBackgroundColor
+  );
   const [padding, setPadding] = useState(generalSettings.padding);
+
   const [color, setColor] = useState(pieSettings.color);
   const [strokeColor, setStrokeColor] = useState(pieSettings.strokeColor);
   const [strokeWidth, setStrokeWidth] = useState(pieSettings.strokeWidth);
@@ -21,13 +26,28 @@ const PieTestSetting = ({
   const [innerRadius, setInnerRadius] = useState(pieSettings.innerRadius);
   const [cornerRadius, setCornerRadius] = useState(pieSettings.cornerRadius);
   const [testToggle, setTestToggle] = useState(true);
-
+  const [endAngle, setEndAngle] = useState(pieSettings.endAngle);
+  const colorOption = [
+    { value: "transparent", name: "투명" },
+    { value: "black", name: "검정" },
+    { value: "gray", name: "회색" },
+    { value: "white", name: "하양" },
+    { value: "red", name: "빨강" },
+    { value: "blue", name: "파랑" },
+    { value: "green", name: "초록" },
+    { value: "yellow", name: "노랑" },
+    { value: "orange", name: "오렌지" },
+    { value: "purple", name: "보라" },
+    { value: "pink", name: "분홍" },
+  ];
   useEffect(() => {
     changeNewGeneralSettings({
       width,
       height,
       backgroundColor,
       padding,
+      pieBackgroundColor,
+      donutBackgroundColor,
     });
     changeNewPieSettings({
       strokeColor,
@@ -38,8 +58,28 @@ const PieTestSetting = ({
       innerRadius,
       cornerRadius,
       strokeWidth,
+      endAngle,
     });
-  }, [testToggle]);
+  }, [
+    testToggle,
+    backgroundColor,
+    endAngle,
+    strokeWidth,
+    strokeColor,
+    color,
+    startAngle,
+    padAngle,
+    pieRadius,
+    innerRadius,
+    cornerRadius,
+    width,
+    height,
+    padding,
+    pieBackgroundColor,
+    donutBackgroundColor,
+    changeNewGeneralSettings,
+    changeNewPieSettings,
+  ]);
   return (
     <>
       <div>
@@ -59,13 +99,43 @@ const PieTestSetting = ({
             value={height}
             onChange={(e) => setHeight(e.target.value)}
           />
-          <label style={{ color: "black" }}>backgroundColor</label>
-          <input
-            size={5}
-            style={{ margin: "10px" }}
+          <br />
+          <label style={{ color: "black" }}>bgcolor</label>
+          <select
             value={backgroundColor}
             onChange={(e) => setBackgroundColor(e.target.value)}
-          />
+            style={{ margin: "10px" }}
+          >
+            {colorOption.map((color) => (
+              <option key={color.value} value={color.value}>
+                {color.name}
+              </option>
+            ))}
+          </select>
+          <label style={{ color: "black" }}>pieColor</label>
+          <select
+            value={pieBackgroundColor}
+            onChange={(e) => setPieBackgroundColor(e.target.value)}
+            style={{ margin: "10px" }}
+          >
+            {colorOption.map((color) => (
+              <option key={color.value} value={color.value}>
+                {color.name}
+              </option>
+            ))}
+          </select>
+          <label style={{ color: "black" }}>donutColor</label>
+          <select
+            value={donutBackgroundColor}
+            onChange={(e) => setDonutBackgroundColor(e.target.value)}
+            style={{ margin: "10px" }}
+          >
+            {colorOption.map((color) => (
+              <option key={color.value} value={color.value}>
+                {color.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label>padding</label>
@@ -106,7 +176,6 @@ const PieTestSetting = ({
             value={startAngle}
             onChange={(e) => {
               setStartAngle(e.target.value);
-              setTestToggle(!testToggle);
             }}
           />
           <input
@@ -115,7 +184,27 @@ const PieTestSetting = ({
             value={startAngle}
             onChange={(e) => {
               setStartAngle(e.target.value);
-              setTestToggle(!testToggle);
+            }}
+          />
+          <br />
+          <label style={{ color: "black" }}>endAngle</label>
+          <input
+            type={"range"}
+            min={"0"}
+            max={"360"}
+            step={"1"}
+            style={{ margin: "10px" }}
+            value={endAngle}
+            onChange={(e) => {
+              setEndAngle(e.target.value);
+            }}
+          />
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={endAngle}
+            onChange={(e) => {
+              setEndAngle(e.target.value);
             }}
           />
           <br />
@@ -129,7 +218,6 @@ const PieTestSetting = ({
             value={padAngle}
             onChange={(e) => {
               setPadAngle(Number(e.target.value));
-              setTestToggle(!testToggle);
             }}
           />
           <input
@@ -138,7 +226,6 @@ const PieTestSetting = ({
             value={padAngle}
             onChange={(e) => {
               setPadAngle(Number(e.target.value));
-              setTestToggle(!testToggle);
             }}
           />
           <br />
@@ -152,7 +239,6 @@ const PieTestSetting = ({
             value={pieRadius}
             onChange={(e) => {
               setPieRadius(Number(e.target.value));
-              setTestToggle(!testToggle);
             }}
           />
           <input
@@ -161,7 +247,6 @@ const PieTestSetting = ({
             value={pieRadius}
             onChange={(e) => {
               setPieRadius(Number(e.target.value));
-              setTestToggle(!testToggle);
             }}
           />
           <br />
@@ -175,7 +260,6 @@ const PieTestSetting = ({
             value={innerRadius}
             onChange={(e) => {
               setInnerRadius(Number(e.target.value));
-              setTestToggle(!testToggle);
             }}
           />
           <input
@@ -184,7 +268,6 @@ const PieTestSetting = ({
             value={innerRadius}
             onChange={(e) => {
               setInnerRadius(Number(e.target.value));
-              setTestToggle(!testToggle);
             }}
           />
           <br />
@@ -198,7 +281,6 @@ const PieTestSetting = ({
             value={cornerRadius}
             onChange={(e) => {
               setCornerRadius(Number(e.target.value));
-              setTestToggle(!testToggle);
             }}
           />
           <input
@@ -207,18 +289,6 @@ const PieTestSetting = ({
             value={cornerRadius}
             onChange={(e) => {
               setCornerRadius(Number(e.target.value));
-              setTestToggle(!testToggle);
-            }}
-          />
-          <br />
-          <label>Debug</label>
-          <input
-            type={"checkbox"}
-            name={"debug"}
-            value={false}
-            onChange={() => {
-              changeDebugTool();
-              setTestToggle(!testToggle);
             }}
           />
           <br />
@@ -232,7 +302,6 @@ const PieTestSetting = ({
             value={strokeWidth}
             onChange={(e) => {
               setStrokeWidth(Number(e.target.value));
-              setTestToggle(!testToggle);
             }}
           />
           <input
@@ -241,7 +310,16 @@ const PieTestSetting = ({
             value={strokeWidth}
             onChange={(e) => {
               setStrokeWidth(Number(e.target.value));
-              setTestToggle(!testToggle);
+            }}
+          />
+          <br />
+          <label>Debug</label>
+          <input
+            type={"checkbox"}
+            name={"debug"}
+            value={false}
+            onChange={() => {
+              changeDebugTool();
             }}
           />
         </div>
