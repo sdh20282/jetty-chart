@@ -22,6 +22,13 @@ import {
   DEFAULT_DONUT_BACKGROUND_COLOR,
   DEFAULT_PADDING,
 } from "./constants/generalSettings";
+import {
+  DEFAULT_LABEL_COLOR,
+  DEFAULT_LABEL_FONT_FAMILY,
+  DEFAULT_LABEL_FONT_SIZE,
+  DEFAULT_LABEL_FONT_STYLE,
+  DEFAULT_LABEL_FONT_WEIGHT,
+} from "./constants/labelSettings";
 
 const Pie = ({
   data,
@@ -59,10 +66,22 @@ const Pie = ({
     useAngle: DEFAULT_USE_ANGLE,
     sortByValue: DEFAULT_SORT_BY_VALUE,
   },
+  labelSettings = {
+    // showLabel: true,
+    // labelPosition: "inside",
+    labelColor: DEFAULT_LABEL_COLOR,
+    labelFontSize: DEFAULT_LABEL_FONT_SIZE,
+    labelFontWeight: DEFAULT_LABEL_FONT_WEIGHT,
+    labelFontFamily: DEFAULT_LABEL_FONT_FAMILY,
+    labelFontStyle: DEFAULT_LABEL_FONT_STYLE,
+    // labelPadding: 0.05,
+    // labelRadius: 0.5,
+  },
 }) => {
   // 테스트용
   const [newGeneralSettings, setNewGeneralSettings] = useState(generalSettings);
   const [newPieSettings, setNewPieSettings] = useState(pieSettings);
+  const [newLabelSettings, setNewLabelSettings] = useState(labelSettings);
   const [debugTool, setDebugTool] = useState(DEFAULT_DEBUG_TOOL);
   const toggleDebugTool = () => {
     setDebugTool(!debugTool);
@@ -73,14 +92,17 @@ const Pie = ({
       <PieTestSetting
         generalSettings={generalSettings}
         pieSettings={pieSettings}
+        labelSettings={newLabelSettings}
         changeNewGeneralSettings={setNewGeneralSettings}
         changeNewPieSettings={setNewPieSettings}
+        changeNewLabelSettings={setNewLabelSettings}
         changeDebugTool={toggleDebugTool}
       />
       <PieSvg
         data={data}
         generalSettings={newGeneralSettings}
         pieSettings={newPieSettings}
+        labelSettings={newLabelSettings}
         debugTool={debugTool}
       />
     </div>

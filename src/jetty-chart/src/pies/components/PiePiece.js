@@ -3,8 +3,6 @@ import PiePieceLabel from "./PiePieceLabel";
 import PiePiecePath from "./PiePiecePath";
 
 const PiePiece = ({
-  labelLocation,
-  label,
   vertexGroup,
   cornerInnerRadius,
   cornerOuterRadius,
@@ -19,6 +17,13 @@ const PiePiece = ({
   strokeWidth,
   ratio,
   value,
+  labelColor,
+  labelFontFamily,
+  labelFontSize,
+  labelFontStyle,
+  labelFontWeight,
+  labelLocation,
+  label,
 }) => {
   return (
     <>
@@ -37,7 +42,16 @@ const PiePiece = ({
         ratio={ratio}
         value={value}
       />
-      <PiePieceLabel x={labelLocation.x} y={labelLocation.y} label={label} />
+      <PiePieceLabel
+        x={labelLocation.x}
+        y={labelLocation.y}
+        label={label}
+        labelColor={labelColor}
+        labelFontFamily={labelFontFamily}
+        labelFontSize={labelFontSize}
+        labelFontStyle={labelFontStyle}
+        labelFontWeight={labelFontWeight}
+      />
     </>
   );
 };

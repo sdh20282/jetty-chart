@@ -6,10 +6,9 @@ import { PieDebugMode } from "../testFile/PieDebugMode";
 import { setExceptionValue } from "../utils/setExceptionValue";
 import PieCircleBackground from "./PieCircleBackground";
 import PieDonutBackground from "./PieDonutBackground";
-import PiePieceLabel from "./PiePieceLabel";
 import PiePiece from "./PiePiece";
 
-const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
+const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugTool }) => {
   // data = [{ value: 0.85 }, { value: 0.15 }]; //153
   // data = [{ value: 0.2 }, { value: 0.25 }, { value: 0.25 }, { value: 0.3 }];
   // data = [{ value: 0.25 }, { value: 0.25 }, { value: 0.25 }, { value: 0.25 }];
@@ -97,14 +96,19 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
           innerRadius={piece.innerRadius}
           cornerInnerRadius={piece.cornerInnerRadius}
           cornerOuterRadius={piece.cornerOuterRadius}
-          labelLocation={piece.labelLocation}
           vertexGroup={piece.vertexGroup}
           calcVertexGroup={piece.calcVertexGroup}
           tangentLineGroup={piece.tangentLineGroup}
           isLargeArcGroup={piece.isLargeArcGroup}
           ratio={piece.ratio}
-          label={piece.label}
           value={piece.value}
+          labelLocation={piece.labelLocation}
+          labelColor={labelSettings.labelColor}
+          labelFontFamily={labelSettings.labelFontFamily}
+          labelFontSize={labelSettings.labelFontSize}
+          labelFontStyle={labelSettings.labelFontStyle}
+          labelFontWeight={labelSettings.labelFontWeight}
+          label={piece.label}
           key={index}
         />
       ))}

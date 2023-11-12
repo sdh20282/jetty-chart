@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 const PieTestSetting = ({
   generalSettings,
   pieSettings,
+  labelSettings,
   changeNewGeneralSettings,
   changeNewPieSettings,
+  changeNewLabelSettings,
   changeDebugTool,
 }) => {
   const [width, setWidth] = useState(generalSettings.width);
@@ -28,6 +30,11 @@ const PieTestSetting = ({
   const [testToggle, setTestToggle] = useState(true);
   const [useAngle, setUseAngle] = useState(pieSettings.useAngle);
   const [sortByValue, setSortByValue] = useState(pieSettings.sortByValue);
+  const [labelColor, setLabelColor] = useState(labelSettings.labelColor);
+  const [labelFontSize, setLabelFontSize] = useState(labelSettings.labelFontSize);
+  const [labelFontWeight, setLabelFontWeight] = useState(labelSettings.labelFontWeight);
+  const [labelFontFamily, setLabelFontFamily] = useState(labelSettings.labelFontFamily);
+  const [labelFontStyle, setLabelFontStyle] = useState(labelSettings.labelFontStyle);
   const colorOption = [
     { value: "transparent", name: "▨투명" },
     { value: "black", name: "⬛검정" },
@@ -62,6 +69,13 @@ const PieTestSetting = ({
       useAngle,
       sortByValue,
     });
+    changeNewLabelSettings({
+      labelColor,
+      labelFontSize,
+      labelFontWeight,
+      labelFontFamily,
+      labelFontStyle,
+    });
   }, [
     testToggle,
     backgroundColor,
@@ -80,8 +94,14 @@ const PieTestSetting = ({
     pieBackgroundColor,
     donutBackgroundColor,
     sortByValue,
+    labelColor,
+    labelFontSize,
+    labelFontWeight,
+    labelFontFamily,
+    labelFontStyle,
     changeNewGeneralSettings,
     changeNewPieSettings,
+    changeNewLabelSettings,
   ]);
   return (
     <>
