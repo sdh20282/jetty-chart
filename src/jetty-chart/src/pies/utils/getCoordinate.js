@@ -85,8 +85,21 @@ export const getCoordinateCornerCircleCandidateGroup = ({
   return candidatesGroup;
 };
 
-export const getCoordinateReference = ({ startAngle, percent, pieRadius }) => {
-  const angleInDegree = (startAngle + percent * 180) % 360;
+export const getLabelLocation = ({ startAngle, ratio, pieRadius, innerRadius }) => {
+  const angleInDegree = (startAngle + ratio * 180) % 360;
+  const angleInRadian = angleInDegree * (Math.PI / 180);
+
+  const x = ((pieRadius + innerRadius) / 2) * Math.cos(angleInRadian);
+  const y = ((pieRadius + innerRadius) / 2) * Math.sin(angleInRadian);
+
+  return {
+    x,
+    y,
+  };
+};
+
+export const getCoordinateReference = ({ startAngle, ratio, pieRadius }) => {
+  const angleInDegree = (startAngle + ratio * 180) % 360;
   const angleInRadian = angleInDegree * (Math.PI / 180);
 
   const x = pieRadius * Math.cos(angleInRadian);

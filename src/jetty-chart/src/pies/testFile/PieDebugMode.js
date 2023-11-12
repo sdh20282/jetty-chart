@@ -2,7 +2,7 @@
 export const PieDebugMode = ({
   debugTool,
   accumulatedAngle,
-  percent,
+  ratio,
   vertexGroup,
   calcVertexGroup,
   cornerOuterRadius,
@@ -13,18 +13,22 @@ export const PieDebugMode = ({
   pieRadius,
   referenceCoordinate,
   candidatesGroup,
+  labelLocation,
 }) => {
   const pointSize = 0.02;
-  const TogglePieRadius = !!true;
-  const ToggleInnerRadius = !!true;
-  const ToggleCenter = !!true;
-  const ToggleLine = !!true;
-  const ToggleReferenceCoordinate = !!true;
-  const ToggleVertexGroup = !!true;
-  const ToggleTangentLineGroup = !!true;
-  const ToggleCandidatesGroup = !true;
-  const ToggleCornerCircleGroup = !!true;
-  const ToggleCalcVertexGroup = !!true;
+  const ToggleAll = !true;
+  const TogglePieRadius = !!true && !!ToggleAll;
+  const ToggleInnerRadius = !!true && !!ToggleAll;
+  const ToggleCenter = !!true && !!ToggleAll;
+  const ToggleLabelLocation = !!true && !!ToggleAll;
+  const ToggleLine = !!true && !!ToggleAll;
+  const ToggleReferenceCoordinate = !!true && !!ToggleAll;
+  const ToggleVertexGroup = !!true && !!ToggleAll;
+  const ToggleTangentLineGroup = !!true && !!ToggleAll;
+  const ToggleCandidatesGroup = !!true && !!ToggleAll;
+  const ToggleCornerCircleGroup = !!true && !!ToggleAll;
+  const ToggleCalcVertexGroup = !!true && !!ToggleAll;
+  console.log(labelLocation);
   return (
     debugTool && (
       <>
@@ -38,6 +42,12 @@ export const PieDebugMode = ({
             fill="pink"
             opacity={0.5}
           />
+        )}
+        {ToggleLabelLocation && (
+          <>
+            <circle cx={labelLocation.x} cy={labelLocation.y} r={0.1} fill="orange" opacity={0.5} />
+            <circle cx={0} cy={0} r={0.05} fill="orange" opacity={0.5} />
+          </>
         )}
         {ToggleReferenceCoordinate && (
           <circle
@@ -218,8 +228,8 @@ export const PieDebugMode = ({
             <line
               x1={0}
               y1={0}
-              x2={Math.cos(((accumulatedAngle + percent * 360) * Math.PI) / 180)}
-              y2={Math.sin(((accumulatedAngle + percent * 360) * Math.PI) / 180)}
+              x2={Math.cos(((accumulatedAngle + ratio * 360) * Math.PI) / 180)}
+              y2={Math.sin(((accumulatedAngle + ratio * 360) * Math.PI) / 180)}
               stroke="yellow"
               strokeWidth="0.003"
               opacity={0.8}

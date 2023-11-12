@@ -64,10 +64,5 @@ export const getTangentCircleGroup = ({
     r2: cornerInnerRadius,
   });
 
-  // tangentCircleGroup[1].y += 0.1;
-  // tangentCircleGroup[0].x -= 0.1;
-  // tangentCircleGroup[2].x += 0.1;
-  // tangentCircleGroup[3].x += 0.1;
-
   return tangentCircleGroup;
 };

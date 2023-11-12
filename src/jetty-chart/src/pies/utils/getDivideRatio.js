@@ -1,3 +1,6 @@
+import { EXCEPTION_DATA_ONLY_ONE, MAX_PERCENT, MIN_PERCENT } from "../constants/pieException";
+import { exceptionValueRange } from "../exceptions/exceptionValueRange";
+
 // 입력 받은 데이터를 비율로 변환하여 반환하는 함수
 const deepCopy = ({ obj }) => {
   if (typeof obj !== "object" || obj === null) {
@@ -29,7 +32,6 @@ export const divideRatio = ({ data, padAngle = 0, startAngle, useAngle, sortByVa
   let accumulatedAngle = startAngle % 360;
   let prevRatio = 0;
 
-  console.log(data);
   const copyData = deepCopy({ obj: data });
   if (sortByValue) {
     copyData.sort((a, b) => {
@@ -38,7 +40,11 @@ export const divideRatio = ({ data, padAngle = 0, startAngle, useAngle, sortByVa
   }
 
   return copyData.map((item, index) => {
-    const ratio = (item.value / sum / 360) * (360 - padAngle * data.length) * (useAngle / 360);
+    const ratio = exceptionValueRange({
+      num: (item.value / sum / 360) * (360 - padAngle * data.length) * (useAngle / 360),
+      max: MAX_PERCENT + (data.length === 1 && EXCEPTION_DATA_ONLY_ONE),
+      min: MIN_PERCENT,
+    });
     if (index > 0) {
       accumulatedAngle += prevRatio * 360 + padAngle * (useAngle / 360);
       accumulatedAngle %= 360;

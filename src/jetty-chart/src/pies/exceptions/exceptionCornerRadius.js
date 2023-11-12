@@ -1,4 +1,5 @@
 // 라운딩을 위한 꼭지점 최대 반지름을 넘지 않게 예외처리 하는 함수
+import { MAX_PERCENT, MIN_PERCENT } from "../constants/pieException";
 import { getCoordinateRatio } from "../utils/getCoordinate";
 
 const exceptionCornerRadiusWidth = ({ r, ratio, pieRadius, minus, exceptionAngle = 0 }) => {
@@ -23,11 +24,11 @@ const exceptionCornerRadiusWidth = ({ r, ratio, pieRadius, minus, exceptionAngle
   if (
     result === Infinity ||
     isNaN(result) ||
-    Math.abs(x) < 0.001 ||
-    Math.abs(y) < 0.001 ||
-    Math.abs(x) > 0.999 ||
-    Math.abs(y) > 0.999 ||
-    Math.abs(y - x * m) < 0.001 ||
+    Math.abs(x) < MIN_PERCENT ||
+    Math.abs(y) < MIN_PERCENT ||
+    Math.abs(x) > MAX_PERCENT ||
+    Math.abs(y) > MAX_PERCENT ||
+    Math.abs(y - x * m) < MIN_PERCENT ||
     Math.abs(4 * r ** 2 + 4 * (alpha - 1) * r ** 2) < 0
   ) {
     return exceptionCornerRadiusWidth({
@@ -39,7 +40,7 @@ const exceptionCornerRadiusWidth = ({ r, ratio, pieRadius, minus, exceptionAngle
     });
   }
 
-  return result < 0.001 ? 0.001 : result;
+  return result < MIN_PERCENT ? MIN_PERCENT : result;
 };
 
 const exceptionCornerRadiusHeight = ({ pieRadius, innerRadius, cornerRadius }) => {
