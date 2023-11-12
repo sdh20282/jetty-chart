@@ -160,9 +160,11 @@ const chartData = [
 function App() {
   return (
     <div>
-      <NormalMap data={data} normalSetting={{ zoomMagnification: 1.8, marginLeft: 200, width: 500, useChart: true, usePercentageColor: false}}
-        tooltipSetting={{ useFollowColor: false }}
-        chartData={chartData} 
+      <NormalMap data={data} normalSetting={{ zoomMagnification: 2.5, width: 500, useChart: false, usePercentageColor: true}}
+        tooltipSetting={{ useFollowColor: false,useTooltipChart:true }}
+        chartData={chartData}
+        tooltipChartData={chartData}
+        innerChartSetting={{innerChartText:"ㅎㅎ"}}
         />
     </div>
   );

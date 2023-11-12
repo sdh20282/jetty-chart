@@ -32,7 +32,7 @@ const normalMapSetting = {
   tooltipSetting:{
     useFollowColor:false,
     useKorea:true,
-    tooltipWidth: 400,
+    tooltipWidth: 550,
     tooltipBackGroundColor: "white",
     tooltipBorderRadius: 10,
     tooltipBorder: "0.5px solid #ddd",
@@ -54,16 +54,24 @@ const normalMapSetting = {
     innerChartText:"",
     innernormalSettings: { width: 1150, height: 1600 , margin:{top:120,bottom:120,left:150,right:50}},
     innerbarSettings: { labelSize: 55, labelWeight: "bold", useLabel: true },
-    innerbottomLabelSettings: { labelSize: 55 },
-    innerleftLabelSettings:{labelSize:55,sideLineSize:10,useLabel:true},
+    innerbottomLabelSettings: { labelSize: 55, labelWeight:"bold" },
+    innerleftLabelSettings:{labelSize:55,sideLineSize:10,useLabel:true,labelWeight:"bold"},
     innerChartTitleFontSize:85,
     innerChartTitleFontWeight:"bold",
   },
+  tooltipChartSetting:{
+    tooltipChartnormalSettings: { width: 540, height: 550 },
+    tooltipChartbarSettings: { labelSize: 25, labelWeight: "bold", useLabel: true },
+    tooltipChartbottomLabelSettings: { labelSize: 20, labelWeight:"bold" },
+    tooltipChartleftLabelSettings:{labelSize:20,sideLineSize:10,useLabel:true,labelWeight:"bold"},
+
+  },
 }
 
-export const checkMapChart = ({normalSetting, gagueBarSetting, tooltipSetting,innerChartSetting})=>{
+
+export const checkMapChart = ({normalSetting, gagueBarSetting, tooltipSetting,innerChartSetting,tooltipChartSetting})=>{
   const result = {
-      normalSetting, gagueBarSetting, tooltipSetting,innerChartSetting,
+      normalSetting, gagueBarSetting, tooltipSetting,innerChartSetting,tooltipChartSetting,
   };
 
   Object.keys(normalMapSetting).forEach((setting)=>{
