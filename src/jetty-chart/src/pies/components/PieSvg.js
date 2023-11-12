@@ -9,39 +9,6 @@ import PieDonutBackground from "./PieDonutBackground";
 import PiePiece from "./PiePiece";
 
 const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugTool }) => {
-  // data = [{ value: 0.85 }, { value: 0.15 }]; //153
-  // data = [{ value: 0.2 }, { value: 0.25 }, { value: 0.25 }, { value: 0.3 }];
-  // data = [{ value: 0.25 }, { value: 0.25 }, { value: 0.25 }, { value: 0.25 }];
-  // data = [{ value: 1 }];
-  // data = [{ value: 0 }, { value: 1 }];
-  // data = [{ value: 0.001 }, { value: 0.999 }];
-  // data = [{ value: 0.01 }, { value: 0.99 }];
-  // data = [{ value: 0.05 }, { value: 0.95 }];
-  // data = [{ value: 0.1 }, { value: 0.9 }];
-  // data = [{ value: 0.2 }, { value: 0.8 }];
-  // data = [{ value: 0.3 }, { value: 0.7 }];
-  // data = [{ value: 0.4 }, { value: 0.6 }];
-  // data = [{ value: 0.5 }, { value: 0.5 }];
-  // data = [
-  //   { value: 0.1 },
-  //   { value: 0.1 },
-  //   { value: 0.1 },
-  //   { value: 0.1 },
-  //   { value: 0.1 },
-  //   { value: 0.1 },
-  //   { value: 0.1 },
-  //   { value: 0.1 },
-  //   { value: 0.1 },
-  //   { value: 0.1 },
-  // ];
-  // data = [
-  //   { value: 0.2 },
-  //   { value: 0.3 },
-  //   { value: 0.1 },
-  //   { value: 0.15 },
-  //   { value: 0.15 },
-  //   { value: 0.1 },
-  // ];
   setExceptionValue({ pieSettings, length: data.length });
   data = divideRatio({
     data,
@@ -57,6 +24,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugTool }
     innerRadius: pieSettings.innerRadius,
     cornerRadius: pieSettings.cornerRadius,
     startAngle: pieSettings.startAngle,
+    labelDistance: labelSettings.labelDistance,
   });
 
   return (
@@ -108,6 +76,14 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugTool }
           labelFontSize={labelSettings.labelFontSize}
           labelFontStyle={labelSettings.labelFontStyle}
           labelFontWeight={labelSettings.labelFontWeight}
+          labelMoveX={labelSettings.labelMoveX}
+          labelMoveY={labelSettings.labelMoveY}
+          labelDistance={labelSettings.labelDistance}
+          labelIsRotate={labelSettings.labelIsRotate}
+          labelText={labelSettings.labelText}
+          labelIsUse={labelSettings.labelIsUse}
+          labelSkipRatio={labelSettings.labelSkipRatio}
+          labelDegrees={labelSettings.labelDegrees}
           label={piece.label}
           key={index}
         />

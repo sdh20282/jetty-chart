@@ -3,39 +3,47 @@ import React from "react";
 const PiePieceLabel = ({
   x,
   y,
-  label,
+  degrees,
   labelColor,
   labelFontFamily,
   labelFontSize,
   labelFontStyle,
   labelFontWeight,
-  labelLocation,
+  labelMoveX,
+  labelMoveY,
+  labelIsRotate,
+  labelText,
+  labelIsUse,
+  labelSkipRatio,
+  labelDegrees,
+  label,
+  value,
+  ratio,
 }) => {
-  console.log(
-    "PiePieceLabel",
-    x,
-    y,
-    label,
-    labelColor,
-    labelFontFamily,
-    labelFontSize,
-    labelFontStyle,
-    labelFontWeight,
-    labelLocation
-  );
+  console.log(labelIsUse, labelSkipRatio);
   return (
     <text
       x={x}
       y={y}
+      dx={labelMoveX}
+      dy={labelMoveY}
       fill={labelColor}
       fontSize={labelFontSize}
       fontFamily={labelFontFamily}
       fontStyle={labelFontStyle}
       fontWeight={labelFontWeight}
-      text-anchor="middle"
-      dominant-baseline="middle"
+      textAnchor="middle"
+      dominantBaseline="middle"
+      transform={`rotate(${(labelIsRotate ? degrees : 0) + labelDegrees})`}
+      transform-origin={`${x} ${y}`}
     >
-      {label}
+      {labelIsUse &&
+        labelSkipRatio < ratio &&
+        (labelText === "ratio"
+          ? Math.round(ratio * 100) / 100
+          : labelText === "value"
+          ? value
+          : label)}
     </text>
   );
 };

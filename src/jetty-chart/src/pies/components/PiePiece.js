@@ -23,6 +23,13 @@ const PiePiece = ({
   labelFontStyle,
   labelFontWeight,
   labelLocation,
+  labelMoveX,
+  labelMoveY,
+  labelIsRotate,
+  labelText,
+  labelIsUse,
+  labelSkipRatio,
+  labelDegrees,
   label,
 }) => {
   return (
@@ -45,12 +52,22 @@ const PiePiece = ({
       <PiePieceLabel
         x={labelLocation.x}
         y={labelLocation.y}
-        label={label}
+        degrees={labelLocation.degrees}
         labelColor={labelColor}
         labelFontFamily={labelFontFamily}
         labelFontSize={labelFontSize}
         labelFontStyle={labelFontStyle}
         labelFontWeight={labelFontWeight}
+        labelMoveX={labelMoveX}
+        labelMoveY={labelMoveY}
+        labelIsRotate={labelIsRotate}
+        labelText={labelText}
+        labelSkipRatio={labelSkipRatio}
+        labelIsUse={labelIsUse}
+        labelDegrees={labelDegrees}
+        label={label}
+        ratio={ratio}
+        value={value}
       />
     </>
   );

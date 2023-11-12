@@ -8,3 +8,23 @@ export const DEFAULT_PAD_ANGLE = 0;
 export const DEFAULT_DEBUG_TOOL = false;
 export const DEFAULT_STROKE_WIDTH = 0;
 export const DEFAULT_SORT_BY_VALUE = false;
+export const DEFAULT_COLOR = [
+  "#ffeaa7",
+  "#81ecec",
+  "#fab1a0",
+  "#74b9ff",
+  "#ff7675",
+  "#a29bfe",
+  "#fd79a8",
+  "#55efc4",
+];
+export const DEFAULT_STROKE_COLOR = [
+  "#e5d296",
+  "#74d4d4",
+  "#e19f90",
+  "#68a6e5",
+  "#e56a69",
+  "#918be4",
+  "#e36c97",
+  "#4cd7b0",
+];

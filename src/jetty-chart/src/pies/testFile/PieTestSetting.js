@@ -35,6 +35,14 @@ const PieTestSetting = ({
   const [labelFontWeight, setLabelFontWeight] = useState(labelSettings.labelFontWeight);
   const [labelFontFamily, setLabelFontFamily] = useState(labelSettings.labelFontFamily);
   const [labelFontStyle, setLabelFontStyle] = useState(labelSettings.labelFontStyle);
+  const [labelMoveX, setLabelMoveX] = useState(labelSettings.labelMoveX);
+  const [labelMoveY, setLabelMoveY] = useState(labelSettings.labelMoveY);
+  const [labelDistance, setLabelDistance] = useState(labelSettings.labelDistance);
+  const [labelIsRotate, setLabelIsRotate] = useState(labelSettings.labelIsRotate);
+  const [labelText, setLabelText] = useState(labelSettings.labelText);
+  const [labelSkipRatio, setLabelSkipRatio] = useState(labelSettings.labelSkipRatio);
+  const [labelIsUse, setLabelIsUse] = useState(labelSettings.labelIsUse);
+  const [labelDegrees, setLabelDegrees] = useState(labelSettings.labelDegrees);
   const colorOption = [
     { value: "transparent", name: "▨투명" },
     { value: "black", name: "⬛검정" },
@@ -75,6 +83,14 @@ const PieTestSetting = ({
       labelFontWeight,
       labelFontFamily,
       labelFontStyle,
+      labelMoveX,
+      labelMoveY,
+      labelDistance,
+      labelIsRotate,
+      labelText,
+      labelSkipRatio,
+      labelIsUse,
+      labelDegrees,
     });
   }, [
     testToggle,
@@ -99,6 +115,14 @@ const PieTestSetting = ({
     labelFontWeight,
     labelFontFamily,
     labelFontStyle,
+    labelMoveX,
+    labelMoveY,
+    labelDistance,
+    labelIsRotate,
+    labelText,
+    labelSkipRatio,
+    labelIsUse,
+    labelDegrees,
     changeNewGeneralSettings,
     changeNewPieSettings,
     changeNewLabelSettings,
@@ -122,7 +146,8 @@ const PieTestSetting = ({
             value={height}
             onChange={(e) => setHeight(e.target.value)}
           />
-          <br />
+        </div>
+        <div>
           <label style={{ color: "black" }}>bgcolor</label>
           <select
             value={backgroundColor}
@@ -352,6 +377,198 @@ const PieTestSetting = ({
             value={false}
             onChange={() => {
               setSortByValue(!sortByValue);
+            }}
+          />
+        </div>
+        <div>
+          <label>labelFontSize</label>
+          <input
+            type={"range"}
+            min="0"
+            max={"1"}
+            step={"0.01"}
+            style={{ margin: "10px" }}
+            value={labelFontSize}
+            onChange={(e) => {
+              setLabelFontSize(Number(e.target.value));
+            }}
+          />
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={labelFontSize}
+            onChange={(e) => {
+              setLabelFontSize(Number(e.target.value));
+            }}
+          />
+          <br />
+          <label>labelMoveX</label>
+          <input
+            type={"range"}
+            min="0"
+            max={"1"}
+            step={"0.01"}
+            style={{ margin: "10px" }}
+            value={labelMoveX}
+            onChange={(e) => {
+              setLabelMoveX(Number(e.target.value));
+            }}
+          />
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={labelMoveX}
+            onChange={(e) => {
+              setLabelMoveX(Number(e.target.value));
+            }}
+          />
+          <br />
+          <label>labelMoveY</label>
+          <input
+            type={"range"}
+            min="0"
+            max={"1"}
+            step={"0.01"}
+            style={{ margin: "10px" }}
+            value={labelMoveY}
+            onChange={(e) => {
+              setLabelMoveY(Number(e.target.value));
+            }}
+          />
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={labelMoveY}
+            onChange={(e) => {
+              setLabelMoveY(Number(e.target.value));
+            }}
+          />
+          <br />
+          <label>labelDistance</label>
+          <input
+            type={"range"}
+            min="0"
+            max={"2"}
+            step={"0.01"}
+            style={{ margin: "10px" }}
+            value={labelDistance}
+            onChange={(e) => {
+              setLabelDistance(Number(e.target.value));
+            }}
+          />
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={labelDistance}
+            onChange={(e) => {
+              setLabelMoveY(Number(e.target.value));
+            }}
+          />
+          <br />
+          <label>labelSkipRatio</label>
+          <input
+            type={"range"}
+            min="0"
+            max={"1"}
+            step={"0.01"}
+            style={{ margin: "10px" }}
+            value={labelSkipRatio}
+            onChange={(e) => {
+              setLabelSkipRatio(Number(e.target.value));
+            }}
+          />
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={labelSkipRatio}
+            onChange={(e) => {
+              setLabelMoveY(Number(e.target.value));
+            }}
+          />
+          <br />
+          <label>labelDegrees</label>
+          <input
+            type={"range"}
+            min="1"
+            max={"360"}
+            step={"1"}
+            style={{ margin: "10px" }}
+            value={labelDegrees}
+            onChange={(e) => {
+              setLabelDegrees(Number(e.target.value));
+            }}
+          />
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={labelDegrees}
+            onChange={(e) => {
+              setLabelDegrees(Number(e.target.value));
+            }}
+          />
+          <br />
+          <label>labelFontFamily</label>
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={labelFontFamily}
+            onChange={(e) => {
+              setLabelFontFamily(e.target.value);
+            }}
+          />
+          <label>labelColor</label>
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={labelColor}
+            onChange={(e) => {
+              setLabelColor(e.target.value);
+            }}
+          />
+          <label>labelFontStyle</label>
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={labelFontStyle}
+            onChange={(e) => {
+              setLabelFontStyle(e.target.value);
+            }}
+          />
+          <br />
+          <label>labelFontWeight</label>
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={labelFontWeight}
+            onChange={(e) => {
+              setLabelFontWeight(e.target.value);
+            }}
+          />
+          <label>labelIsRotate</label>
+          <input
+            type={"checkbox"}
+            name={"labelIsRotate"}
+            value={false}
+            onChange={() => {
+              setLabelIsRotate(!labelIsRotate);
+            }}
+          />
+          <label>labelIsUse</label>
+          <input
+            type={"checkbox"}
+            name={"labelIsUse"}
+            value={false}
+            onChange={() => {
+              setLabelIsUse(!labelIsUse);
+            }}
+          />
+          <label>labelText</label>
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={labelText}
+            onChange={(e) => {
+              setLabelText(e.target.value);
             }}
           />
         </div>

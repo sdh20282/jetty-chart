@@ -4,6 +4,7 @@ import { useState } from "react";
 import PieSvg from "./components/PieSvg";
 import PieTestSetting from "./testFile/PieTestSetting";
 import {
+  DEFAULT_COLOR,
   DEFAULT_CORNER_RADIUS,
   DEFAULT_DEBUG_TOOL,
   DEFAULT_INNER_RADIUS,
@@ -11,6 +12,7 @@ import {
   DEFAULT_PIE_RADIUS,
   DEFAULT_SORT_BY_VALUE,
   DEFAULT_START_ANGLE,
+  DEFAULT_STROKE_COLOR,
   DEFAULT_STROKE_WIDTH,
   DEFAULT_USE_ANGLE,
 } from "./constants/pieSetting";
@@ -24,10 +26,18 @@ import {
 } from "./constants/generalSettings";
 import {
   DEFAULT_LABEL_COLOR,
+  DEFAULT_LABEL_DEGREES,
+  DEFAULT_LABEL_DISTANCE,
   DEFAULT_LABEL_FONT_FAMILY,
   DEFAULT_LABEL_FONT_SIZE,
   DEFAULT_LABEL_FONT_STYLE,
   DEFAULT_LABEL_FONT_WEIGHT,
+  DEFAULT_LABEL_IS_ROTATE,
+  DEFAULT_LABEL_IS_USE,
+  DEFAULT_LABEL_MOVE_X,
+  DEFAULT_LABEL_MOVE_Y,
+  DEFAULT_LABEL_SKIP_RATIO,
+  DEFAULT_LABEL_TEXT,
 } from "./constants/labelSettings";
 
 const Pie = ({
@@ -46,17 +56,8 @@ const Pie = ({
     },
   },
   pieSettings = {
-    color: ["#ffeaa7", "#81ecec", "#fab1a0", "#74b9ff", "#ff7675", "#a29bfe", "#fd79a8", "#55efc4"],
-    strokeColor: [
-      "#e5d296",
-      "#74d4d4",
-      "#e19f90",
-      "#68a6e5",
-      "#e56a69",
-      "#918be4",
-      "#e36c97",
-      "#4cd7b0",
-    ],
+    color: DEFAULT_COLOR,
+    strokeColor: DEFAULT_STROKE_COLOR,
     pieRadius: DEFAULT_PIE_RADIUS, // 파이 반지름, default 1
     innerRadius: DEFAULT_INNER_RADIUS, // 내부원 크기, default 0
     cornerRadius: DEFAULT_CORNER_RADIUS, // 조각 둥글기, default 0
@@ -67,15 +68,19 @@ const Pie = ({
     sortByValue: DEFAULT_SORT_BY_VALUE,
   },
   labelSettings = {
-    // showLabel: true,
-    // labelPosition: "inside",
     labelColor: DEFAULT_LABEL_COLOR,
     labelFontSize: DEFAULT_LABEL_FONT_SIZE,
     labelFontWeight: DEFAULT_LABEL_FONT_WEIGHT,
     labelFontFamily: DEFAULT_LABEL_FONT_FAMILY,
     labelFontStyle: DEFAULT_LABEL_FONT_STYLE,
-    // labelPadding: 0.05,
-    // labelRadius: 0.5,
+    labelMoveY: DEFAULT_LABEL_MOVE_Y,
+    labelMoveX: DEFAULT_LABEL_MOVE_X,
+    labelDistance: DEFAULT_LABEL_DISTANCE,
+    labelIsRotate: DEFAULT_LABEL_IS_ROTATE,
+    labelText: DEFAULT_LABEL_TEXT,
+    labelSkipRatio: DEFAULT_LABEL_SKIP_RATIO,
+    labelIsUse: DEFAULT_LABEL_IS_USE,
+    labelDegrees: DEFAULT_LABEL_DEGREES,
   },
 }) => {
   // 테스트용

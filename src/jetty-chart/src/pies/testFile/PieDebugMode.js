@@ -28,7 +28,6 @@ export const PieDebugMode = ({
   const ToggleCandidatesGroup = !!true && !!ToggleAll;
   const ToggleCornerCircleGroup = !!true && !!ToggleAll;
   const ToggleCalcVertexGroup = !!true && !!ToggleAll;
-  console.log(labelLocation);
   return (
     debugTool && (
       <>
