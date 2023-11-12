@@ -20,7 +20,6 @@ const PiePieceLabel = ({
   value,
   ratio,
 }) => {
-  console.log(labelIsUse, labelSkipRatio);
   return (
     <text
       x={x}
@@ -43,7 +42,9 @@ const PiePieceLabel = ({
           ? Math.round(ratio * 100) / 100
           : labelText === "value"
           ? value
-          : label)}
+          : labelText === "label"
+          ? label
+          : "")}
     </text>
   );
 };
