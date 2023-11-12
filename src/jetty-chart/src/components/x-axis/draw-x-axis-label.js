@@ -62,6 +62,7 @@ export const DrawXAxisLabel = ({
           ? `translate(${labelOnBottom ? -totalLabelMargin : labelLocation},${padding})`
           : `translate(${padding},${labelOnBottom ? labelLocation : -totalLabelMargin})`
       }
+      className={styles.container}
     >
       {xAxis.map((d, idx) => {
         const x = xAxisWidth * idx + xAxisInitialPosition;

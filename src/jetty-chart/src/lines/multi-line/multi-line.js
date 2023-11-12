@@ -361,7 +361,7 @@ const MultiLine = ({
       legendSettings={result.legendSettings}
       animationSettings={result.animationSettings}
     >
-      <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
+      <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`} className={styles.container}>
         {enableArea &&
           areaPathArray.map((d, idx) => {
             const useMove = useTranslateArea && prevPath.current.dataSetLength > idx;

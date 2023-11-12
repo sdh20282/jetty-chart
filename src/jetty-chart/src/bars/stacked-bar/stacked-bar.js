@@ -181,7 +181,7 @@ const StackedBar = ({
       legendSettings={result.legendSettings}
       animationSettings={result.animationSettings}
     >
-      <g transform={calculateWarpperTransform({ horizontal, reverse, innerMargin, padding })}>
+      <g transform={calculateWarpperTransform({ horizontal, reverse, innerMargin, padding })} className={styles.container}>
         {data.map((d, index) => {
           const nowData = { ...d };
 

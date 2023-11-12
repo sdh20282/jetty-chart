@@ -436,9 +436,10 @@ const NormalMap = ({
     // width 랑 height 데이타 값으로 받기
     <div style={{ width: `${width}px`, height: `100%`, backgroundColor: `${backgroundColor}`, marginTop: `${marginTop}px`, marginLeft: `${marginLeft}px`, marginRight:`${marginRight}px`, marginBottom:`${marginBottom}px`}}>
       <svg ref={svgRef} fill="none" viewBox="0 0 1048 1064">
-        <g ref={mapRef}>
+        <g ref={mapRef} className="group">
           <path
             ref={pathRef}
+            className="path"
             id="incheon"
             fill={usePercentageColor ? color[citycolor[1].colorCode] : citycolor[1].color}
             stroke="white"
@@ -450,6 +451,7 @@ const NormalMap = ({
           />
           <path
             id="kangwon"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[2].colorCode] : citycolor[2].color}
             stroke="white"
@@ -461,6 +463,7 @@ const NormalMap = ({
           />
           <path
             id="gyeonggi"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[4].colorCode] : citycolor[4].color}
             stroke="white"
@@ -472,6 +475,7 @@ const NormalMap = ({
           />
           <path
             id="northJeolla"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[5].colorCode] : citycolor[5].color}
             stroke="white"
@@ -483,6 +487,7 @@ const NormalMap = ({
           />
           <path
             id="southChungcheong"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[7].colorCode] : citycolor[7].color}
             stroke="white"
@@ -494,6 +499,7 @@ const NormalMap = ({
           />
           <path
             id="daejeon"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[8].colorCode] : citycolor[8].color}
             stroke="white"
@@ -505,6 +511,7 @@ const NormalMap = ({
           />
           <path
             id="southgyeongsang"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[10].colorCode] : citycolor[10].color}
             stroke="white"
@@ -516,6 +523,7 @@ const NormalMap = ({
           />
           <path
             id="southJeolla"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[11].colorCode] : citycolor[11].color}
             stroke="white"
@@ -527,6 +535,7 @@ const NormalMap = ({
           />
           <path
             id="busan"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[12].colorCode] : citycolor[12].color}
             stroke="white"
@@ -538,6 +547,7 @@ const NormalMap = ({
           />
           <path
             id="ulsan"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[13].colorCode] : citycolor[13].color}
             stroke="white"
@@ -549,6 +559,7 @@ const NormalMap = ({
           />
           <path
             id="jeju"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[14].colorCode] : citycolor[14].color}
             stroke="white"
@@ -558,24 +569,24 @@ const NormalMap = ({
             fillOpacity={animationOn ? "0.5" : "1"}
             d="m351 994 2 3 2 2 8 3 2 2 1 6 2 2 2-1v-1l1 2v1l-2 1-1 1v1l1 2v2l-2 2-3 4-5 4-2 3-2 5-1 1-1 3h-3l-2 1h-4l-6 4-16 3-6 5-6 1h-7l-8 1-7-2h-15l-5 3-2 5h-3l-2-1-4-6-5-2-4-5-2-5 3-8 2-5 2-2 6-3 4-8 5-1 2-5 7-2 16-5 4-3 16-2 10-4h3l12-2h13Z"
           />
-          <g  className="kyeongbook-group" fillOpacity={animationOn ? "0.5" : "1"} stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" id="kyeongbook">
+          <g className="kyeongbook-group group" fillOpacity={animationOn ? "0.5" : "1"} stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" id="kyeongbook">
             <path
-            ref={pathRef}
-              className ="kyeongbook"
+              ref={pathRef}
+              className="kyeongbook path"
               id="kyeongbook"
               fill={usePercentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
               d="m762 403 1 8 2 8 1 8-1 17-1 3-5 6-2 4-1 3v27l1 2 1 1 1 1 1 7 1 5 1 1 1 1v3l-2 1-1 1-2 1-2 2-1 3 4 3 2 2 3 4h3l4-3 10-11 2-3 3 2v3l1 4 1 3-2 4-6 12-1 5-1 13-4 12v7l-4 13-3 6-2 3 2 3 1 2-13-3-15 2h-2l-2-2-1-2v-3l-1-3-6-2-5-1-6 1-6 2-6 4 1 3 2 2-1 2h-3l-4 3-4 3-4 1-5-2-6-1-5 2-2 2-2 2-3 1h-2l-5 4h-6l-5-2-5-2-6 1-6 1-5-3-4-5-1-11-4 3-4 5h-4l-8 4-5-1-4-3-4-2-5-1-5 1-9-1-3-9 2-4v-5l-2-2-2-2-1-1-1-2-3-3-2-4-3-3-5-1h-4l-5-1-2-1-2-2h-5l-3-1v-4l-3-2-3-2-2-4 1-13-6-11 3-2 4-1 3-5 1-5 1-2 2-2v-6l-1-5 4-3h4l3 1-2-11-3-2-8 2-3-2-5-3-4-2-6 2-1-10 4-3 2-4-2-3-1-4 1-4 1-11 1-5 3-2-8-12-6-1-2-4 3-1 2-1 2-2 4-5 1-2v-4l5-4 6-2 3-5 6 2 11 2-2-4-3-4 1-4 2-5 2-3 2 2h4l2-4 3-2 2 2 5 2h5l1-3 1-3 1-3 3-2 2 2 2 2 4 3 2 5 6 2 13-5 3-8-3-2-1-2 2-4 2-4 3-5 5-3 2-3 2-1 3-1 3-3 4-3 3-4 2-1 2 1 2-2 2-2 4 2 4 2 4 1h5v-4l1-4-1-5 3-4 4-2 4 1 3 4h3l2 2v7l5-2 5-4 2 1 1 2h2l2-1 6 1 6 3 4-1 4-2 6 1 5 3 1 4-4 3-4-2-3 1-3 2-1 5 1 7 3 5 5 2 1 4 2 4 3 2 4 2h11v5l1 1 1 2-1 5-2 5v5l1 5 1 5-2 4 11 5 5-3 5 1 2 1ZM657 551l1-3-1-4v-3l-2-1-1-2v-5l1-1v-2l-2-3-6-5h-9l-10 2-7 6 1 9-3 3-2 4h2l1 1v1l-1 2-2 1h-3l-2 3 1 3 3 1 2 3 2 3 2 3 2 1 2 1 1-1 2-4 3-2 5 1 9 2 3-2 1-2v-1l1-4 1-2v-1h2l3-2Zm338-316-3 1-4-1-4-2-2-3-1-4 1-3 3-2 6-1 3-2h2l3 2v5l-2 6-2 4Z"
             />
             <path
-            ref={pathRef}
-              className ="kyeongbook"
+              ref={pathRef}
+              className ="kyeongbook path"
               id="kyeongbook"
               fill={usePercentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
               d="M1026 239c2 1-4 5-6 5-1 0-3-2-3-4-2 0 3-5 5-5s4 3 4 4Z"
             />
             <path
-            ref={pathRef}
-              className ="kyeongbook"
+              ref={pathRef}
+              className ="kyeongbook path"
               id="kyeongbook"
               fill={usePercentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
               d="M1016 231v2a24 24 0 0 1-4 7l-1 1-3-2-2-2 2-3 3-2h2l1-1a30 30 0 0 1 2 0Z"
@@ -583,6 +594,7 @@ const NormalMap = ({
           </g>
           <path
             id="deagu"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[9].colorCode] : citycolor[9].color}
             stroke="white"
@@ -594,6 +606,7 @@ const NormalMap = ({
           />
           <path
             id="sejong"
+            className="path"
             ref={pathRef}
             fillOpacity={animationOn ? "0.5" : "1"}
             fill={usePercentageColor ? color[citycolor[16].colorCode] : citycolor[16].color}
@@ -605,6 +618,7 @@ const NormalMap = ({
           />
           <path
             id="northChungcheong"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[0].colorCode] : citycolor[0].color}
             stroke="white"
@@ -616,6 +630,7 @@ const NormalMap = ({
           />
           <path
             id="seoul"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[3].colorCode] : citycolor[3].color}
             stroke="white"
@@ -627,6 +642,7 @@ const NormalMap = ({
           />
           <path
             id="gwangju"
+            className="path"
             ref={pathRef}
             fill={usePercentageColor ? color[citycolor[6].colorCode] : citycolor[6].color}
             stroke="white"
@@ -637,13 +653,14 @@ const NormalMap = ({
             d="m368 669 8 3 4 9-7 8-9-1-9-6-4-9 3-3 6 1 4-1 4-1Z"
           />
         </g>
-        <g className="nohover">
+        <g className="nohover group">
           {useGagueBar && scale===1 ? (
             <>
               {zMap.map((e, index) => (
                 <path
                   key={index}
                   id="gaugeBar"
+                  className="path"
                   fill={useColor[index]}
                   stroke="white"
                   d={`m ${1000} ${e[0]} H ${980 - gagueBarWidth} V ${e[1]} H ${1000} Z`}
@@ -652,6 +669,7 @@ const NormalMap = ({
 
               <path
                 fill={pointerColor}
+                className="path"
                 strokeLinejoin="round"
                 stroke="white"
                 d={`m ${1010} ${1000 - mousePointer} L${1045+ pointerSize} ${1000 - mousePointer + 15+ pointerSize} V ${1000 - mousePointer - 15- pointerSize} Z`}
@@ -666,7 +684,7 @@ const NormalMap = ({
             ""
           )}
         </g>
-        <g ref={tooltipRef} id="tooltipBox">
+        <g ref={tooltipRef} id="tooltipBox" className="group">
           <foreignObject id="foreingObject" x="0" y="0" width={ToolW} height={ToolH} >
             <div
             ref={tooltipDiv}
