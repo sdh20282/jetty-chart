@@ -1,4 +1,4 @@
-import { checkNormalLine } from "../../common/utils/exception/check-line-exception";
+import { checkNormalLine } from "../../common/line-common/exception/check-line-exception";
 import { MultiLine } from "../multi-line/multi-line";
 
 const StackedLine = ({

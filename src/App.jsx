@@ -1,4 +1,4 @@
-// import { NormalBar, StackedBar, NormalMap, NormalScatter, BumpChart, SingleLine, MultiLine, StackedLine } from "./jetty-chart/src";
+import { NormalBar, StackedBar, NormalMap, NormalScatter, BumpChart, SingleLine, MultiLine, StackedLine } from "./jetty-chart/src";
 
 // function App() {
 
@@ -10,7 +10,7 @@
 // export default App;
 
 import { useState, useEffect } from "react";
-import { NormalBar, StackedBar } from "./jetty-chart/src/bars/bars";
+// import { NormalBar, StackedBar } from "./jetty-chart/src/bars/bars";
 
 const counts = [5, 6, 7];
 

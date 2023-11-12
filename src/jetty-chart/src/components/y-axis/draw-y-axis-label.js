@@ -59,6 +59,7 @@ export const DrawYAxisLabel = ({
           ? `translate(0,${labelOnLeft ? -totalLabelMargin : labelLocation})`
           : `translate(${labelOnLeft ? -totalLabelMargin : labelLocation})`
       }
+      className={styles.container}
     >
       {yAxis.map((c, idx) => {
         if (!showTopScope && (idx === 0 || idx === yAxis.length - 1) && c !== 0) {

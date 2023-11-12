@@ -79,7 +79,7 @@ export const DrawXAxisGridLine = ({
   }
 
   return (
-    <g>
+    <g className={styles.container}>
       {showEndLine && (
         <g transform={horizontal ? `translate(0,0)` : `translate(0,0)`}>
           <path
