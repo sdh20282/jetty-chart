@@ -4,6 +4,8 @@ import PiePiece from "./PiePiece";
 import { divideRatio } from "../utils/getDivideRatio";
 import { PieDebugMode } from "../testFile/PieDebugMode";
 import { setExceptionValue } from "../utils/setExceptionValue";
+import PieCircleBackground from "./PieCircleBackground";
+import PieDonutBackground from "./PieDonutBackground";
 
 const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
   // data = [{ value: 0.85 }, { value: 0.15 }]; //153
@@ -72,21 +74,17 @@ const PieSvg = ({ data, generalSettings, pieSettings, debugTool }) => {
           "px ",
       }}
     >
-      <circle
-        cx={0}
-        cy={0}
-        r={pieSettings.pieRadius}
-        fill={generalSettings.donutBackgroundColor}
-        opacity={1}
+      <PieCircleBackground
+        pieRadius={pieSettings.pieRadius}
+        pieBackgroundColor={generalSettings.pieBackgroundColor}
       />
-      <circle
-        cx={0}
-        cy={0}
-        r={pieSettings.pieRadius - (pieSettings.pieRadius - pieSettings.innerRadius) / 2}
-        stroke={generalSettings.pieBackgroundColor}
-        strokeWidth={pieSettings.pieRadius - pieSettings.innerRadius}
-        fill="transparent"
+
+      <PieDonutBackground
+        pieRadius={pieSettings.pieRadius}
+        innerRadius={pieSettings.innerRadius}
+        donutBackgroundColor={generalSettings.donutBackgroundColor}
       />
+
       {/* <circle
         cx={0}
         cy={0}
