@@ -1,4 +1,4 @@
-:root {
+svg {
   --line-width: "0px";
   --line-offset: "0px";
   --animation-duration: 0;
@@ -10,7 +10,7 @@
 .drawLine {
   stroke-dasharray: var(--line-width);
   stroke-dashoffset: var(--line-offset);
-  animation: draw-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards; 
+  animation: draw-line var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
 }
 
 .fadeLine {

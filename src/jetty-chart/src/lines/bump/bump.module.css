@@ -1,4 +1,4 @@
-:root {
+svg {
   --line-width: "0px";
   --line-height: "0px";
   --line-length: "0px";
@@ -138,6 +138,7 @@
 .point {
   transition: all linear 1s;
 }
+
 .line {
   transition: all ease-out 1s;
 }
