@@ -12,7 +12,7 @@ export const colorPalette = {
   "calm": ["#264653", "#2A9D8F", "#E9C46A", "#F4A261", "#E76F51"],
   "tea": ["#606C38", "#283618", "#FEFAE0", "#DDA15E", "#BC6C25"],
   "icecream": ["#CDB4DB", "#FFC8DD", "#FFAFCC", "#BDE0FE", "#A2D2FF"],
-  "jetty juice": [["#b388eb", "#72ddf7", "#fdba74", "#fca5a5", "#facc15", "#86efac"]],
+  "jetty juice": ["#b388eb", "#72ddf7", "#fdba74", "#fca5a5", "#facc15", "#86efac"],
   "mystic": ["#d9ed92", "#99d98c", "#52b69a", "#38a3a5", "#168aad", "#22577a"],
   "deep sea": ["#03045e", "#023e8a", "#0077b6", "#0096c7", "#00b4d8", "#48cae4", "#90e0ef", "#caf0f8"],
   "rainbow": ["#ff0000", "#ff8000", "#ffff00", "#80ff00", "#00ff80", "#00ffff", "#0080ff", "#4040ff", "#8000ff", "#ff00ff", "#ff0080"],
