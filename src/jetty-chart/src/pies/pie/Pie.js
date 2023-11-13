@@ -1,13 +1,13 @@
 // import { useState } from "react";
 // import PieTestSetting from "./testFile/PieTestSetting";
-import PieSvg from "./components/PieSvg";
+import PieSvg from "../../common/pie-common/components/PieSvg";
 import {
   setDefaultGeneralSettings,
   setDefaultLabelSettings,
   setDefaultPieSettings,
-} from "./utils/setDefaultSettings";
+} from "../../common/pie-common/utils/setDefaultSettings";
 
-const Pie = ({ data, generalSettings, pieSettings, labelSettings, debugSettings = false }) => {
+export const Pie = ({ data, generalSettings, pieSettings, labelSettings, debugSettings = false }) => {
   const newGeneralSettings = {
     ...setDefaultGeneralSettings(),
     ...generalSettings,
@@ -57,5 +57,3 @@ const Pie = ({ data, generalSettings, pieSettings, labelSettings, debugSettings 
     </>
   );
 };
-
-export { Pie };

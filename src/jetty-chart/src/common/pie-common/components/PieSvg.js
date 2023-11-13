@@ -1,7 +1,7 @@
 // 파이 차트의 SVG를 그리는 컴포넌트
 import getPiePiece from "../utils/getPiePiece";
 import { divideRatio } from "../utils/getDivideRatio";
-import { PieDebugMode } from "../testFile/PieDebugMode";
+// import { PieDebugMode } from "../testFile/PieDebugMode";
 import { setExceptionValue } from "../utils/setExceptionValue";
 import PieCircleBackground from "./PieCircleBackground";
 import PieDonutBackground from "./PieDonutBackground";
@@ -92,7 +92,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugSettin
           key={index}
         />
       ))}
-      {pieceData.map((piece, index) => (
+      {/* {pieceData.map((piece, index) => (
         <PieDebugMode
           debugSettings={debugSettings.debugTool}
           pieRadius={piece.pieRadius}
@@ -113,7 +113,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugSettin
           labelMoveY={labelSettings.labelMoveY}
           key={index}
         />
-      ))}
+      ))} */}
     </svg>
   );
 };
