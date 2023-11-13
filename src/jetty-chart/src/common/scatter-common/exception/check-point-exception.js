@@ -1,3 +1,4 @@
+import { colorPalette } from "../../utils/color/colorPalette";
 import { checkMargin, checkSize } from "../../utils/exception/check-common-exception";
 
 const normalPointSetting = {
@@ -8,7 +9,7 @@ const normalPointSetting = {
     backgroundColor: "#fff",
     margin: { top: 60, bottom: 60, left: 70, right: 120 },
     innerMargin: { top: 0, bottom: 0 },
-    colorPalette: ["#93c5fd", "#fdba74", "#fca5a5", "#cbd5e1", "#86efac"],
+    colorPalette: colorPalette["jetty juice"],
     padding: 0,
     xReverse: false,
     yReverse: false,
