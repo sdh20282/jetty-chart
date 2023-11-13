@@ -9,10 +9,11 @@ const PieTestSetting = ({
   generalSettings,
   pieSettings,
   labelSettings,
+  debugSettings,
   changeNewGeneralSettings,
   changeNewPieSettings,
   changeNewLabelSettings,
-  changeDebugTool,
+  changeDebugSettings,
 }) => {
   const [width, setWidth] = useState(generalSettings.width);
   const [height, setHeight] = useState(generalSettings.height);
@@ -21,7 +22,14 @@ const PieTestSetting = ({
   const [donutBackgroundColor, setDonutBackgroundColor] = useState(
     generalSettings.donutBackgroundColor
   );
-  const [padding, setPadding] = useState(generalSettings.padding);
+  const [paddingTop, setPaddingTop] = useState(generalSettings.paddingTop);
+  const [paddingBottom, setPaddingBottom] = useState(generalSettings.paddingBottom);
+  const [paddingLeft, setPaddingLeft] = useState(generalSettings.paddingLeft);
+  const [paddingRight, setPaddingRight] = useState(generalSettings.paddingRight);
+  const [pieOpacity, setPieOpacity] = useState(generalSettings.pieOpacity);
+  const [circleOpacity, setCircleOpacity] = useState(generalSettings.circleOpacity);
+  const [donutOpacity, setDonutOpacity] = useState(generalSettings.donutOpacity);
+  const [pieceOpacity, setPieceOpacity] = useState(generalSettings.pieceOpacity);
 
   const [color, setColor] = useState(pieSettings.color);
   const [strokeColor, setStrokeColor] = useState(pieSettings.strokeColor);
@@ -49,6 +57,9 @@ const PieTestSetting = ({
   const [labelIsUse, setLabelIsUse] = useState(labelSettings.labelIsUse);
   const [labelDegrees, setLabelDegrees] = useState(labelSettings.labelDegrees);
   const [labelOpacity, setLabelOpacity] = useState(labelSettings.labelOpacity);
+
+  const [debugTool, setDebugTool] = useState(debugSettings.debugSettings);
+
   const colorOption = [
     { value: "transparent", name: "▨투명" },
     { value: "black", name: "⬛검정" },
@@ -67,10 +78,34 @@ const PieTestSetting = ({
       width,
       height,
       backgroundColor,
-      padding,
+      paddingTop,
+      paddingBottom,
+      paddingLeft,
+      paddingRight,
       pieBackgroundColor,
       donutBackgroundColor,
+      pieOpacity,
+      circleOpacity,
+      donutOpacity,
+      pieceOpacity,
     });
+  }, [
+    width,
+    height,
+    backgroundColor,
+    paddingTop,
+    paddingBottom,
+    paddingLeft,
+    paddingRight,
+    pieBackgroundColor,
+    donutBackgroundColor,
+    pieOpacity,
+    circleOpacity,
+    donutOpacity,
+    pieceOpacity,
+    changeNewGeneralSettings,
+  ]);
+  useEffect(() => {
     changeNewPieSettings({
       strokeColor,
       color,
@@ -84,6 +119,21 @@ const PieTestSetting = ({
       useAngle,
       sortByValue,
     });
+  }, [
+    strokeColor,
+    color,
+    startAngle,
+    padAngle,
+    pieRadius,
+    innerRadius,
+    cornerRadius,
+    strokeWidth,
+    strokeOpacity,
+    useAngle,
+    sortByValue,
+    changeNewPieSettings,
+  ]);
+  useEffect(() => {
     changeNewLabelSettings({
       labelColor,
       labelFontSize,
@@ -101,24 +151,6 @@ const PieTestSetting = ({
       labelOpacity,
     });
   }, [
-    testToggle,
-    backgroundColor,
-    useAngle,
-    strokeWidth,
-    strokeColor,
-    strokeOpacity,
-    color,
-    startAngle,
-    padAngle,
-    pieRadius,
-    innerRadius,
-    cornerRadius,
-    width,
-    height,
-    padding,
-    pieBackgroundColor,
-    donutBackgroundColor,
-    sortByValue,
     labelColor,
     labelFontSize,
     labelFontWeight,
@@ -133,10 +165,13 @@ const PieTestSetting = ({
     labelIsUse,
     labelDegrees,
     labelOpacity,
-    changeNewGeneralSettings,
-    changeNewPieSettings,
     changeNewLabelSettings,
   ]);
+  useEffect(() => {
+    changeDebugSettings({
+      debugTool,
+    });
+  }, [debugTool, changeDebugSettings]);
   return (
     <>
       <div>
@@ -168,23 +203,23 @@ const PieTestSetting = ({
         <div>
           <TestInput
             name={"pt"}
-            value={padding.top}
-            setValue={(e) => setPadding({ ...padding, top: e.target.value })}
+            value={paddingTop}
+            setValue={(e) => setPaddingTop(e.target.value)}
           />
           <TestInput
             name={"pb"}
-            value={padding.bottom}
-            setValue={(e) => setPadding({ ...padding, bottom: e.target.value })}
+            value={paddingBottom}
+            setValue={(e) => setPaddingBottom(e.target.value)}
           />
           <TestInput
             name={"pr"}
-            value={padding.right}
-            setValue={(e) => setPadding({ ...padding, right: e.target.value })}
+            value={paddingRight}
+            setValue={(e) => setPaddingRight(e.target.value)}
           />
           <TestInput
             name={"pl"}
-            value={padding.left}
-            setValue={(e) => setPadding({ ...padding, left: e.target.value })}
+            value={paddingLeft}
+            setValue={(e) => setPaddingLeft(e.target.value)}
           />
         </div>
         <div>
@@ -253,7 +288,39 @@ const PieTestSetting = ({
             max={1}
             step={0.01}
           />
-          <TestCheckBox name="Debug" value={false} setValue={() => changeDebugTool()} />
+          <TestRange
+            name={"pieOpacity"}
+            value={pieOpacity}
+            setValue={(e) => setPieOpacity(Number(e.target.value))}
+            min={0}
+            max={1}
+            step={0.01}
+          />
+          <TestRange
+            name={"circleOpacity"}
+            value={circleOpacity}
+            setValue={(e) => setCircleOpacity(Number(e.target.value))}
+            min={0}
+            max={1}
+            step={0.01}
+          />
+          <TestRange
+            name={"donutOpacity"}
+            value={donutOpacity}
+            setValue={(e) => setDonutOpacity(Number(e.target.value))}
+            min={0}
+            max={1}
+            step={0.01}
+          />
+          <TestRange
+            name={"pieceOpacity"}
+            value={pieceOpacity}
+            setValue={(e) => setPieceOpacity(Number(e.target.value))}
+            min={0}
+            max={1}
+            step={0.01}
+          />
+          <TestCheckBox name="Debug" value={debugTool} setValue={() => setDebugTool(!debugTool)} />
           <TestCheckBox
             name="sortByValue"
             value={false}

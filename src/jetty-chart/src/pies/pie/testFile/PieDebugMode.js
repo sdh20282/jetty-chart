@@ -1,6 +1,6 @@
 // 파이 차트의 디버깅 모드를 표시하는 컴포넌트
 export const PieDebugMode = ({
-  debugTool,
+  debugSettings,
   accumulatedAngle,
   ratio,
   vertexGroup,
@@ -14,9 +14,11 @@ export const PieDebugMode = ({
   referenceCoordinate,
   candidatesGroup,
   labelLocation,
+  labelMoveX,
+  labelMoveY,
 }) => {
   const pointSize = 0.02;
-  const ToggleAll = !true;
+  const ToggleAll = !!true;
   const TogglePieRadius = !!true && !!ToggleAll;
   const ToggleInnerRadius = !!true && !!ToggleAll;
   const ToggleCenter = !!true && !!ToggleAll;
@@ -29,7 +31,7 @@ export const PieDebugMode = ({
   const ToggleCornerCircleGroup = !!true && !!ToggleAll;
   const ToggleCalcVertexGroup = !!true && !!ToggleAll;
   return (
-    debugTool && (
+    debugSettings && (
       <>
         {TogglePieRadius && <circle cx={0} cy={0} r={pieRadius} fill="lightgray" opacity={0.03} />}
         {ToggleInnerRadius && <circle cx={0} cy={0} r={innerRadius} fill="#dddddd" opacity={0.2} />}
@@ -44,8 +46,13 @@ export const PieDebugMode = ({
         )}
         {ToggleLabelLocation && (
           <>
-            <circle cx={labelLocation.x} cy={labelLocation.y} r={0.1} fill="orange" opacity={0.5} />
-            <circle cx={0} cy={0} r={0.05} fill="orange" opacity={0.5} />
+            <circle
+              cx={labelLocation.x + labelMoveX}
+              cy={labelLocation.y + labelMoveY}
+              r={0.1}
+              fill="orange"
+              opacity={0.5}
+            />
           </>
         )}
         {ToggleReferenceCoordinate && (

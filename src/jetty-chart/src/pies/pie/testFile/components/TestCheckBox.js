@@ -4,7 +4,7 @@ const TestCheckBox = ({ name, value, setValue }) => {
   return (
     <>
       <label>{name}</label>
-      <input type={"checkbox"} name={"debug"} value={value} onChange={setValue} />
+      <input type={"checkbox"} name={name} value={value} onChange={setValue} />
     </>
   );
 };

@@ -1,6 +1,5 @@
 // 파이 차트의 SVG를 그리는 컴포넌트
 import getPiePiece from "../utils/getPiePiece";
-import PiePiecePath from "./PiePiecePath";
 import { divideRatio } from "../utils/getDivideRatio";
 import { PieDebugMode } from "../testFile/PieDebugMode";
 import { setExceptionValue } from "../utils/setExceptionValue";
@@ -8,7 +7,7 @@ import PieCircleBackground from "./PieCircleBackground";
 import PieDonutBackground from "./PieDonutBackground";
 import PiePiece from "./PiePiece";
 
-const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugTool }) => {
+const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugSettings }) => {
   setExceptionValue({ pieSettings, length: data.length });
   data = divideRatio({
     data,
@@ -30,30 +29,33 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugTool }
   return (
     <svg
       id="pie"
-      width={generalSettings.width - generalSettings.padding.left - generalSettings.padding.right}
-      height={generalSettings.height - generalSettings.padding.top - generalSettings.padding.bottom}
+      width={generalSettings.width - generalSettings.paddingLeft - generalSettings.paddingRight}
+      height={generalSettings.height - generalSettings.paddingTop - generalSettings.paddingBottom}
       viewBox="-1 -1 2 2"
       style={{
         backgroundColor: generalSettings.backgroundColor,
         padding:
-          generalSettings.padding.top +
+          generalSettings.paddingTop +
           "px " +
-          generalSettings.padding.right +
+          generalSettings.paddingRight +
           "px " +
-          generalSettings.padding.bottom +
+          generalSettings.paddingBottom +
           "px " +
-          generalSettings.padding.left +
+          generalSettings.paddingLeft +
           "px ",
       }}
+      opacity={generalSettings.pieOpacity}
     >
       <PieCircleBackground
         pieRadius={pieSettings.pieRadius}
         pieBackgroundColor={generalSettings.pieBackgroundColor}
+        circleOpacity={generalSettings.circleOpacity}
       />
       <PieDonutBackground
         pieRadius={pieSettings.pieRadius}
         innerRadius={pieSettings.innerRadius}
         donutBackgroundColor={generalSettings.donutBackgroundColor}
+        donutOpacity={generalSettings.donutOpacity}
       />
       {pieceData.map((piece, index) => (
         <PiePiece
@@ -61,6 +63,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugTool }
           strokeColor={pieSettings.strokeColor[index % data.length]}
           strokeWidth={pieSettings.strokeWidth}
           strokeOpacity={pieSettings.strokeOpacity}
+          pieceOpacity={generalSettings.pieceOpacity}
           pieRadius={piece.pieRadius}
           innerRadius={piece.innerRadius}
           cornerInnerRadius={piece.cornerInnerRadius}
@@ -92,7 +95,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugTool }
       ))}
       {pieceData.map((piece, index) => (
         <PieDebugMode
-          debugTool={debugTool}
+          debugSettings={debugSettings.debugTool}
           pieRadius={piece.pieRadius}
           innerRadius={pieSettings.innerRadius}
           cornerOuterRadius={piece.cornerOuterRadius}
@@ -107,6 +110,8 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugTool }
           referenceCoordinate={piece.referenceCoordinate}
           candidatesGroup={piece.candidatesGroup}
           labelLocation={piece.labelLocation}
+          labelMoveX={labelSettings.labelMoveX}
+          labelMoveY={labelSettings.labelMoveY}
           key={index}
         />
       ))}

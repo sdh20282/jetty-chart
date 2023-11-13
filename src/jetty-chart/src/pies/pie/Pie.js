@@ -9,40 +9,40 @@ import {
   setDefaultPieSettings,
 } from "./utils/setDefaultSettings";
 
-const Pie = ({
-  data,
-  generalSettings = setDefaultGeneralSettings(),
-  pieSettings = setDefaultPieSettings(),
-  labelSettings = setDefaultLabelSettings(),
-}) => {
-  // 테스트용
-  const [newGeneralSettings, setNewGeneralSettings] = useState(generalSettings);
-  const [newPieSettings, setNewPieSettings] = useState(pieSettings);
-  const [newLabelSettings, setNewLabelSettings] = useState(labelSettings);
-  const [newDebugTool, setNewDebugTool] = useState(pieSettings.debugTool);
-  const toggleDebugTool = () => {
-    setNewDebugTool(!newDebugTool);
-  };
+const Pie = ({ data, generalSettings, pieSettings, labelSettings, debugSettings = false }) => {
+  const [newGeneralSettings, setNewGeneralSettings] = useState({
+    ...setDefaultGeneralSettings(),
+    ...generalSettings,
+  });
+  const [newPieSettings, setNewPieSettings] = useState({
+    ...setDefaultPieSettings(),
+    ...pieSettings,
+  });
+  const [newLabelSettings, setNewLabelSettings] = useState({
+    ...setDefaultLabelSettings(),
+    ...labelSettings,
+  });
+  const [newDebugSettings, setNewDebugSettings] = useState(debugSettings);
   return (
-    <div style={{ display: "flex" }}>
-      {/* <div> */}
+    <>
       <PieTestSetting
-        generalSettings={generalSettings}
-        pieSettings={pieSettings}
+        generalSettings={newGeneralSettings}
+        pieSettings={newPieSettings}
         labelSettings={newLabelSettings}
+        debugSettings={newDebugSettings}
         changeNewGeneralSettings={setNewGeneralSettings}
         changeNewPieSettings={setNewPieSettings}
         changeNewLabelSettings={setNewLabelSettings}
-        changeDebugTool={toggleDebugTool}
+        changeDebugSettings={setNewDebugSettings}
       />
       <PieSvg
         data={data}
         generalSettings={newGeneralSettings}
         pieSettings={newPieSettings}
         labelSettings={newLabelSettings}
-        debugTool={newDebugTool}
+        debugSettings={newDebugSettings}
       />
-    </div>
+    </>
   );
 };
 

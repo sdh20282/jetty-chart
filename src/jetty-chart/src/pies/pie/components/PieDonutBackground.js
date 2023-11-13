@@ -1,4 +1,4 @@
-const PieDonutBackground = ({ pieRadius, innerRadius, donutBackgroundColor }) => {
+const PieDonutBackground = ({ pieRadius, innerRadius, donutBackgroundColor, donutOpacity }) => {
   return (
     <circle
       cx={0}
@@ -7,6 +7,7 @@ const PieDonutBackground = ({ pieRadius, innerRadius, donutBackgroundColor }) =>
       stroke={donutBackgroundColor}
       strokeWidth={pieRadius - innerRadius}
       fill="transparent"
+      opacity={donutOpacity}
     />
   );
 };

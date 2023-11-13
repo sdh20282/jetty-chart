@@ -1,21 +1,17 @@
 // 파이 조각을 그리는 컴포넌트
 const PiePiecePath = ({
-  ratio,
-  value,
-  index,
-
-  vertexGroup,
-  cornerOuterRadius,
-  cornerInnerRadius,
-  innerRadius,
   pieRadius,
-  tangentLineGroup,
+  cornerInnerRadius,
+  cornerOuterRadius,
+  innerRadius,
   calcVertexGroup,
+  tangentLineGroup,
+  isLargeArcGroup,
   color,
   strokeColor,
   strokeWidth,
   strokeOpacity,
-  isLargeArcGroup,
+  pieceOpacity,
 }) => {
   const innerPath = `${tangentLineGroup[2].x},${tangentLineGroup[2].y} 
   A ${cornerInnerRadius},${cornerInnerRadius},0,0,1,${calcVertexGroup[2].x},${calcVertexGroup[2].y}
@@ -41,6 +37,7 @@ const PiePiecePath = ({
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         strokeOpacity={strokeOpacity}
+        opacity={pieceOpacity}
       />
     </>
   );

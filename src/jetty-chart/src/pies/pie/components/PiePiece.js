@@ -12,10 +12,10 @@ const PiePiece = ({
   tangentLineGroup,
   isLargeArcGroup,
   color,
-  index,
   strokeColor,
   strokeWidth,
   strokeOpacity,
+  pieceOpacity,
   ratio,
   value,
   labelColor,
@@ -37,20 +37,18 @@ const PiePiece = ({
   return (
     <>
       <PiePiecePath
-        vertexGroup={vertexGroup}
+        pieRadius={pieRadius}
         cornerInnerRadius={cornerInnerRadius}
         cornerOuterRadius={cornerOuterRadius}
-        calcVertexGroup={calcVertexGroup}
-        pieRadius={pieRadius}
         innerRadius={innerRadius}
+        calcVertexGroup={calcVertexGroup}
         tangentLineGroup={tangentLineGroup}
         isLargeArcGroup={isLargeArcGroup}
         color={color}
         strokeColor={strokeColor}
         strokeWidth={strokeWidth}
         strokeOpacity={strokeOpacity}
-        ratio={ratio}
-        value={value}
+        pieceOpacity={pieceOpacity}
       />
       <PiePieceLabel
         x={labelLocation.x}

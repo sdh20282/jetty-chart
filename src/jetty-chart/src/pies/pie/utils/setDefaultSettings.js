@@ -5,6 +5,10 @@ import {
   DEFAULT_PIE_BACKGROUND_COLOR,
   DEFAULT_DONUT_BACKGROUND_COLOR,
   DEFAULT_PADDING,
+  DEFAULT_PIE_OPACITY,
+  DEFAULT_CIRCLE_OPACITY,
+  DEFAULT_DONUT_OPACITY,
+  DEFAULT_PIECE_OPACITY,
 } from "../constants/generalSettings";
 
 import {
@@ -19,7 +23,6 @@ import {
   DEFAULT_STROKE_OPACITY,
   DEFAULT_STROKE_WIDTH,
   DEFAULT_USE_ANGLE,
-  DEFAULT_DEBUG_TOOL,
 } from "../constants/pieSetting";
 
 import {
@@ -46,12 +49,14 @@ export const setDefaultGeneralSettings = () => {
     backgroundColor: DEFAULT_BACKGROUND_COLOR,
     pieBackgroundColor: DEFAULT_PIE_BACKGROUND_COLOR,
     donutBackgroundColor: DEFAULT_DONUT_BACKGROUND_COLOR,
-    padding: {
-      top: DEFAULT_PADDING,
-      bottom: DEFAULT_PADDING,
-      left: DEFAULT_PADDING,
-      right: DEFAULT_PADDING,
-    },
+    paddingTop: DEFAULT_PADDING,
+    paddingBottom: DEFAULT_PADDING,
+    paddingLeft: DEFAULT_PADDING,
+    paddingRight: DEFAULT_PADDING,
+    pieOpacity: DEFAULT_PIE_OPACITY,
+    circleOpacity: DEFAULT_CIRCLE_OPACITY,
+    donutOpacity: DEFAULT_DONUT_OPACITY,
+    pieceOpacity: DEFAULT_PIECE_OPACITY,
   };
 };
 
@@ -68,7 +73,6 @@ export const setDefaultPieSettings = () => {
     strokeOpacity: DEFAULT_STROKE_OPACITY,
     useAngle: DEFAULT_USE_ANGLE,
     sortByValue: DEFAULT_SORT_BY_VALUE,
-    debugTool: DEFAULT_DEBUG_TOOL,
   };
 };
 
