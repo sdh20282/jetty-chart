@@ -49,6 +49,7 @@ const normalMapSetting = {
     descriptionFontFamily : "inter",
     tooltipOpacity: 1,
     useTooltipCol:true,
+    useTooltipChart:false,
   },
   innerChartSetting:{
     innerChartText:"",
@@ -60,7 +61,7 @@ const normalMapSetting = {
     innerChartTitleFontWeight:"bold",
   },
   tooltipChartSetting:{
-    tooltipChartnormalSettings: { width: 540, height: 550 },
+    tooltipChartnormalSettings: { width: 540, height: 470, margin:{top:70,bottom:70,left:110,right:60} },
     tooltipChartbarSettings: { labelSize: 25, labelWeight: "bold", useLabel: true },
     tooltipChartbottomLabelSettings: { labelSize: 20, labelWeight:"bold" },
     tooltipChartleftLabelSettings:{labelSize:20,sideLineSize:10,useLabel:true,labelWeight:"bold"},

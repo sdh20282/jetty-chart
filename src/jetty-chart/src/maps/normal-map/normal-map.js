@@ -212,7 +212,11 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
 
   const citycolor = data.map((city) => {
     const percentage = (city.value / max) * 100;
-
+    
+    // eslint-disable-next-line no-prototype-builtins
+    if (!city.hasOwnProperty('colorCode')) {
+      city.colorCode = 0; // 또는 적절한 초기값
+  }
     if (divide === 5) {
       if (percentage.toFixed(0) >= 20) {
         city.colorCode = 1;
@@ -312,25 +316,27 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
   }
 
   function pathEvent(e) {
-    
-    /// 툴팁 차트 데이터 세팅
-    const chartValue = tooltipChartData.filter((data) => {
-      return data.id === e.target.id;
-    });
-    if(tooltipChartCheck == chartValue){
-      return
-    }else{
-      if (chartValue.length > 0) {
-        let chartDataValue = chartValue[0].chartData;
-        setTooltipChartCheck(chartDataValue);
-      }
-      if (chartValue == []) {
-        return;
-      }
+    if(useTooltipChart){
+  /// 툴팁 차트 데이터 세팅
+  const chartValue = tooltipChartData.filter((data) => {
+    return data.id === e.target.id;
+  });
+  if(tooltipChartCheck == chartValue){
+    return
+  }else{
+    if (chartValue.length > 0) {
+      let chartDataValue = chartValue[0].chartData;
+
+      setTooltipChartCheck(chartDataValue);
     }
-    
-        
-    /// 툴팁 차트 데이터 세팅
+    if (chartValue == []) {
+      return;
+    }
+  }
+      
+  /// 툴팁 차트 데이터 세팅
+    }
+  
 
     const pathId = e.target.id;
     const value = citycolor.filter((city) => {
@@ -618,7 +624,7 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
       };
     }
   }, [zoomMagnification, zoomOn]);
-
+  
 
 
   return (
@@ -876,7 +882,7 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
           )}
         </g>
         <g ref={tooltipRef} id="tooltipBox">
-          {useTooltipChart ? 
+          {useTooltipChart && scale!=1 ? 
            <foreignObject id="foreingObject" x="0" y="0" width={545/scale} height={ToolH}>
           <div
           ref={tooltipDiv}
@@ -886,10 +892,10 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
             tooltipOn
               ? {
                   opacity: tooltipOpacity,
-                  width: `${545/scale}px`,
+                  maxWidth: `${545/scale}px`,
                   // height: "100%",
                   minHeight: `${150 / scale}px`,
-                  maxHeight: `${600/scale}px`,
+                  maxHeight: `${545/scale}px`,
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
@@ -904,6 +910,7 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
               : { visibility: "hidden" }
           }
         >
+          <p style={{margin:0,marginTop:"9px",marginBottom:"8px",fontSize:"14px",fontWeight:"600",color:"gray"}}>{tooltipCity}</p>
           <NormalBar
               data={tooltipChartCheck}
               normalSettings={tooltipChartnormalSettings}
@@ -941,7 +948,7 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
                 ? {
                     opacity: tooltipOpacity,
                     maxWidth: `${ToolW}px`,
-                    // height: "100%",
+                    // height: "100%", 
                     minHeight: `${150 / scale}px`,
                     maxHeight: `${ToolH}px`,
                     display: "flex",
