@@ -22,7 +22,7 @@
     "react/jsx-uses-react": "off",
     "react/jsx-uses-vars": "error",
     "react/prop-types": "off",
-    "no-unused-vars": "warn", 
+    "no-unused-vars": "warn",
     "comma-dangle": [
       "error",
       {
