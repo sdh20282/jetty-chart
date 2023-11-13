@@ -1,6 +1,6 @@
 // import { useState } from "react";
 // import PieTestSetting from "./testFile/PieTestSetting";
-import PieSvg from "../../common/pie-common/components/PieSvg";
+import PieSvg from "../../components/pie-components/PieSvg";
 import {
   setDefaultGeneralSettings,
   setDefaultLabelSettings,
