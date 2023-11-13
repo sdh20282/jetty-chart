@@ -10,8 +10,19 @@ import {
 } from "./getCoordinate";
 import { getIsLargeArcGroup } from "./getIsLargeArc";
 import { getCornerRadius } from "./getCornerRadius";
+import { getArcLinkLabelLocation } from "./getArcLinkLabelLocation";
 
-const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle, labelDistance }) => {
+const getPiePiece = ({
+  data,
+  pieRadius,
+  innerRadius,
+  cornerRadius,
+  startAngle,
+  labelDistance,
+  arcLinkLabelLineDistance,
+  arcLinkLabelStartLine,
+  arcLinkLabelEndLine,
+}) => {
   const pieceData = data.map(({ value, ratio, label, accumulatedAngle }) => {
     const vertexGroup = getCoordinateVertexGroup({
       ratio,
@@ -31,7 +42,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle, l
     const referenceCoordinate = getCoordinateReference({
       startAngle: accumulatedAngle,
       ratio,
-      pieRadius,
+      radius: pieRadius,
     });
     const tangentLineGroup = getCoordinateTangentLineGroup({
       pieRadius,
@@ -70,6 +81,14 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle, l
       innerRadius,
       labelDistance: labelDistance,
     });
+    const arcLinkLabelLocation = getArcLinkLabelLocation({
+      startAngle: accumulatedAngle,
+      ratio,
+      pieRadius,
+      arcLinkLabelLineDistance,
+      arcLinkLabelStartLine,
+      arcLinkLabelEndLine,
+    });
     return {
       pieRadius,
       innerRadius,
@@ -84,6 +103,7 @@ const getPiePiece = ({ data, pieRadius, innerRadius, cornerRadius, startAngle, l
       isLargeArcGroup,
       referenceCoordinate,
       labelLocation,
+      arcLinkLabelLocation,
       value,
       ratio,
       label,

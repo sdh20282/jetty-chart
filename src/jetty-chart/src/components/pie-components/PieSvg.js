@@ -7,7 +7,14 @@ import PieCircleBackground from "./PieCircleBackground";
 import PieDonutBackground from "./PieDonutBackground";
 import PiePiece from "./PiePiece";
 
-const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugSettings }) => {
+const PieSvg = ({
+  data,
+  generalSettings,
+  pieSettings,
+  labelSettings,
+  arcLinkLabelSettings,
+  // debugSettings,
+}) => {
   setExceptionValue({ pieSettings, length: data.length });
   data = divideRatio({
     data,
@@ -24,6 +31,9 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugSettin
     cornerRadius: pieSettings.cornerRadius,
     startAngle: pieSettings.startAngle,
     labelDistance: labelSettings.labelDistance,
+    arcLinkLabelLineDistance: arcLinkLabelSettings.arcLinkLabelLineDistance,
+    arcLinkLabelStartLine: arcLinkLabelSettings.arcLinkLabelStartLine,
+    arcLinkLabelEndLine: arcLinkLabelSettings.arcLinkLabelEndLine,
   });
 
   return (
@@ -31,7 +41,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugSettin
       id="pie"
       width={generalSettings.width - generalSettings.paddingLeft - generalSettings.paddingRight}
       height={generalSettings.height - generalSettings.paddingTop - generalSettings.paddingBottom}
-      viewBox="-1 -1 2 2"
+      viewBox="-2 -2 4 4"
       style={{
         backgroundColor: generalSettings.backgroundColor,
         padding:
@@ -71,8 +81,20 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugSettin
           calcVertexGroup={piece.calcVertexGroup}
           tangentLineGroup={piece.tangentLineGroup}
           isLargeArcGroup={piece.isLargeArcGroup}
-          ratio={piece.ratio}
-          value={piece.value}
+          arcLinkLabelTextColor={arcLinkLabelSettings.arcLinkLabelTextColor[index % data.length]}
+          arcLinkLabelLineColor={arcLinkLabelSettings.arcLinkLabelLineColor[index % data.length]}
+          arcLinkLabelFontSize={arcLinkLabelSettings.arcLinkLabelFontSize}
+          arcLinkLabelFontFamily={arcLinkLabelSettings.arcLinkLabelFontFamily}
+          arcLinkLabelFontStyle={arcLinkLabelSettings.arcLinkLabelFontStyle}
+          arcLinkLabelFontWeight={arcLinkLabelSettings.arcLinkLabelFontWeight}
+          arcLinkLabelText={arcLinkLabelSettings.arcLinkLabelTEXT}
+          arcLinkLabelLineSize={arcLinkLabelSettings.arcLinkLabelLineSize}
+          arcLinkLabelTextDistance={arcLinkLabelSettings.arcLinkLabelTextDistance}
+          arcLinkLabelSkipAngle={arcLinkLabelSettings.arcLinkLabelSkipAngle}
+          arcLinkLabelLineOpacity={arcLinkLabelSettings.arcLinkLabelLineOpacity}
+          arcLinkLabelTextOpacity={arcLinkLabelSettings.arcLinkLabelTextOpacity}
+          arcLinkLabelIsUse={arcLinkLabelSettings.arcLinkLabelIsUse}
+          arcLinkLabelLocation={piece.arcLinkLabelLocation}
           labelLocation={piece.labelLocation}
           labelColor={labelSettings.labelColor}
           labelFontFamily={labelSettings.labelFontFamily}
@@ -89,6 +111,8 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugSettin
           labelDegrees={labelSettings.labelDegrees}
           labelOpacity={labelSettings.labelOpacity}
           label={piece.label}
+          ratio={piece.ratio}
+          value={piece.value}
           key={index}
         />
       ))}

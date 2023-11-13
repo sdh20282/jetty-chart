@@ -101,12 +101,12 @@ export const getLabelLocation = ({ startAngle, ratio, pieRadius, innerRadius, la
   };
 };
 
-export const getCoordinateReference = ({ startAngle, ratio, pieRadius }) => {
+export const getCoordinateReference = ({ startAngle, ratio, radius }) => {
   const angleInDegree = (startAngle + ratio * 180) % 360;
   const angleInRadian = angleInDegree * (Math.PI / 180);
 
-  const x = pieRadius * Math.cos(angleInRadian);
-  const y = pieRadius * Math.sin(angleInRadian);
+  const x = radius * Math.cos(angleInRadian);
+  const y = radius * Math.sin(angleInRadian);
 
   return {
     x,

@@ -1,6 +1,8 @@
 import React from "react";
 import PiePieceLabel from "./PiePieceLabel";
 import PiePiecePath from "./PiePiecePath";
+import PiePieceArcLinkLine from "./PiePieceArcLinkLine";
+import { PiePieceArcLinkText } from "./PiePieceArcLinkText";
 
 const PiePiece = ({
   cornerInnerRadius,
@@ -14,9 +16,23 @@ const PiePiece = ({
   strokeColor,
   strokeWidth,
   strokeOpacity,
+  arcLinkLabelTextColor,
+  arcLinkLabelLineColor,
+  arcLinkLabelFontSize,
+  arcLinkLabelFontWeight,
+  arcLinkLabelFontFamily,
+  arcLinkLabelFontStyle,
+  arcLinkLabelSkipAngle,
+  arcLinkLabelLineSize,
+  arcLinkLabelText,
+  arcLinkLabelIsUse,
+  arcLinkLabelStartLine,
+  arcLinkLabelEndLine,
+  arcLinkLabelLineOpacity,
+  arcLinkLabelTextOpacity,
+  arcLinkLabelLocation,
+  arcLinkLabelTextDistance,
   pieceOpacity,
-  ratio,
-  value,
   labelColor,
   labelFontFamily,
   labelFontSize,
@@ -32,6 +48,8 @@ const PiePiece = ({
   labelDegrees,
   labelOpacity,
   label,
+  ratio,
+  value,
 }) => {
   return (
     <>
@@ -69,6 +87,32 @@ const PiePiece = ({
         label={label}
         ratio={ratio}
         value={value}
+      />
+      <PiePieceArcLinkLine
+        arcLinkLabelLineColor={arcLinkLabelLineColor}
+        arcLinkLabelSkipAngle={arcLinkLabelSkipAngle}
+        arcLinkLabelLineSize={arcLinkLabelLineSize}
+        arcLinkLabelText={arcLinkLabelText}
+        arcLinkLabelIsUse={arcLinkLabelIsUse}
+        arcLinkLabelStartLine={arcLinkLabelStartLine}
+        arcLinkLabelEndLine={arcLinkLabelEndLine}
+        arcLinkLabelLineOpacity={arcLinkLabelLineOpacity}
+        arcLinkLabelLocation={arcLinkLabelLocation}
+        ratio={ratio}
+      />
+      <PiePieceArcLinkText
+        arcLinkLabelTextColor={arcLinkLabelTextColor}
+        arcLinkLabelFontSize={arcLinkLabelFontSize}
+        arcLinkLabelFontWeight={arcLinkLabelFontWeight}
+        arcLinkLabelFontFamily={arcLinkLabelFontFamily}
+        arcLinkLabelFontStyle={arcLinkLabelFontStyle}
+        arcLinkLabelText={arcLinkLabelText}
+        arcLinkLabelLocation={arcLinkLabelLocation}
+        arcLinkLabelTextOpacity={arcLinkLabelTextOpacity}
+        arcLinkLabelTextDistance={arcLinkLabelTextDistance}
+        value={value}
+        label={label}
+        ratio={ratio}
       />
     </>
   );

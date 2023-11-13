@@ -5,9 +5,17 @@ import {
   setDefaultGeneralSettings,
   setDefaultLabelSettings,
   setDefaultPieSettings,
+  setDefaultArcLinkLabelSettings,
 } from "../../common/pie-common/utils/setDefaultSettings";
 
-export const Pie = ({ data, generalSettings, pieSettings, labelSettings, debugSettings = false }) => {
+export const Pie = ({
+  data,
+  generalSettings,
+  pieSettings,
+  labelSettings,
+  arcLinkLabelSettings,
+  debugSettings = false,
+}) => {
   const newGeneralSettings = {
     ...setDefaultGeneralSettings(),
     ...generalSettings,
@@ -19,6 +27,10 @@ export const Pie = ({ data, generalSettings, pieSettings, labelSettings, debugSe
   const newLabelSettings = {
     ...setDefaultLabelSettings(),
     ...labelSettings,
+  };
+  const newArcLinkLabelSettings = {
+    ...setDefaultArcLinkLabelSettings(),
+    ...arcLinkLabelSettings,
   };
   const newDebugSettings = debugSettings;
 
@@ -53,6 +65,7 @@ export const Pie = ({ data, generalSettings, pieSettings, labelSettings, debugSe
         pieSettings={newPieSettings}
         labelSettings={newLabelSettings}
         debugSettings={newDebugSettings}
+        arcLinkLabelSettings={newArcLinkLabelSettings}
       />
     </>
   );
