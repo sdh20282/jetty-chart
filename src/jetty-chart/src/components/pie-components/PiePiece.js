@@ -1,15 +1,14 @@
 import React from "react";
 import PiePieceLabel from "./PiePieceLabel";
 import PiePiecePath from "./PiePiecePath";
-import PiePieceArcLinkLine from "./PiePieceArcLinkLine";
-import { PiePieceArcLinkText } from "./PiePieceArcLinkText";
+import PiePieceArcLinkLabel from "./PiePieceArcLinkLabel";
 
 const PiePiece = ({
+  pieRadius,
+  innerRadius,
   cornerInnerRadius,
   cornerOuterRadius,
   calcVertexGroup,
-  pieRadius,
-  innerRadius,
   tangentLineGroup,
   isLargeArcGroup,
   color,
@@ -26,8 +25,6 @@ const PiePiece = ({
   arcLinkLabelLineSize,
   arcLinkLabelText,
   arcLinkLabelIsUse,
-  arcLinkLabelStartLine,
-  arcLinkLabelEndLine,
   arcLinkLabelLineOpacity,
   arcLinkLabelTextOpacity,
   arcLinkLabelLocation,
@@ -88,19 +85,7 @@ const PiePiece = ({
         ratio={ratio}
         value={value}
       />
-      <PiePieceArcLinkLine
-        arcLinkLabelLineColor={arcLinkLabelLineColor}
-        arcLinkLabelSkipAngle={arcLinkLabelSkipAngle}
-        arcLinkLabelLineSize={arcLinkLabelLineSize}
-        arcLinkLabelText={arcLinkLabelText}
-        arcLinkLabelIsUse={arcLinkLabelIsUse}
-        arcLinkLabelStartLine={arcLinkLabelStartLine}
-        arcLinkLabelEndLine={arcLinkLabelEndLine}
-        arcLinkLabelLineOpacity={arcLinkLabelLineOpacity}
-        arcLinkLabelLocation={arcLinkLabelLocation}
-        ratio={ratio}
-      />
-      <PiePieceArcLinkText
+      <PiePieceArcLinkLabel
         arcLinkLabelTextColor={arcLinkLabelTextColor}
         arcLinkLabelFontSize={arcLinkLabelFontSize}
         arcLinkLabelFontWeight={arcLinkLabelFontWeight}
@@ -108,8 +93,13 @@ const PiePiece = ({
         arcLinkLabelFontStyle={arcLinkLabelFontStyle}
         arcLinkLabelText={arcLinkLabelText}
         arcLinkLabelLocation={arcLinkLabelLocation}
-        arcLinkLabelTextOpacity={arcLinkLabelTextOpacity}
         arcLinkLabelTextDistance={arcLinkLabelTextDistance}
+        arcLinkLabelTextOpacity={arcLinkLabelTextOpacity}
+        arcLinkLabelLineColor={arcLinkLabelLineColor}
+        arcLinkLabelSkipAngle={arcLinkLabelSkipAngle}
+        arcLinkLabelLineSize={arcLinkLabelLineSize}
+        arcLinkLabelLineOpacity={arcLinkLabelLineOpacity}
+        arcLinkLabelIsUse={arcLinkLabelIsUse}
         value={value}
         label={label}
         ratio={ratio}
