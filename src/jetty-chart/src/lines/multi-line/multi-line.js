@@ -72,8 +72,6 @@ const MultiLine = ({
     strokeLinecap,
   } = result.lineSettings;
 
-  const colorPalette = [...result.normalSettings.colorPalette];
-
   let combinedData = [];
 
   const idArray = [];
@@ -297,7 +295,9 @@ const MultiLine = ({
   });
   prevPointTemp.current = { ...pointPosition };
 
-  const lineColors = [...Array(dataSet.length).keys()].map((idx) => colorPalette[idx % colorPalette.length]);
+  const lineColors = [...Array(dataSet.length).keys()].map(
+    (idx) => [...result.normalSettings.colorPalette][idx % result.normalSettings.colorPalette.length]
+  );
 
   const ms = new Date().valueOf();
 

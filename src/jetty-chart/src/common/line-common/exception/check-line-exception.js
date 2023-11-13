@@ -1,3 +1,4 @@
+import { colorPalette } from "../../utils/color/colorPalette";
 import { checkSize } from "../../utils/exception/check-common-exception";
 
 const checkMargin = ({ margin }) => {
@@ -24,7 +25,7 @@ const normalLineSetting = {
     backgroundColor: "#fff",
     margin: { top: 60, bottom: 70, left: 80, right: 100 },
     innerMargin: { top: 0, bottom: 0 },
-    colorPalette: ["#5DADE2", "#F1948A", "#82E0AA", "#D7BDE2"],
+    colorPalette: colorPalette.jetty,
     padding: 0,
     reverse: false,
     horizontal: false,
