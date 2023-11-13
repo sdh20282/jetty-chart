@@ -81,11 +81,11 @@ export const setDefaultGeneralSettings = () => {
 export const setDefaultPieSettings = () => {
   return {
     color: DEFAULT_COLOR,
-    pieRadius: DEFAULT_PIE_RADIUS, // 파이 반지름, default 1
-    innerRadius: DEFAULT_INNER_RADIUS, // 내부원 크기, default 0
-    cornerRadius: DEFAULT_CORNER_RADIUS, // 조각 둥글기, default 0
-    startAngle: DEFAULT_START_ANGLE, // 시작 위치 각도, default 0
-    padAngle: DEFAULT_PAD_ANGLE, // 조각 크기, default 100
+    pieRadius: DEFAULT_PIE_RADIUS,
+    innerRadius: DEFAULT_INNER_RADIUS,
+    cornerRadius: DEFAULT_CORNER_RADIUS,
+    startAngle: DEFAULT_START_ANGLE,
+    padAngle: DEFAULT_PAD_ANGLE,
     strokeColor: DEFAULT_STROKE_COLOR,
     strokeWidth: DEFAULT_STROKE_WIDTH,
     strokeOpacity: DEFAULT_STROKE_OPACITY,
