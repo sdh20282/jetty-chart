@@ -1,5 +1,9 @@
 // 파이 차트를 페이지에서 테스트 할 수 있도록 하는 컴포넌트
 import { useState, useEffect } from "react";
+import TestRange from "./components/TestRange";
+import TestInput from "./components/TestInput";
+import TestSelect from "./components/TestSelect";
+import TestCheckBox from "./components/TestCheckBox";
 
 const PieTestSetting = ({
   generalSettings,
@@ -138,486 +142,247 @@ const PieTestSetting = ({
       <div>
         <p>Pie Test</p>
         <div>
-          <label style={{ color: "black" }}>width</label>
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={width}
-            onChange={(e) => setWidth(e.target.value)}
-          />
-          <label style={{ color: "black" }}>height</label>
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={height}
-            onChange={(e) => setHeight(e.target.value)}
-          />
+          <TestInput name={"width"} value={width} setValue={(e) => setWidth(e.target.value)} />
+          <TestInput name={"height"} value={height} setValue={(e) => setHeight(e.target.value)} />
         </div>
         <div>
-          <label style={{ color: "black" }}>bgcolor</label>
-          <select
+          <TestSelect
+            name={"backgroundColor"}
             value={backgroundColor}
-            onChange={(e) => setBackgroundColor(e.target.value)}
-            style={{ margin: "10px" }}
-          >
-            {colorOption.map((color) => (
-              <option key={color.value} value={color.value}>
-                {color.name}
-              </option>
-            ))}
-          </select>
-          <label style={{ color: "black" }}>pieColor</label>
-          <select
+            setValue={(e) => setBackgroundColor(e.target.value)}
+            obj={colorOption}
+          />
+          <TestSelect
+            name={"pieColor"}
             value={pieBackgroundColor}
-            onChange={(e) => setPieBackgroundColor(e.target.value)}
-            style={{ margin: "10px" }}
-          >
-            {colorOption.map((color) => (
-              <option key={color.value} value={color.value}>
-                {color.name}
-              </option>
-            ))}
-          </select>
-          <label style={{ color: "black" }}>donutColor</label>
-          <select
+            setValue={(e) => setPieBackgroundColor(e.target.value)}
+            obj={colorOption}
+          />
+          <TestSelect
+            name={"donutColor"}
             value={donutBackgroundColor}
-            onChange={(e) => setDonutBackgroundColor(e.target.value)}
-            style={{ margin: "10px" }}
-          >
-            {colorOption.map((color) => (
-              <option key={color.value} value={color.value}>
-                {color.name}
-              </option>
-            ))}
-          </select>
+            setValue={(e) => setDonutBackgroundColor(e.target.value)}
+            obj={colorOption}
+          />
         </div>
         <div>
-          <label>padding</label>
-          <input
-            size={5}
-            style={{ margin: "10px" }}
+          <TestInput
+            name={"pt"}
             value={padding.top}
-            onChange={(e) => setPadding({ ...padding, top: e.target.value })}
+            setValue={(e) => setPadding({ ...padding, top: e.target.value })}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
+          <TestInput
+            name={"pb"}
             value={padding.bottom}
-            onChange={(e) => setPadding({ ...padding, bottom: e.target.value })}
+            setValue={(e) => setPadding({ ...padding, bottom: e.target.value })}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={padding.left}
-            onChange={(e) => setPadding({ ...padding, left: e.target.value })}
-          />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
+          <TestInput
+            name={"pr"}
             value={padding.right}
-            onChange={(e) => setPadding({ ...padding, right: e.target.value })}
+            setValue={(e) => setPadding({ ...padding, right: e.target.value })}
+          />
+          <TestInput
+            name={"pl"}
+            value={padding.left}
+            setValue={(e) => setPadding({ ...padding, left: e.target.value })}
           />
         </div>
         <div>
-          <br />
-          <label style={{ color: "black" }}>startAngle</label>
-          <input
-            type={"range"}
-            min={"0"}
-            max={"360"}
-            step={"1"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"startAngle"}
             value={startAngle}
-            onChange={(e) => {
-              setStartAngle(e.target.value);
-            }}
+            setValue={(e) => setStartAngle(Number(e.target.value))}
+            min={0}
+            max={360}
+            step={1}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={startAngle}
-            onChange={(e) => {
-              setStartAngle(e.target.value);
-            }}
-          />
-          <br />
-          <label style={{ color: "black" }}>useAngle</label>
-          <input
-            type={"range"}
-            min={"0"}
-            max={"360"}
-            step={"1"}
-            style={{ margin: "10px" }}
+
+          <TestRange
+            name={"useAngle"}
             value={useAngle}
-            onChange={(e) => {
-              setUseAngle(e.target.value);
-            }}
+            setValue={(e) => setUseAngle(Number(e.target.value))}
+            min={0}
+            max={360}
+            step={1}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={useAngle}
-            onChange={(e) => {
-              setUseAngle(e.target.value);
-            }}
-          />
-          <br />
-          <label>padAngle</label>
-          <input
-            type={"range"}
-            min={"0"}
-            max={"100"}
-            step={"0.01"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"padAngle"}
             value={padAngle}
-            onChange={(e) => {
-              setPadAngle(Number(e.target.value));
-            }}
+            setValue={(e) => setPadAngle(Number(e.target.value))}
+            min={0}
+            max={100}
+            step={0.01}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={padAngle}
-            onChange={(e) => {
-              setPadAngle(Number(e.target.value));
-            }}
-          />
-          <br />
-          <label>pieRadius</label>
-          <input
-            type={"range"}
-            min="0"
-            max={"1"}
-            step={"0.01"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"pieRadius"}
             value={pieRadius}
-            onChange={(e) => {
-              setPieRadius(Number(e.target.value));
-            }}
+            setValue={(e) => setPieRadius(Number(e.target.value))}
+            min={0}
+            max={1}
+            step={0.01}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={pieRadius}
-            onChange={(e) => {
-              setPieRadius(Number(e.target.value));
-            }}
-          />
-          <br />
-          <label>innerRadius</label>
-          <input
-            type={"range"}
-            min="0"
-            max={"1"}
-            step={"0.01"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"innerRadius"}
             value={innerRadius}
-            onChange={(e) => {
-              setInnerRadius(Number(e.target.value));
-            }}
+            setValue={(e) => setInnerRadius(Number(e.target.value))}
+            min={0}
+            max={1}
+            step={0.01}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={innerRadius}
-            onChange={(e) => {
-              setInnerRadius(Number(e.target.value));
-            }}
-          />
-          <br />
-          <label>cornerRadius</label>
-          <input
-            type={"range"}
-            min="0"
-            max={"1"}
-            step={"0.01"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"cornerRadius"}
             value={cornerRadius}
-            onChange={(e) => {
-              setCornerRadius(Number(e.target.value));
-            }}
+            setValue={(e) => setCornerRadius(Number(e.target.value))}
+            min={0}
+            max={1}
+            step={0.01}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={cornerRadius}
-            onChange={(e) => {
-              setCornerRadius(Number(e.target.value));
-            }}
-          />
-          <br />
-          <label>strokeWidth</label>
-          <input
-            type={"range"}
-            min="0"
-            max={"0.1"}
-            step={"0.01"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"strokeWidth"}
             value={strokeWidth}
-            onChange={(e) => {
-              setStrokeWidth(Number(e.target.value));
-            }}
+            setValue={(e) => setStrokeWidth(Number(e.target.value))}
+            min={0}
+            max={0.1}
+            step={0.01}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={strokeWidth}
-            onChange={(e) => {
-              setStrokeWidth(Number(e.target.value));
-            }}
-          />
-          <br />
-          <label>strokeOpacity</label>
-          <input
-            type={"range"}
-            min="0"
-            max={"1"}
-            step={"0.01"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"strokeOpacity"}
             value={strokeOpacity}
-            onChange={(e) => {
-              setStrokeOpacity(Number(e.target.value));
-            }}
+            setValue={(e) => setStrokeOpacity(Number(e.target.value))}
+            min={0}
+            max={1}
+            step={0.01}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={strokeOpacity}
-            onChange={(e) => {
-              setStrokeOpacity(Number(e.target.value));
-            }}
-          />
-          <br />
-          <label>Debug</label>
-          <input
-            type={"checkbox"}
-            name={"debug"}
+          <TestCheckBox name="Debug" value={false} setValue={() => changeDebugTool()} />
+          <TestCheckBox
+            name="sortByValue"
             value={false}
-            onChange={() => {
-              changeDebugTool();
-            }}
-          />
-          <label>sortByValue</label>
-          <input
-            type={"checkbox"}
-            name={"sortByValue"}
-            value={false}
-            onChange={() => {
+            setValue={() => {
               setSortByValue(!sortByValue);
             }}
           />
         </div>
         <div>
-          <label>labelFontSize</label>
-          <input
-            type={"range"}
-            min="0"
-            max={"1"}
-            step={"0.01"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"labelFontSize"}
             value={labelFontSize}
-            onChange={(e) => {
+            setValue={(e) => {
               setLabelFontSize(Number(e.target.value));
             }}
+            min={0}
+            max={1}
+            step={0.01}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={labelFontSize}
-            onChange={(e) => {
-              setLabelFontSize(Number(e.target.value));
-            }}
-          />
-          <br />
-          <label>labelMoveX</label>
-          <input
-            type={"range"}
-            min="0"
-            max={"1"}
-            step={"0.01"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"setLabelMoveX"}
             value={labelMoveX}
-            onChange={(e) => {
+            setValue={(e) => {
               setLabelMoveX(Number(e.target.value));
             }}
+            min={-1}
+            max={1}
+            step={0.01}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={labelMoveX}
-            onChange={(e) => {
-              setLabelMoveX(Number(e.target.value));
-            }}
-          />
-          <br />
-          <label>labelMoveY</label>
-          <input
-            type={"range"}
-            min="0"
-            max={"1"}
-            step={"0.01"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"labelMoveY"}
             value={labelMoveY}
-            onChange={(e) => {
+            setValue={(e) => {
               setLabelMoveY(Number(e.target.value));
             }}
+            min={-1}
+            max={1}
+            step={0.01}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={labelMoveY}
-            onChange={(e) => {
-              setLabelMoveY(Number(e.target.value));
-            }}
-          />
-          <br />
-          <label>labelDistance</label>
-          <input
-            type={"range"}
-            min="0"
-            max={"2"}
-            step={"0.01"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"labelDistance"}
             value={labelDistance}
-            onChange={(e) => {
+            setValue={(e) => {
               setLabelDistance(Number(e.target.value));
             }}
+            min={0}
+            max={2}
+            step={0.01}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={labelDistance}
-            onChange={(e) => {
-              setLabelMoveY(Number(e.target.value));
-            }}
-          />
-          <br />
-          <label>labelSkipRatio</label>
-          <input
-            type={"range"}
-            min="0"
-            max={"1"}
-            step={"0.01"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"labelSkipRatio"}
             value={labelSkipRatio}
-            onChange={(e) => {
+            setValue={(e) => {
               setLabelSkipRatio(Number(e.target.value));
             }}
+            min={0}
+            max={1}
+            step={0.01}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={labelSkipRatio}
-            onChange={(e) => {
-              setLabelMoveY(Number(e.target.value));
-            }}
-          />
-          <br />
-          <label>labelDegrees</label>
-          <input
-            type={"range"}
-            min="1"
-            max={"360"}
-            step={"1"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"labelDegrees"}
             value={labelDegrees}
-            onChange={(e) => {
+            setValue={(e) => {
               setLabelDegrees(Number(e.target.value));
             }}
+            min={1}
+            max={360}
+            step={1}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={labelDegrees}
-            onChange={(e) => {
-              setLabelDegrees(Number(e.target.value));
-            }}
-          />
-          <br />
-          <label>labelOpacity</label>
-          <input
-            type={"range"}
-            min="0"
-            max={"1"}
-            step={"0.01"}
-            style={{ margin: "10px" }}
+          <TestRange
+            name={"labelOpacity"}
             value={labelOpacity}
-            onChange={(e) => {
+            setValue={(e) => {
               setLabelOpacity(Number(e.target.value));
             }}
+            min={0}
+            max={1}
+            step={0.01}
           />
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={labelOpacity}
-            onChange={(e) => {
-              setLabelOpacity(Number(e.target.value));
-            }}
-          />
-          <br />
-          <label>labelFontFamily</label>
-          <input
-            size={5}
-            style={{ margin: "10px" }}
+        </div>
+        <div>
+          <TestInput
+            name={"labelFontFamily"}
             value={labelFontFamily}
-            onChange={(e) => {
+            setValue={(e) => {
               setLabelFontFamily(e.target.value);
             }}
           />
-          <label>labelColor</label>
-          <input
-            size={5}
-            style={{ margin: "10px" }}
+          <TestInput
+            name={"labelColor"}
             value={labelColor}
-            onChange={(e) => {
+            setValue={(e) => {
               setLabelColor(e.target.value);
             }}
           />
-          <label>labelFontStyle</label>
-          <input
-            size={5}
-            style={{ margin: "10px" }}
+          <TestInput
+            name={"labelFontStyle"}
             value={labelFontStyle}
-            onChange={(e) => {
+            setValue={(e) => {
               setLabelFontStyle(e.target.value);
             }}
           />
-          <br />
-          <label>labelFontWeight</label>
-          <input
-            size={5}
-            style={{ margin: "10px" }}
+        </div>
+        <div>
+          <TestInput
+            name={"labelFontWeight"}
             value={labelFontWeight}
-            onChange={(e) => {
+            setValue={(e) => {
               setLabelFontWeight(e.target.value);
             }}
           />
-          <label>labelText</label>
-          <input
-            size={5}
-            style={{ margin: "10px" }}
+          <TestInput
+            name={"labelText"}
             value={labelText}
-            onChange={(e) => {
+            setValue={(e) => {
               setLabelText(e.target.value);
             }}
           />
-          <label>labelIsRotate</label>
-          <input
-            type={"checkbox"}
+          <TestCheckBox
             name={"labelIsRotate"}
             value={false}
-            onChange={() => {
+            setValue={() => {
               setLabelIsRotate(!labelIsRotate);
             }}
           />
-          <label>labelIsUse</label>
-          <input
-            type={"checkbox"}
+          <TestCheckBox
             name={"labelIsUse"}
             value={false}
-            onChange={() => {
-              setLabelIsUse(!labelIsUse);
-            }}
+            setValue={() => setLabelIsUse(!labelIsUse)}
           />
         </div>
         <button style={{ margin: "10px" }} onClick={() => setTestToggle(!testToggle)}>

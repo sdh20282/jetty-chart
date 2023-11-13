@@ -1,29 +1,20 @@
-const testRange = ({ name, value, setValue, min, max, step, isNumber }) => {
+const TestRange = ({ name, value, setValue, min, max, step }) => {
   return (
     <>
-      <label>name</label>
+      <label>{name}</label>
       <input
         type={"range"}
-        min="0"
-        max={"0.1"}
-        step={"0.01"}
+        min={min}
+        max={max}
+        step={step}
         style={{ margin: "10px" }}
         value={value}
-        onChange={(e) => {
-          setValue(isNumber ? Number(e.target.value) : e.target.value);
-        }}
+        onChange={setValue}
       />
-      <input
-        size={5}
-        style={{ margin: "10px" }}
-        value={value}
-        onChange={(e) => {
-          setValue(isNumber ? Number(e.target.value) : e.target.value);
-        }}
-      />
+      <input size={5} style={{ margin: "10px" }} value={value} onChange={setValue} />
       <br />
     </>
   );
 };
 
-export default testRange;
+export default TestRange;
