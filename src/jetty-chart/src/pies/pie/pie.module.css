@@ -1,0 +1,5 @@
+.pieContainer {
+  --animation-duration: 0s;
+  --animation-delay: 0s;
+  --animation-timing-function: linear;
+}

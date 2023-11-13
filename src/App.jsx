@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { Pie } from "./jetty-chart/src";
 // import { NormalBar } from "./jetty-chart/src";
-import { Pie } from "./jetty-chart/src/pies/Pie";
 
 const counts = [3, 4, 5, 6, 7];
 
