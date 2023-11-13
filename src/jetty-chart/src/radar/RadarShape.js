@@ -70,50 +70,6 @@ const dot = (columns, options) => (chartData, i) => {
   });
 };
 
-const shape = (columns, options) => (chartData, i) => {
-  const data = chartData.data;
-  const meta = chartData.meta || {};
-  const extraProps = options.shapeProps(meta);
-  let extraPropsSvg = {};
-  if (!meta.fill) {
-    meta.fill = meta.color;
-  }
-  if (meta.strokeWidth) {
-    extraPropsSvg.strokeWidth = meta.strokeWidth;
-  }
-  if (meta.strokeDasharray) {
-    extraPropsSvg.strokeDasharray = meta.strokeDasharray;
-  }
-  if (meta.strokeLinecap) {
-    extraPropsSvg.strokeLinecap = meta.strokeLinecap;
-  }
-    return (
-      <path
-      id={`shape-${i}`}
-      key={`shape-${i}`}
-      d={options.smoothing(
-        columns.map((col) => {
-          const val = data[col.key];
-          if ("number" !== typeof val) {
-            throw new Error(`Data set ${i} is invalid.`);
-          }
-          return [
-            polarToX(col.angle, (val * options.chartSize/options.maxValue) / 2),
-            polarToY(col.angle, (val * options.chartSize/options.maxValue) / 2),
-          ];
-        })
-        )}
-      {...extraProps}
-      {...extraPropsSvg}
-      stroke={meta.color}
-      fill={meta.fill}
-      opacity={meta.opacity}
-      className={[extraProps.className, meta.class].join(" ")}
-      />
-      );
-  
-};
-
 const scale = (options, value) => (
   <circle
     key={`circle-${value}`}
@@ -165,36 +121,41 @@ const Render = (captions, chartData, options = {}) => {
   }
 
   useEffect(() => {
-    chartData.map((d, key) => {
-      console.log(pathRef)
-      const path = PathelementsRef.current[key]
-      const originalPath = "M0.0000,0.0000L0.0000,0.0000L0.0000,0.0000L0.0000,0.0000L0.0000,0.0000z";
-      const targetPath = path.getAttribute('d')
-      let currentIteration = 0;
-      const totalIterations = 100
+    if (options.animationOn) {
+      chartData.map((d, key) => {
+        console.log(options.animationOn)
+        const path = PathelementsRef.current[key]
+        const originalPath = "M0.0000,0.0000L0.0000,0.0000L0.0000,0.0000L0.0000,0.0000L0.0000,0.0000z";
+        const targetPath = path.getAttribute('d')
+        let currentIteration = 0;
+        const totalIterations = 100
+      
+        const animatePath = () => {
+          currentIteration++;
     
-      const animatePath = () => {
-        currentIteration++;
-  
-        const newPath = originalPath.split(/[\s,MLz]+/).map((originalCoord, index) => {
-          if (originalCoord !== '') {
-            const targetCoord = targetPath.split(/[\s,MLz]+/)[index];
-            const diff = (targetCoord - originalCoord) / totalIterations;
-            const val = parseFloat(originalCoord) + diff * currentIteration;
-            return val.toFixed(4);
+          const newPath = originalPath.split(/[\s,MLz]+/).map((originalCoord, index) => {
+            if (originalCoord !== '') {
+              const targetCoord = targetPath.split(/[\s,MLz]+/)[index];
+              const diff = (targetCoord - originalCoord) / totalIterations;
+              const val = parseFloat(originalCoord) + diff * currentIteration;
+              return val.toFixed(4);
+            }
+            return null;
+          });
+    
+          path.setAttribute('d', `M${newPath[1]},${newPath[2]}L${newPath[3]},${newPath[4]}L${newPath[5]},${newPath[6]}L${newPath[7]},${newPath[8]}L${newPath[9]},${newPath[10]}z`);
+    
+          if (currentIteration < totalIterations) {
+            requestAnimationFrame(animatePath);
           }
-          return null;
-        });
+        };
+        requestAnimationFrame(animatePath);
   
-        path.setAttribute('d', `M${newPath[1]},${newPath[2]}L${newPath[3]},${newPath[4]}L${newPath[5]},${newPath[6]}L${newPath[7]},${newPath[8]}L${newPath[9]},${newPath[10]}z`);
-  
-        if (currentIteration < totalIterations) {
-          requestAnimationFrame(animatePath);
-        }
-      };
-      requestAnimationFrame(animatePath);
-
-    })
+      })
+    }
+    else {
+      
+    }
   },[chartData])
 
 

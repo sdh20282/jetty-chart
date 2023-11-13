@@ -14,18 +14,18 @@ const data = [
         data: { value1: 20, value2: 20, value3: 20, value4: 20, value5: 20 },
         meta: { color: "#81F7F3", fill: "#81F7F3", opacity: "100%" },
       },
-      // {
-      //   data: { value1: 80, value2: 60, value3: 50, value4: 70, value5: 60 },
-      //   meta: { color: "#2E2EFE", fill: '#8258FA' },
-      // },
-      // {
-      //   data: { value1: 45, value2: 60, value3: 80, value4: 65, value5: 50 },
-      //   meta: { color: "#FF0000", fill: '#8258FA' },
-      // },
-      // {
-      //   data: { value1: 65, value2: 65, value3: 20, value4: 40, value5: 50 },
-      //   meta: { color: "#DDA15E", fill: '#8258FA' },
-      // },
+      {
+        data: { value1: 80, value2: 60, value3: 50, value4: 70, value5: 60 },
+        meta: { color: "#2E2EFE", fill: '#8258FA' },
+      },
+      {
+        data: { value1: 45, value2: 60, value3: 80, value4: 65, value5: 50 },
+        meta: { color: "#FF0000", fill: '#8258FA' },
+      },
+      {
+        data: { value1: 65, value2: 65, value3: 20, value4: 40, value5: 50 },
+        meta: { color: "#DDA15E", fill: '#8258FA' },
+      },
 
 ];
 
