@@ -16,6 +16,7 @@ const PiePieceLabel = ({
   labelIsUse,
   labelSkipRatio,
   labelDegrees,
+  labelOpacity,
   label,
   value,
   ratio,
@@ -35,11 +36,12 @@ const PiePieceLabel = ({
       dominantBaseline="middle"
       transform={`rotate(${(labelIsRotate ? degrees : 0) + labelDegrees})`}
       transform-origin={`${x} ${y}`}
+      opacity={labelOpacity}
     >
       {labelIsUse &&
         labelSkipRatio < ratio &&
         (labelText === "ratio"
-          ? Math.round(ratio * 100) / 100
+          ? Math.round(ratio * 100) + "%"
           : labelText === "value"
           ? value
           : labelText === "label"

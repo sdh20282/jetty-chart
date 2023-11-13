@@ -22,6 +22,7 @@ const PieTestSetting = ({
   const [color, setColor] = useState(pieSettings.color);
   const [strokeColor, setStrokeColor] = useState(pieSettings.strokeColor);
   const [strokeWidth, setStrokeWidth] = useState(pieSettings.strokeWidth);
+  const [strokeOpacity, setStrokeOpacity] = useState(pieSettings.strokeOpacity);
   const [startAngle, setStartAngle] = useState(pieSettings.startAngle);
   const [padAngle, setPadAngle] = useState(pieSettings.padAngle);
   const [pieRadius, setPieRadius] = useState(pieSettings.pieRadius);
@@ -43,6 +44,7 @@ const PieTestSetting = ({
   const [labelSkipRatio, setLabelSkipRatio] = useState(labelSettings.labelSkipRatio);
   const [labelIsUse, setLabelIsUse] = useState(labelSettings.labelIsUse);
   const [labelDegrees, setLabelDegrees] = useState(labelSettings.labelDegrees);
+  const [labelOpacity, setLabelOpacity] = useState(labelSettings.labelOpacity);
   const colorOption = [
     { value: "transparent", name: "▨투명" },
     { value: "black", name: "⬛검정" },
@@ -74,6 +76,7 @@ const PieTestSetting = ({
       innerRadius,
       cornerRadius,
       strokeWidth,
+      strokeOpacity,
       useAngle,
       sortByValue,
     });
@@ -91,6 +94,7 @@ const PieTestSetting = ({
       labelSkipRatio,
       labelIsUse,
       labelDegrees,
+      labelOpacity,
     });
   }, [
     testToggle,
@@ -98,6 +102,7 @@ const PieTestSetting = ({
     useAngle,
     strokeWidth,
     strokeColor,
+    strokeOpacity,
     color,
     startAngle,
     padAngle,
@@ -123,6 +128,7 @@ const PieTestSetting = ({
     labelSkipRatio,
     labelIsUse,
     labelDegrees,
+    labelOpacity,
     changeNewGeneralSettings,
     changeNewPieSettings,
     changeNewLabelSettings,
@@ -361,6 +367,27 @@ const PieTestSetting = ({
             }}
           />
           <br />
+          <label>strokeOpacity</label>
+          <input
+            type={"range"}
+            min="0"
+            max={"1"}
+            step={"0.01"}
+            style={{ margin: "10px" }}
+            value={strokeOpacity}
+            onChange={(e) => {
+              setStrokeOpacity(Number(e.target.value));
+            }}
+          />
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={strokeOpacity}
+            onChange={(e) => {
+              setStrokeOpacity(Number(e.target.value));
+            }}
+          />
+          <br />
           <label>Debug</label>
           <input
             type={"checkbox"}
@@ -507,6 +534,27 @@ const PieTestSetting = ({
             }}
           />
           <br />
+          <label>labelOpacity</label>
+          <input
+            type={"range"}
+            min="0"
+            max={"1"}
+            step={"0.01"}
+            style={{ margin: "10px" }}
+            value={labelOpacity}
+            onChange={(e) => {
+              setLabelOpacity(Number(e.target.value));
+            }}
+          />
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={labelOpacity}
+            onChange={(e) => {
+              setLabelOpacity(Number(e.target.value));
+            }}
+          />
+          <br />
           <label>labelFontFamily</label>
           <input
             size={5}
@@ -544,6 +592,15 @@ const PieTestSetting = ({
               setLabelFontWeight(e.target.value);
             }}
           />
+          <label>labelText</label>
+          <input
+            size={5}
+            style={{ margin: "10px" }}
+            value={labelText}
+            onChange={(e) => {
+              setLabelText(e.target.value);
+            }}
+          />
           <label>labelIsRotate</label>
           <input
             type={"checkbox"}
@@ -560,15 +617,6 @@ const PieTestSetting = ({
             value={false}
             onChange={() => {
               setLabelIsUse(!labelIsUse);
-            }}
-          />
-          <label>labelText</label>
-          <input
-            size={5}
-            style={{ margin: "10px" }}
-            value={labelText}
-            onChange={(e) => {
-              setLabelText(e.target.value);
             }}
           />
         </div>

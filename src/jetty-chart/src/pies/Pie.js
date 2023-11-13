@@ -13,6 +13,7 @@ import {
   DEFAULT_SORT_BY_VALUE,
   DEFAULT_START_ANGLE,
   DEFAULT_STROKE_COLOR,
+  DEFAULT_STROKE_OPACITY,
   DEFAULT_STROKE_WIDTH,
   DEFAULT_USE_ANGLE,
 } from "./constants/pieSetting";
@@ -57,13 +58,14 @@ const Pie = ({
   },
   pieSettings = {
     color: DEFAULT_COLOR,
-    strokeColor: DEFAULT_STROKE_COLOR,
     pieRadius: DEFAULT_PIE_RADIUS, // 파이 반지름, default 1
     innerRadius: DEFAULT_INNER_RADIUS, // 내부원 크기, default 0
     cornerRadius: DEFAULT_CORNER_RADIUS, // 조각 둥글기, default 0
     startAngle: DEFAULT_START_ANGLE, // 시작 위치 각도, default 0
     padAngle: DEFAULT_PAD_ANGLE, // 조각 크기, default 100
+    strokeColor: DEFAULT_STROKE_COLOR,
     strokeWidth: DEFAULT_STROKE_WIDTH,
+    strokeOpacity: DEFAULT_STROKE_OPACITY,
     useAngle: DEFAULT_USE_ANGLE,
     sortByValue: DEFAULT_SORT_BY_VALUE,
   },
@@ -81,6 +83,7 @@ const Pie = ({
     labelSkipRatio: DEFAULT_LABEL_SKIP_RATIO,
     labelIsUse: DEFAULT_LABEL_IS_USE,
     labelDegrees: DEFAULT_LABEL_DEGREES,
+    labelOpacity: DEFAULT_STROKE_OPACITY,
   },
 }) => {
   // 테스트용

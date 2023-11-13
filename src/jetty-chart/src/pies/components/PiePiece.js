@@ -15,6 +15,7 @@ const PiePiece = ({
   index,
   strokeColor,
   strokeWidth,
+  strokeOpacity,
   ratio,
   value,
   labelColor,
@@ -30,6 +31,7 @@ const PiePiece = ({
   labelIsUse,
   labelSkipRatio,
   labelDegrees,
+  labelOpacity,
   label,
 }) => {
   return (
@@ -46,6 +48,7 @@ const PiePiece = ({
         color={color}
         strokeColor={strokeColor}
         strokeWidth={strokeWidth}
+        strokeOpacity={strokeOpacity}
         ratio={ratio}
         value={value}
       />
@@ -65,6 +68,7 @@ const PiePiece = ({
         labelSkipRatio={labelSkipRatio}
         labelIsUse={labelIsUse}
         labelDegrees={labelDegrees}
+        labelOpacity={labelOpacity}
         label={label}
         ratio={ratio}
         value={value}

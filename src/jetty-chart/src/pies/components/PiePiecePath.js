@@ -13,8 +13,9 @@ const PiePiecePath = ({
   calcVertexGroup,
   color,
   strokeColor,
-  isLargeArcGroup,
   strokeWidth,
+  strokeOpacity,
+  isLargeArcGroup,
 }) => {
   const innerPath = `${tangentLineGroup[2].x},${tangentLineGroup[2].y} 
   A ${cornerInnerRadius},${cornerInnerRadius},0,0,1,${calcVertexGroup[2].x},${calcVertexGroup[2].y}
@@ -39,6 +40,7 @@ const PiePiecePath = ({
         fill={color}
         stroke={strokeColor}
         strokeWidth={strokeWidth}
+        strokeOpacity={strokeOpacity}
       />
     </>
   );

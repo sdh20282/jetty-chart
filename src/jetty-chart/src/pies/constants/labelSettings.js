@@ -11,3 +11,4 @@ export const DEFAULT_LABEL_DEGREES = 0;
 export const DEFAULT_LABEL_TEXT = "label";
 export const DEFAULT_LABEL_SKIP_RATIO = 0.05;
 export const DEFAULT_LABEL_IS_USE = true;
+export const DEFAULT_LABEL_OPACITY = 1;

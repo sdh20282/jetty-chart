@@ -60,6 +60,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugTool }
           color={pieSettings.color[index % data.length]}
           strokeColor={pieSettings.strokeColor[index % data.length]}
           strokeWidth={pieSettings.strokeWidth}
+          strokeOpacity={pieSettings.strokeOpacity}
           pieRadius={piece.pieRadius}
           innerRadius={piece.innerRadius}
           cornerInnerRadius={piece.cornerInnerRadius}
@@ -84,6 +85,7 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugTool }
           labelIsUse={labelSettings.labelIsUse}
           labelSkipRatio={labelSettings.labelSkipRatio}
           labelDegrees={labelSettings.labelDegrees}
+          labelOpacity={labelSettings.labelOpacity}
           label={piece.label}
           key={index}
         />
