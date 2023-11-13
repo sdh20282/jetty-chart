@@ -1,3 +1,4 @@
-import { VerticalBar, HorizontalBar } from "./bars/bars";
+import { NormalBar, StackedBar } from "./bars/bars";
+import { NormalMap } from "./maps/maps";
 
-export { VerticalBar, HorizontalBar };
+export { NormalBar, StackedBar, NormalMap };

@@ -1,5 +1,4 @@
 import RadarChart from "./jetty-chart/src/radar/RadarChart";
-import DataCheck from "./jetty-chart/src/radar/DataCheck";
 
 const data = [
   {
@@ -10,13 +9,13 @@ const data = [
       Hit: "Hit",
       Run: "Run",
       Field: "Field",
-      Arm: "Arm"
+      Arm: "Arm",
     },
     chart: [
       // data
       {
         data: { Power: 55, Hit: 65, Run: 40, Field: 30, Arm: 60 },
-        meta: { color: "#8258FA" },
+        meta: { color: "#8258FA"},
       },
       {
         data: { Power: 55, Hit: 70, Run: 45, Field: 35, Arm: 70 },
@@ -52,13 +51,7 @@ function App() {
     <div>
 
         <div style={{margin:"25%"}}>
-          {/* <DataCheck data={data}/> */}
           <RadarChart
-            captions={data[0].captions}
-            data={data[0].chart}
-            options={data[0].options}
-            size={data[0].size}
-      
           />
         </div>
         </div>

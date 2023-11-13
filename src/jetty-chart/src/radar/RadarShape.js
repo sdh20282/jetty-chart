@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+// import './radarShape.css'
 
 const polarToX = (angle, distance) => Math.cos(angle - Math.PI / 2) * distance;
 
@@ -58,8 +59,8 @@ const dot = (columns, options) => (chartData, i) => {
     return (
       <circle
         key={`dot-${col.key}-${val}`}
-        cx={polarToX(col.angle, (val * options.chartSize/80) / 2)}
-        cy={polarToY(col.angle, (val * options.chartSize/80) / 2)}
+        cx={polarToX(col.angle, (val * options.chartSize/options.maxValue) / 2)}
+        cy={polarToY(col.angle, (val * options.chartSize/options.maxValue) / 2)}
         className={[extraProps.className, meta.class].join(" ")}
         onMouseEnter={() => mouseEnter({ key: col.key, value: val, idx: i })}
         onMouseLeave={() => mouseLeave({})}
@@ -86,8 +87,9 @@ const shape = (columns, options) => (chartData, i) => {
   if (meta.strokeLinecap) {
     extraPropsSvg.strokeLinecap = meta.strokeLinecap;
   }
-  return (
-    <path
+    return (
+      <path
+      id={`shape-${i}`}
       key={`shape-${i}`}
       d={options.smoothing(
         columns.map((col) => {
@@ -95,20 +97,21 @@ const shape = (columns, options) => (chartData, i) => {
           if ("number" !== typeof val) {
             throw new Error(`Data set ${i} is invalid.`);
           }
-
           return [
-            polarToX(col.angle, (val * options.chartSize/80) / 2),
-            polarToY(col.angle, (val * options.chartSize/80) / 2),
+            polarToX(col.angle, (val * options.chartSize/options.maxValue) / 2),
+            polarToY(col.angle, (val * options.chartSize/options.maxValue) / 2),
           ];
         })
-      )}
+        )}
       {...extraProps}
       {...extraPropsSvg}
       stroke={meta.color}
       fill={meta.fill}
+      opacity={meta.opacity}
       className={[extraProps.className, meta.class].join(" ")}
-    />
-  );
+      />
+      );
+  
 };
 
 const scale = (options, value) => (
@@ -143,7 +146,7 @@ const caption = (options) => (col) => {
   ));
 };
 
-const render = (captions, chartData, options = {}) => {
+const Render = (captions, chartData, options = {}) => {
   if ("object" !== typeof captions || Array.isArray(captions)) {
     throw new Error("caption must be an object");
   }
@@ -154,6 +157,47 @@ const render = (captions, chartData, options = {}) => {
 
   const { rotation = 0 } = options;
 
+  const PathelementsRef = useRef([])
+  const pathRef = (el) => {
+    if (el && !PathelementsRef.current.includes(el)) {
+      PathelementsRef.current.push(el)
+    }
+  }
+
+  useEffect(() => {
+    chartData.map((d, key) => {
+      console.log(pathRef)
+      const path = PathelementsRef.current[key]
+      const originalPath = "M0.0000,0.0000L0.0000,0.0000L0.0000,0.0000L0.0000,0.0000L0.0000,0.0000z";
+      const targetPath = path.getAttribute('d')
+      let currentIteration = 0;
+      const totalIterations = 100
+    
+      const animatePath = () => {
+        currentIteration++;
+  
+        const newPath = originalPath.split(/[\s,MLz]+/).map((originalCoord, index) => {
+          if (originalCoord !== '') {
+            const targetCoord = targetPath.split(/[\s,MLz]+/)[index];
+            const diff = (targetCoord - originalCoord) / totalIterations;
+            const val = parseFloat(originalCoord) + diff * currentIteration;
+            return val.toFixed(4);
+          }
+          return null;
+        });
+  
+        path.setAttribute('d', `M${newPath[1]},${newPath[2]}L${newPath[3]},${newPath[4]}L${newPath[5]},${newPath[6]}L${newPath[7]},${newPath[8]}L${newPath[9]},${newPath[10]}z`);
+  
+        if (currentIteration < totalIterations) {
+          requestAnimationFrame(animatePath);
+        }
+      };
+      requestAnimationFrame(animatePath);
+
+    })
+  },[chartData])
+
+
   const columns = Object.keys(captions).map((key, i, all) => {
     const angle = (Math.PI * 2 * i) / all.length + rotation * (Math.PI / 180);
     return {
@@ -162,8 +206,10 @@ const render = (captions, chartData, options = {}) => {
       angle: angle,
     };
   });
-  const groups = [
-    <g key={`g-groups}`}>{chartData.map(shape(columns, options))}</g>,
+
+  const groups = 
+  [
+
   ];
   if (options.captions) {
     groups.push(<g key={`poly-captions`}>{columns.map(caption(options))}</g>);
@@ -181,8 +227,56 @@ const render = (captions, chartData, options = {}) => {
     }
     groups.unshift(<g key={`poly-scales`}>{scales}</g>);
   }
+  if (chartData) {
+    chartData.map((d, key) => {
+      const data = d.data
+      const meta = d.meta || {};
+      const extraProps = options.shapeProps(meta);
+      let extraPropsSvg = {};
+      if (!meta.fill) {
+        meta.fill = meta.color;
+      }
+      if (meta.strokeWidth) {
+        extraPropsSvg.strokeWidth = meta.strokeWidth;
+      }
+      if (meta.strokeDasharray) {
+        extraPropsSvg.strokeDasharray = meta.strokeDasharray;
+      }
+      if (meta.strokeLinecap) {
+        extraPropsSvg.strokeLinecap = meta.strokeLinecap;
+      }
+      console.log(data, key)
+      groups.push(<path
+        id={`shape-${key}`}
+        key={`shape-${key}`}
+        ref={pathRef}
+        d={options.smoothing(
+          columns.map((col) => {
+            const val = data[col.key];
+            if ("number" !== typeof val) {
+              throw new Error(`Data set ${key} is invalid.`);
+            }
+            return [
+              polarToX(col.angle, (val * options.chartSize/options.maxValue) / 2),
+              polarToY(col.angle, (val * options.chartSize/options.maxValue) / 2),
+            ];
+          })
+          )}
+        {...extraProps}
+        {...extraPropsSvg}
+        stroke={meta.color}
+        fill={meta.fill}
+        opacity={meta.opacity}
+        className={[extraProps.className, meta.class].join(" ")}
+        />)
+    })
+  }
+
   const delta = (options.size / 2).toFixed(4);
   return <g transform={`translate(${delta},${delta})`}>{groups}</g>;
+
+
+  
 };
 
-export default render;
+export default Render;

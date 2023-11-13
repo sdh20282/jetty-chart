@@ -1,0 +1,46 @@
+:root {
+  --animation-duration: 0;
+  --animation-timing-function: "linear";
+  --animation-delay: "0s";
+  --translate-from: "0px";
+  --translate-to: "0px";
+}
+
+.fadeLabel {
+  opacity: 0;
+  animation: fade-label var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
+.translateLabel {
+  animation: translate-label var(--animation-duration) var(--animation-delay) var(--animation-timing-function) forwards;
+}
+
+/* @keyframes type-label {
+    0% {
+      clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    }
+  
+    100% {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+  } */
+
+@keyframes fade-label {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes translate-label {
+  0% {
+    transform: translate(var(--translate-from));
+  }
+
+  100% {
+    transform: translate(var(--translate-to));
+  }
+}

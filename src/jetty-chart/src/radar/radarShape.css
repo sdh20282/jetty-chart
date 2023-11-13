@@ -1,0 +1,20 @@
+#shape-0 {
+  stroke-dasharray: 1000; /* Total length of the path */
+  stroke-dashoffset: 1000; /* Hide the path initially */
+
+  animation: draw 3s linear forwards; /* Animation properties */
+}
+
+#shape-1 {
+  stroke-dasharray: 1000; /* Total length of the path */
+  stroke-dashoffset: 1000; /* Hide the path initially */
+
+  animation: draw 5s linear forwards; /* Animation properties */
+
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0; /* Animate the path to be completely drawn */
+  }
+}
