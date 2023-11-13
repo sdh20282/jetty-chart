@@ -1,7 +1,7 @@
 export const DrawYAxisLegend = ({
   yLegend,
   normalSettings: { totalWidth, totalHeight, horizontal },
-  legendSettings: { useLegend, legendOnLeft, legendMargin, legendSize, legendWeight, legendOpacity, legendColor, legendReverse, legendMove }
+  legendSettings: { useLegend, legendOnLeft, legendMargin, legendSize, legendWeight, legendOpacity, legendColor, legendReverse, legendMove },
 }) => {
   if (!yLegend || !useLegend) {
     return;
