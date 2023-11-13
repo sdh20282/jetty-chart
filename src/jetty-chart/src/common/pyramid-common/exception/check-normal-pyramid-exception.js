@@ -17,9 +17,8 @@ const normalBarSetting = {
     innerMargin: { top: 0, bottom: 0 },
     colorPalette: ["#669dfe", "#876697"],
     padding: 20,
-    xReverse: true,
-    yReverse: true,
-    dataDirect: false,
+    xReverse: false,
+    yReverse: false,
   },
   // 범위 세팅
   scopeSettings: {
