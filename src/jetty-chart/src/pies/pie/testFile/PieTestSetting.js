@@ -181,6 +181,14 @@ const PieTestSetting = ({
           <TestInput name={"height"} value={height} setValue={(e) => setHeight(e.target.value)} />
         </div>
         <div>
+          <TestInput name={"color"} value={color} setValue={(e) => setColor(e.target.value)} />
+          <TestInput
+            name={"strokeColor"}
+            value={strokeColor}
+            setValue={(e) => setStrokeColor(e.target.value)}
+          />
+        </div>
+        <div>
           <TestSelect
             name={"backgroundColor"}
             value={backgroundColor}

@@ -1,8 +1,6 @@
-// import PaintPie from "./PaintPie";
-import { useState } from "react";
-// import TestFile from "./testFile/TestFile";
+// import { useState } from "react";
+// import PieTestSetting from "./testFile/PieTestSetting";
 import PieSvg from "./components/PieSvg";
-import PieTestSetting from "./testFile/PieTestSetting";
 import {
   setDefaultGeneralSettings,
   setDefaultLabelSettings,
@@ -10,22 +8,36 @@ import {
 } from "./utils/setDefaultSettings";
 
 const Pie = ({ data, generalSettings, pieSettings, labelSettings, debugSettings = false }) => {
-  const [newGeneralSettings, setNewGeneralSettings] = useState({
+  const newGeneralSettings = {
     ...setDefaultGeneralSettings(),
     ...generalSettings,
-  });
-  const [newPieSettings, setNewPieSettings] = useState({
+  };
+  const newPieSettings = {
     ...setDefaultPieSettings(),
     ...pieSettings,
-  });
-  const [newLabelSettings, setNewLabelSettings] = useState({
+  };
+  const newLabelSettings = {
     ...setDefaultLabelSettings(),
     ...labelSettings,
-  });
-  const [newDebugSettings, setNewDebugSettings] = useState(debugSettings);
+  };
+  const newDebugSettings = debugSettings;
+
+  // const [newGeneralSettings, setNewGeneralSettings] = useState({
+  //   ...setDefaultGeneralSettings(),
+  //   ...generalSettings,
+  // });
+  // const [newPieSettings, setNewPieSettings] = useState({
+  //   ...setDefaultPieSettings(),
+  //   ...pieSettings,
+  // });
+  // const [newLabelSettings, setNewLabelSettings] = useState({
+  //   ...setDefaultLabelSettings(),
+  //   ...labelSettings,
+  // });
+  // const [newDebugSettings, setNewDebugSettings] = useState(debugSettings);
   return (
     <>
-      <PieTestSetting
+      {/* <PieTestSetting
         generalSettings={newGeneralSettings}
         pieSettings={newPieSettings}
         labelSettings={newLabelSettings}
@@ -34,7 +46,7 @@ const Pie = ({ data, generalSettings, pieSettings, labelSettings, debugSettings 
         changeNewPieSettings={setNewPieSettings}
         changeNewLabelSettings={setNewLabelSettings}
         changeDebugSettings={setNewDebugSettings}
-      />
+      /> */}
       <PieSvg
         data={data}
         generalSettings={newGeneralSettings}

@@ -68,7 +68,6 @@ const PieSvg = ({ data, generalSettings, pieSettings, labelSettings, debugSettin
           innerRadius={piece.innerRadius}
           cornerInnerRadius={piece.cornerInnerRadius}
           cornerOuterRadius={piece.cornerOuterRadius}
-          vertexGroup={piece.vertexGroup}
           calcVertexGroup={piece.calcVertexGroup}
           tangentLineGroup={piece.tangentLineGroup}
           isLargeArcGroup={piece.isLargeArcGroup}

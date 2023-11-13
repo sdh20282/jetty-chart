@@ -3,7 +3,6 @@ import PiePieceLabel from "./PiePieceLabel";
 import PiePiecePath from "./PiePiecePath";
 
 const PiePiece = ({
-  vertexGroup,
   cornerInnerRadius,
   cornerOuterRadius,
   calcVertexGroup,
