@@ -15,15 +15,16 @@
   transform: scale(var(--animation-scale));
 }
 
-/* @keyframes fillAnimation {
+@keyframes fillAnimation {
   from {
     fill: transparent;
   }
   to {
-    fill: conic-gradient(red 50%, transparent 0);
+    fill: conic-gradient(#ab3e5b calc(50 * 1%), #ef746f 0%);
+    /* fill: conic-gradient(red 50%, transparent 0); */
   }
 }
 
-.pie-piece__path {
+/* .pie-piece__path {
   animation: fillAnimation 2s ease-out forwards;
 } */

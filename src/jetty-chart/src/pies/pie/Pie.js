@@ -9,7 +9,7 @@ import {
   setDefaultAnimationSettings,
 } from "../../common/pie-common/utils/setDefaultSettings";
 import "./pie.css";
-import { useEffect, useRef, useState } from "react";
+// import { useEffect, useState } from "react";
 
 export const Pie = ({
   data,
@@ -60,9 +60,9 @@ export const Pie = ({
   //     intervalId = setInterval(() => {
   //       setNewPieSettings((prevSettings) => ({
   //         ...prevSettings,
-  //         useAngle: prevSettings.useAngle + 1,
+  //         useAngle: prevSettings.useAngle + 40,
   //       }));
-  //     }, 5);
+  //     }, 40);
   //   }
 
   //   console.log("RENDERING");
@@ -105,7 +105,7 @@ export const Pie = ({
         pieSettings={newPieSettings}
         labelSettings={newLabelSettings}
         debugSettings={newDebugSettings}
-        newAnimationSettings={newAnimationSettings}
+        animationSettings={newAnimationSettings}
         arcLinkLabelSettings={newArcLinkLabelSettings}
       />
     </>

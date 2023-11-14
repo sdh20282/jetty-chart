@@ -13,7 +13,7 @@ const PieSvg = ({
   pieSettings,
   labelSettings,
   arcLinkLabelSettings,
-  newAnimationSettings,
+  animationSettings,
   // debugSettings,
 }) => {
   setExceptionValue({ pieSettings, length: data.length });
@@ -36,6 +36,7 @@ const PieSvg = ({
     arcLinkLabelStartLine: arcLinkLabelSettings.arcLinkLabelStartLine,
     arcLinkLabelEndLine: arcLinkLabelSettings.arcLinkLabelEndLine,
   });
+
   return (
     <svg
       id="pie"
@@ -119,39 +120,17 @@ const PieSvg = ({
           labelSkipRatio={labelSettings.labelSkipRatio}
           labelDegrees={labelSettings.labelDegrees}
           labelOpacity={labelSettings.labelOpacity}
-          animationOn={newAnimationSettings.animationOn}
-          animationDuration={newAnimationSettings.animationDuration}
-          animationDelay={newAnimationSettings.animationDelay}
-          animationTiming={newAnimationSettings.animationTiming}
-          animationScale={newAnimationSettings.animationScale}
+          animationOn={animationSettings.animationOn}
+          animationDuration={animationSettings.animationDuration}
+          animationDelay={animationSettings.animationDelay}
+          animationTiming={animationSettings.animationTiming}
+          animationScale={animationSettings.animationScale}
           label={piece.label}
           ratio={piece.ratio}
           value={piece.value}
           key={index}
         />
       ))}
-      {/* {pieceData.map((piece, index) => (
-        <PieDebugMode
-          debugSettings={debugSettings.debugTool}
-          pieRadius={piece.pieRadius}
-          innerRadius={pieSettings.innerRadius}
-          cornerOuterRadius={piece.cornerOuterRadius}
-          cornerInnerRadius={piece.cornerInnerRadius}
-          accumulatedAngle={piece.accumulatedAngle}
-          ratio={piece.ratio}
-          vertexGroup={piece.vertexGroup}
-          calcVertexGroup={piece.calcVertexGroup}
-          tangentLineGroup={piece.tangentLineGroup}
-          cornerCircleGroup={piece.cornerCircleGroup}
-          startAngle={pieSettings.startAngle}
-          referenceCoordinate={piece.referenceCoordinate}
-          candidatesGroup={piece.candidatesGroup}
-          labelLocation={piece.labelLocation}
-          labelMoveX={labelSettings.labelMoveX}
-          labelMoveY={labelSettings.labelMoveY}
-          key={index}
-        />
-      ))} */}
     </svg>
   );
 };
