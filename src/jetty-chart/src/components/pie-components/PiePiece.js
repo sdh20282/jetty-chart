@@ -49,7 +49,7 @@ const PiePiece = ({
   value,
 }) => {
   return (
-    <>
+    <g className={"pie-piece"}>
       <PiePiecePath
         pieRadius={pieRadius}
         cornerInnerRadius={cornerInnerRadius}
@@ -104,7 +104,7 @@ const PiePiece = ({
         label={label}
         ratio={ratio}
       />
-    </>
+    </g>
   );
 };
 

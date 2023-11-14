@@ -42,6 +42,7 @@ const PieSvg = ({
       width={generalSettings.width - generalSettings.paddingLeft - generalSettings.paddingRight}
       height={generalSettings.height - generalSettings.paddingTop - generalSettings.paddingBottom}
       viewBox="-2 -2 4 4"
+      className="pie"
       style={{
         backgroundColor: generalSettings.backgroundColor,
         padding:

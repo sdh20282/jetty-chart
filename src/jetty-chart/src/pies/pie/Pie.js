@@ -7,6 +7,7 @@ import {
   setDefaultPieSettings,
   setDefaultArcLinkLabelSettings,
 } from "../../common/pie-common/utils/setDefaultSettings";
+import "./pie.css";
 
 export const Pie = ({
   data,
