@@ -13,6 +13,8 @@ const LabelValueCommon = ({
   xLegend,
   yLegend,
   normalSettings: {
+    outHeight,
+    outWidth,
     width,
     height,
     backgroundColor,
@@ -48,9 +50,11 @@ const LabelValueCommon = ({
   }
 
   innerMargin ??= { top: 0, bottom: 0 };
+  outWidth ??= width;
+  outHeight ??= height;
 
   return (
-    <div style={{ width: `${width}px`, height: `${height}px`, border: "1px solid #ccc" }}>
+    <div style={{ width: `${outWidth}px`, height: `${outHeight}px` }}>
       <svg viewBox={`0 0 ${width} ${height}`}>
         <rect width="100%" height="100%" fill={backgroundColor}></rect>
         <g transform={`translate(${margin.left},${margin.top})`}>

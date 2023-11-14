@@ -25,7 +25,7 @@ const normalMapSetting = {
     gagueBarWidth: 0,
     gagueBarHeight: 100,
     gagueValueFontSize: 40,
-    gagueValueFontFamily:"inter",
+    gagueValueFontFamily:"",
     gagueValueFontWeight:"bold",
     valueLavel: "",
   },
@@ -46,7 +46,7 @@ const normalMapSetting = {
     descriptionColor: "black",
     descriptionFontSize: 30,
     descriptionFontWeight: "bold",
-    descriptionFontFamily : "inter",
+    descriptionFontFamily : "",
     tooltipOpacity: 1,
     useTooltipCol:true,
     useTooltipChart:false,
@@ -61,7 +61,7 @@ const normalMapSetting = {
     innerChartTitleFontWeight:"bold",
   },
   tooltipChartSetting:{
-    tooltipChartnormalSettings: { width: 540, height: 470, margin:{top:70,bottom:70,left:110,right:60} },
+    tooltipChartnormalSettings: { width: 540, height: 470, margin:{top:70,bottom:70,left:120,right:80} },
     tooltipChartbarSettings: { labelSize: 25, labelWeight: "bold", useLabel: true },
     tooltipChartbottomLabelSettings: { labelSize: 20, labelWeight:"bold" },
     tooltipChartleftLabelSettings:{labelSize:20,sideLineSize:10,useLabel:true,labelWeight:"bold"},
@@ -91,7 +91,7 @@ export const checkMapChart = ({normalSetting, gagueBarSetting, tooltipSetting,in
   result.normalSetting.marginRight = Checkedmargin.marginRight
   result.normalSetting.marginBottom = Checkedmargin.marginBottom
   result.normalSetting.marginLeft = Checkedmargin.marginLeft
-  result.divide = CheckedDivide
+  result.normalSetting.divide = CheckedDivide
   result.gagueBarSetting.gagueBarWidth = CheckedGagueBar.gagueBarWidth
   result.gagueBarSetting.gagueBarHeight = CheckedGagueBar.gagueBarHeight
   result.gagueBarSetting.gagueValueFontSize = CheckedGagueBar.gagueValueFontSize

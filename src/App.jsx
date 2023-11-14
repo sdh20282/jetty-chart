@@ -122,7 +122,7 @@ const data = [
 ];
 
 const chartData = [
-  { id: "daegu", innerChartName: "대구광역시", chartData: [{ label: "달서구", value: 300 }, { label: "중구", value: 300 }, { label: "중구", value: 300 }, { label: "중구", value: 100 }, { label: "중구", value: 100 }] },
+  { id: "daegu", innerChartName: "대구광역시", chartData: [] },
   { id: "jeju", innerChartName: "제주특별자치도", chartData: [{ label: "서귀포", value: 200 }, { label: "제주시", value: 300 }, { label: "중구", value: 100 }, { label: "중구", value: 100 }] },
   { id: "sejong", innerChartName: "세종특별자치시", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
   { id: "kyeongbook", innerChartName: "경상북도", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
@@ -143,11 +143,10 @@ const chartData = [
 function App() {
   return (
     <div>
-      <NormalMap data={data} normalSetting={{ zoomMagnification: 2.5, width: 500, useChart: true, usePercentageColor: true}}
-        tooltipSetting={{ useFollowColor: false,useTooltipChart:false }}
+      <NormalMap data={data} normalSetting={{ zoomMagnification: 2.5, width: 500, useChart: false, usePercentageColor: true}}
+        tooltipSetting={{ useFollowColor: false,useTooltipChart:true }}
         chartData={chartData}
         tooltipChartData={chartData}
-        innerChartSetting={{innerChartText:"ㅎㅎ"}}
         />
     </div>
   );

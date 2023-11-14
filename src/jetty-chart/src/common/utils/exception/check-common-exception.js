@@ -14,6 +14,7 @@ export const checkBarBorderRadius = ({ halfWidth, height, borderRadius }) => {
   return borderRadius;
 };
 
+
 export const checkSize = ({ width, height, margin, padding }) => {
   if (width < 30) {
     width = 30;

@@ -4,7 +4,7 @@ import { checkMapChart } from "../../common/map-common/exception/check-normal-ma
 import { NormalBar } from "../../bars/bars";
 
 /* eslint-disable complexity */
-const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSetting, tooltipSetting, innerChartSetting,tooltipChartSetting }) => {
+const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarSetting, tooltipSetting, innerChartSetting, tooltipChartSetting }) => {
   const result = checkMapChart({
     normalSetting,
     gagueBarSetting,
@@ -89,7 +89,7 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
     innerChartTitleFontSize,
     innerChartTitleFontWeight,
   } = result.innerChartSetting;
-  const{
+  const {
     tooltipChartkeys,
     tooltipChartxLegend,
     tooltipChartyLegend,
@@ -112,8 +112,7 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
     tooltipChartLineSettings,
     tooltipChartChartTitleFontSize,
     tooltipChartChartTitleFontWeight,
-    
-  } =result.tooltipChartSetting;
+  } = result.tooltipChartSetting;
 
   const colorPallette = [
     ["#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6"],
@@ -136,9 +135,6 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
     ["#FEC5BB", "#FCD5CE", "#FAE1DD", "#F8EDEB", "#E8E8E4", "#D8E2DC", "#ECE4DB", "#FFE5D9", "#FFD7BA", "#FEC89A"],
     ["#03071E", "#370617", "#6A040F", "#9D0208", "#D00000", "#DC2F02", "#E85D04", "#F48C06", "#FAA307", "#FFBA08"],
   ];
-  
-    
-  
 
   // 컬러코드 0: 파랑 , 1: 오렌지, 2: 레드, 3: 블루그레이, 4: 그린
   const color = colorPallette[colorCode];
@@ -212,11 +208,11 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
 
   const citycolor = data.map((city) => {
     const percentage = (city.value / max) * 100;
-    
+
     // eslint-disable-next-line no-prototype-builtins
-    if (!city.hasOwnProperty('colorCode')) {
+    if (!city.hasOwnProperty("colorCode")) {
       city.colorCode = 0; // 또는 적절한 초기값
-  }
+    }
     if (divide === 5) {
       if (percentage.toFixed(0) >= 20) {
         city.colorCode = 1;
@@ -276,22 +272,19 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
   const [tooltipValue, setTooltipValue] = useState("");
   const [scale, setScale] = useState(1);
   const [firstX, setFirstX] = useState();
-  const [firstY,setFirstY] = useState();
-  const [firstH,setFirstHeight] = useState();
+  const [firstY, setFirstY] = useState();
+  const [firstH, setFirstHeight] = useState();
   const [targetColor, setTargetColor] = useState("");
   const [chartOn, setChartOn] = useState(false);
   const [chartDataSetting, setChartDataSetting] = useState();
   const [innerChartName, setInnerChartName] = useState("");
-  const [tooltipChartCheck,setTooltipChartCheck] = useState();
-
+  const [tooltipChartCheck, setTooltipChartCheck] = useState();
 
   let ToolW = tooltipWidth / scale;
   let ToolH = 1064 / scale;
   let cityFontS = cityNameFontSize / scale;
   let cityValueFontS = cityValueFontSize / scale;
   let decripFontS = descriptionFontSize / scale;
-  
-
 
   const svgRef = useRef(null);
   const mapRef = useRef(null);
@@ -316,27 +309,25 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
   }
 
   function pathEvent(e) {
-    if(useTooltipChart){
-  /// 툴팁 차트 데이터 세팅
-  const chartValue = tooltipChartData.filter((data) => {
-    return data.id === e.target.id;
-  });
-  if(tooltipChartCheck == chartValue){
-    return
-  }else{
-    if (chartValue.length > 0) {
-      let chartDataValue = chartValue[0].chartData;
+    if (useTooltipChart) {
+      /// 툴팁 차트 데이터 세팅
+      const chartValue = tooltipChartData.filter((data) => {
+        return data.id === e.target.id;
+      });
+      if (tooltipChartCheck == chartValue) {
+        return;
+      } else {
+        if (chartValue.length > 0) {
+          let chartDataValue = chartValue[0].chartData;
 
-      setTooltipChartCheck(chartDataValue);
+          setTooltipChartCheck(chartDataValue);
+        }
+        if (chartValue.length == 0) {
+          setTooltipChartCheck(0)
+        }
+      }
+      /// 툴팁 차트 데이터 세팅
     }
-    if (chartValue == []) {
-      return;
-    }
-  }
-      
-  /// 툴팁 차트 데이터 세팅
-    }
-  
 
     const pathId = e.target.id;
     const value = citycolor.filter((city) => {
@@ -378,7 +369,7 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
     const mySVG = svgRef.current;
     setFirstX(mySVG.getBoundingClientRect().x);
     setFirstY(mySVG.getBoundingClientRect().y);
-    setFirstHeight(mySVG.getBoundingClientRect().height)
+    setFirstHeight(mySVG.getBoundingClientRect().height);
     const mapSvg = PathelementsRef;
     const outMap = mapRef;
 
@@ -423,7 +414,6 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
         tooltipObject.style.transform = `translate(${xLeft}px,${yBottom}px)`;
       }
     } else {
-
       if (e.clientX < firstX + width / 2 && e.clientY < firstY + firstH / 2) {
         tooltipObject.style.transform = `translate(${xRight}px,${yTop}px)`;
       }
@@ -435,12 +425,14 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
         tooltipObject.style.transform = `translate(${xLeft}px,${yTop}px)`;
       }
 
-      if (e.clientX > firstX + width / 2 && e.clientY > firstY + firstH  / 2) {
+      if (e.clientX > firstX + width / 2 && e.clientY > firstY + firstH / 2) {
         tooltipObject.style.transform = `translate(${xLeft}px,${yBottom}px)`;
       }
     }
     // 위치조정
   }
+
+  tooltipChartnormalSettings;
 
   useEffect(() => {
     if (!svgRef.current) {
@@ -573,22 +565,23 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
         const mapSvg = PathelementsRef;
         const outMap = mapRef;
         setTooltipOn(false);
-
+        
         const chartValue = chartData.filter((data) => {
           return data.id === e.target.id;
         });
-
+        
         if (e.target.id != "BigSvg") {
-          
           if (chartValue.length > 0) {
             let chartDataValue = chartValue[0].chartData;
             setChartDataSetting(chartDataValue);
             setInnerChartName(chartValue[0].innerChartName);
           }
-          if (chartValue == []) {
+          if (chartValue.id) {
+            setChartOn(false)
+            setChartDataSetting(0)
             return;
           }
-
+ 
           setChartOn(true);
           onZoom = true;
           mapSvg.current.forEach((path) => {
@@ -596,6 +589,7 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
           });
           outMap.current.removeEventListener("mouseout", pathOut);
         } else {
+          
           setChartOn(false);
           onZoom = false;
           setChartDataSetting(0);
@@ -607,7 +601,7 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
 
           outMap.current.addEventListener("mouseout", pathOut);
         }
-
+        
         let newScale = onZoom ? 0.4 : 1;
         let targetViewBox = onZoom ? `${-1680} ${-1590} ${2620} ${2650}` : "0 0 1048 1064";
         animateViewBox(targetViewBox, 350); // << 여기서 두번째 숫자가 duration 애니메이션 지연시간
@@ -624,7 +618,79 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
       };
     }
   }, [zoomMagnification, zoomOn]);
-  
+
+  let tooltipChartnormalSetting = {
+    ...tooltipChartnormalSettings,
+    outWidth: tooltipChartnormalSettings.width / scale,
+    outHeight: tooltipChartnormalSettings.height / scale,
+  };
+
+
+
+
+// ///마우스 드래그 
+//   useEffect(() => {
+    
+//     let svg = svgRef.current;
+//     if (!svg) return;
+
+//     let isDragging = false;
+//     let startX, startY;
+//     let dragThreshold = 10;
+
+//     function dragDown(e) {
+//         if (scale != 1 && !useChart) {
+//             isDragging = false;
+//             startX = e.clientX;
+//             startY = e.clientY;
+//         }
+//     }
+
+//     function dragMove(e) {
+//         if (scale != 1 && !useChart) {
+//             if (!isDragging) {
+//                 let dx = e.clientX - startX;
+//                 let dy = e.clientY - startY;
+//                 if (Math.sqrt(dx * dx + dy * dy) > dragThreshold) {
+//                     isDragging = true;
+//                 }
+//             }
+
+//             if (isDragging) {
+//               setTooltipOn(false)
+//                 let dx = (e.clientX - startX) * 0.5;
+//                 let dy = (e.clientY - startY) * 0.5;
+//                 let viewBox = svg.viewBox.baseVal;
+
+//                 viewBox.x -= dx;
+//                 viewBox.y -= dy;
+
+//                 startX = e.clientX;
+//                 startY = e.clientY;
+//             }
+//         }
+//     }
+
+//     function dragEnd(e) {
+//       if (isDragging) {
+//           e.stopPropagation(); // 드래그가 발생했으므로 클릭 이벤트 버블링 방지
+//           isDragging = false;
+//           setTooltipOn(true)
+//       }
+//   }
+
+//     svg.addEventListener('mousedown', dragDown);
+//     document.addEventListener('mousemove', dragMove);
+//     document.addEventListener('mouseup', dragEnd);
+
+//     // 클린업 함수
+//     return () => {
+//         svg.removeEventListener('mousedown', dragDown);
+//         document.removeEventListener('mousemove', dragMove);
+//         document.removeEventListener('mouseup', dragEnd);
+//     };
+// }, [scale, useChart]);
+
 
 
   return (
@@ -882,131 +948,128 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
           )}
         </g>
         <g ref={tooltipRef} id="tooltipBox">
-          {useTooltipChart && scale!=1 ? 
-           <foreignObject id="foreingObject" x="0" y="0" width={545/scale} height={ToolH}>
-          <div
-          ref={tooltipDiv}
-          className="tooltipDiv"
-          xmlns="http://www.w3.org/1999/xhtml"
-          style={
-            tooltipOn
-              ? {
-                  opacity: tooltipOpacity,
-                  maxWidth: `${545/scale}px`,
-                  // height: "100%",
-                  minHeight: `${150 / scale}px`,
-                  maxHeight: `${545/scale}px`,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  backgroundColor: useFollowColor ? targetColor : tooltipBackGroundColor,
-                  borderRadius: `${tooltipBorderRadius}px`,
-                  border: `${tooltipBorder}`,
-                  boxShadow: `${tooltipBoxShadow}`,
-                  margin: "10%",
-                  overflow: "hidden",
+          {useTooltipChart && scale != 1 ? (
+            <foreignObject id="foreingObject" x="0" y="0" width={545 / scale} height={ToolH}>
+              <div
+                ref={tooltipDiv}
+                className="tooltipDiv"
+                xmlns="http://www.w3.org/1999/xhtml"
+                style={
+                  tooltipOn
+                    ? {
+                        opacity: tooltipOpacity,
+                        maxWidth: `${545 / scale}px`,
+                        // height: "100%",
+                        minHeight: `${150 / scale}px`,
+                        maxHeight: `${545 / scale}px`,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: useFollowColor ? targetColor : tooltipBackGroundColor,
+                        borderRadius: `${tooltipBorderRadius}px`,
+                        border: `${tooltipBorder}`,
+                        boxShadow: `${tooltipBoxShadow}`,
+                        margin: "10%",
+                        overflow: "hidden",
+                      }
+                    : { visibility: "hidden" }
                 }
-              : { visibility: "hidden" }
-          }
-        >
-          <p style={{margin:0,marginTop:"9px",marginBottom:"8px",fontSize:"14px",fontWeight:"600",color:"gray"}}>{tooltipCity}</p>
-          <NormalBar
-              data={tooltipChartCheck}
-              normalSettings={tooltipChartnormalSettings}
-              barSettings={tooltipChartbarSettings}
-              keys={tooltipChartkeys}
-              xLegend={tooltipChartxLegend}
-              yLegend={tooltipChartyLegend}
-              scopeSettings={tooltipChartscopeSettings}
-              axisXGridLineSettings={tooltipChartaxisXGridLineSettings}
-              axisYGridLineSettings={tooltipChartaxisYGridLineSettings}
-              leftLabelSettings={tooltipChartleftLabelSettings}
-              rightLabelSettings={tooltipChartrightLabelSettings}
-              bottomLabelSettings={tooltipChartbottomLabelSettings}
-              topLabelSettings={tooltipCharttopLabelSettings}
-              leftLegendSettings={tooltipChartleftLegendSettings}
-              rightLegendSettings={tooltipChartrightLegendSettings}
-              bottomLegendSettings={tooltipChartbottomLegendSettings}
-              topLegendSettings={tooltipCharttopLegendSettings}
-              legendSettings={tooltipChartlegendSettings}
-              animationSettings={tooltipChartanimationSettings}
-            />
-        </div> 
-        </foreignObject>
-        
-          : 
-          
-        <foreignObject id="foreingObject" x="0" y="0" width={ToolW} height={ToolH}>
-          
-          <div
-            ref={tooltipDiv}
-            className="tooltipDiv"
-            xmlns="http://www.w3.org/1999/xhtml"
-            style={
-              tooltipOn
-                ? {
-                    opacity: tooltipOpacity,
-                    maxWidth: `${ToolW}px`,
-                    // height: "100%", 
-                    minHeight: `${150 / scale}px`,
-                    maxHeight: `${ToolH}px`,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: useFollowColor ? targetColor : tooltipBackGroundColor,
-                    borderRadius: `${tooltipBorderRadius}px`,
-                    border: `${tooltipBorder}`,
-                    boxShadow: `${tooltipBoxShadow}`,
-                    margin: "10%",
-                    overflow: "hidden",
-                  }
-                : { visibility: "hidden" }
-            }
-          >
-            <p
-              style={{
-                margin: "0px",
-                marginTop: "5px",
-                marginBottom: "5px",
-                color: `${cityNameColor}`,
-                fontSize: `${cityFontS}px`,
-                fontWeight: `${cityNameFontWeight}`,
-                textAlign: "center",
-              }}
-            >
-              {tooltipCity} {useTooltipCol ? ":" : ""}{" "}
-              <span style={{ color: `${cityValueColor}`, fontSize: `${cityValueFontS}px`, fontWeight: `${cityValueFontWeight}` }}>
-                {tooltipValue}
-              </span>
-            </p>
-            {tooltipDescription ? (
-              <p
-                style={{
-                  margin: "0",
-                  textAlign: "center",
-                  marginBottom: "5%",
-                  marginTop: "2%",
-                  marginRight: "10%",
-                  marginLeft: "10%",
-                  fontFamily: `${descriptionFontFamily}`,
-                  color: `${descriptionColor}`,
-                  fontSize: `${decripFontS}px`,
-                  fontWeight: `${descriptionFontWeight}`,
-                  maxHeight: "50%",
-                  overflow: "hidden",
-                }}
               >
-                {tooltipDescription}
-              </p>
-            ) : (
-              ""
-            )}
-          </div>
-        </foreignObject>
-          }
-          
+                <p style={{ margin: 0, marginTop: "9px", marginBottom: "2px", fontSize: "14px", fontWeight: "600", color: "gray" }}>{tooltipCity}</p>
+                {tooltipChartCheck!=0 ? <NormalBar
+                  data={tooltipChartCheck}
+                  normalSettings={tooltipChartnormalSetting}
+                  barSettings={tooltipChartbarSettings}
+                  keys={tooltipChartkeys}
+                  xLegend={tooltipChartxLegend}
+                  yLegend={tooltipChartyLegend}
+                  scopeSettings={tooltipChartscopeSettings}
+                  axisXGridLineSettings={tooltipChartaxisXGridLineSettings}
+                  axisYGridLineSettings={tooltipChartaxisYGridLineSettings}
+                  leftLabelSettings={tooltipChartleftLabelSettings}
+                  rightLabelSettings={tooltipChartrightLabelSettings}
+                  bottomLabelSettings={tooltipChartbottomLabelSettings}
+                  topLabelSettings={tooltipCharttopLabelSettings}
+                  leftLegendSettings={tooltipChartleftLegendSettings}
+                  rightLegendSettings={tooltipChartrightLegendSettings}
+                  bottomLegendSettings={tooltipChartbottomLegendSettings}
+                  topLegendSettings={tooltipCharttopLegendSettings}
+                  legendSettings={tooltipChartlegendSettings}
+                  animationSettings={tooltipChartanimationSettings}
+                /> : <><p style={{fontSize: "14px", fontWeight: "600", color: "gray"}}>차트데이터가 없습니다.</p></>}
+                
+              </div>
+            </foreignObject>
+          ) : (
+            <foreignObject id="foreingObject" x="0" y="0" width={ToolW} height={ToolH}>
+              <div
+                ref={tooltipDiv}
+                className="tooltipDiv"
+                xmlns="http://www.w3.org/1999/xhtml"
+                style={
+                  tooltipOn
+                    ? {
+                        opacity: tooltipOpacity,
+                        maxWidth: `${ToolW}px`,
+                        // height: "100%",
+                        minHeight: `${150 / scale}px`,
+                        maxHeight: `${ToolH}px`,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: useFollowColor ? targetColor : tooltipBackGroundColor,
+                        borderRadius: `${tooltipBorderRadius}px`,
+                        border: `${tooltipBorder}`,
+                        boxShadow: `${tooltipBoxShadow}`,
+                        margin: "10%",
+                        overflow: "hidden",
+                      }
+                    : { visibility: "hidden" }
+                }
+              >
+                <p
+                  style={{
+                    margin: "0px",
+                    marginTop: "5px",
+                    marginBottom: "5px",
+                    color: `${cityNameColor}`,
+                    fontSize: `${cityFontS}px`,
+                    fontWeight: `${cityNameFontWeight}`,
+                    textAlign: "center",
+                  }}
+                >
+                  {tooltipCity} {useTooltipCol ? ":" : ""}{" "}
+                  <span style={{ color: `${cityValueColor}`, fontSize: `${cityValueFontS}px`, fontWeight: `${cityValueFontWeight}` }}>
+                    {tooltipValue}
+                  </span>
+                </p>
+                {tooltipDescription ? (
+                  <p
+                    style={{
+                      margin: "0",
+                      textAlign: "center",
+                      marginBottom: "5%",
+                      marginTop: "2%",
+                      marginRight: "10%",
+                      marginLeft: "10%",
+                      fontFamily: `${descriptionFontFamily}`,
+                      color: `${descriptionColor}`,
+                      fontSize: `${decripFontS}px`,
+                      fontWeight: `${descriptionFontWeight}`,
+                      maxHeight: "50%",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {tooltipDescription}
+                  </p>
+                ) : (
+                  ""
+                )}
+              </div>
+            </foreignObject>
+          )}
         </g>
         {useValueLavel && scale === 1 ? (
           <text fontFamily={gagueValueFontFamily} fontWeight={gagueValueFontWeight} x="1048" y="1060" fill="black" fontSize="30px" textAnchor="end">
@@ -1017,13 +1080,12 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
         )}
         {chartOn && scale == 0.4 && chartDataSetting ? (
           <>
-            <foreignObject x="-1360" y="-1440" width={innernormalSettings.width + 300} height={innernormalSettings.height + 300} >
-              
+            <foreignObject x="-1360" y="-1440" width={innernormalSettings.width + 300} height={innernormalSettings.height + 300}>
               <div
                 style={{
                   backgroundColor: "white",
                   width: "100%",
-                  height:"100%",
+                  height: "100%",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
@@ -1031,8 +1093,14 @@ const NormalMap = ({ data, chartData,tooltipChartData, normalSetting, gagueBarSe
                   borderRadius: "10px",
                 }}
               >
-                <p style={{ fontSize: `${innerChartTitleFontSize}px`, margin: "0", marginBottom: "50px", fontWeight:`${innerChartTitleFontWeight}`}}>
-                {innerChartName} {innerChartText}
+                <p
+                  style={{ fontSize: `${innerChartTitleFontSize}px`, margin: "0", marginBottom: "50px", fontWeight: `${innerChartTitleFontWeight}` }}
+                >
+                  {chartDataSetting!=0 ? 
+                  <>
+                  {innerChartName} {innerChartText}</>
+                   : "차트 데이터가 없습니다."}
+                  
                 </p>
                 <NormalBar
                   data={chartDataSetting}
