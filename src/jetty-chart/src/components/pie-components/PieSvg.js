@@ -13,6 +13,7 @@ const PieSvg = ({
   pieSettings,
   labelSettings,
   arcLinkLabelSettings,
+  newAnimationSettings,
   // debugSettings,
 }) => {
   setExceptionValue({ pieSettings, length: data.length });
@@ -111,6 +112,11 @@ const PieSvg = ({
           labelSkipRatio={labelSettings.labelSkipRatio}
           labelDegrees={labelSettings.labelDegrees}
           labelOpacity={labelSettings.labelOpacity}
+          animationOn={newAnimationSettings.animationOn}
+          animationDuration={newAnimationSettings.animationDuration}
+          animationDelay={newAnimationSettings.animationDelay}
+          animationTiming={newAnimationSettings.animationTiming}
+          animationScale={newAnimationSettings.animationScale}
           label={piece.label}
           ratio={piece.ratio}
           value={piece.value}

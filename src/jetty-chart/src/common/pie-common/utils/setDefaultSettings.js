@@ -59,6 +59,13 @@ import {
   DEFAULT_ARC_LINK_LABEL_LINE_OPACITY,
   DEFAULT_ARC_LINK_LABEL_TEXT_OPACITY,
 } from "../constants/arcLinkLabelSettings";
+import {
+  DEFAULT_ANIMATION_DELAY,
+  DEFAULT_ANIMATION_DURATION,
+  DEFAULT_ANIMATION_ON,
+  DEFAULT_ANIMATION_SCALE,
+  DEFAULT_ANIMATION_TIMING,
+} from "../constants/animationSettings";
 
 export const setDefaultGeneralSettings = () => {
   return {
@@ -131,5 +138,15 @@ export const setDefaultArcLinkLabelSettings = () => {
     arcLinkLabelIsUse: DEFAULT_ARC_LINK_LABEL_IS_USE,
     arcLinkLabelLineOpacity: DEFAULT_ARC_LINK_LABEL_LINE_OPACITY,
     arcLinkLabelTextOpacity: DEFAULT_ARC_LINK_LABEL_TEXT_OPACITY,
+  };
+};
+
+export const setDefaultAnimationSettings = () => {
+  return {
+    animationOn: DEFAULT_ANIMATION_ON,
+    animationDuration: DEFAULT_ANIMATION_DURATION,
+    animationDelay: DEFAULT_ANIMATION_DELAY,
+    animationTiming: DEFAULT_ANIMATION_TIMING,
+    animationScale: DEFAULT_ANIMATION_SCALE,
   };
 };

@@ -44,12 +44,25 @@ const PiePiece = ({
   labelSkipRatio,
   labelDegrees,
   labelOpacity,
+  animationOn,
+  animationDuration,
+  animationDelay,
+  animationTiming,
+  animationScale,
   label,
   ratio,
   value,
 }) => {
   return (
-    <g className={"pie-piece"}>
+    <g
+      className={"pie-piece"}
+      style={{
+        "--animation-duration": animationDuration + "s",
+        "--animation-delay": animationDelay + "s",
+        "--animation-timing-function": animationTiming,
+        "--animation-scale": animationScale,
+      }}
+    >
       <PiePiecePath
         pieRadius={pieRadius}
         cornerInnerRadius={cornerInnerRadius}

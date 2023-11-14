@@ -1,9 +1,9 @@
 .pie {
-  --pie-piece__color: transparent;
-  --percent: 50%;
-  --animation-duration: 0.3s;
+  --animation-duration: 0s;
   --animation-delay: 0s;
   --animation-timing-function: linear;
+  --animation-scale: 0;
+  --pie-piece-color: red;
 }
 
 .pie-piece {
@@ -12,7 +12,7 @@
 }
 
 .pie-piece:hover {
-  transform: scale(1.1);
+  transform: scale(var(--animation-scale));
 }
 
 @keyframes fillAnimation {
@@ -26,13 +26,4 @@
 
 .pie-piece__path {
   animation: fillAnimation 2s ease-out forwards;
-}
-
-@keyframes pie-piece-fill {
-  from {
-    fill: conic-gradient(var(--pie-piece__color) 0%, transparent 0);
-  }
-  to {
-    fill: conic-gradient(var(--pie-piece__color) 50%, transparent 0);
-  }
 }
