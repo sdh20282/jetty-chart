@@ -36,7 +36,6 @@ const PieSvg = ({
     arcLinkLabelStartLine: arcLinkLabelSettings.arcLinkLabelStartLine,
     arcLinkLabelEndLine: arcLinkLabelSettings.arcLinkLabelEndLine,
   });
-
   return (
     <svg
       id="pie"
@@ -71,8 +70,8 @@ const PieSvg = ({
       />
       {pieceData.map((piece, index) => (
         <PiePiece
-          color={pieSettings.color[index % data.length]}
-          strokeColor={pieSettings.strokeColor[index % data.length]}
+          color={pieSettings.color[index % pieSettings.color.length]}
+          strokeColor={pieSettings.strokeColor[index % pieSettings.strokeColor.length]}
           strokeWidth={pieSettings.strokeWidth}
           strokeOpacity={pieSettings.strokeOpacity}
           pieceOpacity={generalSettings.pieceOpacity}
@@ -83,8 +82,16 @@ const PieSvg = ({
           calcVertexGroup={piece.calcVertexGroup}
           tangentLineGroup={piece.tangentLineGroup}
           isLargeArcGroup={piece.isLargeArcGroup}
-          arcLinkLabelTextColor={arcLinkLabelSettings.arcLinkLabelTextColor[index % data.length]}
-          arcLinkLabelLineColor={arcLinkLabelSettings.arcLinkLabelLineColor[index % data.length]}
+          arcLinkLabelTextColor={
+            arcLinkLabelSettings.arcLinkLabelTextColor[
+              index % arcLinkLabelSettings.arcLinkLabelTextColor.length
+            ]
+          }
+          arcLinkLabelLineColor={
+            arcLinkLabelSettings.arcLinkLabelLineColor[
+              index % arcLinkLabelSettings.arcLinkLabelLineColor.length
+            ]
+          }
           arcLinkLabelFontSize={arcLinkLabelSettings.arcLinkLabelFontSize}
           arcLinkLabelFontFamily={arcLinkLabelSettings.arcLinkLabelFontFamily}
           arcLinkLabelFontStyle={arcLinkLabelSettings.arcLinkLabelFontStyle}

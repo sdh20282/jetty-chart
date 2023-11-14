@@ -24,10 +24,10 @@ export const Pie = ({
     ...setDefaultGeneralSettings(),
     ...generalSettings,
   };
-  // const newPieSettings = {
-  //   ...setDefaultPieSettings(),
-  //   ...pieSettings,
-  // };
+  const newPieSettings = {
+    ...setDefaultPieSettings(),
+    ...pieSettings,
+  };
   const newLabelSettings = {
     ...setDefaultLabelSettings(),
     ...labelSettings,
@@ -42,39 +42,37 @@ export const Pie = ({
   };
   const newDebugSettings = debugSettings;
 
-  const animationPieMakeWay = "all"; // all, oneByOne, none
-  if (animationPieMakeWay === "all") {
-  } else if (animationPieMakeWay === "oneByOne") {
-  }
+  // const animationPieMakeWay = "all"; // all, oneByOne, none
+  // if (animationPieMakeWay === "all") {
+  // } else if (animationPieMakeWay === "oneByOne") {
+  // }
 
-  const [newPieSettings, setNewPieSettings] = useState({
-    ...setDefaultPieSettings(),
-    ...pieSettings,
-    useAngle: 0,
-  });
+  // const [newPieSettings, setNewPieSettings] = useState({
+  //   ...setDefaultPieSettings(),
+  //   ...pieSettings,
+  //   useAngle: 0,
+  // });
 
-  useEffect(() => {
-    let intervalId;
+  // useEffect(() => {
+  //   let intervalId;
 
-    // newPieSettings.useAngle이 100 미만일 때만 작동
-    if (newPieSettings.useAngle < 360) {
-      intervalId = setInterval(() => {
-        setNewPieSettings((prevSettings) => ({
-          ...prevSettings,
-          useAngle: prevSettings.useAngle + 1,
-        }));
-      }, 20); // 1초마다 실행
-    }
+  //   if (newPieSettings.useAngle < 360) {
+  //     intervalId = setInterval(() => {
+  //       setNewPieSettings((prevSettings) => ({
+  //         ...prevSettings,
+  //         useAngle: prevSettings.useAngle + 1,
+  //       }));
+  //     }, 5);
+  //   }
 
-    console.log("RENDERING");
+  //   console.log("RENDERING");
 
-    // 컴포넌트 언마운트 시 또는 newPieSettings.useAngle이 100 이상일 때 인터벌 정리
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
-  }, [newPieSettings.useAngle]);
+  //   return () => {
+  //     if (intervalId) {
+  //       clearInterval(intervalId);
+  //     }
+  //   };
+  // }, [newPieSettings.useAngle]);
 
   // const [newGeneralSettings, setNewGeneralSettings] = useState({
   //   ...setDefaultGeneralSettings(),

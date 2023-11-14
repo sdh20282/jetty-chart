@@ -15,7 +15,7 @@
   transform: scale(var(--animation-scale));
 }
 
-@keyframes fillAnimation {
+/* @keyframes fillAnimation {
   from {
     fill: transparent;
   }
@@ -26,4 +26,4 @@
 
 .pie-piece__path {
   animation: fillAnimation 2s ease-out forwards;
-}
+} */
