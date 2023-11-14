@@ -2,6 +2,56 @@
 
 파이 차트는 다음과 같은 기본 설정 값을 제공합니다. 사용자는 이 값을 수정하여 자신의 요구사항에 맞게 차트를 커스터마이즈할 수 있습니다.
 
+## 데이터 입력 방식
+
+### 데이터 형식
+
+```
+<Pie
+  data={data}
+  generalSettings={generalSettings}
+  pieSettings={pieSettings}
+  labelSettings={labelSettings}
+  arcLinkLabelSettings={arcLinkLabelSettings}
+/>
+```
+
+```
+data = [
+  {
+  label: "자바스크립트",
+  value: 20,
+  }
+  {
+  label: "리액트",
+  value: 40,
+  }
+  {
+  label: "스프링",
+  value: 30,
+  }
+]
+```
+
+```
+generalSettings = {
+  width: 300,
+  height: 300,
+  backgroundColor: "black"
+  // ...
+}
+pieSettings = {
+  // ...
+}
+
+labelSettings = {
+  // ...
+}
+arcLinkLabelSettings = {
+  // ...
+}
+```
+
 ## 일반 설정 (generalSettings)
 
 - ### 차트 크기:
