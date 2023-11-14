@@ -1,3 +1,3 @@
-import { NormalPyramid } from "./normal-pyramid/nomal-pyramid";
+import { NormalPyramid } from "./normal-pyramid/normal-pyramid";
 
 export { NormalPyramid };

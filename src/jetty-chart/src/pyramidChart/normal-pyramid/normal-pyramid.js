@@ -243,7 +243,7 @@ const NormalPyramid = ({
                     (nowData.value <= scopeMaxNum * 0.2 ? realHeight / 2 + labelMargin : realHeight / 4 - borderRadius) 
                     : (nowData.value <= scopeMaxNum * 0.2 ? -realHeight / 2 - labelMargin : -realHeight / 4 + borderRadius))
                   : (checkPositive ? 
-                    (-nowData.value <= scopeMaxNum * 0.2 ? realHeight / 2 + labelMargin : realHeight / 4 - borderRadius) 
+                    (-nowData.value <= scopeMaxNum * 0.2 ? realHeight / 2 + labelMargin : realHeight / 4 - borderRadius)
                     : (-nowData.value <= scopeMaxNum * 0.2 ? -realHeight / 2 - labelMargin : -realHeight / 4 + borderRadius))
 
             prevBarsTemp.current[nowData.label] = {
