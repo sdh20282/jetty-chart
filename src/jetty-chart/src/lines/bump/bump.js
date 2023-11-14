@@ -94,15 +94,23 @@ const BumpChart = ({
     idArray.push(element.id);
   });
 
-  const scopeResult = { scope: [...new Array(dataSet.length)].map((_, i) => i + 1), maxScope: dataSet.length, minScope: 1 };
+  const scopeResult = {
+    scope: [...new Array(dataSet.length)].map((_, i) => i + 1),
+    maxScope: dataSet.length,
+    minScope: 1,
+  };
   if (reverse) {
     scopeResult.scope.reverse();
   }
 
   const dataLength = dataSet[0]?.data?.length;
 
-  const totalWidth = horizontal ? height - margin.bottom - margin.top : width - margin.left - margin.right;
-  const totalHeight = horizontal ? width - margin.left - margin.right : height - margin.bottom - margin.top;
+  const totalWidth = horizontal
+    ? height - margin.bottom - margin.top
+    : width - margin.left - margin.right;
+  const totalHeight = horizontal
+    ? width - margin.left - margin.right
+    : height - margin.bottom - margin.top;
 
   const drawWidth = totalWidth - padding - padding;
   const lineHeight = totalHeight / (scopeResult.scope.length - 1);
@@ -123,7 +131,9 @@ const BumpChart = ({
       }
 
       const center = pointGapWidth * idx;
-      const height = ((dataSet.length - nowData.value) / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
+      const height =
+        ((dataSet.length - nowData.value) / (scopeResult.maxScope - scopeResult.minScope)) *
+        totalHeight;
       if (horizontal) {
         return [height, center];
       }
@@ -144,7 +154,8 @@ const BumpChart = ({
       pathString = coords.reduce((acc, curr, idx, arr) => {
         const isFirstPoint = idx === 0;
 
-        if (isFirstPoint) return acc + `${curr[0] - xOuterPadding},${curr[1]} L ${curr[0]},${curr[1]}`;
+        if (isFirstPoint)
+          return acc + `${curr[0] - xOuterPadding},${curr[1]} L ${curr[0]},${curr[1]}`;
         // console.log(getControlPoint.length, smoothDegree, angleDegree);
 
         // const [cpsX, cpsY] = getControlPoint(arr[idx - 2], arr[idx - 1], curr, { smoothDegree, angleDegree, isEndControlPoint: false });
@@ -175,13 +186,23 @@ const BumpChart = ({
         : `M ${0} ${zeroHeightFromTop} L` + pathString + `L ${drawWidth} ${zeroHeightFromTop}`;
     }
 
-    pathString = "M " + pathString + `L ${coords[coords.length - 1][0] + xOuterPadding},${coords[coords.length - 1][1]}`;
+    pathString =
+      "M " +
+      pathString +
+      `L ${coords[coords.length - 1][0] + xOuterPadding},${coords[coords.length - 1][1]}`;
 
     linePathArray.push(pathString);
     areaPathArray.push(areaPathString);
   });
 
-  const { useAnimation, appearType, appearDuration, appearStartDelay, appearItemDelay, appearTimingFunction } = result.animationSettings.lineSettings;
+  const {
+    useAnimation,
+    appearType,
+    appearDuration,
+    appearStartDelay,
+    appearItemDelay,
+    appearTimingFunction,
+  } = result.animationSettings.lineSettings;
 
   const pathRefs = useRef([]);
 
@@ -197,14 +218,17 @@ const BumpChart = ({
 
       const positionX = pointGapWidth * idx;
 
-      const height = ((dataSet.length - nowData.value) / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
+      const height =
+        ((dataSet.length - nowData.value) / (scopeResult.maxScope - scopeResult.minScope)) *
+        totalHeight;
 
       pointPosition[idx].push({
         x: positionX,
         y: totalHeight - height - zeroHeight,
         horizontalX: zeroHeight + height,
         horizontalY: positionX,
-        animationDelay: appearStartDelay + index * appearItemDelay + (idx * appearDuration) / dataLength,
+        animationDelay:
+          appearStartDelay + index * appearItemDelay + (idx * appearDuration) / dataLength,
         value: d.value,
       });
     });
@@ -219,7 +243,9 @@ const BumpChart = ({
     pathRefs.current = [];
   }, [pathRefs.current]);
 
-  const lineColors = [...Array(dataSet.length).keys()].map((idx) => colorPalette[idx % colorPalette.length]);
+  const lineColors = [...Array(dataSet.length).keys()].map(
+    (idx) => colorPalette[idx % colorPalette.length]
+  );
 
   const ms = new Date().valueOf();
 
@@ -252,7 +278,10 @@ const BumpChart = ({
       legendSettings={result.legendSettings}
       animationSettings={result.animationSettings}
     >
-      <g transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`} className={styles.container}>
+      <g
+        transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}
+        className={styles.container}
+      >
         {enableArea &&
           areaPathArray.map((d, idx) => {
             return (
@@ -302,7 +331,15 @@ const BumpChart = ({
                 pathRefs.current[idx] = el;
               }}
               d={d}
-              className={useAnimation ? (appearType === "draw" ? styles.drawLine : appearType === "fade" ? styles.fadeLine : "") : ""}
+              className={
+                useAnimation
+                  ? appearType === "draw"
+                    ? styles.drawLine
+                    : appearType === "fade"
+                    ? styles.fadeLine
+                    : ""
+                  : ""
+              }
               stroke={lineColors[idx]}
               strokeWidth={lineWidth}
               strokeOpacity={lineOpacity}
@@ -321,13 +358,28 @@ const BumpChart = ({
       {enablePoint &&
         pointPosition.map((data, index) => {
           return (
-            <g key={`g-${ms}-${index}`} transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}>
+            <g
+              key={`g-${ms}-${index}`}
+              transform={horizontal ? `translate(0,${padding})` : `translate(${padding})`}
+            >
               {data.map((d, idx) => {
                 return (
                   <g
                     key={"point-multi-" + idx}
-                    className={useAnimation ? (appearType === "draw" ? styles.drawPoint : appearType === "fade" ? styles.fadeLine : "") : ""}
-                    transform={horizontal ? `translate(${d.horizontalX},${d.x})` : `translate(${d.horizontalY},${d.y})`}
+                    className={
+                      useAnimation
+                        ? appearType === "draw"
+                          ? styles.drawPoint
+                          : appearType === "fade"
+                          ? styles.fadeLine
+                          : ""
+                        : ""
+                    }
+                    transform={
+                      horizontal
+                        ? `translate(${d.horizontalX},${d.x})`
+                        : `translate(${d.horizontalY},${d.y})`
+                    }
                     style={{
                       "--pos-x": `${horizontal ? d.horizontalX : d.x}px`,
                       "--pos-y": `${horizontal ? d.horizontalY : d.y}px`,

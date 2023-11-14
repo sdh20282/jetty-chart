@@ -5,9 +5,21 @@ import {
   setDefaultGeneralSettings,
   setDefaultLabelSettings,
   setDefaultPieSettings,
+  setDefaultArcLinkLabelSettings,
+  setDefaultAnimationSettings,
 } from "../../common/pie-common/utils/setDefaultSettings";
+import "./pie.css";
+import { useEffect, useRef, useState } from "react";
 
-export const Pie = ({ data, generalSettings, pieSettings, labelSettings, debugSettings = false }) => {
+export const Pie = ({
+  data,
+  generalSettings,
+  pieSettings,
+  labelSettings,
+  arcLinkLabelSettings,
+  animationSettings,
+  debugSettings = false,
+}) => {
   const newGeneralSettings = {
     ...setDefaultGeneralSettings(),
     ...generalSettings,
@@ -20,7 +32,47 @@ export const Pie = ({ data, generalSettings, pieSettings, labelSettings, debugSe
     ...setDefaultLabelSettings(),
     ...labelSettings,
   };
+  const newArcLinkLabelSettings = {
+    ...setDefaultArcLinkLabelSettings(),
+    ...arcLinkLabelSettings,
+  };
+  const newAnimationSettings = {
+    ...setDefaultAnimationSettings(),
+    ...animationSettings,
+  };
   const newDebugSettings = debugSettings;
+
+  // const animationPieMakeWay = "all"; // all, oneByOne, none
+  // if (animationPieMakeWay === "all") {
+  // } else if (animationPieMakeWay === "oneByOne") {
+  // }
+
+  // const [newPieSettings, setNewPieSettings] = useState({
+  //   ...setDefaultPieSettings(),
+  //   ...pieSettings,
+  //   useAngle: 0,
+  // });
+
+  // useEffect(() => {
+  //   let intervalId;
+
+  //   if (newPieSettings.useAngle < 360) {
+  //     intervalId = setInterval(() => {
+  //       setNewPieSettings((prevSettings) => ({
+  //         ...prevSettings,
+  //         useAngle: prevSettings.useAngle + 1,
+  //       }));
+  //     }, 5);
+  //   }
+
+  //   console.log("RENDERING");
+
+  //   return () => {
+  //     if (intervalId) {
+  //       clearInterval(intervalId);
+  //     }
+  //   };
+  // }, [newPieSettings.useAngle]);
 
   // const [newGeneralSettings, setNewGeneralSettings] = useState({
   //   ...setDefaultGeneralSettings(),
@@ -53,6 +105,8 @@ export const Pie = ({ data, generalSettings, pieSettings, labelSettings, debugSe
         pieSettings={newPieSettings}
         labelSettings={newLabelSettings}
         debugSettings={newDebugSettings}
+        newAnimationSettings={newAnimationSettings}
+        arcLinkLabelSettings={newArcLinkLabelSettings}
       />
     </>
   );

@@ -3,7 +3,10 @@ import { useState, useEffect } from "react";
 import { checkNormalPoint } from "../../common/scatter-common/exception/check-point-exception";
 import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
-import { calculateXPosition, calculateYPosition } from "../../common/scatter-common/utils/calculate-point-position";
+import {
+  calculateXPosition,
+  calculateYPosition,
+} from "../../common/scatter-common/utils/calculate-point-position";
 
 function CircleWithTooltip({
   x,
@@ -44,12 +47,24 @@ function CircleWithTooltip({
   };
 
   return (
-    <g transform={`translate(${xPos},${yPos})`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <circle style={pointStyle} cx={0} cy={0} r={pointSize} fill={groupColor} stroke={groupColor} strokeWidth={pointBorderWidth} />
+    <g
+      transform={`translate(${xPos},${yPos})`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <circle
+        style={pointStyle}
+        cx={0}
+        cy={0}
+        r={pointSize}
+        fill={groupColor}
+        stroke={groupColor}
+        strokeWidth={pointBorderWidth}
+      />
       {tooltipOn && showTooltip && (
-        <text style={tooltipStyle}>{`${group.id}, ${xName ? xName : xLegend ? xLegend : "x"}: ${x.toFixed(1)}, ${
-          yName ? yName : yLegend ? yLegend : "y"
-        }: ${y.toFixed(1)}`}</text>
+        <text style={tooltipStyle}>{`${group.id}, ${
+          xName ? xName : xLegend ? xLegend : "x"
+        }: ${x.toFixed(1)}, ${yName ? yName : yLegend ? yLegend : "y"}: ${y.toFixed(1)}`}</text>
       )}
     </g>
   );
@@ -93,8 +108,10 @@ const NormalScatter = ({
     animationSettings,
   });
 
-  const { width, height, margin, padding, xReverse, yReverse, colorPalette } = result.normalSettings;
-  const { xAutoScope, yAutoScope, xMaxScope, xMinScope, yMaxScope, yMinScope } = result.scopeSettings;
+  const { width, height, margin, padding, xReverse, yReverse, colorPalette } =
+    result.normalSettings;
+  const { xAutoScope, yAutoScope, xMaxScope, xMinScope, yMaxScope, yMinScope } =
+    result.scopeSettings;
 
   const xScopeResult = xAutoScope
     ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.x)) })
@@ -164,10 +181,11 @@ const NormalScatter = ({
               },
               groupIdx * 1000 * pointRenderTime
             );
-        
+
             return () => {
-              clearTimeout(timeout)
-              setOpacity(0)};
+              clearTimeout(timeout);
+              setOpacity(0);
+            };
           }, [data]);
 
           const pointStyle = {

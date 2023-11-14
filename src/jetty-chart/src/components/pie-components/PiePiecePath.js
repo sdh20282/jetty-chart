@@ -38,6 +38,7 @@ const PiePiecePath = ({
         strokeWidth={strokeWidth}
         strokeOpacity={strokeOpacity}
         opacity={pieceOpacity}
+        className="pie-piece__path"
       />
     </>
   );

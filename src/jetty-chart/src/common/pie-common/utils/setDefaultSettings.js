@@ -41,6 +41,31 @@ import {
   DEFAULT_LABEL_SKIP_RATIO,
   DEFAULT_LABEL_TEXT,
 } from "../constants/labelSettings";
+import {
+  DEFAULT_ARC_LINK_LABEL_FONT_SIZE,
+  DEFAULT_ARC_LINK_LABEL_FONT_WEIGHT,
+  DEFAULT_ARC_LINK_LABEL_FONT_FAMILY,
+  DEFAULT_ARC_LINK_LABEL_FONT_STYLE,
+  DEFAULT_ARC_LINK_LABEL_SKIP_ANGLE,
+  DEFAULT_ARC_LINK_LABEL_LINE_DISTANCE,
+  DEFAULT_ARC_LINK_LABEL_START_LINE,
+  DEFAULT_ARC_LINK_LABEL_END_LINE,
+  DEFAULT_ARC_LINK_LABEL_TEXT_DISTANCE,
+  DEFAULT_ARC_LINK_LABEL_LINE_SIZE,
+  DEFAULT_ARC_LINK_LABEL_TEXT,
+  DEFAULT_ARC_LINK_LABEL_IS_USE,
+  DEFAULT_ARC_LINK_LABEL_TEXT_COLOR,
+  DEFAULT_ARC_LINK_LABEL_LINE_COLOR,
+  DEFAULT_ARC_LINK_LABEL_LINE_OPACITY,
+  DEFAULT_ARC_LINK_LABEL_TEXT_OPACITY,
+} from "../constants/arcLinkLabelSettings";
+import {
+  DEFAULT_ANIMATION_DELAY,
+  DEFAULT_ANIMATION_DURATION,
+  DEFAULT_ANIMATION_ON,
+  DEFAULT_ANIMATION_SCALE,
+  DEFAULT_ANIMATION_TIMING,
+} from "../constants/animationSettings";
 
 export const setDefaultGeneralSettings = () => {
   return {
@@ -63,11 +88,11 @@ export const setDefaultGeneralSettings = () => {
 export const setDefaultPieSettings = () => {
   return {
     color: DEFAULT_COLOR,
-    pieRadius: DEFAULT_PIE_RADIUS, // 파이 반지름, default 1
-    innerRadius: DEFAULT_INNER_RADIUS, // 내부원 크기, default 0
-    cornerRadius: DEFAULT_CORNER_RADIUS, // 조각 둥글기, default 0
-    startAngle: DEFAULT_START_ANGLE, // 시작 위치 각도, default 0
-    padAngle: DEFAULT_PAD_ANGLE, // 조각 크기, default 100
+    pieRadius: DEFAULT_PIE_RADIUS,
+    innerRadius: DEFAULT_INNER_RADIUS,
+    cornerRadius: DEFAULT_CORNER_RADIUS,
+    startAngle: DEFAULT_START_ANGLE,
+    padAngle: DEFAULT_PAD_ANGLE,
     strokeColor: DEFAULT_STROKE_COLOR,
     strokeWidth: DEFAULT_STROKE_WIDTH,
     strokeOpacity: DEFAULT_STROKE_OPACITY,
@@ -92,5 +117,36 @@ export const setDefaultLabelSettings = () => {
     labelIsUse: DEFAULT_LABEL_IS_USE,
     labelDegrees: DEFAULT_LABEL_DEGREES,
     labelOpacity: DEFAULT_LABEL_OPACITY,
+  };
+};
+
+export const setDefaultArcLinkLabelSettings = () => {
+  return {
+    arcLinkLabelTextColor: DEFAULT_ARC_LINK_LABEL_TEXT_COLOR,
+    arcLinkLabelLineColor: DEFAULT_ARC_LINK_LABEL_LINE_COLOR,
+    arcLinkLabelFontSize: DEFAULT_ARC_LINK_LABEL_FONT_SIZE,
+    arcLinkLabelFontWeight: DEFAULT_ARC_LINK_LABEL_FONT_WEIGHT,
+    arcLinkLabelFontFamily: DEFAULT_ARC_LINK_LABEL_FONT_FAMILY,
+    arcLinkLabelFontStyle: DEFAULT_ARC_LINK_LABEL_FONT_STYLE,
+    arcLinkLabelSkipAngle: DEFAULT_ARC_LINK_LABEL_SKIP_ANGLE,
+    arcLinkLabelLineDistance: DEFAULT_ARC_LINK_LABEL_LINE_DISTANCE,
+    arcLinkLabelStartLine: DEFAULT_ARC_LINK_LABEL_START_LINE,
+    arcLinkLabelEndLine: DEFAULT_ARC_LINK_LABEL_END_LINE,
+    arcLinkLabelTextDistance: DEFAULT_ARC_LINK_LABEL_TEXT_DISTANCE,
+    arcLinkLabelLineSize: DEFAULT_ARC_LINK_LABEL_LINE_SIZE,
+    arcLinkLabelTEXT: DEFAULT_ARC_LINK_LABEL_TEXT,
+    arcLinkLabelIsUse: DEFAULT_ARC_LINK_LABEL_IS_USE,
+    arcLinkLabelLineOpacity: DEFAULT_ARC_LINK_LABEL_LINE_OPACITY,
+    arcLinkLabelTextOpacity: DEFAULT_ARC_LINK_LABEL_TEXT_OPACITY,
+  };
+};
+
+export const setDefaultAnimationSettings = () => {
+  return {
+    animationOn: DEFAULT_ANIMATION_ON,
+    animationDuration: DEFAULT_ANIMATION_DURATION,
+    animationDelay: DEFAULT_ANIMATION_DELAY,
+    animationTiming: DEFAULT_ANIMATION_TIMING,
+    animationScale: DEFAULT_ANIMATION_SCALE,
   };
 };
