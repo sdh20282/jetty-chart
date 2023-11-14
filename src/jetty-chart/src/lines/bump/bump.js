@@ -60,6 +60,8 @@ const BumpChart = ({
     enablePoint,
     pointSize,
     pointColor,
+    pointColorFollowLineColor,
+    pointBorderColorFollowLineColor,
     pointBorderColor,
     pointBorderWidth,
     // enablePointLabel,
@@ -344,8 +346,8 @@ const BumpChart = ({
                       cx={0}
                       cy={0}
                       r={pointSize}
-                      fill={pointColor ?? lineColors[idx]}
-                      stroke={pointBorderColor ?? lineColors[idx]}
+                      fill={pointColorFollowLineColor ? lineColors[idx] : pointColor}
+                      stroke={pointBorderColorFollowLineColor ? lineColors[idx] : pointBorderColor}
                       strokeWidth={pointBorderWidth}
                     />
                   </g>
