@@ -25,7 +25,7 @@ const MultiLine = ({
   animationSettings,
 }) => {
   const dataSet = data;
-  
+
   if (!dataSet || dataSet.length === 0) {
     return;
   }
@@ -55,8 +55,10 @@ const MultiLine = ({
     lineWidth,
     enablePoint,
     pointColor,
+    pointColorFollowLineColor,
     pointSize,
     pointBorderColor,
+    pointBorderColorFollowLineColor,
     pointBorderWidth,
     enablePointLabel,
     showLabelOnHover,
@@ -527,8 +529,8 @@ const MultiLine = ({
                 cx={0}
                 cy={0}
                 r={pointSize}
-                fill={pointColor ? pointColor : lineColors[index]}
-                stroke={pointBorderColor ? pointBorderColor : lineColors[index]}
+                fill={pointColorFollowLineColor ? lineColors[index] : pointColor}
+                stroke={pointBorderColorFollowLineColor ? lineColors[index] : pointBorderColor}
                 strokeWidth={pointBorderWidth}
               />
             )}
