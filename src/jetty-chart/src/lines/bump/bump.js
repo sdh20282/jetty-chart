@@ -5,7 +5,7 @@ import styles from "./bump.module.css";
 import { useEffect, useRef } from "react";
 
 const BumpChart = ({
-  dataSet,
+  data,
   xLegend,
   yLegend,
   normalSettings,
@@ -22,6 +22,8 @@ const BumpChart = ({
   lineSettings,
   animationSettings,
 }) => {
+  const dataSet = data;
+
   if (!dataSet || dataSet.length === 0) {
     return;
   }

@@ -2,7 +2,7 @@ import { checkNormalLine } from "../../common/line-common/exception/check-line-e
 import { MultiLine } from "../multi-line/multi-line";
 
 const StackedLine = ({
-  dataSet,
+  data,
   keys,
   xLegend,
   yLegend,
@@ -20,6 +20,7 @@ const StackedLine = ({
   lineSettings,
   animationSettings,
 }) => {
+  let dataSet = data;
   if (!dataSet || dataSet.length === 0) {
     return;
   }

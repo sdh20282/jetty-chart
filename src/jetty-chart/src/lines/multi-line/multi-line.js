@@ -7,7 +7,7 @@ import styles from "../common/line.module.css";
 import { useEffect, useRef } from "react";
 
 const MultiLine = ({
-  dataSet,
+  data,
   xLegend,
   yLegend,
   normalSettings,
@@ -24,6 +24,8 @@ const MultiLine = ({
   lineSettings,
   animationSettings,
 }) => {
+  const dataSet = data;
+  
   if (!dataSet || dataSet.length === 0) {
     return;
   }
