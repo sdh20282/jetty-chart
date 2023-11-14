@@ -51,7 +51,6 @@ const PiePieceArcLinkText = ({
         : arcLinkLabelText === "label"
         ? label
         : ""}
-      dd
     </text>
   );
 };
