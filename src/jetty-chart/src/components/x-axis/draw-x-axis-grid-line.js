@@ -59,7 +59,7 @@ export const DrawXAxisGridLine = ({
 
       return linePath;
     },
-    [horizontal, height, lineDashWidth, lineDashGap]
+    [horizontal, height, lineDashWidth, lineDashGap, lineDash, useAnimation]
   );
 
   if (!lineVisible) {

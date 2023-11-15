@@ -1,5 +1,4 @@
-import { checkNormalLine } from "../../common/line-common/exception/check-line-exception";
-import { MultiLine } from "../multi-line/multi-line";
+import { DrawLine } from "../common/DrawLine";
 
 const StackedLine = ({
   data,
@@ -19,14 +18,13 @@ const StackedLine = ({
   lineSettings,
   animationSettings,
 }) => {
-  let dataSet = data;
   if (!data || data.length === 0) {
-    dataSet = [];
+    return;
   }
 
   const stackedData = [];
 
-  dataSet.forEach((element, idx) => {
+  data.forEach((element, idx) => {
     if (idx === 0) {
       stackedData.push({ ...element });
       return;
@@ -38,42 +36,26 @@ const StackedLine = ({
     stackedData.push({ ...element, data: newData });
   });
 
-  dataSet = [...stackedData].reverse();
-
-  const result = checkNormalLine({
-    normalSettings,
-    scopeSettings,
-    axisXGridLineSettings,
-    axisYGridLineSettings,
-    leftLabelSettings,
-    rightLabelSettings,
-    bottomLabelSettings,
-    topLabelSettings,
-    leftLegendSettings,
-    rightLegendSettings,
-    legendSettings,
-    lineSettings,
-    animationSettings,
-  });
-  console.log(dataSet);
+  data = [...stackedData].reverse();
+  
   return (
-    <MultiLine
-      data={dataSet}
+    <DrawLine
+      data={data}
       xLegend={xLegend}
       yLegend={yLegend}
-      normalSettings={result.normalSettings}
-      scopeSettings={result.scopeSettings}
-      axisXGridLineSettings={result.axisXGridLineSettings}
-      axisYGridLineSettings={result.axisYGridLineSettings}
-      leftLabelSettings={result.leftLabelSettings}
-      rightLabelSettings={result.rightLabelSettings}
-      bottomLabelSettings={result.bottomLabelSettings}
-      topLabelSettings={result.topLabelSettings}
-      leftLegendSettings={result.leftLegendSettings}
-      rightLegendSettings={result.rightLegendSettings}
-      legendSettings={result.legendSettings}
-      lineSettings={result.lineSettings}
-      animationSettings={result.animationSettings}
+      normalSettings={normalSettings}
+      scopeSettings={scopeSettings}
+      axisXGridLineSettings={axisXGridLineSettings}
+      axisYGridLineSettings={axisYGridLineSettings}
+      leftLabelSettings={leftLabelSettings}
+      rightLabelSettings={rightLabelSettings}
+      bottomLabelSettings={bottomLabelSettings}
+      topLabelSettings={topLabelSettings}
+      leftLegendSettings={leftLegendSettings}
+      rightLegendSettings={rightLegendSettings}
+      legendSettings={legendSettings}
+      lineSettings={lineSettings}
+      animationSettings={animationSettings}
     />
   );
 };
