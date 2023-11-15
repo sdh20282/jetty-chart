@@ -48,7 +48,7 @@ const BumpChart = ({
     lineSettings,
     animationSettings,
   });
-  result.normalSettings.padding += lineSettings.xOuterPadding;
+  result.normalSettings.padding += result.lineSettings.xOuterPadding;
 
   const { width, height, margin, padding, reverse, horizontal } = result.normalSettings;
 
@@ -164,12 +164,9 @@ const BumpChart = ({
       pathString = coords.reduce((acc, curr, idx) => {
         const isFirstPoint = idx === 0;
 
-        let tempPath = "";
+        if (isFirstPoint) return ` ${curr[0] - xOuterPadding} ${curr[1]} L ${curr[0]} ${curr[1]}`;
 
-        if (!isFirstPoint) tempPath += ` L`;
-
-        tempPath += ` ${curr[0]} ${curr[1]}`;
-        return acc + tempPath;
+        return acc + ` L ${curr[0]} ${curr[1]}`;
       }, "");
     }
 
