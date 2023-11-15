@@ -13,6 +13,8 @@ const LabelValueCommon = ({
   xLegend,
   yLegend,
   normalSettings: {
+    outHeight,
+    outWidth,
     width,
     height,
     backgroundColor,
@@ -27,7 +29,7 @@ const LabelValueCommon = ({
     xAxisWidth,
     yAxisHeight,
     showTopScope,
-    colorPalette
+    colorPalette,
   },
   axisXGridLineSettings,
   axisYGridLineSettings,
@@ -41,17 +43,19 @@ const LabelValueCommon = ({
   topLegendSettings,
   legendSettings,
   animationSettings,
-  children
+  children,
 }) => {
   if (horizontal) {
     yAxis.reverse();
   }
 
   innerMargin ??= { top: 0, bottom: 0 };
+  outWidth ??= width;
+  outHeight ??= height;
 
   return (
-    <div style={{ width: `${width}px`, height: `${height}px`, border: "1px solid #ccc" }}>
-      <svg width={width} height={height}>
+    <div style={{ width: `${outWidth}px`, height: `${outHeight}px` }}>
+      <svg viewBox={`0 0 ${width} ${height}`}>
         <rect width="100%" height="100%" fill={backgroundColor}></rect>
         <g transform={`translate(${margin.left},${margin.top})`}>
           <DrawYAxisLegend yLegend={yLegend} normalSettings={{ totalWidth, totalHeight, horizontal }} legendSettings={leftLegendSettings} />
@@ -72,7 +76,7 @@ const LabelValueCommon = ({
                 yAxis,
                 width: totalWidth,
                 yAxisHeight,
-                showTopScope
+                showTopScope,
               }}
               lineSettings={axisYGridLineSettings}
               animationSettings={animationSettings.axisYGridLineSettings}
@@ -84,7 +88,7 @@ const LabelValueCommon = ({
                 yAxis,
                 width: totalWidth,
                 yAxisHeight,
-                showTopScope
+                showTopScope,
               }}
               labelSettings={leftLabelSettings}
               animationSettings={animationSettings.axisYLabelSettings}
@@ -96,7 +100,7 @@ const LabelValueCommon = ({
                 yAxis,
                 width: totalWidth,
                 yAxisHeight,
-                showTopScope
+                showTopScope,
               }}
               labelSettings={rightLabelSettings}
               animationSettings={animationSettings.axisYLabelSettings}
@@ -112,7 +116,7 @@ const LabelValueCommon = ({
                 height: totalHeight,
                 padding,
                 xAxisInitialPosition,
-                xAxisWidth
+                xAxisWidth,
               }}
               lineSettings={axisXGridLineSettings}
               animationSettings={animationSettings.axisXGridLineSettings}
@@ -125,7 +129,7 @@ const LabelValueCommon = ({
                 height: totalHeight,
                 padding,
                 xAxisInitialPosition,
-                xAxisWidth
+                xAxisWidth,
               }}
               labelSettings={bottomLabelSettings}
               animationSettings={animationSettings.axisXLabelSettings}
@@ -138,7 +142,7 @@ const LabelValueCommon = ({
                 height: totalHeight,
                 padding,
                 xAxisInitialPosition,
-                xAxisWidth
+                xAxisWidth,
               }}
               labelSettings={topLabelSettings}
               animationSettings={animationSettings.axisXLabelSettings}
