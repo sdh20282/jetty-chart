@@ -41,7 +41,7 @@ export const DrawYAxisGridLine = ({
     <g className={styles.container}>
       {yAxis.map((c, idx) => {
         if (!showTopScope && (idx === 0 || idx === yAxis.length - 1) && c !== 0) {
-          return;
+          return <g key={"background-line-y-" + ms + "-" + idx}></g>;
         }
 
         // 현재 위치 계산

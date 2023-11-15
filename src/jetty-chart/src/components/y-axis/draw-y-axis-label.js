@@ -63,7 +63,7 @@ export const DrawYAxisLabel = ({
     >
       {yAxis.map((c, idx) => {
         if (!showTopScope && (idx === 0 || idx === yAxis.length - 1) && c !== 0) {
-          return <></>;
+          return <g key={"level-" + ms + "-" + idx + "-" + c}></g>;
         }
 
         const location = yAxisHeight * idx;
@@ -84,10 +84,10 @@ export const DrawYAxisLabel = ({
             useTranslate = true;
           }
         }
-
+        
         return (
           <g
-            key={"level-" + ms + "-" + idx}
+            key={"level-" + ms + "-" + idx + "-" + c}
             transform={horizontal ? `translate(${location - translate})` : `translate(0,${location - translate})`}
             className={useAnimation ? (useTranslate ? styles.translateLabel : renderType === "fade" ? styles.fadeLabel : "") : ""}
             style={{
