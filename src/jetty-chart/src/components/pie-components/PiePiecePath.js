@@ -42,7 +42,6 @@ const PiePiecePath = ({
   // L ${innerRadius <= 0.01 ? "0,0" : innerPath2}
   // Z
   // `;
-  console.log(index, hoveredIndex);
   return (
     <path
       d={path}
@@ -51,7 +50,7 @@ const PiePiecePath = ({
       strokeWidth={strokeWidth}
       strokeOpacity={strokeOpacity}
       opacity={pieceOpacity}
-      className={hoveredIndex === index && "pie-piece__hover"}
+      className={hoveredIndex === index ? "pie-piece__hover" : ""}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
