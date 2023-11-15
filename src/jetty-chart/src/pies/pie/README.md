@@ -145,3 +145,4 @@ legendSettings = {
   - marginBottom: 아랫 여백 설정. 기본값 0.
   - marginLeft: 왼쪽 여백 설정. 기본값 0.
   - marginRight: 오른쪽 여백 설정. 기본값 2,
+  - legendColor: 범례 글자 색 설정. 기본값 gray,
