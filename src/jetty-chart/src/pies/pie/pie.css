@@ -6,12 +6,9 @@
   --pie-piece-color: red;
 }
 
-.pie-piece {
+.pie-piece__hover {
   transition: transform var(--animation-duration) var(--animation-delay)
     var(--animation-timing-function);
-}
-
-.pie-piece:hover {
   transform: scale(var(--animation-scale));
 }
 
