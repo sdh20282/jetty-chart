@@ -139,7 +139,7 @@ const PieSvg = ({
           key={index}
         />
       ))}
-      <ToolTipCommon />
+      {/* <ToolTipCommon /> */}
       <DrawLegends
         keys={data.map((item) => item.label)}
         normalSettings={{
