@@ -31,7 +31,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
 
   const {
     useGagueBar,
-    useValueLavel,
+    useValueLabel,
     pointerSize,
     pointerColor,
     gagueBarWidth,
@@ -39,7 +39,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
     gagueValueFontSize,
     gagueValueFontFamily,
     gagueValueFontWeight,
-    valueLavel,
+    valueLabel,
   } = result.gagueBarSetting;
 
   const {
@@ -1006,9 +1006,9 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
             </foreignObject>
           )}
         </g>
-        {useValueLavel && scale === 1 ? (
+        {useValueLabel && scale === 1 ? (
           <text fontFamily={gagueValueFontFamily} fontWeight={gagueValueFontWeight} x="1048" y="1060" fill="black" fontSize="30px" textAnchor="end">
-            {valueLavel}
+            {valueLabel}
           </text>
         ) : (
           ""

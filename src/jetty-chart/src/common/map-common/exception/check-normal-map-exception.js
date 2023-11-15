@@ -19,7 +19,7 @@ const normalMapSetting = {
   },
   gagueBarSetting:{
     useGagueBar: true,
-    useValueLavel:true,
+    useValueLabel:true,
     pointerSize: 0,
     pointerColor: "#000000",
     gagueBarWidth: 0,
@@ -27,7 +27,7 @@ const normalMapSetting = {
     gagueValueFontSize: 40,
     gagueValueFontFamily:"",
     gagueValueFontWeight:"bold",
-    valueLavel: "",
+    valueLabel: "",
   },
   tooltipSetting:{
     useFollowColor:false,
