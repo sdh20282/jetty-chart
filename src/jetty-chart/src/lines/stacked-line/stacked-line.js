@@ -3,7 +3,6 @@ import { MultiLine } from "../multi-line/multi-line";
 
 const StackedLine = ({
   data,
-  keys,
   xLegend,
   yLegend,
   normalSettings,
@@ -21,9 +20,10 @@ const StackedLine = ({
   animationSettings,
 }) => {
   let dataSet = data;
-  if (!dataSet || dataSet.length === 0) {
-    return;
+  if (!data || data.length === 0) {
+    dataSet = [];
   }
+
   const stackedData = [];
 
   dataSet.forEach((element, idx) => {
@@ -55,11 +55,10 @@ const StackedLine = ({
     lineSettings,
     animationSettings,
   });
-
+  console.log(dataSet);
   return (
     <MultiLine
-      dataSet={dataSet}
-      keys={keys}
+      data={dataSet}
       xLegend={xLegend}
       yLegend={yLegend}
       normalSettings={result.normalSettings}
