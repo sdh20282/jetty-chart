@@ -3,7 +3,6 @@ import { MultiLine } from "../multi-line/multi-line";
 
 const StackedLine = ({
   data,
-  keys,
   xLegend,
   yLegend,
   normalSettings,
@@ -59,7 +58,6 @@ const StackedLine = ({
   return (
     <MultiLine
       dataSet={dataSet}
-      keys={keys}
       xLegend={xLegend}
       yLegend={yLegend}
       normalSettings={result.normalSettings}
