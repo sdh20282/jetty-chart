@@ -152,7 +152,7 @@ export const setDefaultArcLinkLabelSettings = () => {
     arcLinkLabelEndLine: DEFAULT_ARC_LINK_LABEL_END_LINE,
     arcLinkLabelTextDistance: DEFAULT_ARC_LINK_LABEL_TEXT_DISTANCE,
     arcLinkLabelLineSize: DEFAULT_ARC_LINK_LABEL_LINE_SIZE,
-    arcLinkLabelTEXT: DEFAULT_ARC_LINK_LABEL_TEXT,
+    arcLinkLabelText: DEFAULT_ARC_LINK_LABEL_TEXT,
     arcLinkLabelIsUse: DEFAULT_ARC_LINK_LABEL_IS_USE,
     arcLinkLabelLineOpacity: DEFAULT_ARC_LINK_LABEL_LINE_OPACITY,
     arcLinkLabelTextOpacity: DEFAULT_ARC_LINK_LABEL_TEXT_OPACITY,

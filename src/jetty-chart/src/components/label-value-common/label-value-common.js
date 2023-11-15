@@ -13,10 +13,10 @@ const LabelValueCommon = ({
   xLegend,
   yLegend,
   normalSettings: {
-    outHeight,
-    outWidth,
     width,
-    height,
+    height,    
+    outWidth,
+    outHeight,
     backgroundColor,
     margin,
     innerMargin,

@@ -14,6 +14,10 @@ const PiePiecePath = ({
   strokeWidth,
   strokeOpacity,
   pieceOpacity,
+  onMouseEnter,
+  onMouseLeave,
+  hoveredIndex,
+  index,
 }) => {
   const path = getPiePiecePath({
     pieRadius,
@@ -38,6 +42,7 @@ const PiePiecePath = ({
   // L ${innerRadius <= 0.01 ? "0,0" : innerPath2}
   // Z
   // `;
+  console.log(index, hoveredIndex);
   return (
     <path
       d={path}
@@ -46,7 +51,9 @@ const PiePiecePath = ({
       strokeWidth={strokeWidth}
       strokeOpacity={strokeOpacity}
       opacity={pieceOpacity}
-      className="pie-piece__path"
+      className={hoveredIndex === index && "pie-piece__hover"}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       {/* <animate attributeName="d" from={path2} to={path} dur="2s" /> */}
     </path>

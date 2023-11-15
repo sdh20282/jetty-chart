@@ -5,10 +5,13 @@ import { divideRatio } from "../../common/pie-common/utils/getDivideRatio";
 import { setExceptionValue } from "../../common/pie-common/utils/setExceptionValue";
 import PieCircleBackground from "./PieCircleBackground";
 import PieDonutBackground from "./PieDonutBackground";
-import PiePiece from "./PiePiece";
 import ToolTipCommon from "../tooltip/ToolTipCommon";
 import { DrawLegends } from "../legend/draw-legends";
 import { getSortedColor } from "../../common/pie-common/utils/getSortedColor";
+import { useState } from "react";
+import PiePiecePath from "./PiePiecePath";
+import PiePieceLabel from "./PiePieceLabel";
+import PiePieceArcLinkLabel from "./PiePieceArcLinkLabel";
 
 const PieSvg = ({
   data,
@@ -49,6 +52,13 @@ const PieSvg = ({
     arcLinkLabelStartLine: arcLinkLabelSettings.arcLinkLabelStartLine,
     arcLinkLabelEndLine: arcLinkLabelSettings.arcLinkLabelEndLine,
   });
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  if (!animationSettings.animationOn) {
+    animationSettings.animationDuration = 0;
+    animationSettings.animationDelay = 0;
+    animationSettings.animationScale = 1;
+  }
+  console.log(arcLinkLabelSettings);
   return (
     <svg
       id="pie"
@@ -67,78 +77,106 @@ const PieSvg = ({
           "px " +
           generalSettings.paddingLeft +
           "px ",
+        "--animation-duration": animationSettings.animationDuration + "s",
+        "--animation-delay": animationSettings.animationDelay + "s",
+        "--animation-timing-function": animationSettings.animationTiming,
+        "--animation-scale": animationSettings.animationScale,
       }}
       opacity={generalSettings.pieOpacity}
     >
-      <PieCircleBackground
-        pieRadius={pieSettings.pieRadius}
-        pieBackgroundColor={generalSettings.pieBackgroundColor}
-        circleOpacity={generalSettings.circleOpacity}
-      />
-      <PieDonutBackground
-        pieRadius={pieSettings.pieRadius}
-        innerRadius={pieSettings.innerRadius}
-        donutBackgroundColor={generalSettings.donutBackgroundColor}
-        donutOpacity={generalSettings.donutOpacity}
-      />
+      <g>
+        <PieCircleBackground
+          pieRadius={pieSettings.pieRadius}
+          pieBackgroundColor={generalSettings.pieBackgroundColor}
+          circleOpacity={generalSettings.circleOpacity}
+        />
+        <PieDonutBackground
+          pieRadius={pieSettings.pieRadius}
+          innerRadius={pieSettings.innerRadius}
+          donutBackgroundColor={generalSettings.donutBackgroundColor}
+          donutOpacity={generalSettings.donutOpacity}
+        />
+      </g>
+
       {pieceData.map((piece, index) => (
-        <PiePiece
+        <PiePiecePath
+          pieRadius={piece.pieRadius}
+          cornerInnerRadius={piece.cornerInnerRadius}
+          cornerOuterRadius={piece.cornerOuterRadius}
+          innerRadius={piece.innerRadius}
+          calcVertexGroup={piece.calcVertexGroup}
+          tangentLineGroup={piece.tangentLineGroup}
+          isLargeArcGroup={piece.isLargeArcGroup}
           color={newColor[index % pieSettings.color.length]}
           strokeColor={newStrokeColor[index % pieSettings.strokeColor.length]}
           strokeWidth={pieSettings.strokeWidth}
           strokeOpacity={pieSettings.strokeOpacity}
           pieceOpacity={generalSettings.pieceOpacity}
-          pieRadius={piece.pieRadius}
-          innerRadius={piece.innerRadius}
-          cornerInnerRadius={piece.cornerInnerRadius}
-          cornerOuterRadius={piece.cornerOuterRadius}
-          calcVertexGroup={piece.calcVertexGroup}
-          tangentLineGroup={piece.tangentLineGroup}
-          isLargeArcGroup={piece.isLargeArcGroup}
-          arcLinkLabelTextColor={
-            newArcLinkLabelTextColor[index % arcLinkLabelSettings.arcLinkLabelTextColor.length]
-          }
-          arcLinkLabelLineColor={
-            newArcLinkLabelLineColor[index % arcLinkLabelSettings.arcLinkLabelLineColor.length]
-          }
-          arcLinkLabelFontSize={arcLinkLabelSettings.arcLinkLabelFontSize}
-          arcLinkLabelFontFamily={arcLinkLabelSettings.arcLinkLabelFontFamily}
-          arcLinkLabelFontStyle={arcLinkLabelSettings.arcLinkLabelFontStyle}
-          arcLinkLabelFontWeight={arcLinkLabelSettings.arcLinkLabelFontWeight}
-          arcLinkLabelText={arcLinkLabelSettings.arcLinkLabelTEXT}
-          arcLinkLabelLineSize={arcLinkLabelSettings.arcLinkLabelLineSize}
-          arcLinkLabelTextDistance={arcLinkLabelSettings.arcLinkLabelTextDistance}
-          arcLinkLabelSkipAngle={arcLinkLabelSettings.arcLinkLabelSkipAngle}
-          arcLinkLabelLineOpacity={arcLinkLabelSettings.arcLinkLabelLineOpacity}
-          arcLinkLabelTextOpacity={arcLinkLabelSettings.arcLinkLabelTextOpacity}
-          arcLinkLabelIsUse={arcLinkLabelSettings.arcLinkLabelIsUse}
-          arcLinkLabelLocation={piece.arcLinkLabelLocation}
-          labelLocation={piece.labelLocation}
-          labelColor={labelSettings.labelColor}
-          labelFontFamily={labelSettings.labelFontFamily}
-          labelFontSize={labelSettings.labelFontSize}
-          labelFontStyle={labelSettings.labelFontStyle}
-          labelFontWeight={labelSettings.labelFontWeight}
-          labelMoveX={labelSettings.labelMoveX}
-          labelMoveY={labelSettings.labelMoveY}
-          labelDistance={labelSettings.labelDistance}
-          labelIsRotate={labelSettings.labelIsRotate}
-          labelText={labelSettings.labelText}
-          labelIsUse={labelSettings.labelIsUse}
-          labelSkipRatio={labelSettings.labelSkipRatio}
-          labelDegrees={labelSettings.labelDegrees}
-          labelOpacity={labelSettings.labelOpacity}
-          animationOn={animationSettings.animationOn}
-          animationDuration={animationSettings.animationDuration}
-          animationDelay={animationSettings.animationDelay}
-          animationTiming={animationSettings.animationTiming}
-          animationScale={animationSettings.animationScale}
-          label={piece.label}
-          ratio={piece.ratio}
-          value={piece.value}
-          key={index}
+          onMouseEnter={() => setHoveredIndex(index)}
+          onMouseLeave={() => setHoveredIndex(null)}
+          hoveredIndex={hoveredIndex}
+          index={index}
+          key={piece.index}
         />
       ))}
+
+      {pieceData.map((piece, index) => (
+        <g
+          onMouseEnter={() => setHoveredIndex(index)}
+          onMouseLeave={() => setHoveredIndex(null)}
+          className={hoveredIndex === index && "pie-piece__hover"}
+        >
+          <PiePieceLabel
+            x={piece.labelLocation.x}
+            y={piece.labelLocation.y}
+            degrees={piece.labelLocation.degrees}
+            labelColor={labelSettings.labelColor}
+            labelFontFamily={labelSettings.labelFontFamily}
+            labelFontSize={labelSettings.labelFontSize}
+            labelFontStyle={labelSettings.labelFontStyle}
+            labelFontWeight={labelSettings.labelFontWeight}
+            labelMoveX={labelSettings.labelMoveX}
+            labelMoveY={labelSettings.labelMoveY}
+            labelIsRotate={labelSettings.labelIsRotate}
+            labelText={labelSettings.labelText}
+            labelSkipRatio={labelSettings.labelSkipRatio}
+            labelIsUse={labelSettings.labelIsUse}
+            labelDegrees={labelSettings.labelDegrees}
+            labelOpacity={labelSettings.labelOpacity}
+            label={piece.label}
+            ratio={piece.ratio}
+            value={piece.value}
+            index={index}
+            key={piece.index}
+          />
+          <PiePieceArcLinkLabel
+            arcLinkLabelTextColor={
+              newArcLinkLabelTextColor[index % arcLinkLabelSettings.arcLinkLabelTextColor.length]
+            }
+            arcLinkLabelFontSize={arcLinkLabelSettings.arcLinkLabelFontSize}
+            arcLinkLabelFontWeight={arcLinkLabelSettings.arcLinkLabelFontWeight}
+            arcLinkLabelFontFamily={arcLinkLabelSettings.arcLinkLabelFontFamily}
+            arcLinkLabelFontStyle={arcLinkLabelSettings.arcLinkLabelFontStyle}
+            arcLinkLabelText={arcLinkLabelSettings.arcLinkLabelText}
+            arcLinkLabelLocation={piece.arcLinkLabelLocation}
+            arcLinkLabelTextDistance={arcLinkLabelSettings.arcLinkLabelTextDistance}
+            arcLinkLabelTextOpacity={arcLinkLabelSettings.arcLinkLabelTextOpacity}
+            arcLinkLabelLineColor={
+              newArcLinkLabelLineColor[index % arcLinkLabelSettings.arcLinkLabelLineColor.length]
+            }
+            arcLinkLabelSkipAngle={arcLinkLabelSettings.arcLinkLabelSkipAngle}
+            arcLinkLabelLineSize={arcLinkLabelSettings.arcLinkLabelLineSize}
+            arcLinkLabelLineOpacity={arcLinkLabelSettings.arcLinkLabelLineOpacity}
+            arcLinkLabelIsUse={arcLinkLabelSettings.arcLinkLabelIsUse}
+            value={piece.value}
+            label={piece.label}
+            ratio={piece.ratio}
+            index={index}
+            key={piece.index}
+          />
+        </g>
+      ))}
+
       {/* <ToolTipCommon /> */}
       <DrawLegends
         keys={data.map((item) => item.label)}
