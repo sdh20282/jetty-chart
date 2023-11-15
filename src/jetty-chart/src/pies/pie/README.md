@@ -141,7 +141,6 @@ legendSettings = {
 
 - ### 범례 위치 및 동작
   - useLegend: 범례 사용 여부. 기본값 true.
-  - directionColumn: 가로(true) / 세로(false) 정렬. 기본값 true.
   - marginTop: 윗 여백 설정. 기본값 3.
   - marginBottom: 아랫 여백 설정. 기본값 0.
   - marginLeft: 왼쪽 여백 설정. 기본값 0.
