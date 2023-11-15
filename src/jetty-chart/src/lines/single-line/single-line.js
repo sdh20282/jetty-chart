@@ -27,7 +27,7 @@ const SingleLine = ({
 
   return (
     <MultiLine
-      dataSet={dataSet}
+      data={dataSet}
       xLegend={xLegend}
       yLegend={yLegend}
       normalSettings={normalSettings}

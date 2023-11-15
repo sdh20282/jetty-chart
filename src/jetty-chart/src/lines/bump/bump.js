@@ -5,7 +5,7 @@ import styles from "./bump.module.css";
 import { useEffect, useRef } from "react";
 
 const BumpChart = ({
-  dataSet,
+  data,
   xLegend,
   yLegend,
   normalSettings,
@@ -22,6 +22,8 @@ const BumpChart = ({
   lineSettings,
   animationSettings,
 }) => {
+  const dataSet = data;
+
   if (!dataSet || dataSet.length === 0) {
     return;
   }
@@ -46,7 +48,7 @@ const BumpChart = ({
     lineSettings,
     animationSettings,
   });
-  result.normalSettings.padding += lineSettings.xOuterPadding;
+  result.normalSettings.padding += result.lineSettings.xOuterPadding;
 
   const { width, height, margin, padding, reverse, horizontal } = result.normalSettings;
 
@@ -58,6 +60,8 @@ const BumpChart = ({
     enablePoint,
     pointSize,
     pointColor,
+    pointColorFollowLineColor,
+    pointBorderColorFollowLineColor,
     pointBorderColor,
     pointBorderWidth,
     // enablePointLabel,
@@ -171,12 +175,9 @@ const BumpChart = ({
       pathString = coords.reduce((acc, curr, idx) => {
         const isFirstPoint = idx === 0;
 
-        let tempPath = "";
+        if (isFirstPoint) return ` ${curr[0] - xOuterPadding} ${curr[1]} L ${curr[0]} ${curr[1]}`;
 
-        if (!isFirstPoint) tempPath += ` L`;
-
-        tempPath += ` ${curr[0]} ${curr[1]}`;
-        return acc + tempPath;
+        return acc + ` L ${curr[0]} ${curr[1]}`;
       }, "");
     }
 
@@ -394,8 +395,8 @@ const BumpChart = ({
                       cx={0}
                       cy={0}
                       r={pointSize}
-                      fill={pointColor ?? lineColors[idx]}
-                      stroke={pointBorderColor ?? lineColors[idx]}
+                      fill={pointColorFollowLineColor ? lineColors[idx] : pointColor}
+                      stroke={pointBorderColorFollowLineColor ? lineColors[idx] : pointBorderColor}
                       strokeWidth={pointBorderWidth}
                     />
                   </g>
