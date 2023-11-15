@@ -277,18 +277,9 @@ const NormalPyramid = ({
                   transform={
                     useAnimation && useTranslate
                       ? `translate(0px, 0px)`
-                      // ? `translate(${barOnlyUpperRadius ? (checkPositive ? -borderRadius : borderRadius) : 0},0)`
                       : useAnimation && renderType.includes("grow")
                       ? `translate(${barOnlyUpperRadius ? (checkPositive ? zeroHeight - borderRadius : zeroHeight + borderRadius) : zeroHeight},${center - halfBarRealWidth})`
                       : `translate(${barOnlyUpperRadius ? (checkPositive ? zeroHeight : zeroHeight - borderRadius) : zeroHeight},${center - halfBarRealWidth})`
-                      // `${barOnlyUpperRadius ? (checkPositive ? zeroHeight - borderRadius : zeroHeight + borderRadius) : zeroHeight}px,0px`
-                      // ? `translate(${zeroHeight},${center - halfBarRealWidth})`
-                      // : `translate(${zeroHeight},${center - halfBarRealWidth})`
-                    // useAnimation && useTranslate
-                    //   ? `translate(0,0)`
-                    //   : useAnimation && renderType.includes("grow")
-                    //   ? `translate(${checkPositive ? zeroHeight - borderRadius : zeroHeight + borderRadius},${center - halfBarRealWidth})`
-                    //   : `translate(${checkPositive ? zeroHeight + borderRadius : zeroHeight - borderRadius},${center - halfBarRealWidth})`
                   }
                   className={useAnimation && useTranslate ? styles.translateGroup : ""}
                   style={{
@@ -310,9 +301,7 @@ const NormalPyramid = ({
                     transform={
                       (useAnimation && renderType.includes("grow")) || (useAnimation && useTranslate)
                         ? `translate()`
-                        // : `translate(0)`
                         : `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : (barOnlyUpperRadius ? -rectWidth + borderRadius : -rectWidth)})`
-                        // : `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius * 2 : -borderRadius) : (barOnlyUpperRadius ? -rectWidth + borderRadius * 2 : -rectWidth + borderRadius * 2)})`
                     }
                     fill={nowData.label === keys[0] ? colorPalette[0] : colorPalette[1]}
                     opacity={barOpacity}
@@ -344,8 +333,6 @@ const NormalPyramid = ({
                       "--animation-duration": useTranslate
                         ? `${renderType === "grow" ? renderDuration * valueRatio : translateDuration}s`
                         : `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`,
-                        // ? `10s`
-                        // : `10s`,
                       "--animation-delay": `${
                         (useTranslate ? translateStartDelay : renderStartDelay) +
                         (useTranslate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? groupIdx : data.length - 1 - groupIdx)
