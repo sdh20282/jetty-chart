@@ -142,7 +142,7 @@ const NormalPyramid = ({
       }
 
       return acc;
-    }, 0) * lineHeight;
+    }, 0) * lineHeight; 
 
   const prevBarsKeys = Object.keys(prevBars.current);
   const ms = new Date().valueOf();
@@ -292,7 +292,7 @@ const NormalPyramid = ({
                   }
                   className={useAnimation && useTranslate ? styles.translateGroup : ""}
                   style={{
-                    "--group-from": `${useTranslate ? (barOnlyUpperRadius ? (zeroHeight - translate.zeroHeight - borderRadius) : (zeroHeight - translate.zeroHeight)) : zeroHeight - translate.zeroHeight}px,${center - translate.center - halfBarRealWidth}px`,
+                    "--group-from": `${useTranslate ? (barOnlyUpperRadius ? (zeroHeight - translate.zeroHeight - borderRadius) : (zeroHeight - translate.zeroHeight)) : zeroHeight - translate.zeroHeight}px,${center - halfBarRealWidth}px`,
                     "--group-to": `${useTranslate ? (barOnlyUpperRadius ? (checkPositive ? zeroHeight - borderRadius : zeroHeight + borderRadius) : zeroHeight) : zeroHeight}px,${center - halfBarRealWidth}px`,
                     "--animation-duration": `${translateDuration}s`,
                     "--animation-timing-function": translateTimingFunction,
@@ -336,16 +336,16 @@ const NormalPyramid = ({
                       "--bar-from": useTranslate
                         ? `${barOnlyUpperRadius ? (checkPositive ? -borderRadius : borderRadius) : 0}px,0px`
                         : `${barOnlyUpperRadius ? (checkPositive ? -borderRadius : 0) : 0}px,0px`,
-                      "--bar-to": useTranslate
-                        ? `${barOnlyUpperRadius ? (checkPositive ? 0 : -rectWidth) : (checkPositive ? 0 : -rectWidth)}px, 0px`
-                        : `${barOnlyUpperRadius ? (checkPositive ? 0 : -rectWidth) : (checkPositive ? 0 : -rectWidth)}px,0px`,
-                      "--width-from": useTranslate ? `` : `0px`,
+                      "--bar-to": `${checkPositive ? 0 : -rectWidth}px,0px`,
+                      "--width-from": useTranslate ? `0px` : `0px`,
                       "--width-to": `${rectWidth}px`,
-                      "--height-from": useTranslate ? `` : `${rectHeight}px`,
+                      "--height-from": `${rectHeight}px`,
                       "--height-to": `${rectHeight}px`,
                       "--animation-duration": useTranslate
-                        ? `${translateDuration}s`
+                        ? `${renderType === "grow" ? renderDuration * valueRatio : translateDuration}s`
                         : `${renderType === "grow" ? renderDuration * valueRatio : renderDuration}s`,
+                        // ? `10s`
+                        // : `10s`,
                       "--animation-delay": `${
                         (useTranslate ? translateStartDelay : renderStartDelay) +
                         (useTranslate ? translateItemDelay : renderItemDelay) * (renderStartFrom === "left" ? groupIdx : data.length - 1 - groupIdx)
