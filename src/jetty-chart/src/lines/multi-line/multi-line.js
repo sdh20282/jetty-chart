@@ -278,7 +278,7 @@ const MultiLine = ({
         nowData.value = -nowData.value;
       }
 
-      const positionX = pointGapWidth * idx;
+      const positionX = pointGapWidth * idx + padding;
 
       const height = (nowData.value / (scopeResult.maxScope - scopeResult.minScope)) * totalHeight;
 
