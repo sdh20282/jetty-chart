@@ -7,9 +7,10 @@ import {
   setDefaultPieSettings,
   setDefaultArcLinkLabelSettings,
   setDefaultAnimationSettings,
+  setDefaultLegendSettings,
 } from "../../common/pie-common/utils/setDefaultSettings";
 import "./pie.css";
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Pie = ({
   data,
@@ -18,29 +19,30 @@ export const Pie = ({
   labelSettings,
   arcLinkLabelSettings,
   animationSettings,
+  legendSettings,
   debugSettings = false,
 }) => {
-  const newGeneralSettings = {
-    ...setDefaultGeneralSettings(),
-    ...generalSettings,
-  };
-  const newPieSettings = {
-    ...setDefaultPieSettings(),
-    ...pieSettings,
-  };
-  const newLabelSettings = {
-    ...setDefaultLabelSettings(),
-    ...labelSettings,
-  };
-  const newArcLinkLabelSettings = {
-    ...setDefaultArcLinkLabelSettings(),
-    ...arcLinkLabelSettings,
-  };
-  const newAnimationSettings = {
-    ...setDefaultAnimationSettings(),
-    ...animationSettings,
-  };
-  const newDebugSettings = debugSettings;
+  // const newGeneralSettings = {
+  //   ...setDefaultGeneralSettings(),
+  //   ...generalSettings,
+  // };
+  // const newPieSettings = {
+  //   ...setDefaultPieSettings(),
+  //   ...pieSettings,
+  // };
+  // const newLabelSettings = {
+  //   ...setDefaultLabelSettings(),
+  //   ...labelSettings,
+  // };
+  // const newArcLinkLabelSettings = {
+  //   ...setDefaultArcLinkLabelSettings(),
+  //   ...arcLinkLabelSettings,
+  // };
+  // const newAnimationSettings = {
+  //   ...setDefaultAnimationSettings(),
+  //   ...animationSettings,
+  // };
+  // const newDebugSettings = debugSettings;
 
   // const animationPieMakeWay = "all"; // all, oneByOne, none
   // if (animationPieMakeWay === "all") {
@@ -60,9 +62,9 @@ export const Pie = ({
   //     intervalId = setInterval(() => {
   //       setNewPieSettings((prevSettings) => ({
   //         ...prevSettings,
-  //         useAngle: prevSettings.useAngle + 40,
+  //         useAngle: prevSettings.useAngle + 10,
   //       }));
-  //     }, 40);
+  //     }, 10);
   //   }
 
   //   console.log("RENDERING");
@@ -74,19 +76,31 @@ export const Pie = ({
   //   };
   // }, [newPieSettings.useAngle]);
 
-  // const [newGeneralSettings, setNewGeneralSettings] = useState({
-  //   ...setDefaultGeneralSettings(),
-  //   ...generalSettings,
-  // });
-  // const [newPieSettings, setNewPieSettings] = useState({
-  //   ...setDefaultPieSettings(),
-  //   ...pieSettings,
-  // });
-  // const [newLabelSettings, setNewLabelSettings] = useState({
-  //   ...setDefaultLabelSettings(),
-  //   ...labelSettings,
-  // });
-  // const [newDebugSettings, setNewDebugSettings] = useState(debugSettings);
+  const [newGeneralSettings, setNewGeneralSettings] = useState({
+    ...setDefaultGeneralSettings(),
+    ...generalSettings,
+  });
+  const [newPieSettings, setNewPieSettings] = useState({
+    ...setDefaultPieSettings(),
+    ...pieSettings,
+  });
+  const [newLabelSettings, setNewLabelSettings] = useState({
+    ...setDefaultLabelSettings(),
+    ...labelSettings,
+  });
+  const [newArcLinkLabelSettings, setNewArcLinkLabelSettings] = useState({
+    ...setDefaultArcLinkLabelSettings(),
+    ...arcLinkLabelSettings,
+  });
+  const [newAnimationSettings, setNewAnimationSettings] = useState({
+    ...setDefaultAnimationSettings(),
+    ...animationSettings,
+  });
+  const [newLegendSettings, setNewLegendSettings] = useState({
+    ...setDefaultLegendSettings(),
+    ...legendSettings,
+  });
+  const [newDebugSettings, setNewDebugSettings] = useState(debugSettings);
   return (
     <>
       {/* <PieTestSetting
@@ -106,6 +120,7 @@ export const Pie = ({
         labelSettings={newLabelSettings}
         debugSettings={newDebugSettings}
         animationSettings={newAnimationSettings}
+        legendSettings={newLegendSettings}
         arcLinkLabelSettings={newArcLinkLabelSettings}
       />
     </>

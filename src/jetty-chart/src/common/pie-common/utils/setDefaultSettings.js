@@ -66,6 +66,24 @@ import {
   DEFAULT_ANIMATION_SCALE,
   DEFAULT_ANIMATION_TIMING,
 } from "../constants/animationSettings";
+import {
+  DEFAULT_LEGEND_COLOR,
+  DEFAULT_LEGEND_DIRECTION_COLUMN,
+  DEFAULT_LEGEND_ITEM_MARGIN,
+  DEFAULT_LEGEND_ITEM_WIDTH,
+  DEFAULT_LEGEND_ON_START,
+  DEFAULT_LEGEND_OPACITY,
+  DEFAULT_LEGEND_POSITION,
+  DEFAULT_LEGEND_SIZE,
+  DEFAULT_LEGEND_SYMBOL_MARGIN,
+  DEFAULT_LEGEND_SYMBOL_OPACITY,
+  DEFAULT_LEGEND_SYMBOL_RADIUS,
+  DEFAULT_LEGEND_SYMBOL_SIZE,
+  DEFAULT_LEGEND_USE,
+  DEFAULT_LEGEND_WEIGHT,
+  DEFAULT_LEGEND_X_LOCATION,
+  DEFAULT_LEGEND_Y_LOCATION,
+} from "../constants/legendSettings";
 
 export const setDefaultGeneralSettings = () => {
   return {
@@ -148,5 +166,26 @@ export const setDefaultAnimationSettings = () => {
     animationDelay: DEFAULT_ANIMATION_DELAY,
     animationTiming: DEFAULT_ANIMATION_TIMING,
     animationScale: DEFAULT_ANIMATION_SCALE,
+  };
+};
+
+export const setDefaultLegendSettings = () => {
+  return {
+    useLegend: DEFAULT_LEGEND_USE,
+    position: DEFAULT_LEGEND_POSITION, // bottom center top - left center right
+    xLocation: DEFAULT_LEGEND_X_LOCATION,
+    yLocation: DEFAULT_LEGEND_Y_LOCATION,
+    directionColumn: DEFAULT_LEGEND_DIRECTION_COLUMN,
+    itemWidth: DEFAULT_LEGEND_ITEM_WIDTH,
+    itemMargin: DEFAULT_LEGEND_ITEM_MARGIN,
+    symbolSize: DEFAULT_LEGEND_SYMBOL_SIZE,
+    symbolRadius: DEFAULT_LEGEND_SYMBOL_RADIUS,
+    symbolMargin: DEFAULT_LEGEND_SYMBOL_MARGIN,
+    symbolOpacity: DEFAULT_LEGEND_SYMBOL_OPACITY,
+    legendSize: DEFAULT_LEGEND_SIZE,
+    legendWeight: DEFAULT_LEGEND_WEIGHT,
+    legendOpacity: DEFAULT_LEGEND_OPACITY,
+    legendColor: DEFAULT_LEGEND_COLOR,
+    legendOnStart: DEFAULT_LEGEND_ON_START,
   };
 };

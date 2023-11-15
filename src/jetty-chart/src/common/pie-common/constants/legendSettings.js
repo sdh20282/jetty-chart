@@ -1,0 +1,16 @@
+export const DEFAULT_LEGEND_USE = true; // 사용여부
+export const DEFAULT_LEGEND_POSITION = "center-center"; // 위치
+export const DEFAULT_LEGEND_X_LOCATION = 0; // 좌표
+export const DEFAULT_LEGEND_Y_LOCATION = 0; // 좌표
+export const DEFAULT_LEGEND_DIRECTION_COLUMN = true; // 좌우 / 상하
+export const DEFAULT_LEGEND_ITEM_WIDTH = 0.3; // 아이템 너비
+export const DEFAULT_LEGEND_ITEM_MARGIN = 0.03; // 아이템간의 간격
+export const DEFAULT_LEGEND_SYMBOL_SIZE = 0.1; // 심볼크기
+export const DEFAULT_LEGEND_SYMBOL_RADIUS = 3; // 심볼 둥글기
+export const DEFAULT_LEGEND_SYMBOL_MARGIN = 0.1; // 심볼 텍스트 간격
+export const DEFAULT_LEGEND_SYMBOL_OPACITY = 1; // 심볼 투명도
+export const DEFAULT_LEGEND_SIZE = 0.1; // 텍스트 크기
+export const DEFAULT_LEGEND_WEIGHT = 400; // 텍스트 굵기
+export const DEFAULT_LEGEND_OPACITY = 1; // 텍스트 투명도
+export const DEFAULT_LEGEND_COLOR = "#aaa"; // 텍스트 색
+export const DEFAULT_LEGEND_ON_START = true; // 좌우 정렬

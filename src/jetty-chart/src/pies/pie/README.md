@@ -13,6 +13,7 @@
   pieSettings={pieSettings}
   labelSettings={labelSettings}
   arcLinkLabelSettings={arcLinkLabelSettings}
+  legendSettings={legendSettings}
 />
 ```
 
@@ -48,6 +49,9 @@ labelSettings = {
   // ...
 }
 arcLinkLabelSettings = {
+  // ...
+}
+legendSettings = {
   // ...
 }
 ```
@@ -132,3 +136,13 @@ arcLinkLabelSettings = {
   - arcLinkLabelIsUse: 사용 여부. 기본값 true. 범위 (true, false)
   - arcLinkLabelLineOpacity: 라인 투명도. 기본값 1. 범위 (0 ~ 1)
   - arcLinkLabelTextOpacity: 텍스트 투명도. 기본값 1. 범위 (0 ~ 1)
+
+## 범례 설정 (legendSettings)
+
+- ### 범례 위치 및 동작
+  - useLegend: 범례 사용 여부. 기본값 true.
+  - directionColumn: 가로(true) / 세로(false) 정렬. 기본값 true.
+  - marginTop: 윗 여백 설정. 기본값 3.
+  - marginBottom: 아랫 여백 설정. 기본값 0.
+  - marginLeft: 왼쪽 여백 설정. 기본값 0.
+  - marginRight: 오른쪽 여백 설정. 기본값 2,

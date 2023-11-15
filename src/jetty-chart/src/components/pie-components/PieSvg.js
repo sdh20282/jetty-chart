@@ -6,6 +6,9 @@ import { setExceptionValue } from "../../common/pie-common/utils/setExceptionVal
 import PieCircleBackground from "./PieCircleBackground";
 import PieDonutBackground from "./PieDonutBackground";
 import PiePiece from "./PiePiece";
+import ToolTipCommon from "../tooltip/ToolTipCommon";
+import { DrawLegends } from "../legend/draw-legends";
+import { getSortedColor } from "../../common/pie-common/utils/getSortedColor";
 
 const PieSvg = ({
   data,
@@ -14,6 +17,7 @@ const PieSvg = ({
   labelSettings,
   arcLinkLabelSettings,
   animationSettings,
+  legendSettings,
   // debugSettings,
 }) => {
   setExceptionValue({ pieSettings, length: data.length });
@@ -24,7 +28,16 @@ const PieSvg = ({
     useAngle: pieSettings.useAngle,
     sortByValue: pieSettings.sortByValue,
   });
-
+  const newColor = getSortedColor({ data, color: pieSettings.color });
+  const newStrokeColor = getSortedColor({ data, color: pieSettings.strokeColor });
+  const newArcLinkLabelTextColor = getSortedColor({
+    data,
+    color: arcLinkLabelSettings.arcLinkLabelTextColor,
+  });
+  const newArcLinkLabelLineColor = getSortedColor({
+    data,
+    color: arcLinkLabelSettings.arcLinkLabelLineColor,
+  });
   const pieceData = getPiePiece({
     data,
     pieRadius: pieSettings.pieRadius,
@@ -36,7 +49,6 @@ const PieSvg = ({
     arcLinkLabelStartLine: arcLinkLabelSettings.arcLinkLabelStartLine,
     arcLinkLabelEndLine: arcLinkLabelSettings.arcLinkLabelEndLine,
   });
-
   return (
     <svg
       id="pie"
@@ -71,8 +83,8 @@ const PieSvg = ({
       />
       {pieceData.map((piece, index) => (
         <PiePiece
-          color={pieSettings.color[index % pieSettings.color.length]}
-          strokeColor={pieSettings.strokeColor[index % pieSettings.strokeColor.length]}
+          color={newColor[index % pieSettings.color.length]}
+          strokeColor={newStrokeColor[index % pieSettings.strokeColor.length]}
           strokeWidth={pieSettings.strokeWidth}
           strokeOpacity={pieSettings.strokeOpacity}
           pieceOpacity={generalSettings.pieceOpacity}
@@ -84,14 +96,10 @@ const PieSvg = ({
           tangentLineGroup={piece.tangentLineGroup}
           isLargeArcGroup={piece.isLargeArcGroup}
           arcLinkLabelTextColor={
-            arcLinkLabelSettings.arcLinkLabelTextColor[
-              index % arcLinkLabelSettings.arcLinkLabelTextColor.length
-            ]
+            newArcLinkLabelTextColor[index % arcLinkLabelSettings.arcLinkLabelTextColor.length]
           }
           arcLinkLabelLineColor={
-            arcLinkLabelSettings.arcLinkLabelLineColor[
-              index % arcLinkLabelSettings.arcLinkLabelLineColor.length
-            ]
+            newArcLinkLabelLineColor[index % arcLinkLabelSettings.arcLinkLabelLineColor.length]
           }
           arcLinkLabelFontSize={arcLinkLabelSettings.arcLinkLabelFontSize}
           arcLinkLabelFontFamily={arcLinkLabelSettings.arcLinkLabelFontFamily}
@@ -131,6 +139,22 @@ const PieSvg = ({
           key={index}
         />
       ))}
+      <ToolTipCommon />
+      <DrawLegends
+        keys={data.map((item) => item.label)}
+        normalSettings={{
+          width: 0,
+          height: 0,
+          colorPalette: newColor,
+          margin: {
+            top: legendSettings.marginTop,
+            right: legendSettings.marginRight,
+            bottom: legendSettings.marginBottom,
+            left: legendSettings.marginLeft,
+          },
+        }}
+        legendSettings={legendSettings}
+      />
     </svg>
   );
 };

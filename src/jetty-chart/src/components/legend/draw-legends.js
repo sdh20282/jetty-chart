@@ -34,7 +34,11 @@ export const DrawLegends = ({
     useLegend && (
       <g
         transform={`translate(${
-          (xAxis === "left" ? 0 : xAxis === "center" ? margin.left + chartWidth / 2 - itemWidth / 2 : chartWidth + margin.left) + xLocation
+          (xAxis === "left"
+            ? 0
+            : xAxis === "center"
+            ? margin.left + chartWidth / 2 - itemWidth / 2
+            : chartWidth + margin.left) + xLocation
         },${
           (yAxis === "top"
             ? margin.top
@@ -47,7 +51,11 @@ export const DrawLegends = ({
           return (
             <g
               key={k + String(idx)}
-              transform={directionColumn ? `translate(0,${(symbolSize + itemMargin) * idx})` : `translate(${(itemWidth + itemMargin) * idx})`}
+              transform={
+                directionColumn
+                  ? `translate(0,${(symbolSize + itemMargin) * idx})`
+                  : `translate(${(itemWidth + itemMargin) * idx})`
+              }
               width={itemWidth - symbolSize - symbolMargin}
             >
               <rect
@@ -66,7 +74,9 @@ export const DrawLegends = ({
                 opacity={legendOpacity}
                 dominantBaseline="middle"
                 textAnchor={legendOnStart ? "start" : "end"}
-                transform={`translate(${legendOnStart ? symbolSize + symbolMargin : itemWidth},${symbolSize / 2})`}
+                transform={`translate(${legendOnStart ? symbolSize + symbolMargin : itemWidth},${
+                  symbolSize / 2
+                })`}
               >
                 {k}
               </text>
