@@ -53,6 +53,11 @@ const PiePiece = ({
   ratio,
   value,
 }) => {
+  if (!animationOn) {
+    animationDuration = 0;
+    animationDelay = 0;
+    animationScale = 1;
+  }
   return (
     <g
       className={"pie-piece"}

@@ -23,7 +23,7 @@ const getPiePiece = ({
   arcLinkLabelStartLine,
   arcLinkLabelEndLine,
 }) => {
-  const pieceData = data.map(({ value, ratio, label, accumulatedAngle }) => {
+  const pieceData = data.map(({ value, ratio, label, index, accumulatedAngle }) => {
     const vertexGroup = getCoordinateVertexGroup({
       ratio,
       startAngle: accumulatedAngle,
@@ -107,6 +107,7 @@ const getPiePiece = ({
       value,
       ratio,
       label,
+      index,
     };
   });
 

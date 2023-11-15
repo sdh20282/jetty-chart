@@ -6,6 +6,9 @@ import { setExceptionValue } from "../../common/pie-common/utils/setExceptionVal
 import PieCircleBackground from "./PieCircleBackground";
 import PieDonutBackground from "./PieDonutBackground";
 import PiePiece from "./PiePiece";
+import ToolTipCommon from "../tooltip/ToolTipCommon";
+import { DrawLegends } from "../legend/draw-legends";
+import { getSortedColor } from "../../common/pie-common/utils/getSortedColor";
 
 const PieSvg = ({
   data,
@@ -13,7 +16,8 @@ const PieSvg = ({
   pieSettings,
   labelSettings,
   arcLinkLabelSettings,
-  newAnimationSettings,
+  animationSettings,
+  legendSettings,
   // debugSettings,
 }) => {
   setExceptionValue({ pieSettings, length: data.length });
@@ -24,7 +28,16 @@ const PieSvg = ({
     useAngle: pieSettings.useAngle,
     sortByValue: pieSettings.sortByValue,
   });
-
+  const newColor = getSortedColor({ data, color: pieSettings.color });
+  const newStrokeColor = getSortedColor({ data, color: pieSettings.strokeColor });
+  const newArcLinkLabelTextColor = getSortedColor({
+    data,
+    color: arcLinkLabelSettings.arcLinkLabelTextColor,
+  });
+  const newArcLinkLabelLineColor = getSortedColor({
+    data,
+    color: arcLinkLabelSettings.arcLinkLabelLineColor,
+  });
   const pieceData = getPiePiece({
     data,
     pieRadius: pieSettings.pieRadius,
@@ -70,8 +83,8 @@ const PieSvg = ({
       />
       {pieceData.map((piece, index) => (
         <PiePiece
-          color={pieSettings.color[index % pieSettings.color.length]}
-          strokeColor={pieSettings.strokeColor[index % pieSettings.strokeColor.length]}
+          color={newColor[index % pieSettings.color.length]}
+          strokeColor={newStrokeColor[index % pieSettings.strokeColor.length]}
           strokeWidth={pieSettings.strokeWidth}
           strokeOpacity={pieSettings.strokeOpacity}
           pieceOpacity={generalSettings.pieceOpacity}
@@ -83,14 +96,10 @@ const PieSvg = ({
           tangentLineGroup={piece.tangentLineGroup}
           isLargeArcGroup={piece.isLargeArcGroup}
           arcLinkLabelTextColor={
-            arcLinkLabelSettings.arcLinkLabelTextColor[
-              index % arcLinkLabelSettings.arcLinkLabelTextColor.length
-            ]
+            newArcLinkLabelTextColor[index % arcLinkLabelSettings.arcLinkLabelTextColor.length]
           }
           arcLinkLabelLineColor={
-            arcLinkLabelSettings.arcLinkLabelLineColor[
-              index % arcLinkLabelSettings.arcLinkLabelLineColor.length
-            ]
+            newArcLinkLabelLineColor[index % arcLinkLabelSettings.arcLinkLabelLineColor.length]
           }
           arcLinkLabelFontSize={arcLinkLabelSettings.arcLinkLabelFontSize}
           arcLinkLabelFontFamily={arcLinkLabelSettings.arcLinkLabelFontFamily}
@@ -119,39 +128,33 @@ const PieSvg = ({
           labelSkipRatio={labelSettings.labelSkipRatio}
           labelDegrees={labelSettings.labelDegrees}
           labelOpacity={labelSettings.labelOpacity}
-          animationOn={newAnimationSettings.animationOn}
-          animationDuration={newAnimationSettings.animationDuration}
-          animationDelay={newAnimationSettings.animationDelay}
-          animationTiming={newAnimationSettings.animationTiming}
-          animationScale={newAnimationSettings.animationScale}
+          animationOn={animationSettings.animationOn}
+          animationDuration={animationSettings.animationDuration}
+          animationDelay={animationSettings.animationDelay}
+          animationTiming={animationSettings.animationTiming}
+          animationScale={animationSettings.animationScale}
           label={piece.label}
           ratio={piece.ratio}
           value={piece.value}
           key={index}
         />
       ))}
-      {/* {pieceData.map((piece, index) => (
-        <PieDebugMode
-          debugSettings={debugSettings.debugTool}
-          pieRadius={piece.pieRadius}
-          innerRadius={pieSettings.innerRadius}
-          cornerOuterRadius={piece.cornerOuterRadius}
-          cornerInnerRadius={piece.cornerInnerRadius}
-          accumulatedAngle={piece.accumulatedAngle}
-          ratio={piece.ratio}
-          vertexGroup={piece.vertexGroup}
-          calcVertexGroup={piece.calcVertexGroup}
-          tangentLineGroup={piece.tangentLineGroup}
-          cornerCircleGroup={piece.cornerCircleGroup}
-          startAngle={pieSettings.startAngle}
-          referenceCoordinate={piece.referenceCoordinate}
-          candidatesGroup={piece.candidatesGroup}
-          labelLocation={piece.labelLocation}
-          labelMoveX={labelSettings.labelMoveX}
-          labelMoveY={labelSettings.labelMoveY}
-          key={index}
-        />
-      ))} */}
+      <ToolTipCommon />
+      <DrawLegends
+        keys={data.map((item) => item.label)}
+        normalSettings={{
+          width: 0,
+          height: 0,
+          colorPalette: newColor,
+          margin: {
+            top: legendSettings.marginTop,
+            right: legendSettings.marginRight,
+            bottom: legendSettings.marginBottom,
+            left: legendSettings.marginLeft,
+          },
+        }}
+        legendSettings={legendSettings}
+      />
     </svg>
   );
 };

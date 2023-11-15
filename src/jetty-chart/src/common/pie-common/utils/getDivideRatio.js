@@ -24,10 +24,11 @@ const deepCopy = ({ obj }) => {
   return copy;
 };
 
-export const divideRatio = ({ data, padAngle = 0, startAngle, useAngle, sortByValue }) => {
+export const divideRatio = ({ data, padAngle, startAngle, useAngle, sortByValue }) => {
   let sum = 0;
   for (let i = 0; i < data.length; i++) {
     sum += data[i].value;
+    data[i].index = i;
   }
   let accumulatedAngle = startAngle % 360;
   let prevRatio = 0;
