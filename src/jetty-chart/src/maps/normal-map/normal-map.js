@@ -3,19 +3,14 @@ import styles from "./normal-map.module.css";
 import { checkMapChart } from "../../common/map-common/exception/check-normal-map-exception";
 
 /* eslint-disable complexity */
-const NormalMap = ({
-  data,
-  normalSetting,
-  gagueBarSetting,
-  tooltipSetting,
-}) => {
+const NormalMap = ({ data, normalSetting, gagueBarSetting, tooltipSetting }) => {
   const result = checkMapChart({
     normalSetting,
     gagueBarSetting,
     tooltipSetting,
   });
-    
-  const { 
+
+  const {
     backgroundColor,
     divide,
     colorCode,
@@ -29,7 +24,7 @@ const NormalMap = ({
     marginLeft,
     marginRight,
   } = result.normalSetting;
-  
+
   const {
     useGagueBar,
     useValueLavel,
@@ -43,7 +38,8 @@ const NormalMap = ({
     valueLavel,
   } = result.gagueBarSetting;
 
-  const {useFollowColor,
+  const {
+    useFollowColor,
     useKorea,
     tooltipWidth,
     tooltipBackGroundColor,
@@ -71,19 +67,87 @@ const NormalMap = ({
     ["#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b"],
     ["#dcfce7", "#bbf7d0", "#86efac", "#4ade80", "#22c55e"],
     ["#f3e8ff", "#e9d5ff", "#c084fc", "#a855f7", "#7e22ce"],
-    ["#fefce8","#fef08a","#fde047","#facc15","#eab308"],
-    ["#f5f5f4","#d6d3d1","#a8a29e","#78716c","#57534e"],
+    ["#fefce8", "#fef08a", "#fde047", "#facc15", "#eab308"],
+    ["#f5f5f4", "#d6d3d1", "#a8a29e", "#78716c", "#57534e"],
     ["#FFBE0B", "#FB5607", "#FF006E", "#8338EC", "#3A86FF"],
-    ["#264653", "#2A9D8F" , "#E9C46A" , "#F4A261", "#E76F51"],
+    ["#264653", "#2A9D8F", "#E9C46A", "#F4A261", "#E76F51"],
     ["#606C38", "#283618", "#FEFAE0", "#DDA15E", "#BC6C25"],
     ["#CDB4DB", "#FFC8DD", "#FFAFCC", "#BDE0FE", "#A2D2FF"],
     ["#080708", "#3772FF", "#DF2935", "#FDCA40", "#E6E8E6"],
-    ["#ff0000", "#ff8000", "#ffff00", "#80ff00", "#00ff00", "#00ff80", "#00ffff", "#0080ff", "#0000ff", "#8000ff", "#ff00ff", "#ff0080"],
-    ["#EC5BCF", "#F65AA6" , "#FF5C77", "#FF7A66", "#FFB070", "#FFE07A", "#F5FF85", "#D2FF8F", "#B6FF99", "#A3FFA6"],
-    ["#202202", "#4E3708" , "#772F13", "#9C212B", "#BC3473", "#C75CB7", "#BD88CD", "#C0B1D8", "#D6D6E6", "#F6F7F9"],
-    ["#1A1E05", "#484B0C", "#786C12", "#A68017", "#D5871A", "#E9863A", "#F08D66", "#F6A093", "#FAC1C1", "#FEF1F3"],
-    ["#FEC5BB", "#FCD5CE", "#FAE1DD", "#F8EDEB", "#E8E8E4", "#D8E2DC", "#ECE4DB", "#FFE5D9", "#FFD7BA", "#FEC89A"],
-    ["#03071E", "#370617", "#6A040F", "#9D0208", "#D00000" , "#DC2F02", "#E85D04", "#F48C06", "#FAA307", "#FFBA08"],
+    [
+      "#ff0000",
+      "#ff8000",
+      "#ffff00",
+      "#80ff00",
+      "#00ff00",
+      "#00ff80",
+      "#00ffff",
+      "#0080ff",
+      "#0000ff",
+      "#8000ff",
+      "#ff00ff",
+      "#ff0080",
+    ],
+    [
+      "#EC5BCF",
+      "#F65AA6",
+      "#FF5C77",
+      "#FF7A66",
+      "#FFB070",
+      "#FFE07A",
+      "#F5FF85",
+      "#D2FF8F",
+      "#B6FF99",
+      "#A3FFA6",
+    ],
+    [
+      "#202202",
+      "#4E3708",
+      "#772F13",
+      "#9C212B",
+      "#BC3473",
+      "#C75CB7",
+      "#BD88CD",
+      "#C0B1D8",
+      "#D6D6E6",
+      "#F6F7F9",
+    ],
+    [
+      "#1A1E05",
+      "#484B0C",
+      "#786C12",
+      "#A68017",
+      "#D5871A",
+      "#E9863A",
+      "#F08D66",
+      "#F6A093",
+      "#FAC1C1",
+      "#FEF1F3",
+    ],
+    [
+      "#FEC5BB",
+      "#FCD5CE",
+      "#FAE1DD",
+      "#F8EDEB",
+      "#E8E8E4",
+      "#D8E2DC",
+      "#ECE4DB",
+      "#FFE5D9",
+      "#FFD7BA",
+      "#FEC89A",
+    ],
+    [
+      "#03071E",
+      "#370617",
+      "#6A040F",
+      "#9D0208",
+      "#D00000",
+      "#DC2F02",
+      "#E85D04",
+      "#F48C06",
+      "#FAA307",
+      "#FFBA08",
+    ],
   ];
 
   // 컬러코드 0: 파랑 , 1: 오렌지, 2: 레드, 3: 블루그레이, 4: 그린
@@ -108,7 +172,7 @@ const NormalMap = ({
   if (divide === 3) {
     useColor = [color[0], color[2], color[4]];
     let y = 1000;
-    
+
     for (let i = 0; i < divide; i++) {
       const z = y - (200 + gagueBarHeight) / divide;
 
@@ -132,7 +196,7 @@ const NormalMap = ({
   if (divide === 5) {
     useColor = color;
     let y = 1000;
-    
+
     for (let i = 0; i < divide; i++) {
       const z = y - (200 + gagueBarHeight) / divide;
 
@@ -156,10 +220,9 @@ const NormalMap = ({
     }
   });
 
-
   const citycolor = data.map((city) => {
     const percentage = (city.value / max) * 100;
-    
+
     if (divide === 5) {
       if (percentage.toFixed(0) >= 20) {
         city.colorCode = 1;
@@ -210,25 +273,25 @@ const NormalMap = ({
 
     return city;
   });
-  // 컬러코드 지정 
+  // 컬러코드 지정
 
   const [mousePointer, setMousePointer] = useState(25);
   const [tooltipOn, setTooltipOn] = useState(false);
   const [tooltipDescription, settooltipDescription] = useState("");
   const [tooltipCity, setTooltipCity] = useState("");
   const [tooltipValue, setTooltipValue] = useState("");
-  const [scale,setScale] = useState(1);
-  const [firstX,setFirstX] = useState();
-  const [targetColor,setTargetColor] =useState("");
+  const [scale, setScale] = useState(1);
+  const [firstX, setFirstX] = useState();
+  const [targetColor, setTargetColor] = useState("");
 
-  let ToolW = tooltipWidth/scale;
-  let ToolH = 1064/scale;
+  let ToolW = tooltipWidth / scale;
+  let ToolH = 1064 / scale;
 
-  let cityFontS =  cityNameFontSize/scale; 
-  let cityValueFontS = cityValueFontSize/scale;
-  let decripFontS = descriptionFontSize/scale;
+  let cityFontS = cityNameFontSize / scale;
+  let cityValueFontS = cityValueFontSize / scale;
+  let decripFontS = descriptionFontSize / scale;
 
-  const svgRef =useRef(null);
+  const svgRef = useRef(null);
   const mapRef = useRef(null);
   const PathelementsRef = useRef([]);
   const tooltipRef = useRef(null);
@@ -245,7 +308,7 @@ const NormalMap = ({
     let r = parseInt(hexCode.slice(1, 3), 16);
     let g = parseInt(hexCode.slice(3, 5), 16);
     let b = parseInt(hexCode.slice(5, 7), 16);
-  
+
     // RGBA 형식의 색상 문자열을 반환합니다.
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
@@ -258,20 +321,20 @@ const NormalMap = ({
     setTooltipOn(true);
     if (value.length > 0) {
       const cityValue = value[0].value;
-      
-      let cityName
-    
-      if(useKorea){
+
+      let cityName;
+
+      if (useKorea) {
         cityName = value[0].inKorea;
-      }else{
+      } else {
         cityName = value[0].name;
       }
-      
-      let color = e.target.getAttribute('fill')
-      let opacolor = convertHexToRGBA(color,0.5)
+
+      let color = e.target.getAttribute("fill");
+      let opacolor = convertHexToRGBA(color, 0.5);
       const cityDescription = value[0].description;
       const mousePercentage = (200 + gagueBarHeight) * (cityValue / max);
-      setTargetColor(opacolor)
+      setTargetColor(opacolor);
       setMousePointer(mousePercentage);
       setTooltipCity(cityName);
       setTooltipValue(cityValue);
@@ -290,7 +353,7 @@ const NormalMap = ({
       return;
     }
 
-    const mySVG = svgRef.current
+    const mySVG = svgRef.current;
     setFirstX(mySVG.getBoundingClientRect().x);
     const mapSvg = PathelementsRef;
 
@@ -299,11 +362,9 @@ const NormalMap = ({
     });
     const outMap = mapRef;
     outMap.current.addEventListener("mouseout", pathOut);
-
-
   }, [data]);
 
-  function tooltipMove(e){
+  function tooltipMove(e) {
     const main = mapRef.current;
     // 적용될 svg 태그의 .id 값을 선택합니다.
     const tooltipObject = tooltipRef.current;
@@ -313,15 +374,21 @@ const NormalMap = ({
     const rectTooltip = tooltipObject.getBoundingClientRect();
     // 선택된 tooltip 태그의 절대 위치를 가져옵니다.
     // 좌표값을 구하는데 오른쪽과 왼쪽을 나눠서 구해줍니다. 툴팁이 뜨는방향을 정하기 위함.
-    const realativeTooltip = tooltipDiv.current
+    const realativeTooltip = tooltipDiv.current;
     const realativetooltipMaxHeight = realativeTooltip.getBoundingClientRect().height;
-    const xRight = 20/scale + (e.clientX - rect.x) * (1048 /scale / width);
+    const xRight = 20 / scale + (e.clientX - rect.x) * (1048 / scale / width);
     // svg 의 실제 width 와 viewBox 의 비율을 맞춰줍니다. 1048 << 뷰박스 크기 , width 사용자가 입력한 width 크기
-    const xLeft = -20/scale + (e.clientX - rect.x) * (1048 /scale / width) - rectTooltip.width * (1048 /scale / width);
-    const yTop = -20/scale + (e.clientY - rect.y) * (1064/ rect.height);
-    const yBottom = -20/scale + (e.clientY - rect.y) * (1064 / rect.height ) - (realativetooltipMaxHeight * (1064 / rect.height));
+    const xLeft =
+      -20 / scale +
+      (e.clientX - rect.x) * (1048 / scale / width) -
+      rectTooltip.width * (1048 / scale / width);
+    const yTop = -20 / scale + (e.clientY - rect.y) * (1064 / rect.height);
+    const yBottom =
+      -20 / scale +
+      (e.clientY - rect.y) * (1064 / rect.height) -
+      realativetooltipMaxHeight * (1064 / rect.height);
     // svg 의 실제 height 와 viewBox 의 비율을 맞춰줍니다. 1064 << 뷰박스 크기 , height 사용자가 입력한 width 크기
-    if(scale === 1){
+    if (scale === 1) {
       if (e.clientX < rect.x + rect.width / 2 && e.clientY < rect.y + rect.height / 2) {
         tooltipObject.style.transform = `translate(${xRight}px,${yTop}px)`;
       }
@@ -337,68 +404,67 @@ const NormalMap = ({
       if (e.clientX > rect.x + rect.width / 2 && e.clientY > rect.y + rect.height / 2) {
         tooltipObject.style.transform = `translate(${xLeft}px,${yBottom}px)`;
       }
-    }else{
-      if(e.clientX < firstX + width / 2){
+    } else {
+      if (e.clientX < firstX + width / 2) {
         tooltipObject.style.transform = `translate(${xRight}px,${yBottom}px)`;
       }
-      if(e.clientX > firstX + width / 2){
+      if (e.clientX > firstX + width / 2) {
         tooltipObject.style.transform = `translate(${xLeft}px,${yBottom}px)`;
       }
-      
-    } 
+    }
     // 위치조정
   }
 
   useEffect(() => {
     if (!svgRef.current) {
-      return
+      return;
     }
-    svgRef.current.addEventListener("mousemove",tooltipMove);
+    svgRef.current.addEventListener("mousemove", tooltipMove);
     return () => {
-      svgRef.current.removeEventListener("mousemove",tooltipMove);
-    }
-    
+      svgRef.current.removeEventListener("mousemove", tooltipMove);
+    };
   }, [tooltipOn, scale, width, firstX]);
 
   useEffect(() => {
-    if(zoomOn){
+    if (zoomOn) {
       const mapSvg = svgRef.current;
       let onZoom = true;
       let animationFrameId;
-      
+
       // eslint-disable-next-line no-inner-declarations
       function animateViewBox(targetViewBox, duration) {
         const startTime = performance.now();
-        const initialViewBox = mapSvg.getAttribute('viewBox').split(' ').map(Number);
-        // 현재 뷰박스 값 얻어서 숫자로 받기  [0, 0, 1048, 1064] 이렇게 배열로 옴 
+        const initialViewBox = mapSvg.getAttribute("viewBox").split(" ").map(Number);
+        // 현재 뷰박스 값 얻어서 숫자로 받기  [0, 0, 1048, 1064] 이렇게 배열로 옴
 
-        const targetViewBoxValues = targetViewBox.split(' ').map(Number);
+        const targetViewBoxValues = targetViewBox.split(" ").map(Number);
         //  목표 뷰박스 값 얻어서 숫자로 받기  [316.73062472873266, -93.81126234266492, 582.2222222222222, 591.1111111111111] 이렇게 배열로 옴
 
         function step(timestamp) {
           const elapsedTime = timestamp - startTime;
           const progress = Math.min(elapsedTime / duration, 1);
-          // 애니메이션 진행정도 0엣 1사이 값 0 시작 1이 되면 종료 
-          
-          const currentViewBox = initialViewBox.map((initialValue, index) => {
-            const targetValue = targetViewBoxValues[index];
-            return initialValue + (targetValue - initialValue) * progress; 
-          }).join(' ');
-          
+          // 애니메이션 진행정도 0엣 1사이 값 0 시작 1이 되면 종료
+
+          const currentViewBox = initialViewBox
+            .map((initialValue, index) => {
+              const targetValue = targetViewBoxValues[index];
+              return initialValue + (targetValue - initialValue) * progress;
+            })
+            .join(" ");
+
           // 현재viewBox 값을 map 함수로 돌면서 좌표 x, y , viewX, viewY 에  목표 (ViewBox값 xDest, yDest , viewX Dest , viewY Dest - 현재값) * 진행정도 만큼 더해준다.
 
-          mapSvg.setAttribute('viewBox', currentViewBox);
+          mapSvg.setAttribute("viewBox", currentViewBox);
           // 위에서 정해준 값이 다시 현재의 viewBox 값이 된다.
 
           if (progress < 1) {
             animationFrameId = requestAnimationFrame(step);
           }
-          // 만약 progress가 1 즉 , 완료되지 않았다면 재귀적으로 requestAnimationFrame(step) 를 불러온다. 
+          // 만약 progress가 1 즉 , 완료되지 않았다면 재귀적으로 requestAnimationFrame(step) 를 불러온다.
         }
-  
+
         animationFrameId = requestAnimationFrame(step);
-        // 처음 한번 실행 될 때 requestAnimationFrame에 (step) 함수를 예약한다. 그리고 animationFrameId 이 return 받는값은 식별자로 사용하고 애니매이션 중지시에 사용할 수 있다. 
-       
+        // 처음 한번 실행 될 때 requestAnimationFrame에 (step) 함수를 예약한다. 그리고 animationFrameId 이 return 받는값은 식별자로 사용하고 애니매이션 중지시에 사용할 수 있다.
       }
       // eslint-disable-next-line no-inner-declarations
       function zoomin(e) {
@@ -406,23 +472,23 @@ const NormalMap = ({
         pt.x = e.clientX;
         pt.y = e.clientY;
         let svgP = pt.matrixTransform(mapSvg.getScreenCTM().inverse());
-    
+
         let newScale = onZoom ? zoomMagnification : 1;
         let width = 1048 / newScale;
         let height = 1064 / newScale;
-        let x = svgP.x - (width / 2);
-        let y = svgP.y - (height / 2);
-  
-        let targetViewBox = onZoom ? `${x} ${y} ${width} ${height}` : '0 0 1048 1064';
-        
-        animateViewBox(targetViewBox, 350); // << 여기서 두번째 숫자가 duration 애니메이션 지연시간 
-  
+        let x = svgP.x - width / 2;
+        let y = svgP.y - height / 2;
+
+        let targetViewBox = onZoom ? `${x} ${y} ${width} ${height}` : "0 0 1048 1064";
+
+        animateViewBox(targetViewBox, 350); // << 여기서 두번째 숫자가 duration 애니메이션 지연시간
+
         onZoom = !onZoom;
         setScale(newScale);
       }
-  
+
       mapSvg.addEventListener("click", zoomin);
-      
+
       return () => {
         mapSvg.removeEventListener("click", zoomin);
         if (animationFrameId) {
@@ -434,7 +500,17 @@ const NormalMap = ({
 
   return (
     // width 랑 height 데이타 값으로 받기
-    <div style={{ width: `${width}px`, height: `100%`, backgroundColor: `${backgroundColor}`, marginTop: `${marginTop}px`, marginLeft: `${marginLeft}px`, marginRight:`${marginRight}px`, marginBottom:`${marginBottom}px`}}>
+    <div
+      style={{
+        width: `${width}px`,
+        height: `100%`,
+        backgroundColor: `${backgroundColor}`,
+        marginTop: `${marginTop}px`,
+        marginLeft: `${marginLeft}px`,
+        marginRight: `${marginRight}px`,
+        marginBottom: `${marginBottom}px`,
+      }}
+    >
       <svg ref={svgRef} fill="none" viewBox="0 0 1048 1064">
         <g ref={mapRef} className="group">
           <path
@@ -569,7 +645,15 @@ const NormalMap = ({
             fillOpacity={animationOn ? "0.5" : "1"}
             d="m351 994 2 3 2 2 8 3 2 2 1 6 2 2 2-1v-1l1 2v1l-2 1-1 1v1l1 2v2l-2 2-3 4-5 4-2 3-2 5-1 1-1 3h-3l-2 1h-4l-6 4-16 3-6 5-6 1h-7l-8 1-7-2h-15l-5 3-2 5h-3l-2-1-4-6-5-2-4-5-2-5 3-8 2-5 2-2 6-3 4-8 5-1 2-5 7-2 16-5 4-3 16-2 10-4h3l12-2h13Z"
           />
-          <g className="kyeongbook-group group" fillOpacity={animationOn ? "0.5" : "1"} stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" id="kyeongbook">
+          <g
+            className="kyeongbook-group group"
+            fillOpacity={animationOn ? "0.5" : "1"}
+            stroke="white"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="3"
+            id="kyeongbook"
+          >
             <path
               ref={pathRef}
               className="kyeongbook path"
@@ -579,14 +663,14 @@ const NormalMap = ({
             />
             <path
               ref={pathRef}
-              className ="kyeongbook path"
+              className="kyeongbook path"
               id="kyeongbook"
               fill={usePercentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
               d="M1026 239c2 1-4 5-6 5-1 0-3-2-3-4-2 0 3-5 5-5s4 3 4 4Z"
             />
             <path
               ref={pathRef}
-              className ="kyeongbook path"
+              className="kyeongbook path"
               id="kyeongbook"
               fill={usePercentageColor ? color[citycolor[15].colorCode] : citycolor[15].color}
               d="M1016 231v2a24 24 0 0 1-4 7l-1 1-3-2-2-2 2-3 3-2h2l1-1a30 30 0 0 1 2 0Z"
@@ -654,7 +738,7 @@ const NormalMap = ({
           />
         </g>
         <g className="nohover group">
-          {useGagueBar && scale===1 ? (
+          {useGagueBar && scale === 1 ? (
             <>
               {zMap.map((e, index) => (
                 <path
@@ -666,48 +750,55 @@ const NormalMap = ({
                   d={`m ${1000} ${e[0]} H ${980 - gagueBarWidth} V ${e[1]} H ${1000} Z`}
                 />
               ))}
-
               <path
                 fill={pointerColor}
                 className="path"
                 strokeLinejoin="round"
                 stroke="white"
-                d={`m ${1010} ${1000 - mousePointer} L${1045+ pointerSize} ${1000 - mousePointer + 15+ pointerSize} V ${1000 - mousePointer - 15- pointerSize} Z`}
+                d={`m ${1010} ${1000 - mousePointer} L${1045 + pointerSize} ${
+                  1000 - mousePointer + 15 + pointerSize
+                } V ${1000 - mousePointer - 15 - pointerSize} Z`}
               />
-               (
-                <text x={`${964 - gagueBarWidth}`} y={`${1000 - mousePointer + 15}`} fill="black" fontSize={`${gagueValueFontSize}px`} textAnchor="end">
-                  {tooltipValue}
-                </text>
-              ) : 
+              (
+              <text
+                x={`${964 - gagueBarWidth}`}
+                y={`${1000 - mousePointer + 15}`}
+                fill="black"
+                fontSize={`${gagueValueFontSize}px`}
+                textAnchor="end"
+              >
+                {tooltipValue}
+              </text>
+              ) :
             </>
           ) : (
             ""
           )}
         </g>
         <g ref={tooltipRef} id="tooltipBox" className="group">
-          <foreignObject id="foreingObject" x="0" y="0" width={ToolW} height={ToolH} >
+          <foreignObject id="foreingObject" x="0" y="0" width={ToolW} height={ToolH}>
             <div
-            ref={tooltipDiv}
+              ref={tooltipDiv}
               className="tooltipDiv"
               xmlns="http://www.w3.org/1999/xhtml"
               style={
                 tooltipOn
                   ? {
-                      opacity:tooltipOpacity,
+                      opacity: tooltipOpacity,
                       maxWidth: `${ToolW}px`,
                       // height: "100%",
-                      minHeight:`${150/scale}px`,
-                      maxHeight:`${ToolH}px`,
+                      minHeight: `${150 / scale}px`,
+                      maxHeight: `${ToolH}px`,
                       display: "flex",
                       flexDirection: "column",
-                      justifyContent:"center",
+                      justifyContent: "center",
                       alignItems: "center",
                       backgroundColor: useFollowColor ? targetColor : tooltipBackGroundColor,
                       borderRadius: `${tooltipBorderRadius}px`,
                       border: `${tooltipBorder}`,
                       boxShadow: `${tooltipBoxShadow}`,
                       margin: "10%",
-                      overflow:"hidden",
+                      overflow: "hidden",
                     }
                   : { visibility: "hidden" }
               }
@@ -723,32 +814,56 @@ const NormalMap = ({
                 }}
               >
                 {tooltipCity} {useTooltipCol ? ":" : ""}{" "}
-                <span style={{ color: `${cityValueColor}`, fontSize: `${cityValueFontS}px`, fontWeight: `${cityValueFontWeight}` }}>
+                <span
+                  style={{
+                    color: `${cityValueColor}`,
+                    fontSize: `${cityValueFontS}px`,
+                    fontWeight: `${cityValueFontWeight}`,
+                  }}
+                >
                   {tooltipValue}
                 </span>
               </p>
-              {tooltipDescription ? <p
-                style={{
-                  margin: "0",
-                  textAlign:"center",
-                  marginBottom: "5%",
-                  marginTop:"2%",
-                  marginRight:"10%",
-                  marginLeft:"10%",
-                  fontFamily:`${descriptionFontFamily}`,
-                  color: `${descriptionColor}`,
-                  fontSize: `${decripFontS}px`,
-                  fontWeight: `${descriptionFontWeight}`,
-                  maxHeight:"50%",
-                  overflow:"hidden",
-                }}
-              >
-                {tooltipDescription}
-              </p> : "" }
+              {tooltipDescription ? (
+                <p
+                  style={{
+                    margin: "0",
+                    textAlign: "center",
+                    marginBottom: "5%",
+                    marginTop: "2%",
+                    marginRight: "10%",
+                    marginLeft: "10%",
+                    fontFamily: `${descriptionFontFamily}`,
+                    color: `${descriptionColor}`,
+                    fontSize: `${decripFontS}px`,
+                    fontWeight: `${descriptionFontWeight}`,
+                    maxHeight: "50%",
+                    overflow: "hidden",
+                  }}
+                >
+                  {tooltipDescription}
+                </p>
+              ) : (
+                ""
+              )}
             </div>
           </foreignObject>
         </g>
-        {useValueLavel && scale===1 ? <text fontFamily={gagueValueFontFamily} fontWeight={gagueValueFontWeight} x="1048" y="1060" fill="black" fontSize="30px" textAnchor="end" >{valueLavel}</text> : ""}
+        {useValueLavel && scale === 1 ? (
+          <text
+            fontFamily={gagueValueFontFamily}
+            fontWeight={gagueValueFontWeight}
+            x="1048"
+            y="1060"
+            fill="black"
+            fontSize="30px"
+            textAnchor="end"
+          >
+            {valueLavel}
+          </text>
+        ) : (
+          ""
+        )}
       </svg>
     </div>
   );

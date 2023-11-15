@@ -1,0 +1,11 @@
+// 차트 기본 세팅 값
+export const DEFAULT_WIDTH = 400;
+export const DEFAULT_HEIGHT = 400;
+export const DEFAULT_BACKGROUND_COLOR = "transparent";
+export const DEFAULT_PIE_BACKGROUND_COLOR = "transparent";
+export const DEFAULT_DONUT_BACKGROUND_COLOR = "transparent";
+export const DEFAULT_PADDING = 10;
+export const DEFAULT_PIE_OPACITY = 1;
+export const DEFAULT_CIRCLE_OPACITY = 1;
+export const DEFAULT_DONUT_OPACITY = 1;
+export const DEFAULT_PIECE_OPACITY = 1;
