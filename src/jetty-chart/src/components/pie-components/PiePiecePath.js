@@ -50,7 +50,7 @@ const PiePiecePath = ({
       strokeWidth={strokeWidth}
       strokeOpacity={strokeOpacity}
       opacity={pieceOpacity}
-      className={hoveredIndex === index ? "pie-piece__hover" : ""}
+      className={hoveredIndex === index ? "pie-piece__hover" : "pie-piece"}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >

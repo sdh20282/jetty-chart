@@ -172,9 +172,9 @@ export const setDefaultAnimationSettings = () => {
 export const setDefaultLegendSettings = () => {
   return {
     // 이후 수정 필요
-    marginTop: 3,
+    marginTop: 2.5,
     marginBottom: 0,
-    marginLeft: 2,
+    marginLeft: 2.8,
     marginRight: 0,
     // 이후 수정 필요
     useLegend: DEFAULT_LEGEND_USE,

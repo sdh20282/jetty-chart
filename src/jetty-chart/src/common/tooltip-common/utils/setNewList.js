@@ -1,25 +1,45 @@
 export const setNewList = ({
   list,
+  tooltipWidth,
+  tooltipHeight,
   fontSize,
   fontFamily,
   fontWeight,
   fontStyle,
   fontColor,
   fontOpacity,
+  textMoveX,
   textAnchor,
-  lineSize,
+  lineHeight,
+  strokeColor,
+  strokeWidth,
+  strokeOpacity,
+  strokeRadius,
 }) => {
-  return list.map((item) => {
+  let cumulativeLineHeight = 0;
+  let prevLineHeight = 0;
+  return list.map((item, index) => {
+    cumulativeLineHeight += prevLineHeight;
+    prevLineHeight = item.lineHeight || lineHeight;
+
     return {
+      list,
+      tooltipWidth,
+      tooltipHeight,
       fontSize,
       fontFamily,
       fontWeight,
       fontStyle,
       fontColor,
       fontOpacity,
+      textMoveX,
       textAnchor,
-      lineSize,
+      strokeColor,
+      strokeWidth,
+      strokeOpacity,
+      strokeRadius,
       ...item,
+      lineHeight: cumulativeLineHeight,
     };
   });
 };

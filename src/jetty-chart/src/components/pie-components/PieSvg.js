@@ -123,7 +123,7 @@ const PieSvg = ({
         <g
           onMouseEnter={() => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
-          className={hoveredIndex === index ? "pie-piece__hover" : ""}
+          className={hoveredIndex === index ? "pie-piece__hover" : "pie-piece"}
           key={index}
         >
           <PiePieceLabel
@@ -175,7 +175,7 @@ const PieSvg = ({
         </g>
       ))}
 
-      {/* <ToolTipCommon /> */}
+      <ToolTipCommon />
       <DrawLegends
         keys={data.map((item) => item.label)}
         normalSettings={{

@@ -1,11 +1,14 @@
 .pie {
   --animation-duration: 0s;
   --animation-delay: 0s;
-  --animation-timing-function: linear;
+  --animation-timing-function: ease-in-out;
   --animation-scale: 0;
   --pie-piece-color: red;
 }
-
+.pie-piece {
+  transition: transform var(--animation-duration) var(--animation-delay)
+    var(--animation-timing-function);
+}
 .pie-piece__hover {
   transition: transform var(--animation-duration) var(--animation-delay)
     var(--animation-timing-function);
