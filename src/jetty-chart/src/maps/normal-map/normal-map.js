@@ -432,7 +432,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
     // 위치조정
   }
 
-  tooltipChartnormalSettings;
+
 
   useEffect(() => {
     if (!svgRef.current) {
