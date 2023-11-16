@@ -1,14 +1,14 @@
-:root {
-  --bar-from: 0,0;
-  --bar-to: 0,0;
-  --text-from: 0,0;
-  --text-to: 0,0;
+.container {
+  --bar-from: 0, 0;
+  --bar-to: 0, 0;
+  --text-from: 0, 0;
+  --text-to: 0, 0;
   --width-from: 0;
   --width-to: 0;
   --height-from: 0;
   --height-to: 0;
-  --group-from: 0,0;
-  --group-to: 0,0;
+  --group-from: 0, 0;
+  --group-to: 0, 0;
   --animation-duration: 0s;
   --animation-delay: 0s;
   --animation-timing-function: linear;
