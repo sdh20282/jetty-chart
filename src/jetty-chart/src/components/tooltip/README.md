@@ -41,14 +41,15 @@ onMouseMove={(event) => {
 
 ## 설정 설명 (임시)
 
+list = [], (없으면 titleValue 값만 출력) (아래에서 설명)
 viewBoxXSize : viewBox의 너비 사이즈 (필수)
 viewBoxYSize : viewBox의 높이 사이즈 (필수)
 tooltipColor : 툴팁의 배경 색
 tooltipOpacity : 툴팁의 투명도
 tooltipWidth : 툴팁의 좌우 길이 (미 입력 시 자동 계산)
 tooltipHeight : 툴팁의 높이 길이 (미 입력 시 자동 계산)
-tooltipMoveX : 툴팁의 좌우 이동
-tooltipMoveY : 툴팁의 상하 이동
+tooltipMoveX : 툴팁의 좌우 이동 (필요)
+tooltipMoveY : 툴팁의 상하 이동 (필요)
 padding : 툴팁의 좌우 여백
 fontSize : 폰트 사이즈
 fontFamily : 폰트 종류
@@ -63,6 +64,37 @@ strokeWidth : 테두리 굵기
 strokeOpacity : 테두리 투명도
 strokeRadius : 테두리 둥글기
 useTooltip : 툴팁 사용 여부
-mousePosition : 마우스 위치
-selectData : 선택한 데이터의 값 (value, label)
+mousePosition : 마우스 위치 (필수)
+selectData : 선택한 데이터의 값 (value, label) (필수)
 titleValue : 선택한 데이터의 값 표현 형식 "label-value", (value, label, value-label, label-value) (현재는 label-value 만 가능)
+
+## list
+
+- 현재는 테스트가 부족해서 사용하지 않는 것을 권장합니다.
+- list는 여러 줄의 텍스트를 받는 역할을 합니다.
+- 각각의 리스트에 다른 속성을 적용 할 수 있습니다.
+- 속성 : 입력하지 않을 경우, 지역 변수 값 사용
+  - textMoveX
+  - lineHeight
+  - fonSize
+  - fontColor
+  - fontOpacity
+  - fontWeight
+  - fontStyle
+  - fontFamily
+
+```
+<tspan
+	x={item.textMoveX}
+	y={item.lineHeight}
+	fontSize={item.fontSize}
+	key={index}
+	fill={item.fontColor}
+	opacity={item.fontOpacity}
+	fontWeight={item.fontWeight}
+	fontStyle={item.fontStyle}
+	fontFamily={item.fontFamily}
+>
+	{item.content}
+</tspan>
+```
