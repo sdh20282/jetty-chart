@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NormalBar, BumpChart, MultiLine, SingleLine, StackedLine } from "./jetty-chart/src";
+import { NormalBar, BumpChart, MultiLine, SingleLine, StackedLine, Pie } from "./jetty-chart/src";
 
 const counts = [5, 7];
 
@@ -101,11 +101,12 @@ function App() {
 
   return (
     <div style={{ marginTop: "50px", paddingLeft: "200px" }}>
-      {norender && myNormalBar({ data })}
+      {/* {norender && myNormalBar({ data })}
       {render1 && <SingleLine data={data} />}
       {render2 && <MultiLine data={multiDataSet} />}
       {render3 && <StackedLine data={multiDataSet} />}
-      {render4 && <BumpChart data={rankDataSet} />}
+      {render4 && <BumpChart data={rankDataSet} />} */}
+      <Pie data={data} />
       <button
         style={{ marginLeft: "730px", marginTop: "50px" }}
         onClick={() => {

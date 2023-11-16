@@ -1,10 +1,12 @@
 import { checkMapMargin, checkDivide, checkGagueBarSize, checkTooltip } from "../utils/calculate-map-position";
+import { colorPalette } from "../../utils/color/colorPalette";
+
 
 const normalMapSetting = {
   normalSetting:{
     backgroundColor: "white",
     divide: 5,
-    colorCode: 0,
+    colorPalette: colorPalette.jetty,
     width: 400,
     zoomMagnification:1.8,
     usePercentageColor: true,
