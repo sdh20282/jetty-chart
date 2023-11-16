@@ -11,7 +11,6 @@ import styles from "./normal-pyramid.module.css";
 /* eslint-disable complexity */
 const NormalPyramid = ({
   data,
-  keys,
   xLegend,
   yLegend,
   normalSettings,
@@ -153,6 +152,15 @@ const NormalPyramid = ({
   }
 
   const modifiedData = yReverse ? data.slice().reverse() : data;
+
+  const keys = [];
+  data.forEach(group => {
+    group.arr.forEach(d => {
+      if (!keys.includes(d.label)) {
+        keys.push(d.label);
+      }
+    });
+  });   
 
   return (
     <LabelValueCommon
