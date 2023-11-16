@@ -16,7 +16,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
   const {
     backgroundColor,
     divide,
-    colorCode,
+    colorPallette,
     width,
     zoomMagnification,
     usePercentageColor,
@@ -85,6 +85,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
     innerbarSettings,
     inneranimationSettings,
     innerChartText,
+    innerLineSettings,
     innerChartTitleFontSize,
     innerChartTitleFontWeight,
   } = result.innerChartSetting;
@@ -107,32 +108,14 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
     tooltipChartlegendSettings,
     tooltipChartbarSettings,
     tooltipChartanimationSettings,
+    tooltipChartChartText,
+    tooltipChartLineSettings,
+    tooltipChartChartTitleFontSize,
+    tooltipChartChartTitleFontWeight,
   } = result.tooltipChartSetting;
 
-  const colorPallette = [
-    ["#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6"],
-    ["#ffedd5", "#fed7aa", "#fdba74", "#fb923c", "#f97316"],
-    ["#fee2e2", "#fecaca", "#fca5a5", "#f87171", "#ef4444"],
-    ["#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b"],
-    ["#dcfce7", "#bbf7d0", "#86efac", "#4ade80", "#22c55e"],
-    ["#f3e8ff", "#e9d5ff", "#c084fc", "#a855f7", "#7e22ce"],
-    ["#fefce8", "#fef08a", "#fde047", "#facc15", "#eab308"],
-    ["#f5f5f4", "#d6d3d1", "#a8a29e", "#78716c", "#57534e"],
-    ["#FFBE0B", "#FB5607", "#FF006E", "#8338EC", "#3A86FF"],
-    ["#264653", "#2A9D8F", "#E9C46A", "#F4A261", "#E76F51"],
-    ["#606C38", "#283618", "#FEFAE0", "#DDA15E", "#BC6C25"],
-    ["#CDB4DB", "#FFC8DD", "#FFAFCC", "#BDE0FE", "#A2D2FF"],
-    ["#080708", "#3772FF", "#DF2935", "#FDCA40", "#E6E8E6"],
-    ["#ff0000", "#ff8000", "#ffff00", "#80ff00", "#00ff00", "#00ff80", "#00ffff", "#0080ff", "#0000ff", "#8000ff", "#ff00ff", "#ff0080"],
-    ["#EC5BCF", "#F65AA6", "#FF5C77", "#FF7A66", "#FFB070", "#FFE07A", "#F5FF85", "#D2FF8F", "#B6FF99", "#A3FFA6"],
-    ["#202202", "#4E3708", "#772F13", "#9C212B", "#BC3473", "#C75CB7", "#BD88CD", "#C0B1D8", "#D6D6E6", "#F6F7F9"],
-    ["#1A1E05", "#484B0C", "#786C12", "#A68017", "#D5871A", "#E9863A", "#F08D66", "#F6A093", "#FAC1C1", "#FEF1F3"],
-    ["#FEC5BB", "#FCD5CE", "#FAE1DD", "#F8EDEB", "#E8E8E4", "#D8E2DC", "#ECE4DB", "#FFE5D9", "#FFD7BA", "#FEC89A"],
-    ["#03071E", "#370617", "#6A040F", "#9D0208", "#D00000", "#DC2F02", "#E85D04", "#F48C06", "#FAA307", "#FFBA08"],
-  ];
-
   // 컬러코드 0: 파랑 , 1: 오렌지, 2: 레드, 3: 블루그레이, 4: 그린
-  const color = colorPallette[colorCode];
+  const color = colorPallette;
   let useColor;
   // zMap : 게이지 바를 그려줄 좌표값.
   const zMap = [];
@@ -309,7 +292,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
       const chartValue = tooltipChartData.filter((data) => {
         return data.id === e.target.id;
       });
-      if (tooltipChartCheck === chartValue) {
+      if (tooltipChartCheck == chartValue) {
         return;
       } else {
         if (chartValue.length > 0) {
@@ -317,7 +300,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
 
           setTooltipChartCheck(chartDataValue);
         }
-        if (chartValue.length === 0) {
+        if (chartValue.length == 0) {
           setTooltipChartCheck(0)
         }
       }
@@ -427,12 +410,18 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
     // 위치조정
   }
 
+
+
   useEffect(() => {
     if (!svgRef.current) {
       return;
     }
 
     svgRef.current.addEventListener("mousemove", tooltipMove);
+
+    return () => {
+      svgRef.current.removeEventListener("mousemove", tooltipMove);
+    };
   }, [tooltipOn, scale, width, firstX]);
 
   useEffect(() => {
@@ -559,7 +548,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
           return data.id === e.target.id;
         });
         
-        if (e.target.id !== "BigSvg") {
+        if (e.target.id != "BigSvg") {
           if (chartValue.length > 0) {
             let chartDataValue = chartValue[0].chartData;
             setChartDataSetting(chartDataValue);
@@ -872,7 +861,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
           )}
         </g>
         <g ref={tooltipRef} id="tooltipBox">
-          {useTooltipChart && scale !== 1 ? (
+          {useTooltipChart && scale != 1 ? (
             <foreignObject id="foreingObject" x="0" y="0" width={545 / scale} height={ToolH}>
               <div
                 ref={tooltipDiv}
@@ -901,7 +890,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
                 }
               >
                 <p style={{ margin: 0, marginTop: "9px", marginBottom: "2px", fontSize: "14px", fontWeight: "600", color: "gray" }}>{tooltipCity}</p>
-                {tooltipChartCheck !== 0 ? <NormalBar
+                {tooltipChartCheck!=0 ? <NormalBar
                   data={tooltipChartCheck}
                   normalSettings={tooltipChartnormalSetting}
                   barSettings={tooltipChartbarSettings}
@@ -1002,7 +991,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
         ) : (
           ""
         )}
-        {chartOn && scale === 0.4 && chartDataSetting ? (
+        {chartOn && scale == 0.4 && chartDataSetting ? (
           <>
             <foreignObject x="-1360" y="-1440" width={innernormalSettings.width + 300} height={innernormalSettings.height + 300}>
               <div
@@ -1020,7 +1009,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
                 <p
                   style={{ fontSize: `${innerChartTitleFontSize}px`, margin: "0", marginBottom: "50px", fontWeight: `${innerChartTitleFontWeight}` }}
                 >
-                  {chartDataSetting !== 0 ? 
+                  {chartDataSetting!=0 ? 
                   <>
                   {innerChartName} {innerChartText}</>
                    : "차트 데이터가 없습니다."}
