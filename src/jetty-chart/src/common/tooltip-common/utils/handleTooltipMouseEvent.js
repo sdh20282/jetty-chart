@@ -1,11 +1,9 @@
-export const handleTooltipMouseMove = ({ event, setMousePosition, chnageShowTooltipOn, index }) => {
-  console.log("handleTooltipMouseMove", index);
+export const handleTooltipMouseMove = ({ event, setMousePosition, changeShowTooltipOn, index }) => {
   const { clientX, clientY } = event;
 
   setMousePosition({ x: clientX, y: clientY });
-  chnageShowTooltipOn();
+  changeShowTooltipOn();
 };
-export const handleTooltipMouseOut = ({ chnageShowTooltipOff, index }) => {
-  console.log("handleTooltipMouseOut");
-  chnageShowTooltipOff();
+export const handleTooltipMouseOut = ({ changeShowTooltipOff, index }) => {
+  changeShowTooltipOff();
 };

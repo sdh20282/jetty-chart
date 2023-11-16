@@ -59,8 +59,9 @@ const PieSvg = ({
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [showTooltip, setShowTooltip] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const chnageShowTooltipOn = () => setShowTooltip(true);
-  const chnageShowTooltipOff = () => setShowTooltip(false);
+  const [selectData, setSelectData] = useState(null);
+  const changeShowTooltipOn = () => setShowTooltip(true);
+  const changeShowTooltipOff = () => setShowTooltip(false);
   const list = [
     {
       content: "HelloHello",
@@ -151,16 +152,15 @@ const PieSvg = ({
           strokeWidth={pieSettings.strokeWidth}
           strokeOpacity={pieSettings.strokeOpacity}
           pieceOpacity={generalSettings.pieceOpacity}
-          onMouseEnter={() => setHoveredIndex(index)}
-          onMouseLeave={() => {
-            setHoveredIndex(null);
-            chnageShowTooltipOff();
-          }}
+          setHoveredIndex={setHoveredIndex}
           hoveredIndex={hoveredIndex}
-          handleTooltipMouseMove={handleTooltipMouseMove}
-          handleTooltipMouseOut={handleTooltipMouseOut}
+          setSelectData={setSelectData}
           setMousePosition={setMousePosition}
-          chnageShowTooltipOn={chnageShowTooltipOn}
+          changeShowTooltipOn={changeShowTooltipOn}
+          changeShowTooltipOff={changeShowTooltipOff}
+          value={piece.value}
+          label={piece.label}
+          ratio={piece.ratio}
           index={index}
           key={piece.index}
         />
@@ -221,7 +221,12 @@ const PieSvg = ({
           />
         </g>
       ))}
-      <TooltipCommon showTooltip={showTooltip} mousePosition={mousePosition} list={list} />
+      <TooltipCommon
+        showTooltip={showTooltip}
+        mousePosition={mousePosition}
+        list={list}
+        selectData={selectData}
+      />
       <DrawLegends
         keys={data.map((item) => item.label)}
         normalSettings={{

@@ -25,6 +25,7 @@ const TooltipCommon = ({
   padding = 0,
   showTooltip,
   mousePosition,
+  selectData,
 }) => {
   const newList = setNewList({
     list,
@@ -80,6 +81,18 @@ const TooltipCommon = ({
             strokeOpacity={strokeOpacity}
           />
           <text ref={textRef} x={0} y={0} textAnchor={"middle"} dominantBaseline={"middle"}>
+            <tspan
+              x={textMoveX}
+              y={lineHeight}
+              fontSize={fontSize}
+              fill={fontColor}
+              opacity={fontOpacity}
+              fontWeight={fontWeight}
+              fontStyle={fontStyle}
+              fontFamily={fontFamily}
+            >
+              {selectData.label + " : " + selectData.value}
+            </tspan>
             {newList.map((item, index) => (
               <tspan
                 x={item.textMoveX}

@@ -1,4 +1,8 @@
 import { getPiePiecePath } from "../../common/pie-common/utils/getPiePiecePath";
+import {
+  handleTooltipMouseMove,
+  handleTooltipMouseOut,
+} from "../../common/tooltip-common/utils/handleTooltipMouseEvent";
 
 // 파이 조각을 그리는 컴포넌트
 const PiePiecePath = ({
@@ -14,12 +18,15 @@ const PiePiecePath = ({
   strokeWidth,
   strokeOpacity,
   pieceOpacity,
-  onMouseEnter,
-  onMouseLeave,
+  setHoveredIndex,
   hoveredIndex,
-  handleTooltipMouseMove,
   setMousePosition,
-  chnageShowTooltipOn,
+  changeShowTooltipOn,
+  changeShowTooltipOff,
+  setSelectData,
+  value,
+  label,
+  ratio,
   index,
 }) => {
   const path = getPiePiecePath({
@@ -54,17 +61,15 @@ const PiePiecePath = ({
       strokeOpacity={strokeOpacity}
       opacity={pieceOpacity}
       className={hoveredIndex === index ? "pie-piece__hover" : "pie-piece"}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onMouseMove={(event) =>
-        handleTooltipMouseMove({
-          event,
-          setMousePosition,
-          chnageShowTooltipOn,
-          index,
-        })
-      }
-      // onMouseOut={handleTooltipMouseOut({ chnageShowTooltipOff })}
+      onMouseEnter={() => setHoveredIndex(index)}
+      onMouseLeave={() => {
+        setHoveredIndex(null);
+        handleTooltipMouseOut({ changeShowTooltipOff, index });
+      }}
+      onMouseMove={(event) => {
+        handleTooltipMouseMove({ event, setMousePosition, changeShowTooltipOn, index });
+        setSelectData({ value, label, ratio });
+      }}
     >
       {/* <animate attributeName="d" from={path2} to={path} dur="2s" /> */}
     </path>
