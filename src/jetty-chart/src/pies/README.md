@@ -134,4 +134,4 @@ function App({ data }) {
   - arcLinkLabelLineOpacity: 라인 투명도. 기본값 1. 범위 (0 ~ 1)
   - arcLinkLabelTextOpacity: 텍스트 투명도. 기본값 1. 범위 (0 ~ 1)
 
-[원형 차트 데모](jetty-chart.com/chart-detail/pie)
+[원형 차트 데모](http://jetty-chart.com/chart-detail/pie)
