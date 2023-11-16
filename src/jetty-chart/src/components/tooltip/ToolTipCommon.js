@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { setNewList } from "../../common/tooltip-common/utils/setNewList";
 
 const TooltipCommon = ({
+  list = [],
   viewBoxXSize = 0,
   viewBoxYSize = 0,
-  list = [],
   tooltipColor = "white",
-  tooltipOpacity = "1",
+  tooltipOpacity = "0.8",
   tooltipWidth = null,
   tooltipMoveX = 0,
   tooltipMoveY = -0.1,
@@ -14,18 +14,17 @@ const TooltipCommon = ({
   fontSize = 0.1,
   fontFamily = "sans-serif",
   fontWeight = "bold",
-  fontStyle = "italic",
+  fontStyle = "normal",
   fontColor = "black",
   fontOpacity = 1,
   textMoveX = 0,
-  textAnchor = "middle",
   lineHeight = fontSize * 1.2,
   strokeColor = "black",
   strokeWidth = "0.01",
   strokeOpacity = 1,
   strokeRadius = 0.05,
   padding = 0.05,
-  showTooltip,
+  useTooltip = true,
   mousePosition,
   selectData,
   titleValue = "label-value",
@@ -39,7 +38,6 @@ const TooltipCommon = ({
     fontColor,
     fontOpacity,
     textMoveX,
-    textAnchor,
     lineHeight,
     strokeColor,
     strokeWidth,
@@ -59,7 +57,7 @@ const TooltipCommon = ({
   }, [list, padding]);
   return (
     <>
-      {showTooltip && (
+      {useTooltip && (
         <g
           transform={`translate(${mousePosition.x - viewBoxXSize / 2 + tooltipMoveX}, ${
             mousePosition.y - viewBoxYSize / 2 + tooltipMoveY
