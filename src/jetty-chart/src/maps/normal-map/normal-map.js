@@ -416,10 +416,6 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
     }
 
     svgRef.current.addEventListener("mousemove", tooltipMove);
-
-    return () => {
-      svgRef.current.removeEventListener("mousemove", tooltipMove);
-    };
   }, [tooltipOn, scale, width, firstX]);
 
   useEffect(() => {
