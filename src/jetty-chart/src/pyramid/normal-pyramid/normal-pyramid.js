@@ -308,7 +308,7 @@ const NormalPyramid = ({
                     }
                     transform={
                       (useAnimation && renderType.includes("grow")) || (useAnimation && useTranslate)
-                        ? `translate()`
+                        ? ``
                         : `translate(${checkPositive ? (barOnlyUpperRadius ? -borderRadius : 0) : (barOnlyUpperRadius ? -rectWidth + borderRadius : -rectWidth)})`
                     }
                     fill={nowData.label === keys[0] ? colorPalette[0] : colorPalette[1]}
