@@ -1,7 +1,5 @@
 export const setNewList = ({
   list,
-  tooltipWidth,
-  tooltipHeight,
   fontSize,
   fontFamily,
   fontWeight,
@@ -15,17 +13,17 @@ export const setNewList = ({
   strokeWidth,
   strokeOpacity,
   strokeRadius,
+  selectData,
 }) => {
   let cumulativeLineHeight = 0;
   let prevLineHeight = 0;
-  return list.map((item, index) => {
+  const seletcValue = [{ content: `${selectData.label} : ${selectData.value}` }];
+  const concatList = seletcValue.concat(list);
+  return concatList.map((item, index) => {
     cumulativeLineHeight += prevLineHeight;
     prevLineHeight = item.lineHeight || lineHeight;
 
     return {
-      list,
-      tooltipWidth,
-      tooltipHeight,
       fontSize,
       fontFamily,
       fontWeight,

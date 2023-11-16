@@ -3,34 +3,30 @@ import { setNewList } from "../../common/tooltip-common/utils/setNewList";
 
 const TooltipCommon = ({
   list,
-  minX = -2,
-  minY = -2,
-  tooltipColor = "black",
-  tooltipOpacity = "0.6",
+  tooltipColor = "white",
+  tooltipOpacity = "1",
   tooltipWidth = null,
   tooltipHeight,
   fontSize = 0.1,
-  fontFamily = "consolas",
+  fontFamily = "sans-serif",
   fontWeight = "bold",
   fontStyle = "italic",
-  fontColor = "blue",
+  fontColor = "black",
   fontOpacity = 0.8,
   textMoveX = 0,
   textAnchor = "middle",
   lineHeight = fontSize * 1.2,
-  strokeColor = "white",
-  strokeWidth = "0.02",
+  strokeColor = "black",
+  strokeWidth = "0.01",
   strokeOpacity = 1,
-  strokeRadius = 0.1,
-  padding = 0,
+  strokeRadius = 0.05,
+  padding = 0.05,
   showTooltip,
   mousePosition,
   selectData,
 }) => {
   const newList = setNewList({
     list,
-    tooltipWidth,
-    tooltipHeight,
     fontSize,
     fontFamily,
     fontWeight,
@@ -45,10 +41,10 @@ const TooltipCommon = ({
     strokeOpacity,
     strokeRadius,
     mousePosition,
+    selectData,
   });
   const [rectWidth, setRectWidth] = useState(tooltipWidth);
   const textRef = useRef(null);
-
   useEffect(() => {
     if (textRef.current && tooltipWidth === null) {
       const length = textRef.current.getComputedTextLength();
@@ -60,7 +56,7 @@ const TooltipCommon = ({
     <>
       {showTooltip && (
         <g
-          transform={`translate(${mousePosition.x / 100 - 2}, ${mousePosition.y / 100 - 2 - 0.8})`}
+          transform={`translate(${mousePosition.x / 100 - 2}, ${mousePosition.y / 100 - 2 - 0.25})`}
         >
           <rect
             x={-rectWidth / 2}
@@ -81,18 +77,6 @@ const TooltipCommon = ({
             strokeOpacity={strokeOpacity}
           />
           <text ref={textRef} x={0} y={0} textAnchor={"middle"} dominantBaseline={"middle"}>
-            <tspan
-              x={textMoveX}
-              y={lineHeight}
-              fontSize={fontSize}
-              fill={fontColor}
-              opacity={fontOpacity}
-              fontWeight={fontWeight}
-              fontStyle={fontStyle}
-              fontFamily={fontFamily}
-            >
-              {selectData.label + " : " + selectData.value}
-            </tspan>
             {newList.map((item, index) => (
               <tspan
                 x={item.textMoveX}

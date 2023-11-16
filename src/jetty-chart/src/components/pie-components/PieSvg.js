@@ -59,41 +59,10 @@ const PieSvg = ({
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [showTooltip, setShowTooltip] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [selectData, setSelectData] = useState(null);
+  const [selectData, setSelectData] = useState([{}]);
   const changeShowTooltipOn = () => setShowTooltip(true);
   const changeShowTooltipOff = () => setShowTooltip(false);
-  const list = [
-    {
-      content: "HelloHello",
-      fontSize: 0.2,
-      fontFamily: "consolas",
-      fontWeight: "bold",
-      fontStyle: "italic",
-      fontColor: "white",
-      fontOpacity: 0.8,
-      textAnchor: "middle",
-    },
-    {
-      content: "34",
-      fontSize: 0.1,
-      fontFamily: "verdana",
-      fontWeight: "normal",
-      fontStyle: "normal",
-      fontColor: "red",
-      fontOpacity: 0.9,
-      textAnchor: "start",
-      lineHeight: 0.1,
-      textMoveX: 0.2,
-    },
-    {
-      content: "20%",
-      lineHeight: 0.2,
-      textMoveX: -0.2,
-    },
-    {
-      content: "안녕",
-    },
-  ];
+  const list = [];
   if (!animationSettings.animationOn) {
     animationSettings.animationDuration = 0;
     animationSettings.animationDelay = 0;
