@@ -7,17 +7,16 @@ export const checkMapMargin = ({ marginTop, marginBottom, marginLeft, marginRigh
   return { marginTop, marginBottom, marginLeft, marginRight };
 };
 
-export const checkDivide = ({ divide }) => {
+export const checkDivide = ( divide ) => {
   if (divide < 2) {
     divide = 2;
   }
   if (divide > 5) {
-    divide = 5;
-  } else {
-    divide;
+     divide = 5;
   }
+  
+  return divide
 
-  return divide;
 };
 
 export const checkGagueBarSize = (GagueBarSetting) => {

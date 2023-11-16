@@ -1,12 +1,12 @@
-.path:hover {
+.MAPCHARTMAIN path:hover{
   transform: scale(1.0005);
   transform-origin: 50% 50%;
   stroke: white;
   stroke-width: 2;
   fill-opacity: 1;
 }
-
-.group:hover {
+.MAPCHARTMAIN g:hover{
   stroke-width: 2;
-  fill-opacity: 1;
+  fill-opacity: 1; 
 }
+

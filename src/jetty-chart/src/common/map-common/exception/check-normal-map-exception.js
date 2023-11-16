@@ -1,6 +1,5 @@
 import { checkMapMargin, checkDivide, checkGagueBarSize, checkTooltip } from "../utils/calculate-map-position";
 
-
 const normalMapSetting = {
   normalSetting:{
     backgroundColor: "white",
@@ -15,23 +14,24 @@ const normalMapSetting = {
     marginBottom:0,
     marginLeft:0,
     marginRight:0,
+    useChart:false,
   },
   gagueBarSetting:{
     useGagueBar: true,
-    useValueLavel:true,
+    useValueLabel:true,
     pointerSize: 0,
     pointerColor: "#000000",
     gagueBarWidth: 0,
     gagueBarHeight: 100,
     gagueValueFontSize: 40,
-    gagueValueFontFamily:"inter",
+    gagueValueFontFamily:"",
     gagueValueFontWeight:"bold",
-    valueLavel: "",
+    valueLabel: "",
   },
   tooltipSetting:{
     useFollowColor:false,
     useKorea:true,
-    tooltipWidth: 400,
+    tooltipWidth: 550,
     tooltipBackGroundColor: "white",
     tooltipBorderRadius: 10,
     tooltipBorder: "0.5px solid #ddd",
@@ -40,20 +40,38 @@ const normalMapSetting = {
     cityNameColor: "black",
     cityNameFontWeight: "bold",
     cityValueColor: "black",
-    cityValueFontWeight: "bold",
     cityValueFontSize: 30,
+    cityValueFontWeight: "bold",
     descriptionColor: "black",
     descriptionFontSize: 30,
     descriptionFontWeight: "bold",
-    descriptionFontFamily : "inter",
+    descriptionFontFamily : "",
     tooltipOpacity: 1,
     useTooltipCol:true,
+    useTooltipChart:false,
+  },
+  innerChartSetting:{
+    innerChartText:"",
+    innernormalSettings: { width: 1150, height: 1600 , margin:{top:120,bottom:120,left:150,right:50}},
+    innerbarSettings: { labelSize: 55, labelWeight: "bold", useLabel: true },
+    innerbottomLabelSettings: { labelSize: 55, labelWeight:"bold" },
+    innerleftLabelSettings:{labelSize:55,sideLineSize:10,useLabel:true,labelWeight:"bold"},
+    innerChartTitleFontSize:85,
+    innerChartTitleFontWeight:"bold",
+  },
+  tooltipChartSetting:{
+    tooltipChartnormalSettings: { width: 540, height: 470, margin:{top:70,bottom:70,left:120,right:80} },
+    tooltipChartbarSettings: { labelSize: 25, labelWeight: "bold", useLabel: true },
+    tooltipChartbottomLabelSettings: { labelSize: 20, labelWeight:"bold" },
+    tooltipChartleftLabelSettings:{labelSize:20,sideLineSize:10,useLabel:true,labelWeight:"bold"},
+
   },
 }
 
-export const checkMapChart = ({normalSetting, gagueBarSetting, tooltipSetting})=>{
+
+export const checkMapChart = ({normalSetting, gagueBarSetting, tooltipSetting,innerChartSetting,tooltipChartSetting})=>{
   const result = {
-      normalSetting, gagueBarSetting, tooltipSetting,
+      normalSetting, gagueBarSetting, tooltipSetting,innerChartSetting,tooltipChartSetting,
   };
 
   Object.keys(normalMapSetting).forEach((setting)=>{
@@ -72,7 +90,7 @@ export const checkMapChart = ({normalSetting, gagueBarSetting, tooltipSetting})=
   result.normalSetting.marginRight = Checkedmargin.marginRight
   result.normalSetting.marginBottom = Checkedmargin.marginBottom
   result.normalSetting.marginLeft = Checkedmargin.marginLeft
-  result.divide = CheckedDivide
+  result.normalSetting.divide = CheckedDivide
   result.gagueBarSetting.gagueBarWidth = CheckedGagueBar.gagueBarWidth
   result.gagueBarSetting.gagueBarHeight = CheckedGagueBar.gagueBarHeight
   result.gagueBarSetting.gagueValueFontSize = CheckedGagueBar.gagueValueFontSize
