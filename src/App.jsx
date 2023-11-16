@@ -1,154 +1,119 @@
-import { NormalMap } from "./jetty-chart/src/maps/normal-map/normal-map";
+import { useEffect, useState } from "react";
+import { NormalBar, BumpChart, MultiLine, SingleLine, StackedLine } from "./jetty-chart/src";
 
-const data = [
-  {
-    name: "northChungcheong",
-    value: Math.floor(Math.random() * 1001),
-    color: "#000000",
-    description: "",
-    inKorea: "충청북도",
-  },
-  {
-    name: "incheon",
-    value: Math.floor(Math.random() * 1001),
-    color: "#4079F3",
-    description: "",
-    inKorea: "인천",
-  },
-  {
-    name: "kangwon",
-    value: Math.floor(Math.random() * 1001),
-    color: "#F35F40",
-    description: "",
-    inKorea: "강원도",
-  },
-  {
-    name: "seoul",
-    value: Math.floor(Math.random() * 1001),
-    color: "#F35F40",
-    description: "",
-    inKorea: "서울",
-  },
-  {
-    name: "gyeonggi",
-    value: Math.floor(Math.random() * 1001),
-    color: "#4079F3",
-    description: "",
-    inKorea: "경기도",
-  },
-  {
-    name: "northJeolla",
-    value: Math.floor(Math.random() * 1001),
-    color: "#4079F3",
-    description: "",
-    inKorea: "전라북도",
-  },
-  {
-    name: "gwangju",
-    value: Math.floor(Math.random() * 1001),
-    color: "#F35F40",
-    description: "",
-    inKorea: "광주",
-  },
-  {
-    name: "southChungcheong",
-    value: Math.floor(Math.random() * 1001),
-    color: "#4079F3",
-    description: "",
-    inKorea: "충청남도",
-  },
-  {
-    name: "daejeon",
-    value: Math.floor(Math.random() * 1001),
-    color: "#000000",
-    description: "",
-    inKorea: "대전",
-  },
-  {
-    name: "daegu",
-    value: Math.floor(Math.random() * 1001),
-    color: "#F35F40",
-    description: "",
-    inKorea: "대구",
-  },
-  {
-    name: "southgyeongsang",
-    value: Math.floor(Math.random() * 1001),
-    color: "#F35F40",
-    description: "",
-    inKorea: "경상남도",
-  },
-  {
-    name: "southJeolla",
-    value: Math.floor(Math.random() * 1001),
-    color: "#F35F40",
-    description: "",
-    inKorea: "전라남도",
-  },
-  {
-    name: "busan",
-    value: Math.floor(Math.random() * 1001),
-    color: "#F35F40",
-    description: "",
-    inKorea: "부산",
-  },
-  {
-    name: "ulsan",
-    value: Math.floor(Math.random() * 1001),
-    color: "#F35F40",
-    description: "",
-    inKorea: "울산",
-  },
-  {
-    name: "jeju",
-    value: Math.floor(Math.random() * 1001),
-    color: "#4079F3",
-    description: "zzzzz",
-    inKorea: "제주",
-  },
-  {
-    name: "kyeongbook",
-    value: Math.floor(Math.random() * 1001),
-    color: "#F35F40",
-    description: "",
-    inKorea: "경상북도",
-  },
-  {
-    name: "sejong",
-    value: Math.floor(Math.random() * 1001),
-    color: "#4079F3",
-    description: "",
-    inKorea: "세종",
-  },
-];
+const counts = [5, 7];
 
-const chartData = [
-  { id: "daegu", innerChartName: "대구광역시", chartData: [] },
-  { id: "jeju", innerChartName: "제주특별자치도", chartData: [{ label: "서귀포", value: 200 }, { label: "제주시", value: 300 }, { label: "중구", value: 100 }, { label: "중구", value: 100 }] },
-  { id: "sejong", innerChartName: "세종특별자치시", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "kyeongbook", innerChartName: "경상북도", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "ulsan", innerChartName: "울산광역시", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "busan", innerChartName: "부산광역시", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "southJeolla", innerChartName: "전라남도", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "southgyeongsang", innerChartName: "경상남도", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "daejeon", innerChartName: "대전광역시", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "southChungcheong", innerChartName: "충청남도", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "gwangju", innerChartName: "광주광역시", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "northJeolla", innerChartName: "전라북도", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "gyeonggi", innerChartName: "경기도", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "seoul", innerChartName: "서울 특별시", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "kangwon", innerChartName: "강원도", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "incheon", innerChartName: "인천광역시", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] },
-  { id: "northChungcheong", innerChartName: "충청북도", chartData: [{ label: "더미", value: 200 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }, { label: "더미2", value: 300 }] }]
+const myNormalBar = ({ data }) => {
+  return <NormalBar data={data} keys={["target1"]} xLegend={"types"} yLegend={"values"} />;
+};
 
 function App() {
+  const [data, setData] = useState([]);
+  const [multiDataSet, setMultiDataSet] = useState([]);
+  const [rankDataSet, setRankDataSet] = useState([]);
+  const [state, setState] = useState(1);
+
+  const norender = false;
+  const render1 = true;
+  const render2 = true;
+  const render3 = true;
+  const render4 = true;
+
+  const rankCount = 4;
+  const rankers = 8;
+
+  useEffect(() => {
+    const arr = [];
+    for (let index = 0; index < counts[Math.floor(Math.random() * counts.length)]; index++) {
+      arr.push({
+        value: Math.floor(Math.random() * 100),
+        label: "data" + (index + 1),
+      });
+    }
+
+    arr.push({
+      value: Math.floor(Math.random() * 100),
+      label: "dataX",
+    });
+
+    arr.push({
+      value: Math.floor(Math.random() * 100),
+      label: "dataY",
+    });
+
+    setData(arr);
+
+    const multiArr = [];
+    const count = counts[Math.floor(Math.random() * counts.length)];
+    for (let i = 0; i < [2, 3, 4][Math.floor(Math.random() * 3)]; i++) {
+      const d = {};
+      d.id = `label${i + 1}`;
+      d.data = [];
+      for (let index = 0; index < count; index++) {
+        d.data.push({
+          value: Math.floor(Math.random() * 1000),
+          label: "test" + (index + 1),
+        });
+      }
+
+      multiArr.push(d);
+    }
+
+    setMultiDataSet(multiArr);
+
+    const rankData = [];
+
+    const ranks = [];
+
+    for (let i = 0; i < rankers; i++) {
+      const numbers = Array(rankCount)
+        .fill()
+        .map((item, index) => index + 1);
+
+      const rank = [];
+
+      while (numbers.length > 0) {
+        const num = Math.floor(Math.random() * numbers.length);
+        const newArr = numbers.splice(num, 1);
+        rank.push(newArr[0]);
+      }
+
+      ranks.push(rank);
+    }
+
+    for (let i = 0; i < rankCount; i++) {
+      const d = {};
+      d.id = `Serie ${i + 1}`;
+      d.data = [];
+      for (let index = 0; index < rankers; index++) {
+        d.data.push({
+          value: ranks[index][i],
+          label: 2000 + index,
+        });
+      }
+
+      rankData.push(d);
+    }
+
+    console.log(multiArr);
+    setRankDataSet(rankData);
+  }, [state]);
+
   return (
-    <div>
-      <NormalMap data={data} normalSetting={{ zoomMagnification: 2.5, width: 500, useChart: false, usePercentageColor: true}}
-        tooltipSetting={{ useFollowColor: false,useTooltipChart:true }}
-        chartData={chartData}
-        tooltipChartData={chartData}
-        />
+    <div style={{ marginTop: "50px", paddingLeft: "200px" }}>
+      {norender && myNormalBar({ data })}
+      {render1 && <SingleLine data={data} />}
+      {render2 && <MultiLine data={multiDataSet} />}
+      {render3 && <StackedLine data={multiDataSet} />}
+      {render4 && <BumpChart data={rankDataSet} />}
+      <button
+        style={{ marginLeft: "730px", marginTop: "50px" }}
+        onClick={() => {
+          setState((state) => 1 - state);
+        }}
+      >
+        갱신
+      </button>
     </div>
   );
 }
