@@ -63,7 +63,7 @@ strokeColor : 테두리 색
 strokeWidth : 테두리 굵기
 strokeOpacity : 테두리 투명도
 strokeRadius : 테두리 둥글기
-useTooltip : 툴팁 사용 여부
+showTooltip : 툴팁 표시 여부 (필수)
 mousePosition : 마우스 위치 (필수)
 selectData : 선택한 데이터의 값 (value, label) (필수)
 titleValue : 선택한 데이터의 값 표현 형식 "label-value", (value, label, value-label, label-value) (현재는 label-value 만 가능)

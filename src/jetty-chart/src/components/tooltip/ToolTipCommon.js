@@ -9,7 +9,7 @@ const TooltipCommon = ({
   tooltipOpacity = "0.8",
   tooltipWidth = null,
   tooltipMoveX = 0,
-  tooltipMoveY = -0.1,
+  tooltipMoveY = -0.12,
   tooltipHeight,
   fontSize = 0.1,
   fontFamily = "sans-serif",
@@ -24,7 +24,7 @@ const TooltipCommon = ({
   strokeOpacity = 1,
   strokeRadius = 0.05,
   padding = 0.05,
-  useTooltip = true,
+  showTooltip = true,
   mousePosition,
   selectData,
   titleValue = "label-value",
@@ -57,7 +57,7 @@ const TooltipCommon = ({
   }, [list, padding]);
   return (
     <>
-      {useTooltip && (
+      {showTooltip && (
         <g
           transform={`translate(${mousePosition.x - viewBoxXSize / 2 + tooltipMoveX}, ${
             mousePosition.y - viewBoxYSize / 2 + tooltipMoveY
