@@ -17,6 +17,9 @@ const PiePiecePath = ({
   onMouseEnter,
   onMouseLeave,
   hoveredIndex,
+  handleTooltipMouseMove,
+  setMousePosition,
+  chnageShowTooltipOn,
   index,
 }) => {
   const path = getPiePiecePath({
@@ -53,6 +56,15 @@ const PiePiecePath = ({
       className={hoveredIndex === index ? "pie-piece__hover" : "pie-piece"}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onMouseMove={(event) =>
+        handleTooltipMouseMove({
+          event,
+          setMousePosition,
+          chnageShowTooltipOn,
+          index,
+        })
+      }
+      // onMouseOut={handleTooltipMouseOut({ chnageShowTooltipOff })}
     >
       {/* <animate attributeName="d" from={path2} to={path} dur="2s" /> */}
     </path>

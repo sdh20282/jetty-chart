@@ -5,13 +5,17 @@ import { divideRatio } from "../../common/pie-common/utils/getDivideRatio";
 import { setExceptionValue } from "../../common/pie-common/utils/setExceptionValue";
 import PieCircleBackground from "./PieCircleBackground";
 import PieDonutBackground from "./PieDonutBackground";
-import ToolTipCommon from "../tooltip/ToolTipCommon";
 import { DrawLegends } from "../legend/draw-legends";
 import { getSortedColor } from "../../common/pie-common/utils/getSortedColor";
 import { useState } from "react";
 import PiePiecePath from "./PiePiecePath";
 import PiePieceLabel from "./PiePieceLabel";
 import PiePieceArcLinkLabel from "./PiePieceArcLinkLabel";
+import {
+  handleTooltipMouseMove,
+  handleTooltipMouseOut,
+} from "../../common/tooltip-common/utils/handleTooltipMouseEvent";
+import TooltipCommon from "../tooltip/TooltipCommon";
 
 const PieSvg = ({
   data,
@@ -53,6 +57,42 @@ const PieSvg = ({
     arcLinkLabelEndLine: arcLinkLabelSettings.arcLinkLabelEndLine,
   });
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const chnageShowTooltipOn = () => setShowTooltip(true);
+  const chnageShowTooltipOff = () => setShowTooltip(false);
+  const list = [
+    {
+      content: "HelloHello",
+      fontSize: 0.2,
+      fontFamily: "consolas",
+      fontWeight: "bold",
+      fontStyle: "italic",
+      fontColor: "white",
+      fontOpacity: 0.8,
+      textAnchor: "middle",
+    },
+    {
+      content: "34",
+      fontSize: 0.1,
+      fontFamily: "verdana",
+      fontWeight: "normal",
+      fontStyle: "normal",
+      fontColor: "red",
+      fontOpacity: 0.9,
+      textAnchor: "start",
+      lineHeight: 0.1,
+      textMoveX: 0.2,
+    },
+    {
+      content: "20%",
+      lineHeight: 0.2,
+      textMoveX: -0.2,
+    },
+    {
+      content: "안녕",
+    },
+  ];
   if (!animationSettings.animationOn) {
     animationSettings.animationDuration = 0;
     animationSettings.animationDelay = 0;
@@ -112,8 +152,15 @@ const PieSvg = ({
           strokeOpacity={pieSettings.strokeOpacity}
           pieceOpacity={generalSettings.pieceOpacity}
           onMouseEnter={() => setHoveredIndex(index)}
-          onMouseLeave={() => setHoveredIndex(null)}
+          onMouseLeave={() => {
+            setHoveredIndex(null);
+            chnageShowTooltipOff();
+          }}
           hoveredIndex={hoveredIndex}
+          handleTooltipMouseMove={handleTooltipMouseMove}
+          handleTooltipMouseOut={handleTooltipMouseOut}
+          setMousePosition={setMousePosition}
+          chnageShowTooltipOn={chnageShowTooltipOn}
           index={index}
           key={piece.index}
         />
@@ -174,8 +221,7 @@ const PieSvg = ({
           />
         </g>
       ))}
-
-      <ToolTipCommon />
+      <TooltipCommon showTooltip={showTooltip} mousePosition={mousePosition} list={list} />
       <DrawLegends
         keys={data.map((item) => item.label)}
         normalSettings={{
