@@ -1,4 +1,5 @@
 import { colorPalette } from "../../utils/color/colorPalette";
+
 import { checkSize } from "../../utils/exception/check-common-exception";
 
 const checkMargin = ({ margin }) => {
@@ -197,38 +198,19 @@ const normalBumpSetting = {
   },
   // 라인 세팅
   lineSettings: {
-    lineColor: "#F1948A",
     lineOpacity: 1,
     lineWidth: 2,
     enablePoint: true,
+    pointSize: 4,
     pointColor: "#000",
     pointColorFollowLineColor: true,
-    pointSize: 4,
-    pointBorderColor: "#fff",
     pointBorderColorFollowLineColor: true,
+    pointBorderColor: "#fff",
     pointBorderWidth: 2,
-    // enablePointLabel: true,
-    // showLabelOnHover: true,
-    // pointLabelColor: "#000",
-    // pointLabelSize: 12,
-    // pointLabelOffsetX: 0,
-    // pointLabelOffsetY: -5,
-    // pointLabelWeight: 500,
-    enableCurve: false,
-    smoothDegree: 0.15,
-    angleDegree: 1,
+    enableCurve: true,
     strokeLinejoin: "miter", // "miter" | "round" | "bevel"
     strokeLinecap: "butt", // "butt" | "round" | "square",
-    autoRank: false,
-    xPadding: 1,
     xOuterPadding: 30,
-    yOuterPadding: 30,
-    activeLineWidth: 3,
-    inactiveLineWidth: 10,
-    activeOpacity: 1,
-    inactiveOpacity: 0.2,
-    startLabel: false,
-    endLabel: false,
   },
   animationSettings: {
     axisYGridLineSettings: {
@@ -291,14 +273,9 @@ const normalBumpSetting = {
       useAnimation: true,
       appearType: "draw",
       appearDuration: 1,
-      appearStartDelay: 0.1,
-      appearItemDelay: 0.5,
-      appearTimingFunction: "ease",
-      moveLine: true,
-      moveDuration: 2,
-      moveStartDelay: 0,
-      moveItemDelay: 0,
-      moveTimingFunction: "ease",
+      appearStartDelay: 0,
+      appearItemDelay: 0,
+      appearTimingFunction: "linear"
     },
   },
 };

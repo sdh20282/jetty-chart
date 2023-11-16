@@ -1,5 +1,4 @@
-/* eslint-disable complexity */
-import { MultiLine } from "../multi-line/multi-line";
+import { DrawLine } from "../common/DrawLine";
 
 const SingleLine = ({
   data,
@@ -23,11 +22,10 @@ const SingleLine = ({
   if (!data || data.length === 0) {
     return;
   }
-  const dataSet = [{ id: title, data: data }];
-
+  
   return (
-    <MultiLine
-      data={dataSet}
+    <DrawLine
+      data={[{ id: title, data: data }]}
       xLegend={xLegend}
       yLegend={yLegend}
       normalSettings={normalSettings}

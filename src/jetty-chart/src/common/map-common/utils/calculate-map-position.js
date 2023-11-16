@@ -16,7 +16,6 @@ export const checkDivide = ( divide ) => {
   }
   
   return divide
-
 };
 
 export const checkGagueBarSize = (GagueBarSetting) => {

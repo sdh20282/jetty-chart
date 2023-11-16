@@ -58,7 +58,6 @@ const PieSvg = ({
     animationSettings.animationDelay = 0;
     animationSettings.animationScale = 1;
   }
-  console.log(arcLinkLabelSettings);
   return (
     <svg
       id="pie"
@@ -124,7 +123,8 @@ const PieSvg = ({
         <g
           onMouseEnter={() => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
-          className={hoveredIndex === index && "pie-piece__hover"}
+          className={hoveredIndex === index ? "pie-piece__hover" : ""}
+          key={index}
         >
           <PiePieceLabel
             x={piece.labelLocation.x}
@@ -147,7 +147,6 @@ const PieSvg = ({
             ratio={piece.ratio}
             value={piece.value}
             index={index}
-            key={piece.index}
           />
           <PiePieceArcLinkLabel
             arcLinkLabelTextColor={
@@ -172,7 +171,6 @@ const PieSvg = ({
             label={piece.label}
             ratio={piece.ratio}
             index={index}
-            key={piece.index}
           />
         </g>
       ))}

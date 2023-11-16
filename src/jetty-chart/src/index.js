@@ -3,6 +3,7 @@ import { NormalMap } from "./maps/maps";
 import { NormalScatter } from "./scatter/scatter";
 import { BumpChart, SingleLine, MultiLine, StackedLine } from "./lines/lines";
 import { Pie } from "./pies/pies";
+import { NormalPyramid } from "./pyramid/pyramid";
 
 export {
   NormalBar,
@@ -14,4 +15,5 @@ export {
   MultiLine,
   StackedLine,
   Pie,
+  NormalPyramid,
 };
