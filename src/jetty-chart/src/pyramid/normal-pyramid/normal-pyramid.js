@@ -184,7 +184,7 @@ const NormalPyramid = ({
       legendSettings={result.legendSettings}
       animationSettings={result.animationSettings}
     >
-      <g transform={`translate(${innerMargin.bottom},${padding})`}>
+      <g transform={`translate(${innerMargin.bottom},${padding})`} className={styles.container}>
         {modifiedData.flatMap((group, groupIdx) => {
           return group.arr.map((d) => {
             const nowData = { ...d };
