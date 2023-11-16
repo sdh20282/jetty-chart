@@ -292,7 +292,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
       const chartValue = tooltipChartData.filter((data) => {
         return data.id === e.target.id;
       });
-      if (tooltipChartCheck == chartValue) {
+      if (tooltipChartCheck === chartValue) {
         return;
       } else {
         if (chartValue.length > 0) {
@@ -300,7 +300,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
 
           setTooltipChartCheck(chartDataValue);
         }
-        if (chartValue.length == 0) {
+        if (chartValue.length === 0) {
           setTooltipChartCheck(0)
         }
       }
@@ -548,7 +548,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
           return data.id === e.target.id;
         });
         
-        if (e.target.id != "BigSvg") {
+        if (e.target.id !== "BigSvg") {
           if (chartValue.length > 0) {
             let chartDataValue = chartValue[0].chartData;
             setChartDataSetting(chartDataValue);
@@ -861,7 +861,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
           )}
         </g>
         <g ref={tooltipRef} id="tooltipBox">
-          {useTooltipChart && scale != 1 ? (
+          {useTooltipChart && scale !== 1 ? (
             <foreignObject id="foreingObject" x="0" y="0" width={545 / scale} height={ToolH}>
               <div
                 ref={tooltipDiv}
@@ -890,7 +890,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
                 }
               >
                 <p style={{ margin: 0, marginTop: "9px", marginBottom: "2px", fontSize: "14px", fontWeight: "600", color: "gray" }}>{tooltipCity}</p>
-                {tooltipChartCheck!=0 ? <NormalBar
+                {tooltipChartCheck !== 0 ? <NormalBar
                   data={tooltipChartCheck}
                   normalSettings={tooltipChartnormalSetting}
                   barSettings={tooltipChartbarSettings}
@@ -991,7 +991,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
         ) : (
           ""
         )}
-        {chartOn && scale == 0.4 && chartDataSetting ? (
+        {chartOn && scale === 0.4 && chartDataSetting ? (
           <>
             <foreignObject x="-1360" y="-1440" width={innernormalSettings.width + 300} height={innernormalSettings.height + 300}>
               <div
@@ -1009,7 +1009,7 @@ const NormalMap = ({ data, chartData, tooltipChartData, normalSetting, gagueBarS
                 <p
                   style={{ fontSize: `${innerChartTitleFontSize}px`, margin: "0", marginBottom: "50px", fontWeight: `${innerChartTitleFontWeight}` }}
                 >
-                  {chartDataSetting!=0 ? 
+                  {chartDataSetting !== 0 ? 
                   <>
                   {innerChartName} {innerChartText}</>
                    : "차트 데이터가 없습니다."}
