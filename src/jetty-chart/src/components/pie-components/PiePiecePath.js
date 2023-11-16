@@ -21,13 +21,13 @@ const PiePiecePath = ({
   setHoveredIndex,
   hoveredIndex,
   setMousePosition,
-  changeShowTooltipOn,
-  changeShowTooltipOff,
   setSelectData,
+  setShowTooltip,
   value,
   label,
   ratio,
   index,
+  svgRef,
 }) => {
   const path = getPiePiecePath({
     pieRadius,
@@ -64,11 +64,11 @@ const PiePiecePath = ({
       onMouseEnter={() => setHoveredIndex(index)}
       onMouseLeave={() => {
         setHoveredIndex(null);
-        handleTooltipMouseOut({ changeShowTooltipOff, index });
+        handleTooltipMouseOut({ setShowTooltip });
       }}
       onMouseMove={(event) => {
-        handleTooltipMouseMove({ event, setMousePosition, changeShowTooltipOn, index });
-        setSelectData({ value, label, ratio });
+        handleTooltipMouseMove({ event, setMousePosition, setShowTooltip, svgRef });
+        setSelectData({ value, label });
       }}
     >
       {/* <animate attributeName="d" from={path2} to={path} dur="2s" /> */}

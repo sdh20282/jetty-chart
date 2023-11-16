@@ -2,17 +2,21 @@ import { useEffect, useRef, useState } from "react";
 import { setNewList } from "../../common/tooltip-common/utils/setNewList";
 
 const TooltipCommon = ({
-  list,
+  viewBoxXSize = 0,
+  viewBoxYSize = 0,
+  list = [],
   tooltipColor = "white",
   tooltipOpacity = "1",
   tooltipWidth = null,
+  tooltipMoveX = 0,
+  tooltipMoveY = -0.1,
   tooltipHeight,
   fontSize = 0.1,
   fontFamily = "sans-serif",
   fontWeight = "bold",
   fontStyle = "italic",
   fontColor = "black",
-  fontOpacity = 0.8,
+  fontOpacity = 1,
   textMoveX = 0,
   textAnchor = "middle",
   lineHeight = fontSize * 1.2,
@@ -24,6 +28,7 @@ const TooltipCommon = ({
   showTooltip,
   mousePosition,
   selectData,
+  titleValue = "label-value",
 }) => {
   const newList = setNewList({
     list,
@@ -42,6 +47,7 @@ const TooltipCommon = ({
     strokeRadius,
     mousePosition,
     selectData,
+    titleValue,
   });
   const [rectWidth, setRectWidth] = useState(tooltipWidth);
   const textRef = useRef(null);
@@ -51,16 +57,17 @@ const TooltipCommon = ({
       setRectWidth(length + padding * 2);
     }
   }, [list, padding]);
-
   return (
     <>
       {showTooltip && (
         <g
-          transform={`translate(${mousePosition.x / 100 - 2}, ${mousePosition.y / 100 - 2 - 0.25})`}
+          transform={`translate(${mousePosition.x - viewBoxXSize / 2 + tooltipMoveX}, ${
+            mousePosition.y - viewBoxYSize / 2 + tooltipMoveY
+          })`}
         >
           <rect
             x={-rectWidth / 2}
-            y={-newList[0].fontSize}
+            y={-newList[0].fontSize * 1.1}
             rx={strokeRadius}
             ry={strokeRadius}
             width={rectWidth}

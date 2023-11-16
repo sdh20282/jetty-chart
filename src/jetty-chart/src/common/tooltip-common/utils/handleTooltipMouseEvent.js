@@ -1,9 +1,18 @@
-export const handleTooltipMouseMove = ({ event, setMousePosition, changeShowTooltipOn, index }) => {
-  const { clientX, clientY } = event;
+export const handleTooltipMouseMove = ({ event, setMousePosition, setShowTooltip, svgRef }) => {
+  const svg = svgRef.current;
+  const rect = svg.getBoundingClientRect();
+  const viewBox = svg.viewBox.baseVal;
 
-  setMousePosition({ x: clientX, y: clientY });
-  changeShowTooltipOn();
+  const scaleX = viewBox.width / rect.width;
+  const scaleY = viewBox.height / rect.height;
+
+  const x = (event.clientX - rect.left) * scaleX;
+  const y = (event.clientY - rect.top) * scaleY;
+
+  console.log("x", x, "y", y);
+  setMousePosition({ x, y });
+  setShowTooltip(true);
 };
-export const handleTooltipMouseOut = ({ changeShowTooltipOff, index }) => {
-  changeShowTooltipOff();
+export const handleTooltipMouseOut = ({ setShowTooltip }) => {
+  setShowTooltip(false);
 };

@@ -14,10 +14,14 @@ export const setNewList = ({
   strokeOpacity,
   strokeRadius,
   selectData,
+  titleValue,
 }) => {
   let cumulativeLineHeight = 0;
   let prevLineHeight = 0;
-  const seletcValue = [{ content: `${selectData.label} : ${selectData.value}` }];
+  let seletcValue = [];
+  if (titleValue === "label-value") {
+    seletcValue = [{ content: `${selectData.label} : ${selectData.value}` }];
+  }
   const concatList = seletcValue.concat(list);
   return concatList.map((item, index) => {
     cumulativeLineHeight += prevLineHeight;
