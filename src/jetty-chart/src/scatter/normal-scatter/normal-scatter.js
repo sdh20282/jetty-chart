@@ -3,72 +3,7 @@ import { useState, useEffect } from "react";
 import { checkNormalPoint } from "../../common/scatter-common/exception/check-point-exception";
 import { LabelValueCommon } from "../../components/label-value-common/label-value-common";
 import { getAutoScope, getUserScope } from "../../common/utils/scope/calculate-scope";
-import {
-  calculateXPosition,
-  calculateYPosition,
-} from "../../common/scatter-common/utils/calculate-point-position";
-
-function CircleWithTooltip({
-  x,
-  y,
-  xPos,
-  yPos,
-  group,
-  pointSize,
-  groupColor,
-  pointBorderWidth,
-  tooltipOn,
-  xName,
-  yName,
-  xLegend,
-  yLegend,
-  pointStyle,
-}) {
-  const [showTooltip, setShowTooltip] = useState(false);
-
-  const handleMouseEnter = () => {
-    setShowTooltip(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowTooltip(false);
-  };
-
-  const tooltipStyle = {
-    fontSize: "10px",
-    backgroundColor: "blue",
-    color: "black",
-    padding: "5px",
-    borderRadius: "5px",
-    position: "absolute",
-    top: `${yPos}px`,
-    left: `${xPos}px`,
-    zIndex: "9999",
-  };
-
-  return (
-    <g
-      transform={`translate(${xPos},${yPos})`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <circle
-        style={pointStyle}
-        cx={0}
-        cy={0}
-        r={pointSize}
-        fill={groupColor}
-        stroke={groupColor}
-        strokeWidth={pointBorderWidth}
-      />
-      {tooltipOn && showTooltip && (
-        <text style={tooltipStyle}>{`${group.id}, ${
-          xName ? xName : xLegend ? xLegend : "x"
-        }: ${x.toFixed(1)}, ${yName ? yName : yLegend ? yLegend : "y"}: ${y.toFixed(1)}`}</text>
-      )}
-    </g>
-  );
-}
+import { calculateXPosition, calculateYPosition } from "../../common/scatter-common/utils/calculate-point-position";
 
 const NormalScatter = ({
   data,
@@ -108,10 +43,8 @@ const NormalScatter = ({
     animationSettings,
   });
 
-  const { width, height, margin, padding, xReverse, yReverse, colorPalette } =
-    result.normalSettings;
-  const { xAutoScope, yAutoScope, xMaxScope, xMinScope, yMaxScope, yMinScope } =
-    result.scopeSettings;
+  const { width, height, margin, padding, xReverse, yReverse, colorPalette } = result.normalSettings;
+  const { xAutoScope, yAutoScope, xMaxScope, xMinScope, yMaxScope, yMinScope } = result.scopeSettings;
 
   const xScopeResult = xAutoScope
     ? getAutoScope({ data: data.flatMap((group) => group.data.map((item) => item.x)) })
@@ -137,6 +70,50 @@ const NormalScatter = ({
   const lineHeight = totalHeight / (yScopeResult.scope.length - 1);
 
   const AreaWidth = drawWidth / (xScopeResult.scope.length - 1);
+
+  const [pointC, setPointC] = useState({})
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState({ left: 0, top: 0 });
+
+  const handleMouseEnter = (groupName, x, y, xNow, yNow) => {
+    setShowTooltip(true);
+    setPointC({groupName:groupName, x:x, y:y})
+    setTooltipPosition({left: xNow, top: yNow})
+  };
+
+  const tooltipStyle = {
+    fontSize: "10px",
+    backgroundColor: "blue",
+    color: "black",
+    padding: "5px",
+    borderRadius: "5px",
+    position: "absolute",
+  };
+
+  const handleMouseLeave = () => {
+    setShowTooltip(false);
+  };
+
+  const [opacities, setOpacities] = useState([]);
+
+  useEffect(() => {
+    const timeouts = data.flatMap((group, groupIdx) => {
+      return group.data.map((d) => {
+        return setTimeout(() => {
+          setOpacities(prevOpacities => {
+            const newOpacities = [...prevOpacities];
+            newOpacities[groupIdx] = 1;
+            return newOpacities;
+          });
+        }, (groupIdx) * pointRenderTime * 1000);
+      });
+    });
+
+    return () => {
+      timeouts.forEach(timeout => clearTimeout(timeout));
+      setOpacities([]);
+    };
+  }, [data, pointRenderTime]);
 
   return (
     <LabelValueCommon
@@ -172,51 +149,30 @@ const NormalScatter = ({
           // 그룹에 색상 할당
           const groupColor = colorPalette[groupIdx % colorPalette.length];
 
-          const [opacity, setOpacity] = useState(0);
-
-          useEffect(() => {
-            const timeout = setTimeout(
-              () => {
-                setOpacity(1);
-              },
-              groupIdx * 1000 * pointRenderTime
-            );
-
-            return () => {
-              clearTimeout(timeout);
-              setOpacity(0);
-            };
-          }, [data]);
+          const opacity = opacities[groupIdx] || 0;
 
           const pointStyle = {
             opacity,
           };
 
+          
           return group.data.map((item, idx) => {
             const xPos = calculateXPosition(item.x, xScopeResult, totalWidth, xReverse);
             const yPos = calculateYPosition(item.y, yScopeResult, totalHeight, yReverse);
-
+            
+            
             return (
-              <CircleWithTooltip
-                key={"data-" + groupIdx + idx}
-                xPos={xPos} // 점이 찍히는 X 위치
-                yPos={yPos} // 점이 찍히는 Y 위치
-                x={item.x} // X좌표
-                y={item.y} // Y좌표
-                group={{ id: group.id }}
-                pointSize={pointSize}
-                groupColor={groupColor}
-                tooltipOn={tooltipOn}
-                xName={xName}
-                yName={yName}
-                xLegend={xLegend}
-                yLegend={yLegend}
-                groupIdx={groupIdx}
-                pointStyle={pointStyle}
-              />
+              <g transform={`translate(${xPos},${yPos})`} key={"data-" + groupIdx + idx} onMouseEnter={() => handleMouseEnter(group.id, item.x, item.y, xPos, yPos)} onMouseLeave={handleMouseLeave}>
+                <circle style={pointStyle} cx={0} cy={0} r={pointSize} fill={groupColor} stroke={groupColor} />
+              </g>
             );
           });
         })}
+        {tooltipOn && showTooltip && (
+          <text style={{ ...tooltipStyle,  transform: `translate(${tooltipPosition.left}px, ${tooltipPosition.top}px)` }}>{`${pointC.groupName}, ${xName ? xName : xLegend ? xLegend : "x"}: ${pointC.x.toFixed(1)}, ${
+            yName ? yName : yLegend ? yLegend : "y"
+          }: ${pointC.y.toFixed(1)}`}</text>
+      )}
       </g>
     </LabelValueCommon>
   );
