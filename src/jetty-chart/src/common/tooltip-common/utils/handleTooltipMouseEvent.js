@@ -9,7 +9,6 @@ export const handleTooltipMouseMove = ({ event, setMousePosition, setShowTooltip
   const x = (event.clientX - rect.left) * scaleX;
   const y = (event.clientY - rect.top) * scaleY;
 
-  console.log("x", x, "y", y);
   setMousePosition({ x, y });
   setShowTooltip(true);
 };
