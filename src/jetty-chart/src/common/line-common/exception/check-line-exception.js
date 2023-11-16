@@ -215,7 +215,7 @@ const normalLineSetting = {
     pointLabelWeight: 500,
     enableArea: false,
     areaOpacity: 0.5,
-    enableCurve: true,
+    enableCurve: false,
     smoothDegree: 0.15,
     angleDegree: 1,
     strokeLinejoin: "miter", // "miter" | "round" | "bevel"

@@ -289,7 +289,7 @@ const normalBarSetting = {
       textRenderItemDelay: 0.1,
       textRenderTimingFunction: "ease",
       textRenderStartFrom: "left",
-      translateBar: true,
+      translateBar: false,
       translateDuration: 0.3,
       translateStartDelay: 0,
       translateItemDelay: 0,
