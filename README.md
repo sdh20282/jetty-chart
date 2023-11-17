@@ -1,10 +1,57 @@
-# jetty-chart
+# **jetty-chart**
 
-### jetty-chart 기여 방법
+Easy custom React chart library
 
-1. jetty-chart repo에서 내 repo로 fork를 합니다.
-2. 내 repo의 jetty-chart를 clone 합니다.
-   - jetty-chart의 내용을 sync하려면 내 repo에서 Sync fork를 합니다.
-3. 기능, 이슈, 버그 수정 등의 작업을 한 후 commit을 합니다.
-4. 내 repo에서 contribute - Open pull request.
-5. branch 확인, 내용 작성 후 Create pull request.
+[Example](jetty-chart.com)
+
+## Quick Start
+
+**Installation**:
+
+```jsx
+$ npm i -g npm
+$ npm i --save jetty-chart
+```
+
+**Use**:
+
+```jsx
+import {BarChart} from 'jetty-chart'
+```
+
+### **Documentation**
+
+For detailed documentation and examples, please refer to the [Jetty Chart Documentation](https://jetty-chart.com/document).
+
+### **Features**
+Jetty Chart currently supports various chart types, including:
+
+- Bar Chart
+- Grouped Bar Chart
+- Pie Chart
+- Line Chart
+- Stacked Line Chart
+- Korea Map Chart
+- Radar Chart
+- Pyramid Chart
+- Scatter Chart
+
+
+### Customization
+
+Easily customize on the website with a no-code/low-code approach.
+
+- Jetty Chart supports easy data input directly on the website.
+- Immediately view and copy customized code
+
+### Independent Library
+
+Jetty Chart operates as an independent library, ensuring flexibility in usage and integration.
+
+### ****Contributing****
+
+If you wish to contribute, visit this [github repository](https://github.com/sdh20282/jetty-chart) for debugging locally or making pull requests.
+
+### **License**
+
+Jetty-chart is available under the MIT license.
