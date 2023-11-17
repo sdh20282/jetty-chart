@@ -22,6 +22,7 @@ const PieSvg = ({
   arcLinkLabelSettings,
   animationSettings,
   legendSettings,
+  tooltipSettings,
   // debugSettings,
 }) => {
   setExceptionValue({ pieSettings, length: data.length });
@@ -72,7 +73,7 @@ const PieSvg = ({
         id="pie"
         width={400}
         height={400}
-        viewBox="-1.5 -1.5 3 3"
+        viewBox="-2 -2 4 4"
         className="pie"
         ref={svgRef}
         style={{
@@ -194,15 +195,17 @@ const PieSvg = ({
             />
           </g>
         ))}
-        <TooltipCommon
-          showTooltip={showTooltip}
-          mousePosition={mousePosition}
-          selectData={selectData}
-          viewBoxXSize={3}
-          viewBoxYSize={3}
-          tooltipLocationX={0}
-          tooltipLocationY={-0.1}
-        />
+        {tooltipSettings.tooltipUse && (
+          <TooltipCommon
+            showTooltip={showTooltip}
+            mousePosition={mousePosition}
+            selectData={selectData}
+            viewBoxXSize={4}
+            viewBoxYSize={4}
+            tooltipLocationX={0}
+            tooltipLocationY={-0.1}
+          />
+        )}
         <DrawLegends
           keys={data.map((item) => item.label)}
           normalSettings={{

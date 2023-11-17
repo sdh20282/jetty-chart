@@ -8,6 +8,7 @@ import {
   setDefaultArcLinkLabelSettings,
   setDefaultAnimationSettings,
   setDefaultLegendSettings,
+  setDefaultTooltipSettings,
 } from "../../common/pie-common/utils/setDefaultSettings";
 import "./pie.css";
 import { useEffect, useState } from "react";
@@ -20,6 +21,7 @@ export const Pie = ({
   arcLinkLabelSettings,
   animationSettings,
   legendSettings,
+  tooltipSettings,
   debugSettings = false,
 }) => {
   const newGeneralSettings = {
@@ -45,6 +47,10 @@ export const Pie = ({
   const newLegendSettings = {
     ...setDefaultLegendSettings(),
     ...legendSettings,
+  };
+  const newTooltipSettings = {
+    ...setDefaultTooltipSettings(),
+    ...tooltipSettings,
   };
   const newDebugSettings = debugSettings;
 
@@ -126,6 +132,7 @@ export const Pie = ({
         animationSettings={newAnimationSettings}
         legendSettings={newLegendSettings}
         arcLinkLabelSettings={newArcLinkLabelSettings}
+        tooltipSettings={newTooltipSettings}
       />
     </>
   );

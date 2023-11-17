@@ -195,3 +195,9 @@ export const setDefaultLegendSettings = () => {
     legendOnStart: DEFAULT_LEGEND_ON_START,
   };
 };
+
+export const setDefaultTooltipSettings = () => {
+  return {
+    tooltipUse: true,
+  };
+};

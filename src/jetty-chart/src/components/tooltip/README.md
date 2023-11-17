@@ -3,12 +3,12 @@
 ## 1. state 3개
 
 1. 툴팁 켜고끄기
-2. 마우스 위치 : x: 0, y: 0 })
+2. 마우스 위치
 3. 선택된 데이터
 
 ```
 const [showTooltip, setShowTooltip] = useState(false);
-const [mousePosition, setMousePosition] = useState({
+const [mousePosition, setMousePosition] = useState({: x: 0, y: 0 })
 const [selectData, setSelectData] = useState([{}]);
 ```
 
