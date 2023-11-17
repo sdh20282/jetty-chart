@@ -11,7 +11,8 @@ import { useRef, useState } from "react";
 import PiePiecePath from "./PiePiecePath";
 import PiePieceLabel from "./PiePieceLabel";
 import PiePieceArcLinkLabel from "./PiePieceArcLinkLabel";
-import ToolTipCommon from "../tooltip/ToolTipCommon";
+// import ToolTipCommon from "../modal/CommonModal";
+import CommonModal from "../modal/CommonModal";
 import { handleTooltipMouseTest } from "../../common/tooltip-common/utils/handleTooltipMouseEvent";
 
 const PieSvg = ({
@@ -196,7 +197,7 @@ const PieSvg = ({
           </g>
         ))}
         {tooltipSettings.tooltipUse && (
-          <ToolTipCommon
+          <CommonModal
             showTooltip={showTooltip}
             mousePosition={mousePosition}
             selectData={selectData}
