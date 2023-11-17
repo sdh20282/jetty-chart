@@ -6,10 +6,26 @@ export const setNewList = ({
   fontStyle,
   fontColor,
   fontOpacity,
-  textAnchor,
-  lineSize,
+  textMoveX,
+  lineHeight,
+  strokeColor,
+  strokeWidth,
+  strokeOpacity,
+  strokeRadius,
+  selectData,
+  titleValue,
 }) => {
-  return list.map((item) => {
+  let cumulativeLineHeight = 0;
+  let prevLineHeight = 0;
+  let seletcValue = [];
+  if (titleValue === "label-value") {
+    seletcValue = [{ content: `${selectData.label} : ${selectData.value}` }];
+  }
+  const concatList = seletcValue.concat(list);
+  return concatList.map((item, index) => {
+    cumulativeLineHeight += prevLineHeight;
+    prevLineHeight = item.lineHeight || lineHeight;
+
     return {
       fontSize,
       fontFamily,
@@ -17,9 +33,13 @@ export const setNewList = ({
       fontStyle,
       fontColor,
       fontOpacity,
-      textAnchor,
-      lineSize,
+      textMoveX,
+      strokeColor,
+      strokeWidth,
+      strokeOpacity,
+      strokeRadius,
       ...item,
+      lineHeight: cumulativeLineHeight,
     };
   });
 };

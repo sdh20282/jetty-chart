@@ -132,7 +132,7 @@ legendSettings = {
   - arcLinkLabelTextDistance: 텍스트 거리. 기본값 1.05.
   - arcLinkLabelStartLine: 시작 라인 길이. 기본값 0.2.
   - arcLinkLabelEndLine: 끝 라인 길이. 기본값 0.2.
-  - arcLinkLabelTEXT: 표시할 텍스트. 기본값 "label". 범위 (value, ratio, label)
+  - arcLinkLabelText: 표시할 텍스트. 기본값 "label". 범위 (value, ratio, label)
   - arcLinkLabelIsUse: 사용 여부. 기본값 true. 범위 (true, false)
   - arcLinkLabelLineOpacity: 라인 투명도. 기본값 1. 범위 (0 ~ 1)
   - arcLinkLabelTextOpacity: 텍스트 투명도. 기본값 1. 범위 (0 ~ 1)

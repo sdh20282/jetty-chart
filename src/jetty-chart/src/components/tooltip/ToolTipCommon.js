@@ -1,62 +1,33 @@
 import { useEffect, useRef, useState } from "react";
 import { setNewList } from "../../common/tooltip-common/utils/setNewList";
 
-const ToolTipCommon = ({
-  x = 0,
-  y = 0,
-  list = [
-    {
-      content: "Hello",
-      fontSize: 0.1,
-      fontFamily: "consolas",
-      fontWeight: "bold",
-      fontStyle: "italic",
-      fontColor: "blue",
-      fontOpacity: 0.8,
-      textAnchor: "middle",
-      lineHeight: 0.2,
-    },
-    {
-      content: "34",
-      fontSize: 0.1,
-      fontFamily: "verdana",
-      fontWeight: "normal",
-      fontStyle: "normal",
-      fontColor: "red",
-      fontOpacity: 0.9,
-      textAnchor: "start",
-      lineSize: 0.1,
-    },
-    {
-      content: "20%",
-    },
-    {
-      content: "한국말 인사",
-    },
-  ],
-  type,
-  position = "top",
-  tooltipColor,
-  tooltipOpacity,
-  tooltipShadow,
+const TooltipCommon = ({
+  list = [],
+  viewBoxXSize = 0,
+  viewBoxYSize = 0,
+  tooltipColor = "white",
+  tooltipOpacity = "0.8",
+  tooltipWidth = null,
+  tooltipMoveX = 0,
+  tooltipMoveY = -0.12,
+  tooltipHeight,
   fontSize = 0.1,
-  fontFamily = "consolas",
+  fontFamily = "sans-serif",
   fontWeight = "bold",
-  fontStyle = "italic",
-  fontColor = "blue",
-  fontOpacity = 0.8,
-  textAnchor = "middle",
-  lineSize = 0.1,
-  borderColor,
-  borderWidth,
-  borderOpacity,
-  borderRadius,
-  shadowColor,
-  shadowBlur,
-  shadowOffsetX,
-  shadowOffsetY,
-  shadowOpacity,
-  shadowSpread,
+  fontStyle = "normal",
+  fontColor = "black",
+  fontOpacity = 1,
+  textMoveX = 0,
+  lineHeight = fontSize * 1.2,
+  strokeColor = "black",
+  strokeWidth = "0.01",
+  strokeOpacity = 1,
+  strokeRadius = 0.05,
+  padding = 0.05,
+  showTooltip = true,
+  mousePosition,
+  selectData,
+  titleValue = "label-value",
 }) => {
   const newList = setNewList({
     list,
@@ -66,33 +37,71 @@ const ToolTipCommon = ({
     fontStyle,
     fontColor,
     fontOpacity,
-    textAnchor,
-    lineSize,
+    textMoveX,
+    lineHeight,
+    strokeColor,
+    strokeWidth,
+    strokeOpacity,
+    strokeRadius,
+    mousePosition,
+    selectData,
+    titleValue,
   });
-  console.log(newList);
+  const [rectWidth, setRectWidth] = useState(tooltipWidth);
+  const textRef = useRef(null);
+  useEffect(() => {
+    if (textRef.current && tooltipWidth === null) {
+      const length = textRef.current.getComputedTextLength();
+      setRectWidth(length + padding * 2);
+    }
+  }, [list, padding]);
   return (
-    <g>
-      <text
-        x={x}
-        y={y}
-        fontSize={fontSize}
-        fontFamily={fontFamily}
-        fontWeight={fontWeight}
-        fontStyle={fontStyle}
-        fill={fontColor}
-        opacity={fontOpacity}
-        textAnchor={"middle"}
-        dominantBaseline="middle"
-      >
-        {list.map((item, index) => (
-          <tspan x={x} y={item.lineSize ? item.lineSize * index : lineSize * index} fontSize={0.1}>
-            {item.content}
-          </tspan>
-        ))}
-        dd
-      </text>
-    </g>
+    <>
+      {showTooltip && (
+        <g
+          transform={`translate(${mousePosition.x - viewBoxXSize / 2 + tooltipMoveX}, ${
+            mousePosition.y - viewBoxYSize / 2 + tooltipMoveY
+          })`}
+        >
+          <rect
+            x={-rectWidth / 2}
+            y={-newList[0].fontSize * 1.1}
+            rx={strokeRadius}
+            ry={strokeRadius}
+            width={rectWidth}
+            height={
+              tooltipHeight ||
+              newList[newList.length - 1].lineHeight +
+                newList[0].fontSize +
+                newList[newList.length - 1].fontSize
+            }
+            fill={tooltipColor}
+            opacity={tooltipOpacity}
+            stroke={strokeColor}
+            strokeWidth={strokeWidth}
+            strokeOpacity={strokeOpacity}
+          />
+          <text ref={textRef} x={0} y={0} textAnchor={"middle"} dominantBaseline={"middle"}>
+            {newList.map((item, index) => (
+              <tspan
+                x={item.textMoveX}
+                y={item.lineHeight}
+                fontSize={item.fontSize}
+                key={index}
+                fill={item.fontColor}
+                opacity={item.fontOpacity}
+                fontWeight={item.fontWeight}
+                fontStyle={item.fontStyle}
+                fontFamily={item.fontFamily}
+              >
+                {item.content}
+              </tspan>
+            ))}
+          </text>
+        </g>
+      )}
+    </>
   );
 };
 
-export default ToolTipCommon;
+export default TooltipCommon;

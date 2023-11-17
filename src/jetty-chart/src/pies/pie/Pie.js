@@ -8,6 +8,7 @@ import {
   setDefaultArcLinkLabelSettings,
   setDefaultAnimationSettings,
   setDefaultLegendSettings,
+  setDefaultTooltipSettings,
 } from "../../common/pie-common/utils/setDefaultSettings";
 import "./pie.css";
 import { useEffect, useState } from "react";
@@ -20,29 +21,38 @@ export const Pie = ({
   arcLinkLabelSettings,
   animationSettings,
   legendSettings,
+  tooltipSettings,
   debugSettings = false,
 }) => {
-  // const newGeneralSettings = {
-  //   ...setDefaultGeneralSettings(),
-  //   ...generalSettings,
-  // };
-  // const newPieSettings = {
-  //   ...setDefaultPieSettings(),
-  //   ...pieSettings,
-  // };
-  // const newLabelSettings = {
-  //   ...setDefaultLabelSettings(),
-  //   ...labelSettings,
-  // };
-  // const newArcLinkLabelSettings = {
-  //   ...setDefaultArcLinkLabelSettings(),
-  //   ...arcLinkLabelSettings,
-  // };
-  // const newAnimationSettings = {
-  //   ...setDefaultAnimationSettings(),
-  //   ...animationSettings,
-  // };
-  // const newDebugSettings = debugSettings;
+  const newGeneralSettings = {
+    ...setDefaultGeneralSettings(),
+    ...generalSettings,
+  };
+  const newPieSettings = {
+    ...setDefaultPieSettings(),
+    ...pieSettings,
+  };
+  const newLabelSettings = {
+    ...setDefaultLabelSettings(),
+    ...labelSettings,
+  };
+  const newArcLinkLabelSettings = {
+    ...setDefaultArcLinkLabelSettings(),
+    ...arcLinkLabelSettings,
+  };
+  const newAnimationSettings = {
+    ...setDefaultAnimationSettings(),
+    ...animationSettings,
+  };
+  const newLegendSettings = {
+    ...setDefaultLegendSettings(),
+    ...legendSettings,
+  };
+  const newTooltipSettings = {
+    ...setDefaultTooltipSettings(),
+    ...tooltipSettings,
+  };
+  const newDebugSettings = debugSettings;
 
   // const animationPieMakeWay = "all"; // all, oneByOne, none
   // if (animationPieMakeWay === "all") {
@@ -76,31 +86,31 @@ export const Pie = ({
   //   };
   // }, [newPieSettings.useAngle]);
 
-  const [newGeneralSettings, setNewGeneralSettings] = useState({
-    ...setDefaultGeneralSettings(),
-    ...generalSettings,
-  });
-  const [newPieSettings, setNewPieSettings] = useState({
-    ...setDefaultPieSettings(),
-    ...pieSettings,
-  });
-  const [newLabelSettings, setNewLabelSettings] = useState({
-    ...setDefaultLabelSettings(),
-    ...labelSettings,
-  });
-  const [newArcLinkLabelSettings, setNewArcLinkLabelSettings] = useState({
-    ...setDefaultArcLinkLabelSettings(),
-    ...arcLinkLabelSettings,
-  });
-  const [newAnimationSettings, setNewAnimationSettings] = useState({
-    ...setDefaultAnimationSettings(),
-    ...animationSettings,
-  });
-  const [newLegendSettings, setNewLegendSettings] = useState({
-    ...setDefaultLegendSettings(),
-    ...legendSettings,
-  });
-  const [newDebugSettings, setNewDebugSettings] = useState(debugSettings);
+  // const [newGeneralSettings, setNewGeneralSettings] = useState({
+  //   ...setDefaultGeneralSettings(),
+  //   ...generalSettings,
+  // });
+  // const [newPieSettings, setNewPieSettings] = useState({
+  //   ...setDefaultPieSettings(),
+  //   ...pieSettings,
+  // });
+  // const [newLabelSettings, setNewLabelSettings] = useState({
+  //   ...setDefaultLabelSettings(),
+  //   ...labelSettings,
+  // });
+  // const [newArcLinkLabelSettings, setNewArcLinkLabelSettings] = useState({
+  //   ...setDefaultArcLinkLabelSettings(),
+  //   ...arcLinkLabelSettings,
+  // });
+  // const [newAnimationSettings, setNewAnimationSettings] = useState({
+  //   ...setDefaultAnimationSettings(),
+  //   ...animationSettings,
+  // });
+  // const [newLegendSettings, setNewLegendSettings] = useState({
+  //   ...setDefaultLegendSettings(),
+  //   ...legendSettings,
+  // });
+  // const [newDebugSettings, setNewDebugSettings] = useState(debugSettings);
   return (
     <>
       {/* <PieTestSetting
@@ -122,6 +132,7 @@ export const Pie = ({
         animationSettings={newAnimationSettings}
         legendSettings={newLegendSettings}
         arcLinkLabelSettings={newArcLinkLabelSettings}
+        tooltipSettings={newTooltipSettings}
       />
     </>
   );

@@ -1,4 +1,8 @@
 import { getPiePiecePath } from "../../common/pie-common/utils/getPiePiecePath";
+import {
+  handleTooltipMouseMove,
+  handleTooltipMouseOut,
+} from "../../common/tooltip-common/utils/handleTooltipMouseEvent";
 
 // 파이 조각을 그리는 컴포넌트
 const PiePiecePath = ({
@@ -14,10 +18,16 @@ const PiePiecePath = ({
   strokeWidth,
   strokeOpacity,
   pieceOpacity,
-  onMouseEnter,
-  onMouseLeave,
+  setHoveredIndex,
   hoveredIndex,
+  setMousePosition,
+  setSelectData,
+  setShowTooltip,
+  value,
+  label,
+  ratio,
   index,
+  svgRef,
 }) => {
   const path = getPiePiecePath({
     pieRadius,
@@ -50,9 +60,16 @@ const PiePiecePath = ({
       strokeWidth={strokeWidth}
       strokeOpacity={strokeOpacity}
       opacity={pieceOpacity}
-      className={hoveredIndex === index ? "pie-piece__hover" : ""}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      className={hoveredIndex === index ? "pie-piece__hover" : "pie-piece"}
+      onMouseEnter={() => setHoveredIndex(index)}
+      onMouseLeave={() => {
+        setHoveredIndex(null);
+        handleTooltipMouseOut({ setShowTooltip });
+      }}
+      onMouseMove={(event) => {
+        handleTooltipMouseMove({ event, setMousePosition, setShowTooltip, svgRef });
+        setSelectData({ value, label });
+      }}
     >
       {/* <animate attributeName="d" from={path2} to={path} dur="2s" /> */}
     </path>

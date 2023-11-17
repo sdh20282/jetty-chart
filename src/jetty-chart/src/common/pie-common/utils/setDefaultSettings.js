@@ -172,9 +172,9 @@ export const setDefaultAnimationSettings = () => {
 export const setDefaultLegendSettings = () => {
   return {
     // 이후 수정 필요
-    marginTop: 3,
+    marginTop: 2.5,
     marginBottom: 0,
-    marginLeft: 2,
+    marginLeft: 2.8,
     marginRight: 0,
     // 이후 수정 필요
     useLegend: DEFAULT_LEGEND_USE,
@@ -193,5 +193,11 @@ export const setDefaultLegendSettings = () => {
     legendOpacity: DEFAULT_LEGEND_OPACITY,
     legendColor: DEFAULT_LEGEND_COLOR,
     legendOnStart: DEFAULT_LEGEND_ON_START,
+  };
+};
+
+export const setDefaultTooltipSettings = () => {
+  return {
+    tooltipUse: true,
   };
 };

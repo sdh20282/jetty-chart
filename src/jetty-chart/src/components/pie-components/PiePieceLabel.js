@@ -1,4 +1,8 @@
 import React from "react";
+import {
+  handleTooltipMouseMove,
+  handleTooltipMouseOut,
+} from "../../common/tooltip-common/utils/handleTooltipMouseEvent";
 
 const PiePieceLabel = ({
   x,
@@ -17,9 +21,13 @@ const PiePieceLabel = ({
   labelSkipRatio,
   labelDegrees,
   labelOpacity,
+  setSelectData,
+  setMousePosition,
+  setShowTooltip,
   label,
   value,
   ratio,
+  svgRef,
 }) => {
   return (
     <>
@@ -39,6 +47,13 @@ const PiePieceLabel = ({
           transform={`rotate(${(labelIsRotate ? degrees : 0) + labelDegrees})`}
           transform-origin={`${x} ${y}`}
           opacity={labelOpacity}
+          onMouseLeave={() => {
+            handleTooltipMouseOut({ setShowTooltip });
+          }}
+          onMouseMove={(event) => {
+            handleTooltipMouseMove({ event, setMousePosition, setShowTooltip, svgRef });
+            setSelectData({ value, label });
+          }}
         >
           {labelText === "ratio"
             ? Math.round(ratio * 100) + "%"
