@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { setNewList } from "../../common/tooltip-common/utils/setNewList";
 
-const CommonTooltip = ({
+const TooltipCommon = ({
   list = [],
   viewBoxXSize = 0,
   viewBoxYSize = 0,
@@ -104,4 +104,4 @@ const CommonTooltip = ({
   );
 };
 
-export default CommonTooltip;
+export default TooltipCommon;
