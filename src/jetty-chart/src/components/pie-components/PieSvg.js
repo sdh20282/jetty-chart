@@ -71,8 +71,8 @@ const PieSvg = ({
     <>
       <svg
         id="pie"
-        width={400}
-        height={400}
+        width={generalSettings.width}
+        height={generalSettings.height}
         viewBox="-2 -2 4 4"
         className="pie"
         ref={svgRef}
