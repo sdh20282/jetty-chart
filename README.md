@@ -26,15 +26,12 @@ For detailed documentation and examples, please refer to the [Jetty Chart Docume
 ### **Features**
 Jetty Chart currently supports various chart types, including:
 
-- Bar Chart
-- Grouped Bar Chart
-- Pie Chart
-- Line Chart
-- Stacked Line Chart
-- Korea Map Chart
-- Radar Chart
-- Pyramid Chart
-- Scatter Chart
+- [Bar/StackedBar Chart] (https://github.com/sdh20282/jetty-chart/tree/release/src/bars)
+- [Pie Chart] (https://github.com/sdh20282/jetty-chart/tree/release/src/pies)
+- [Single Line/Multi Line/Stacked Line/Bump Chart] (https://github.com/sdh20282/jetty-chart/tree/release/src/lines)
+- [South Korea Map Chart] (https://github.com/sdh20282/jetty-chart/tree/release/src/maps)
+- [Pyramid Chart] (https://github.com/sdh20282/jetty-chart/tree/release/src/pyramid)
+- [Scatter Chart] (https://github.com/sdh20282/jetty-chart/tree/release/src/scatter)
 
 
 ### Customization
