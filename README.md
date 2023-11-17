@@ -2,7 +2,7 @@
 
 Easy custom React chart library
 
-[Example](jetty-chart.com)
+[Example](http://www.jetty-chart.com)
 
 ## Quick Start
 
@@ -26,12 +26,12 @@ For detailed documentation and examples, please refer to the [Jetty Chart Docume
 ### **Features**
 Jetty Chart currently supports various chart types, including:
 
-- [Bar/StackedBar Chart] (https://github.com/sdh20282/jetty-chart/tree/release/src/bars)
-- [Pie Chart] (https://github.com/sdh20282/jetty-chart/tree/release/src/pies)
-- [Single Line/Multi Line/Stacked Line/Bump Chart] (https://github.com/sdh20282/jetty-chart/tree/release/src/lines)
-- [South Korea Map Chart] (https://github.com/sdh20282/jetty-chart/tree/release/src/maps)
-- [Pyramid Chart] (https://github.com/sdh20282/jetty-chart/tree/release/src/pyramid)
-- [Scatter Chart] (https://github.com/sdh20282/jetty-chart/tree/release/src/scatter)
+- [Bar/StackedBar Chart](https://github.com/sdh20282/jetty-chart/tree/release/src/bars)
+- [Pie Chart](https://github.com/sdh20282/jetty-chart/tree/release/src/pies)
+- [Single Line/Multi Line/Stacked Line/Bump Chart](https://github.com/sdh20282/jetty-chart/tree/release/src/lines)
+- [South Korea Map Chart](https://github.com/sdh20282/jetty-chart/tree/release/src/maps)
+- [Pyramid Chart](https://github.com/sdh20282/jetty-chart/tree/release/src/pyramid)
+- [Scatter Chart](https://github.com/sdh20282/jetty-chart/tree/release/src/scatter)
 
 
 ### Customization
