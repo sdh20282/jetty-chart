@@ -2,7 +2,7 @@
 
 Easy custom React chart library
 
-[Example](http://www.jetty-chart.com)
+[Example](https://jetty-chart-demo.vercel.app/)
 
 ## Quick Start
 
